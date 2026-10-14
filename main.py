@@ -1,6 +1,6 @@
 
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import requests
@@ -38,7 +38,7 @@ def fetch_forecast():
             "swell_wave_period"
         ]),
         "timezone": TIMEZONE,
-        "forecast_days": 1
+        "forecast_days": 2
     }
 
     weather_params = {
@@ -50,7 +50,7 @@ def fetch_forecast():
         ]),
         "wind_speed_unit": "kmh",
         "timezone": TIMEZONE,
-        "forecast_days": 1
+        "forecast_days": 2
     }
 
     marine_response = requests.get(
@@ -98,69 +98,84 @@ def get_hourly_value(data, field, timestamp):
 
 def summarise_forecast(marine, weather):
     now = datetime.now(ZoneInfo(TIMEZONE))
-    date_str = now.strftime("%A, %d %B %Y")
+    tomorrow = now + timedelta(days=1)
 
-    # Use the 9 AM forecast.
-    target_time = now.strftime("%Y-%m-%d") + "T09:00"
+    date_str = tomorrow.strftime("%A, %d %B %Y")
+    date_iso = tomorrow.strftime("%Y-%m-%d")
 
-    def marine_value(field):
-        return get_hourly_value(marine, field, target_time)
+    forecast_times = ["06:00", "10:00", "15:00"]
 
-    def weather_value(field):
-        return get_hourly_value(weather, field, target_time)
-
-    wave_height = marine_value("wave_height")
-    wave_direction = marine_value("wave_direction")
-    wave_period = marine_value("wave_period")
-    swell_height = marine_value("swell_wave_height")
-    swell_direction = marine_value("swell_wave_direction")
-    swell_period = marine_value("swell_wave_period")
-    wind_speed = weather_value("wind_speed_10m")
-    wind_direction = weather_value("wind_direction_10m")
-
-    if wind_speed is None:
-        wind_summary = "Wind forecast unavailable."
-    elif wind_speed < 10:
-        wind_summary = "Light winds forecast."
-    elif wind_speed < 20:
-        wind_summary = "Moderate winds forecast."
-    else:
-        wind_summary = "Stronger winds forecast. Check local conditions."
-
-    if wave_height is None:
-        wave_summary = "Wave forecast unavailable."
-    elif wave_height < 0.5:
-        wave_summary = "Relatively small offshore waves forecast."
-    elif wave_height < 1.5:
-        wave_summary = "Moderate offshore wave height forecast."
-    else:
-        wave_summary = "Larger offshore waves forecast. Exercise caution."
-
-    message = f"""🏄 BALI DAILY SURF FORECAST
-📅 {date_str}
-
+    message = f"""🏄 BALI SURF FORECAST
+📅 Tomorrow: {date_str}
 📍 {SPOT_NAME}
-🕘 Forecast for 9:00 AM Bali time
 
-🌊 MARINE CONDITIONS
-• Wave height: {format_number(wave_height)} m
-• Wave direction: {compass_direction(wave_direction)}
-• Wave period: {format_number(wave_period)} s
-• Swell height: {format_number(swell_height)} m
-• Swell direction: {compass_direction(swell_direction)}
-• Swell period: {format_number(swell_period)} s
+"""
 
-💨 WIND
-• Speed: {format_number(wind_speed)} km/h
-• Direction (from): {compass_direction(wind_direction)}
+    for time in forecast_times:
+        target_time = f"{date_iso}T{time}"
 
-📝 FORECAST SUMMARY
-{wave_summary}
-{wind_summary}
+        def marine_value(field):
+            return get_hourly_value(marine, field, target_time)
 
-⚠️ These are offshore model forecasts, not measured breaking-wave heights at Batu Bolong. They do not establish surf safety or suitability for beginners.
+        def weather_value(field):
+            return get_hourly_value(weather, field, target_time)
 
-📡 Data: Open-Meteo Marine & Weather
+        wave_height = marine_value("wave_height")
+        wave_direction = marine_value("wave_direction")
+        wave_period = marine_value("wave_period")
+        swell_height = marine_value("swell_wave_height")
+        swell_direction = marine_value("swell_wave_direction")
+        swell_period = marine_value("swell_wave_period")
+        wind_speed = weather_value("wind_speed_10m")
+        wind_direction = weather_value("wind_direction_10m")
+
+        if wind_speed is None:
+            wind_summary = "Wind forecast unavailable."
+        elif wind_speed < 10:
+            wind_summary = "Light winds."
+        elif wind_speed < 20:
+            wind_summary = "Moderate winds."
+        else:
+            wind_summary = "Strong winds. Check local conditions."
+
+        if wave_height is None:
+            wave_summary = "Wave forecast unavailable."
+        elif wave_height < 0.5:
+            wave_summary = "Small offshore waves."
+        elif wave_height < 1.5:
+            wave_summary = "Moderate offshore waves."
+        else:
+            wave_summary = "Larger offshore waves. Exercise caution."
+
+        display_time = {
+            "06:00": "🌅 6:00 AM",
+            "10:00": "☀️ 10:00 AM",
+            "15:00": "🌇 3:00 PM"
+        }[time]
+
+        message += f"""━━━━━━━━━━━━━━━━
+{display_time}
+
+🌊 Wave height: {format_number(wave_height)} m
+🧭 Wave direction: {compass_direction(wave_direction)}
+⏱ Wave period: {format_number(wave_period)} s
+
+🌊 Swell height: {format_number(swell_height)} m
+🧭 Swell direction: {compass_direction(swell_direction)}
+⏱ Swell period: {format_number(swell_period)} s
+
+💨 Wind: {format_number(wind_speed)} km/h
+🧭 Wind from: {compass_direction(wind_direction)}
+
+📝 {wave_summary} {wind_summary}
+
+"""
+
+    message += """━━━━━━━━━━━━━━━━
+⚠️ Offshore model forecasts, not measured breaking-wave heights.
+Actual surf conditions depend on local bathymetry, tides and other factors.
+
+📡 Source: Open-Meteo Marine & Weather
 """
 
     return message
