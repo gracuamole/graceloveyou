@@ -1,44 +1,52 @@
-import requests
+from surf_mcp import (
+    fetch_full_forecast,
+    lookup_spot_metadata
+)
 
 SPOT_ID = "605112930a374f33cf5f8f05"
 
-url = "https://services.surfline.com/kbyg/spots/forecasts/wave"
+def main():
+    print("Testing Surfline Python library...")
 
-params = {
-    "spotId": SPOT_ID,
-    "days": 2,
-    "intervalHours": 1,
-    "maxHeights": "false"
-}
+    print("\n1. Testing spot metadata")
 
-try:
-    response = requests.get(
-        url,
-        params=params,
-        timeout=30
-    )
+    try:
+        metadata = lookup_spot_metadata(SPOT_ID)
+        print("Metadata:", metadata)
+    except Exception as error:
+        print("Metadata failed:", error)
 
-    print("HTTP status:", response.status_code)
-    print("Requested URL:", response.url)
+    print("\n2. Testing forecast data")
 
-    if response.status_code == 200:
-        data = response.json()
+    try:
+        forecast = fetch_full_forecast(
+            SPOT_ID,
+            days=2
+        )
 
-        print("Connection successful!")
-        print("Response keys:", list(data.keys()))
+        print("Forecast keys:", list(forecast.keys()))
 
-        waves = data.get("data", {}).get("wave", [])
+        for day in forecast.get("daily", []):
+            print("\nDate:", day.get("date"))
+            print("Hourly entries:", len(day.get("hourly", [])))
 
-        print("Wave entries:", len(waves))
+            for hour in day.get("hourly", []):
+                if hour.get("local_hour") in [6, 10, 15]:
+                    print({
+                        "time": hour.get("local_iso"),
+                        "surf_min_ft": hour.get("surf_min_ft"),
+                        "surf_max_ft": hour.get("surf_max_ft"),
+                        "swells": hour.get("swells"),
+                        "wind": hour.get("wind"),
+                        "rating": hour.get("rating")
+                    })
 
-        if waves:
-            print("First forecast:", waves[0])
+        if not forecast.get("daily"):
+            print("No daily forecasts returned.")
 
-    else:
-        print("Request unsuccessful.")
-        print("Response preview:", response.text[:300])
-        response.raise_for_status()
+    except Exception as error:
+        print("Forecast failed:", error)
+        raise
 
-except requests.exceptions.RequestException as error:
-    print("Connection error:", error)
-    raise
+if __name__ == "__main__":
+    main()
