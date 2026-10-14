@@ -14,6 +14,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install requests
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: python test_surfline.py
+      - name: Test Surfline
+        run: python test_surfline.py
