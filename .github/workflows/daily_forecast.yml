@@ -1,0 +1,26 @@
+name: Daily Bali Surf Forecast
+
+on:
+  schedule:
+    - cron: "0 22 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run surf forecast bot
+        run: python main.py
