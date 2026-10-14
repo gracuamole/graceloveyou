@@ -1,69 +1,44 @@
 import requests
 
-# ---------------------------------
-# SURFLINE SETTINGS
-# ---------------------------------
-
-SPOT_NAME = "Old Man's / Batu Bolong, Canggu"
 SPOT_ID = "605112930a374f33cf5f8f05"
 
-# ---------------------------------
-# TEST SURFLINE API CONNECTION
-# ---------------------------------
+url = "https://services.surfline.com/kbyg/spots/forecasts/wave"
 
-def test_surfline():
+params = {
+    "spotId": SPOT_ID,
+    "days": 2,
+    "intervalHours": 1,
+    "maxHeights": "false"
+}
 
-    url = "https://services.surfline.com/kbyg/spots/forecasts/wave"
+try:
+    response = requests.get(
+        url,
+        params=params,
+        timeout=30
+    )
 
-    params = {
-        "spotId": SPOT_ID,
-        "days": 2,
-        "intervalHours": 1
-    }
+    print("HTTP status:", response.status_code)
+    print("Requested URL:", response.url)
 
-    print(f"Testing Surfline API for {SPOT_NAME}...")
-    print(f"Spot ID: {SPOT_ID}")
+    if response.status_code == 200:
+        data = response.json()
 
-    try:
-        response = requests.get(
-            url,
-            params=params,
-            timeout=30
-        )
+        print("Connection successful!")
+        print("Response keys:", list(data.keys()))
 
-        print(f"HTTP status: {response.status_code}")
+        waves = data.get("data", {}).get("wave", [])
 
-        if response.status_code == 200:
+        print("Wave entries:", len(waves))
 
-            data = response.json()
+        if waves:
+            print("First forecast:", waves[0])
 
-            print("Connection successful!")
-            print("Response keys:", list(data.keys()))
+    else:
+        print("Request unsuccessful.")
+        print("Response preview:", response.text[:300])
+        response.raise_for_status()
 
-            wave_data = data.get("data", {}).get("wave", [])
-
-            print(f"Wave forecast entries: {len(wave_data)}")
-
-            if wave_data:
-                print("\nFirst forecast entry:")
-                print(wave_data[0])
-            else:
-                print("No wave forecast entries returned.")
-                raise RuntimeError("Surfline returned no wave forecast data.")
-
-        else:
-            print("Surfline API request failed.")
-            print("Response preview:", response.text[:500])
-            response.raise_for_status()
-
-    except requests.exceptions.RequestException as error:
-        print(f"Request error: {error}")
-        raise
-
-
-# ---------------------------------
-# RUN TEST
-# ---------------------------------
-
-if __name__ == "__main__":
-    test_surfline()
+except requests.exceptions.RequestException as error:
+    print("Connection error:", error)
+    raise
