@@ -1,1 +1,2 @@
+requests
 git+https://github.com/j-suchon/surf-mcp.git
