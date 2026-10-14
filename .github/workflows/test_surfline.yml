@@ -16,6 +16,11 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Verify Surfline installation
+        run: |
+          python -m pip show surf-mcp
+          python -c "import surf_mcp; print('Surfline library imported successfully')"
+      
 
       - name: Test Surfline
         run: python test_surfline.py
