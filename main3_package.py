@@ -94,3 +94,47 @@ def build_message():
 
     lines = [f"🏄 {SPOT_NAME}", f"Tomorrow: {tomorrow:%a, %d %b %Y} (Bali)", ""]
     for hour in HOURS:
+        row = next((r for r in day.get("hourly", []) if r.get("local_hour") == hour), None)
+        lines.append(f"🕒 {hour:02d}:00")
+        if row is None:
+            lines.extend(["Forecast unavailable", ""])
+            continue
+        rating = (row.get("rating") or {}).get("key") or "N/A"
+        wind = row.get("wind") or {}
+        wind_text = (f"{wind['speed_kts']:.1f} kt {wind.get('cardinal') or '?'}"
+                     if isinstance(wind.get("speed_kts"), (int, float)) else "N/A")
+        lo, hi = row.get("surf_min_ft"), row.get("surf_max_ft")
+        surf_text = f"{feet_m(lo)} – {feet_m(hi)}" if lo is not None and hi is not None else "N/A"
+        lines.extend([
+            f"Surfline rating: {rating}",
+            f"Breaking surf (Surfline): {surf_text}",
+            f"Primary swell (Surfline): {primary_swell(row.get('swells'))}",
+            f"Wind (Surfline): {wind_text}",
+            f"Tide (Surfline): {nearest_tide(day, hour)}", "",
+        ])
+    if day.get("headline"):
+        lines.append("Surfline headline: " + str(day["headline"])[:350])
+    if day.get("observation"):
+        lines.append("Surfline commentary: " + str(day["observation"])[:500])
+    return "\n".join(lines)
+
+
+def main():
+    message = build_message()
+    print(message)
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat = os.environ.get("TELEGRAM_CHANNEL_ID")
+    if not token or not chat:
+        raise RuntimeError("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID")
+    response = curl_requests.post(
+        f"https://api.telegram.org/bot{token}/sendMessage",
+        json={"chat_id": chat, "text": message}, timeout=TIMEOUT,
+    )
+    response.raise_for_status()
+    if not response.json().get("ok"):
+        raise RuntimeError("Telegram API did not accept message")
+    print("Telegram message sent")
+
+
+if __name__ == "__main__":
+    main()
