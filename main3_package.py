@@ -29,7 +29,11 @@ def curl_get_json(url):
     endpoint = urlparse(url).path.rsplit("/", 1)[-1]
     # Do not send the package's custom browser headers or impersonation.
     # Earlier plain requests calls succeeded with minimal headers.
-    response = curl_requests.get(url, timeout=TIMEOUT)
+    response = curl_requests.get(
+        url,
+        impersonate="firefox",
+        timeout=30,
+    )
     print(f"Surfline {endpoint}: HTTP {response.status_code}")
     if response.status_code in (403, 404):
         if endpoint in OPTIONAL:
