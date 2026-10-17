@@ -1,7 +1,6 @@
 import requests
 
 SPOT_ID = "605112930a374f33cf5f8f05"
-
 BASE = "https://services.surfline.com/kbyg/spots/forecasts"
 
 endpoints = [
@@ -13,12 +12,13 @@ endpoints = [
 ]
 
 for endpoint in endpoints:
-    url = f"{BASE}/{endpoint}"
-
     try:
         response = requests.get(
-            url,
-            params={"spotId": SPOT_ID, "days": 2},
+            f"{BASE}/{endpoint}",
+            params={
+                "spotId": SPOT_ID,
+                "days": 2,
+            },
             timeout=15,
         )
 
