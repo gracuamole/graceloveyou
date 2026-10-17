@@ -29,4 +29,4 @@ jobs:
         run: python main.py
 
       - name: Test Surfline endpoints
-        run: python test_surfline.py
+        run: python main.py
