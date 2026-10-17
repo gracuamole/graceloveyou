@@ -91,6 +91,6 @@ def fetch_open_meteo_wave(target_date):
             output[dt.hour] = height
     return output
 
-
 def get_swell_summary(record):
     if not record:
+        return "N/A"
