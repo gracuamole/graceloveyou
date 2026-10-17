@@ -1,0 +1,28 @@
+name: Daily Bali Surf Forecast 4
+
+on:
+  schedule:
+    - cron: "7 1 * * *"  # 9:07 AM Bali time (UTC+8)
+  workflow_dispatch:
+
+jobs:
+  forecast:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Surfline forecast bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: python main4_pkge_indi.py
