@@ -13,6 +13,64 @@ from recommendations import BALI
 from phase2 import build_blocks, chunks
 
 
+class SafeError(RuntimeError):
+    """Only fixed application messages, never raw service responses or secrets."""
+
+
+def failure_detail(error):
+    if isinstance(error, SafeError):
+        return str(error)
+    if isinstance(error, FileNotFoundError):
+        return 'Required local file is missing. Check review-state/state.json and the state checkout.'
+    if isinstance(error, json.JSONDecodeError):
+        return 'Saved state or API response contains invalid JSON. Do not reset publication history.'
+    if isinstance(error, subprocess.CalledProcessError):
+        return 'State Git operation failed. Check Actions write permission, branch rules and concurrent edits.'
+    if isinstance(error, ModuleNotFoundError):
+        return 'A Python dependency is missing. Check the dependency installation step.'
+    known = {
+        'Unsupported review state', 'Incomplete review state',
+        'Use Leo numeric private user/chat ID and negative channel ID',
+        'Identity/destination changed; reconcile state before continuing',
+        'Uncertain send requires manual reconciliation',
+        'Approval does not match draft', 'Invalid report parts',
+        'Remove webhook before enabling the sole review poller',
+    }
+    if type(error) in (ValueError, RuntimeError) and str(error) in known:
+        return str(error)
+    return 'Unexpected error. Inspect saved status; raw error text is suppressed to protect credentials.'
+
+
+def setting(name, numeric=False):
+    # Only application-owned setting names may appear in safe errors.
+    allowed = {'TELEGRAM_BOT_TOKEN', 'LEO_TELEGRAM_USER_ID', 'LEO_TELEGRAM_CHAT_ID',
+               'TELEGRAM_CHANNEL_ID', 'OPENAI_API_KEY', 'OPENAI_MODEL'}
+    if name not in allowed:
+        raise ValueError('Unknown setting')
+    value = os.environ.get(name, '').strip()
+    if not value:
+        raise SafeError(f'Missing setting: {name}. Check GitHub Actions secrets/variables.')
+    if numeric:
+        try:
+            return int(value)
+        except ValueError:
+            raise SafeError(f'{name} must contain a numeric ID, without @ or quotation marks.') from None
+    return value
+
+
+def http_failure(service, status):
+    hints = {
+        400: 'Request rejected; check model/configuration or Telegram destination and message limits.',
+        401: 'Credentials rejected; verify the API key or bot token.',
+        403: 'Access denied; check account permissions or bot access to the chat/channel.',
+        404: 'Resource not found; check bot token or configured model access.',
+        409: 'Conflict; ensure no webhook or other Telegram poller uses this bot.',
+        429: 'Rate or quota limit; check service quota/billing and retry later.',
+    }
+    hint = hints.get(status, 'Service request failed; check service availability.')
+    return SafeError(f'{service} HTTP {status}: {hint}')
+
+
 def digest(parts):
     return hashlib.sha256(json.dumps(parts, ensure_ascii=False).encode()).hexdigest()
 
@@ -49,21 +107,30 @@ class Telegram:
         try:
             response = requests.post(f'https://api.telegram.org/bot{self.token}/{method}',
                                      json=payload, timeout=35)
+            status = response.status_code
+            if isinstance(status, int) and status >= 400:
+                raise http_failure('Telegram ' + method, status)
             response.raise_for_status()
             body = response.json()
             if not body.get('ok'):
-                raise ValueError()
+                code = body.get('error_code')
+                if isinstance(code, int):
+                    raise http_failure('Telegram ' + method, code)
+                raise SafeError(f'Telegram {method} returned an invalid response.')
             return body['result']
+        except SafeError:
+            raise
         except Exception:
-            raise RuntimeError(f'Telegram {method} failed; inspect durable state') from None
+            raise SafeError(f'Telegram {method} failed without a confirmed response. '
+                            'If a send intent exists, reconcile delivery before retrying.') from None
 
 
 def revise(report, feedback):
     import requests
     try:
         response = requests.post('https://api.openai.com/v1/responses', headers={
-            'Authorization': 'Bearer ' + os.environ['OPENAI_API_KEY']}, json={
-                'model': os.environ['OPENAI_MODEL'], 'store': False,
+            'Authorization': 'Bearer ' + setting('OPENAI_API_KEY')}, json={
+                'model': setting('OPENAI_MODEL'), 'store': False,
                 'instructions': (
                     'Revise a next-day Bali surf report using Leo\'s feedback. '
                     'Return only the complete revised report as plain text. '
@@ -76,14 +143,17 @@ def revise(report, feedback):
                                      'forecast': report['forecast'], 'feedback': feedback}),
                 'max_output_tokens': 12000,
             }, timeout=120)
+        status = response.status_code
+        if isinstance(status, int) and status >= 400:
+            raise http_failure('OpenAI revision', status)
         response.raise_for_status()
         body = response.json()
         if body.get('status') != 'completed':
-            raise ValueError()
+            raise SafeError('OpenAI revision did not complete. Feedback remains pending; check output limits.')
         result = '\n'.join(c['text'] for item in body['output'] if item.get('type') == 'message'
                            for c in item.get('content', []) if c.get('type') == 'output_text').strip()
         if not result or len(result) > 45000 or report['date'] not in result:
-            raise ValueError()
+            raise SafeError('OpenAI revision failed report validation (empty, oversized or missing forecast date).')
         # Leave room for draft labels, including UTF-16 Telegram length accounting.
         parts, current = [], ''
         for char in result:
@@ -94,8 +164,10 @@ def revise(report, feedback):
         if current:
             parts.append(current)
         return parts
+    except SafeError:
+        raise
     except Exception:
-        raise RuntimeError('LLM revision failed; feedback remains pending') from None
+        raise SafeError('LLM revision failed; feedback remains pending. Check API connectivity and configuration.') from None
 
 
 class Review:
@@ -236,9 +308,10 @@ def main():
     if not args.persist_git:
         parser.error('--run requires --persist-git durable remote checkpoints')
     store = Store(args.state, git=True)
-    bot = Review(store, Telegram(os.environ['TELEGRAM_BOT_TOKEN']),
-                 int(os.environ['LEO_TELEGRAM_USER_ID']), int(os.environ['LEO_TELEGRAM_CHAT_ID']),
-                 int(os.environ['TELEGRAM_CHANNEL_ID']))
+    bot = Review(store, Telegram(setting('TELEGRAM_BOT_TOKEN')),
+                 setting('LEO_TELEGRAM_USER_ID', numeric=True),
+                 setting('LEO_TELEGRAM_CHAT_ID', numeric=True),
+                 setting('TELEGRAM_CHANNEL_ID', numeric=True))
     if bot.tg.call('getWebhookInfo').get('url'):
         raise RuntimeError('Remove webhook before enabling the sole review poller')
     now = datetime.now(BALI)
@@ -257,7 +330,8 @@ def main():
 if __name__ == '__main__':
     try:
         main()
-    except Exception:
-        # Deliberately avoid traceback/HTTP exception URLs containing bot secrets.
-        print('Review run stopped safely. Check state and configuration; no automatic uncertain-send retry.')
+    except Exception as error:
+        # Never print raw exception text, response bodies or token-bearing URLs.
+        print('Review run stopped safely: ' + failure_detail(error))
+        print('No automatic uncertain-send retry. Do not reset state or clear an intent without reconciliation.')
         raise SystemExit(1)
