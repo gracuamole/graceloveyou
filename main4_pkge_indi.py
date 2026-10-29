@@ -155,18 +155,7 @@ def build_message():
 def main():
     message = build_message()
     print(message)
-    token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    chat = os.environ.get("TELEGRAM_CHANNEL_ID")
-    if not token or not chat:
-        raise RuntimeError("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHANNEL_ID")
-    response = curl_requests.post(
-        f"https://api.telegram.org/bot{token}/sendMessage",
-        json={"chat_id": chat, "text": message}, timeout=TIMEOUT,
-    )
-    response.raise_for_status()
-    if not response.json().get("ok"):
-        raise RuntimeError("Telegram API did not accept message")
-    print("Telegram message sent")
+    print('PREVIEW ONLY: use review_bot.py for Leo approval and publication.')
 
 
 if __name__ == "__main__":

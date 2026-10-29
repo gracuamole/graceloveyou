@@ -185,27 +185,7 @@ Actual surf conditions depend on local bathymetry, tides and other factors.
 # ---------------------------------
 
 def send_to_telegram(message):
-    token = os.environ["TELEGRAM_BOT_TOKEN"]
-    channel_id = os.environ["TELEGRAM_CHANNEL_ID"]
-
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-
-    response = requests.post(
-        url,
-        json={
-            "chat_id": channel_id,
-            "text": message
-        },
-        timeout=30
-    )
-
-    response.raise_for_status()
-    result = response.json()
-
-    if not result.get("ok"):
-        raise RuntimeError(result.get("description", "Telegram error"))
-
-    print("Telegram message sent successfully!")
+    raise RuntimeError('Direct publishing disabled; use review_bot.py for Leo approval')
 
 # ---------------------------------
 # RUN ALL COMPONENTS
