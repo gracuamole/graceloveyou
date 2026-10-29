@@ -7,6 +7,8 @@ on:
 
 jobs:
   forecast:
+    # Superseded by surf-review.yml; never bypass Leo's approval.
+    if: ${{ false }}
     runs-on: ubuntu-24.04
 
     steps:

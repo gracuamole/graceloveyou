@@ -1,0 +1,43 @@
+name: Reviewed next-day surf report
+on:
+  schedule:
+    - cron: '7 1 * * *'
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: surf-review-state
+  cancel-in-progress: false
+jobs:
+  review:
+    if: ${{ vars.SURF_REVIEW_ENABLED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      # Missing branch intentionally fails before accessing Telegram.
+      - uses: actions/checkout@v4
+        with:
+          ref: review-state
+          path: review-state
+      - name: Configure state commit author
+        run: |
+          git -C review-state config user.name 'surf-review-bot'
+          git -C review-state config user.email 'surf-review-bot@users.noreply.github.com'
+      - name: Poll reviews and advance durable workflow
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          LEO_TELEGRAM_USER_ID: ${{ secrets.LEO_TELEGRAM_USER_ID }}
+          LEO_TELEGRAM_CHAT_ID: ${{ secrets.LEO_TELEGRAM_CHAT_ID }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: python review_bot.py --run --persist-git --state review-state/state.json
