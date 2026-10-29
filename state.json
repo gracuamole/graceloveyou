@@ -4929,13 +4929,10 @@
       "revision": 1,
       "status": "draft",
       "draft_ids": [
-        2
+        2,
+        3
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "ddaae73a5435be074804cb162bc20ffac9ed82a0cf7a191d2ee3fd76f0cb67e3"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715008,
