@@ -4933,13 +4933,10 @@
         3,
         4,
         5,
-        6
+        6,
+        7
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "a3a612cb083a9cef05e486572a0a6f113565327db2d53f434a6c7f39d2d59847"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715008,
