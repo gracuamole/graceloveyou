@@ -2,5 +2,10 @@
   "version": 1,
   "reports": {},
   "offset": 0,
-  "started": false
+  "started": false,
+  "binding": [
+    941560570,
+    941560570,
+    -1004476747924
+  ]
 }
