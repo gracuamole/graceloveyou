@@ -4930,13 +4930,10 @@
       "status": "draft",
       "draft_ids": [
         2,
-        3
+        3,
+        4
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "69c7f68d446c96460bbce2f9b8c204f312a600a1d584fdce1f8383ebde28ba43"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715008,
