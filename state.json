@@ -4931,13 +4931,10 @@
       "draft_ids": [
         2,
         3,
-        4
+        4,
+        5
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "e7adaa5ac52c60ba0df4be0247ae57cc5c30184e1132dd568543fc97bbd0963a"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715008,
