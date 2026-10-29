@@ -4936,7 +4936,11 @@
         6,
         7
       ],
-      "prompt_ids": []
+      "prompt_ids": [],
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "189c2fb668f0443d29df3fecf920d25ff602b9f0b4f2520fe32017f981db22aa"
+      }
     }
   },
   "offset": 248715008,
