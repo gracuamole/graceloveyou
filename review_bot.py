@@ -154,6 +154,53 @@ REVISION_INSTRUCTIONS = (
 )
 
 
+UPDATE_OUTCOMES = {
+    'ignored_unauthorized': 'Ignored message: sender is not the configured reviewer in their private chat.',
+    'started': 'Reviewer /start recorded.',
+    'ignored_unthreaded': 'Ignored message: use Telegram Reply on the latest final review prompt.',
+    'ignored_stale_prompt': 'Ignored reply: it does not match a current saved final review prompt.',
+    'ignored_expired': 'Ignored reply: that forecast date has already started in Bali; the report expired.',
+    'ignored_not_reviewing': 'Ignored reply: this version is no longer waiting for approval or feedback.',
+    'ignored_text': 'Ignored reply: send exactly correct, or feedback whose final word is lowercase change.',
+    'approved': 'Exact approval recorded. Publication goes to the configured channel, with no private confirmation.',
+    'revision_pending': 'Feedback saved. Preparing a revised draft with the configured LLM.',
+}
+
+
+def show_status(store, now):
+    """Describe saved state without network, credentials, feedback text or mutation."""
+    target = (now + timedelta(days=1)).date().isoformat()
+    print(f'Bali date: {now.date().isoformat()}; next forecast date: {target}.')
+    print('Reviewer /start: ' + ('recorded.' if store.data['started'] else 'not recorded; send /start to the bot.'))
+    previous = UPDATE_OUTCOMES.get(store.data.get('last_update_outcome'))
+    if previous:
+        print('Last saved Telegram result: ' + previous)
+    report = store.data['reports'].get(target)
+    if report is None:
+        if (now.hour, now.minute) < (9, 7):
+            print('Next draft: not generated; generation opens at 09:07 Bali time.')
+        else:
+            print('Next draft: not generated yet; /start is required before generation.')
+    else:
+        descriptions = {
+            'draft': 'draft delivery pending.',
+            'review': 'waiting for a Reply on its latest final review prompt.',
+            'revision_pending': 'feedback saved; LLM revision pending.',
+            'approved': 'approved; channel publication pending.',
+            'published': 'already published to the channel; no private confirmation is sent.',
+            'expired': 'expired; it will not be regenerated or published.',
+        }
+        print('Next draft: ' + descriptions.get(report.get('status'), 'unrecognized saved status.'))
+    uncertain = sum(bool(r.get('intent')) for r in store.data['reports'].values())
+    if uncertain:
+        print('STOP: an uncertain send is saved. Reconcile delivery before clearing any intent.')
+    old_reviews = sum(r.get('date', '') <= now.date().isoformat()
+                      and r.get('status') not in ('published', 'expired')
+                      for r in store.data['reports'].values())
+    if old_reviews:
+        print('An older report is past its forecast date; its old prompt can no longer accept replies.')
+
+
 def gemini_text(report, feedback):
     import requests
     model = setting('GEMINI_MODEL')
@@ -286,23 +333,29 @@ class Review:
                       and not message.get('from', {}).get('is_bot')
                       and not message.get('forward_origin'))
         if not authorized:
-            return
+            return 'ignored_unauthorized'
         text = message.get('text', '')
         if text == '/start':
             self.s['started'] = True
-            return
+            return 'started'
         reply_id = message.get('reply_to_message', {}).get('message_id')
         for report in self.s['reports'].values():
-            if (report['status'] != 'review' or report['date'] <= today
-                    or reply_id not in report.get('prompt_ids', [])):
+            if reply_id not in report.get('prompt_ids', []):
                 continue
+            if report['date'] <= today:
+                return 'ignored_expired'
+            if report['status'] != 'review':
+                return 'ignored_not_reviewing'
             if text == 'correct':
                 report.update(status='approved', approval={
                     'user_id': self.user, 'update_id': update['update_id'],
                     'revision': report['revision'], 'sha256': digest(report['parts'])})
+                return 'approved'
             elif re.search(r'\bchange\s*\Z', text) and text.strip() != 'change':
                 report.update(status='revision_pending', feedback=text)
-            return
+                return 'revision_pending'
+            return 'ignored_text'
+        return 'ignored_unthreaded' if reply_id is None else 'ignored_stale_prompt'
 
     def advance(self, today):
         for report in self.s['reports'].values():
@@ -334,13 +387,19 @@ class Review:
 
     def poll(self, today):
         # Persist inbox before confirming it via a subsequent getUpdates offset.
+        processed = 0
         for update in self.tg.call('getUpdates', offset=self.s['offset'], timeout=0,
                                    allowed_updates=['message'], limit=100):
             if update['update_id'] < self.s['offset']:
                 continue
-            self.process(update, today)
+            outcome = self.process(update, today)
+            self.s['last_update_outcome'] = outcome
             self.s['offset'] = update['update_id'] + 1
             self.store.save()
+            print(UPDATE_OUTCOMES[outcome])
+            processed += 1
+        if not processed:
+            print('No new Telegram messages returned. A previous reply may already have been processed.')
 
     def generate(self, target, forecast, name):
         if target in self.s['reports']:
@@ -364,7 +423,13 @@ def main():
     parser.add_argument('--run', action='store_true', help='Enable real polling, LLM and sending')
     parser.add_argument('--state', default='review-state/state.json')
     parser.add_argument('--persist-git', action='store_true')
+    parser.add_argument('--status', action='store_true', help='Read saved state only; no network or messages')
     args = parser.parse_args()
+    if args.status:
+        if args.run:
+            parser.error('--status cannot be combined with --run')
+        show_status(Store(args.state), datetime.now(BALI))
+        return
     if not args.run:
         print('Preview: no network or messages. Use unit tests for an offline simulation.')
         return
@@ -388,6 +453,7 @@ def main():
         source.cache.clear()
         bot.generate(target, source.fetch_full_forecast(source.SPOT_ID, days=3), source.SPOT_NAME)
         bot.advance(datetime.now(BALI).date().isoformat())
+    show_status(store, datetime.now(BALI))
 
 
 if __name__ == '__main__':
