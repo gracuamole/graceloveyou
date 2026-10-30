@@ -6438,7 +6438,11 @@
         11,
         12
       ],
-      "prompt_ids": []
+      "prompt_ids": [],
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "32c4cc2518b0f8ff09ff00a32a4bf7e974ec43af0da5826183a82759fa88fb41"
+      }
     }
   },
   "offset": 248715010,
