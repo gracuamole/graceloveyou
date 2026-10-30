@@ -6444,12 +6444,12 @@
       "feedback": "remove the 18:00-18:16 report change"
     }
   },
-  "offset": 248715012,
+  "offset": 248715013,
   "started": true,
   "binding": [
     941560570,
     941560570,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending"
+  "last_update_outcome": "ignored_not_reviewing"
 }
