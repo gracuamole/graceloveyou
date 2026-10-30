@@ -6434,12 +6434,10 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "21209a24b644bfc53f340c7181064ae89d1c99e00f0ca87ff61772704b6fe21c"
-      }
+      "draft_ids": [
+        11
+      ],
+      "prompt_ids": []
     }
   },
   "offset": 248715010,
