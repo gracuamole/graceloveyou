@@ -32,6 +32,8 @@ jobs:
         run: |
           git -C review-state config user.name 'surf-review-bot'
           git -C review-state config user.email 'surf-review-bot@users.noreply.github.com'
+      - name: Inspect saved review status (read-only)
+        run: python review_bot.py --status --state review-state/state.json
       - name: Poll reviews and advance durable workflow
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
