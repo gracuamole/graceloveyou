@@ -6435,13 +6435,10 @@
       "revision": 1,
       "status": "draft",
       "draft_ids": [
-        11
+        11,
+        12
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "7326a7a98238233bdbca155e066ef2d124a4bbb16baf0d37f35b29cf63145046"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715010,
