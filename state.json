@@ -6436,7 +6436,11 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "feedback": "not change"
+      "feedback": "not change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "79056ee071dce8333d84c5d6880094a4bb1d43684dd7ddcf6ab37b2d7a1f56b6"
+      }
     }
   },
   "offset": 248715011,
