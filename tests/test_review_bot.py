@@ -5,7 +5,7 @@ import subprocess
 import unittest
 from unittest.mock import Mock, patch
 
-from review_bot import Review, Store, digest, revise, validate_parts
+from review_bot import Review, Store, Telegram, SafeError, failure_detail, http_failure, setting, digest, revise, validate_parts
 
 TODAY, TARGET = '2026-10-29', '2026-10-30'
 
@@ -161,7 +161,7 @@ class ReviewTests(unittest.TestCase):
         response = Mock()
         response.json.return_value = {'status': 'completed', 'output': [
             {'type': 'message', 'content': [{'type': 'output_text', 'text': TARGET + ' fixed'}]}]}
-        with patch.dict('os.environ', {'OPENAI_API_KEY': 'secret', 'OPENAI_MODEL': 'test-model'}), \
+        with patch.dict('os.environ', {'LLM_PROVIDER': 'openai', 'OPENAI_API_KEY': 'secret', 'OPENAI_MODEL': 'test-model'}), \
                 patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}) as modules:
             post = modules['requests'].post
             self.assertEqual(revise(self.report, 'fix wind change'), [TARGET + ' fixed'])
@@ -243,6 +243,133 @@ class ReviewTests(unittest.TestCase):
     def test_utf16_limits(self):
         with self.assertRaises(ValueError):
             validate_parts(['🌊' * 1800])
+
+
+class SafeDiagnostics(unittest.TestCase):
+    def test_openai_404_points_to_model_configuration(self):
+        detail = str(http_failure('OpenAI revision', 404))
+        self.assertIn('OPENAI_MODEL', detail)
+        self.assertNotIn('bot token', detail)
+
+    def test_unknown_error_does_not_expose_secret(self):
+        detail = failure_detail(RuntimeError('https://api.telegram.org/botSECRET/sendMessage'))
+        self.assertNotIn('SECRET', detail)
+        self.assertIn('suppressed', detail)
+
+    def test_git_error_does_not_expose_output(self):
+        error = subprocess.CalledProcessError(1, ['git', 'push'], stderr=b'SECRET')
+        self.assertIn('write permission', failure_detail(error))
+        self.assertNotIn('SECRET', failure_detail(error))
+
+    def test_missing_and_malformed_settings_are_named_safely(self):
+        with patch.dict('os.environ', {}, clear=True):
+            with self.assertRaisesRegex(SafeError, 'Missing setting: OPENAI_MODEL'):
+                setting('OPENAI_MODEL')
+        with patch.dict('os.environ', {'LEO_TELEGRAM_USER_ID': '@SECRET'}):
+            with self.assertRaises(SafeError) as caught:
+                setting('LEO_TELEGRAM_USER_ID', numeric=True)
+            self.assertNotIn('SECRET', str(caught.exception))
+
+    def test_telegram_http_error_hides_body_and_token(self):
+        response = Mock(status_code=403, text='SECRET')
+        with patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):
+            with self.assertRaises(SafeError) as caught:
+                Telegram('TOKEN_SECRET').call('sendMessage', chat_id=42, text='test')
+        detail = failure_detail(caught.exception)
+        self.assertIn('HTTP 403', detail)
+        self.assertNotIn('SECRET', detail)
+
+    def test_openai_quota_error_is_identified_without_raw_body(self):
+        response = Mock(status_code=429, text='SECRET')
+        with patch.dict('os.environ', {'LLM_PROVIDER': 'openai', 'OPENAI_API_KEY': 'SECRET', 'OPENAI_MODEL': 'model'}), \
+                patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):
+            with self.assertRaises(SafeError) as caught:
+                revise({'date': TARGET, 'parts': ['draft'], 'forecast': {}}, 'fix change')
+        self.assertIn('HTTP 429', str(caught.exception))
+        self.assertNotIn('SECRET', str(caught.exception))
+
+
+class GeminiRevisionTests(unittest.TestCase):
+    def setUp(self):
+        self.env = patch.dict('os.environ', {
+            'GEMINI_API_KEY': 'SECRET_GEMINI', 'GEMINI_MODEL': 'gemini-3.5-flash-lite',
+        }, clear=True)
+        self.env.start()
+        self.response = Mock(status_code=200)
+        self.response.json.return_value = {
+            'candidates': [{'finishReason': 'STOP', 'content': {'parts': [
+                {'text': 'private reasoning', 'thought': True},
+                {'text': TARGET + ' corrected wind'},
+            ]}}],
+        }
+        self.post = Mock(return_value=self.response)
+        self.modules = patch.dict('sys.modules', {'requests': Mock(post=self.post)})
+        self.modules.start()
+        self.addCleanup(patch.stopall)
+        self.report = {'date': TARGET, 'parts': ['draft'], 'forecast': {}}
+
+    def test_gemini_is_default_and_never_needs_openai_key(self):
+        self.assertEqual(revise(self.report, 'fix wind change'), [TARGET + ' corrected wind'])
+        self.post.assert_called_once()
+        call = self.post.call_args
+        self.assertEqual(call.args[0], 'https://generativelanguage.googleapis.com/v1beta/models/'
+                         'gemini-3.5-flash-lite:generateContent')
+        self.assertEqual(call.kwargs['headers'], {'x-goog-api-key': 'SECRET_GEMINI'})
+        self.assertNotIn('SECRET', call.args[0])
+        payload = call.kwargs['json']
+        self.assertNotIn('SECRET', json.dumps(payload))
+        self.assertNotIn('tools', payload)
+        self.assertEqual(json.loads(payload['contents'][0]['parts'][0]['text'])['feedback'],
+                         'fix wind change')
+
+    def test_blocked_or_truncated_output_cannot_become_draft(self):
+        for body in (
+                {'promptFeedback': {'blockReason': 'SAFETY'}},
+                {'candidates': [{'finishReason': 'MAX_TOKENS', 'content': {
+                    'parts': [{'text': TARGET + ' incomplete'}]}}]},
+                {'candidates': []}):
+            self.response.json.return_value = body
+            with self.assertRaisesRegex(SafeError, 'Feedback remains pending'):
+                revise(self.report, 'fix change')
+
+    def test_invalid_report_cannot_become_draft(self):
+        for content in ('', 'wrong date', TARGET + 'a' * 45001):
+            self.response.json.return_value['candidates'][0]['content']['parts'] = [{'text': content}]
+            with self.assertRaisesRegex(SafeError, 'report validation'):
+                revise(self.report, 'fix change')
+
+    def test_status_diagnostics_and_no_provider_fallback(self):
+        for status in (400, 403, 404, 429):
+            self.response.status_code = status
+            self.post.reset_mock()
+            with self.assertRaises(SafeError) as caught:
+                revise(self.report, 'fix change')
+            self.assertIn('Gemini revision HTTP ' + str(status), str(caught.exception))
+            self.assertNotIn('SECRET', str(caught.exception))
+            self.assertNotIn('Telegram', str(caught.exception))
+            self.post.assert_called_once()
+
+    def test_missing_key_and_invalid_model_fail_before_network(self):
+        with patch.dict('os.environ', {'GEMINI_API_KEY': ''}):
+            with self.assertRaisesRegex(SafeError, 'Missing setting: GEMINI_API_KEY'):
+                revise(self.report, 'fix change')
+        for model in ('', 'A Gemini model', '../gemini-invalid', 'gemini-id?key=SECRET'):
+            with patch.dict('os.environ', {'GEMINI_MODEL': model}):
+                with self.assertRaises(SafeError):
+                    revise(self.report, 'fix change')
+        self.post.assert_not_called()
+
+    def test_transport_error_cannot_leak_credentials(self):
+        self.post.side_effect = RuntimeError('SECRET_GEMINI in request')
+        with self.assertRaises(SafeError) as caught:
+            revise(self.report, 'fix change')
+        self.assertNotIn('SECRET', str(caught.exception))
+
+    def test_unknown_provider_fails_without_network(self):
+        with patch.dict('os.environ', {'LLM_PROVIDER': 'unknown'}):
+            with self.assertRaisesRegex(SafeError, 'No fallback'):
+                revise(self.report, 'fix change')
+        self.post.assert_not_called()
 
 
 if __name__ == '__main__':
