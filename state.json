@@ -6436,7 +6436,11 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "feedback": "remove the 18:00-18:16 report change"
+      "feedback": "remove the 18:00-18:16 report change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "16061aadb0d77f910074b6621ca02931e00c40785f77a99de7f8ff6c80319f5b"
+      }
     }
   },
   "offset": 248715013,
