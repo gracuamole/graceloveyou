@@ -6439,7 +6439,11 @@
         21
       ],
       "prompt_ids": [],
-      "feedback": "remove the 18:00-18:16 report change"
+      "feedback": "remove the 18:00-18:16 report change",
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "41808e827211f920d9343812b0a03f13641987f9c7e6fec80efa54f17f30db3c"
+      }
     }
   },
   "offset": 248715013,
