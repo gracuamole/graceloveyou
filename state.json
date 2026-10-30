@@ -6435,14 +6435,11 @@
       "revision": 3,
       "status": "draft",
       "draft_ids": [
-        20
+        20,
+        21
       ],
       "prompt_ids": [],
-      "feedback": "remove the 18:00-18:16 report change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "eb7fe2bb42f5676ebcf76779e17385e3787fb36e44837025a5542784601869df"
-      }
+      "feedback": "remove the 18:00-18:16 report change"
     }
   },
   "offset": 248715013,
