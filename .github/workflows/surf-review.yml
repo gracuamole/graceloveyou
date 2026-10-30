@@ -38,6 +38,7 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           LEO_TELEGRAM_USER_ID: ${{ secrets.LEO_TELEGRAM_USER_ID }}
           LEO_TELEGRAM_CHAT_ID: ${{ secrets.LEO_TELEGRAM_CHAT_ID }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          LLM_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
         run: python review_bot.py --run --persist-git --state review-state/state.json
