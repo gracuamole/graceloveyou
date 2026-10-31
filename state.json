@@ -9985,14 +9985,11 @@
       "revision": 5,
       "status": "draft",
       "draft_ids": [
-        49
+        49,
+        50
       ],
       "prompt_ids": [],
-      "feedback": "for 06:00 report, remove the advanced report change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "a9fbd604ebb4e76b5d0e8737f4a557acb25d65b220718b6bf264a62a43140ced"
-      }
+      "feedback": "for 06:00 report, remove the advanced report change"
     }
   },
   "offset": 248715019,
