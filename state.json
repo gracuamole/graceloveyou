@@ -13559,7 +13559,11 @@
       ],
       "source_ids": [],
       "context_input_sha256": "cd9037113a5a990bc77274ba569cd784ad5ce21a8952d19f2c20b7df9375292f",
-      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2"
+      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2",
+      "intent": {
+        "kind": "source",
+        "text_sha256": "beb0832107c8fdf47337f3fc31b3c43951592e96b45f3ddee7095938bdef6d8a"
+      }
     }
   },
   "offset": 248715027,
