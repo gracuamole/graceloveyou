@@ -9982,7 +9982,9 @@
       ],
       "revision": 11,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        77
+      ],
       "prompt_ids": [],
       "manual_request_id": "41192170935",
       "publication_history": [
@@ -13542,11 +13544,7 @@
             47
           ]
         }
-      ],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "65cc8adfb27b316bd2490622a38009e009d678c4aa770bc9737e8498fa742584"
-      }
+      ]
     }
   },
   "offset": 248715027,
