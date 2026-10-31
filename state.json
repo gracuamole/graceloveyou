@@ -9978,16 +9978,12 @@
         ]
       },
       "parts": [
-        "Forecast date: 1 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n00:00–07:00 and 08:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low tide: shallower, faster/dumpier; prefer rising mid to high. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n07:00–08:00 and 12:00–13:00 and 17:00–18:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n🟡 INTERMEDIATE\n00:00–07:00 and 08:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside/outside. Prefer mid tide, rising or falling. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n07:00–08:00 and 12:00–13:00 and 17:00–18:00: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n🔵 ADVANCED\n00:00–07:00 and 08:00–12:00 and 13:00–17:00 and 18:00–23:00: suitable to consider; inside/outside. Prefer mid tide; assess reef depth and access. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n07:00–08:00 and 12:00–13:00 and 17:00–18:00: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n⚠️ CAUTIONS\n- High energy: strong currents possible.\n- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n- Below 100 kJ: generally too flat for worthwhile surfing.\n- Check actual inside waves: beginners at most 2 ft; intermediate inside-only at most 4 ft."
+        "Forecast date: 1 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n00:00–07:00 and 08:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low tide: shallower, faster/dumpier; prefer rising mid to high. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n07:00–08:00 and 12:00–13:00 and 17:00–18:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n🟡 INTERMEDIATE\n00:00–07:00 and 08:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside/outside. Prefer mid tide, rising or falling. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n07:00–08:00 and 12:00–13:00 and 17:00–18:00: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n⚠️ CAUTIONS\n- High energy: strong currents possible.\n- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n- Below 100 kJ: generally too flat for worthwhile surfing.\n- Check actual inside waves: beginners at most 2 ft; intermediate inside-only at most 4 ft."
       ],
-      "revision": 8,
-      "status": "revision_pending",
-      "draft_ids": [
-        66
-      ],
-      "prompt_ids": [
-        67
-      ],
+      "revision": 9,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "feedback": "remove report for advanced level change"
     }
   },
