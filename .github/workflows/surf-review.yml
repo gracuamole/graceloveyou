@@ -10,6 +10,11 @@ on:
         type: boolean
         required: false
         default: false
+      move_review_chat:
+        description: 'Move review to the configured chat (use alone; Leo must /start there)'
+        type: boolean
+        required: false
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -46,6 +51,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           LEO_TELEGRAM_USER_ID: ${{ secrets.LEO_TELEGRAM_USER_ID }}
+          OWNER_TELEGRAM_USER_ID: ${{ secrets.OWNER_TELEGRAM_USER_ID }}
           LEO_TELEGRAM_CHAT_ID: ${{ secrets.LEO_TELEGRAM_CHAT_ID }}
           LLM_PROVIDER: gemini
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -55,9 +61,13 @@ jobs:
           SURF_WEBHOOK_TOKEN: ${{ secrets.SURF_WEBHOOK_TOKEN }}
           # Webhook/cron dispatches omit this input and cannot resend a complete review.
           SURF_RESEND_PUBLISHED: ${{ github.event_name == 'workflow_dispatch' && inputs.resend_published == true && 'true' || 'false' }}
+          SURF_MOVE_REVIEW_CHAT: ${{ github.event_name == 'workflow_dispatch' && inputs.move_review_chat == true && 'true' || 'false' }}
         run: |
           args=()
           if [ "$SURF_RESEND_PUBLISHED" = "true" ]; then
             args+=(--resend-published)
+          fi
+          if [ "$SURF_MOVE_REVIEW_CHAT" = "true" ]; then
+            args+=(--move-review-chat)
           fi
           python review_bot.py --run --persist-git --state review-state/state.json "${args[@]}"

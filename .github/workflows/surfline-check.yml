@@ -1,0 +1,28 @@
+name: Surfline forecast check (no Telegram)
+on:
+  workflow_dispatch:
+    inputs:
+      forecast_date:
+        description: 'Optional YYYY-MM-DD; leave blank for tomorrow in Bali'
+        required: false
+        default: ''
+        type: string
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install tested dependencies
+        run: pip install -r requirements.txt
+      - name: Fetch and validate Surfline forecast (read-only)
+        env:
+          FORECAST_DATE: ${{ inputs.forecast_date }}
+        run: python surfline_check.py --date "$FORECAST_DATE"

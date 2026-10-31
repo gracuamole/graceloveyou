@@ -2,6 +2,10 @@ name: Phase 2 rules tests
 on:
   pull_request:
   push:
+    # This branch stores delivery state and can contain an older source tree.
+    # Apply this filter to any existing copy of this workflow on review-state too.
+    branches-ignore:
+      - review-state
   workflow_dispatch:
 permissions:
   contents: read
