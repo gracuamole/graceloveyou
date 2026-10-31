@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS inbox (
+  update_id INTEGER PRIMARY KEY,
+  payload TEXT NOT NULL,
+  acked INTEGER NOT NULL DEFAULT 0 CHECK (acked IN (0, 1))
+);
+CREATE INDEX IF NOT EXISTS inbox_pending ON inbox (acked, update_id);
+CREATE TABLE IF NOT EXISTS control (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  wake_at INTEGER NOT NULL DEFAULT 0,
+  work_pending INTEGER NOT NULL DEFAULT 0,
+  wake_attempts INTEGER NOT NULL DEFAULT 0,
+  next_wake_at INTEGER NOT NULL DEFAULT 0,
+  daily_day TEXT NOT NULL DEFAULT '',
+  completed_at INTEGER NOT NULL DEFAULT 0
+);
+INSERT OR IGNORE INTO control (id) VALUES (1);
