@@ -9990,7 +9990,11 @@
         51
       ],
       "prompt_ids": [],
-      "feedback": "for 06:00 report, remove the advanced report change"
+      "feedback": "for 06:00 report, remove the advanced report change",
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "06b90dab70f039ab51019d83b5c6d1ef55ab1108416fdf4435d9f7ae8f6230a9"
+      }
     }
   },
   "offset": 248715019,
