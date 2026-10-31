@@ -9984,7 +9984,11 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "feedback": "remove report for advanced level change"
+      "feedback": "remove report for advanced level change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "3801636b5e021cf4d547f7b0fdd318b11af70bd3021daf7f54dee1609ce5891b"
+      }
     }
   },
   "offset": 248715024,
