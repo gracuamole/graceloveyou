@@ -9988,14 +9988,11 @@
       "draft_ids": [
         32,
         33,
-        34
+        34,
+        35
       ],
       "prompt_ids": [],
-      "feedback": "remove 18:00 report change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "3ec96de2ea440385264a184571fdf6d196f977471cee716f27716024a631c02a"
-      }
+      "feedback": "remove 18:00 report change"
     }
   },
   "offset": 248715016,
