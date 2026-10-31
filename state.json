@@ -9986,14 +9986,11 @@
       "status": "draft",
       "draft_ids": [
         59,
-        60
+        60,
+        61
       ],
       "prompt_ids": [],
-      "feedback": "for 06:00-07:00 report, remove the report for advanced level change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "80f40936628dde11eb2ca265ff0934987231bece6e716c10d55e7e403c827e2f"
-      }
+      "feedback": "for 06:00-07:00 report, remove the report for advanced level change"
     }
   },
   "offset": 248715021,
