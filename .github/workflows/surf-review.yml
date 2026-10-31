@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       resend_published:
-        description: 'Send another private draft after publication (testing; fresh correct posts again)'
+        description: 'Send report again for testing (fresh approval required)'
         type: boolean
         required: false
         default: false
@@ -53,7 +53,7 @@ jobs:
           SURF_REVIEW_TRANSPORT: ${{ vars.SURF_REVIEW_TRANSPORT || 'poll' }}
           SURF_WEBHOOK_URL: ${{ vars.SURF_WEBHOOK_URL }}
           SURF_WEBHOOK_TOKEN: ${{ secrets.SURF_WEBHOOK_TOKEN }}
-          # Webhook/cron dispatches omit this input and cannot reopen a published report.
+          # Webhook/cron dispatches omit this input and cannot resend a complete review.
           SURF_RESEND_PUBLISHED: ${{ github.event_name == 'workflow_dispatch' && inputs.resend_published == true && 'true' || 'false' }}
         run: |
           args=()
