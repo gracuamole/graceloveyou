@@ -9984,19 +9984,17 @@
         "; inside height is not separately forecast.\n\n17:00–18:00\nBreaking surf: 3–4 ft\nEnergy: 240.9 kJ | Period: 13.0 s\nWind: 16.7 km/h SE | Rating: POOR_TO_FAIR\nTide: 1.46 m, mid falling; mid 1.68 m\nBeginner: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nIntermediate: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nAdvanced: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast."
       ],
       "revision": 2,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         32,
         33,
         34,
         35
       ],
-      "prompt_ids": [],
-      "feedback": "remove 18:00 report change",
-      "intent": {
-        "kind": "prompt",
-        "text_sha256": "47d868c202b63f62d5fc304badac349865ab606b937189e4d3176cf1263800b9"
-      }
+      "prompt_ids": [
+        36
+      ],
+      "feedback": "remove 18:00 report change"
     }
   },
   "offset": 248715016,
