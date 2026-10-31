@@ -9985,13 +9985,11 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        38
+      ],
       "prompt_ids": [],
-      "feedback": "remove 17:00-18:00 report change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "ccb8d967147832aaa1ab6dd0660ced0e4585d02a18d37b7985925fc648b055f0"
-      }
+      "feedback": "remove 17:00-18:00 report change"
     }
   },
   "offset": 248715017,
