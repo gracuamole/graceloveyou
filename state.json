@@ -9982,13 +9982,11 @@
       ],
       "revision": 8,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        66
+      ],
       "prompt_ids": [],
-      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp.\" change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "6bc9846ea8c56602b019495460c1fa4375940997633a601b7c542971ad3c41cf"
-      }
+      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp.\" change"
     }
   },
   "offset": 248715023,
