@@ -9990,7 +9990,11 @@
         27,
         28
       ],
-      "prompt_ids": []
+      "prompt_ids": [],
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "b624cb255290bceea3ce991faa500f01b82fe4375804d686c4585a13956c06d3"
+      }
     }
   },
   "offset": 248715015,
