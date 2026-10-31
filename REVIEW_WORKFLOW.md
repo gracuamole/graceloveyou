@@ -32,6 +32,37 @@ Telegram's **Reply** on that final prompt:
 * Reports expire at the start of their forecast date in Bali. Late approvals cannot
   publish yesterday's next-day report. A failure never substitutes invented data.
 
+### Manual testing after publication
+
+Start a **new** **Reviewed next-day surf report** run from `main` and tick
+**Send another private draft after publication (testing; fresh correct posts again)**.
+The `resend_published` input defaults to **false**. Ordinary manual runs, scheduled
+runs and the Worker's automatic dispatches continue to skip already published
+reports. No Worker change is required: it dispatches with only `ref`, without this
+input. The CLI accepts `--resend-published` only in a GitHub `workflow_dispatch`
+run with a numeric `GITHUB_RUN_ID`; the workflow passes it only for an explicitly
+checked input.
+
+For a next-day report already marked `published`, the option fetches a fresh
+Surfline forecast and creates a new version using the current format, even if
+the earlier version has identical text. It sends labeled **TEST DRAFT** messages
+privately to the configured reviewer, followed by a warning that a new exact
+`correct` will post to the configured channel again. Feedback ending in `change`
+continues through the normal revision loop. Earlier approvals and old prompts
+cannot approve the new version. Publication needs a fresh Reply on its newest
+final prompt and is delivered once for that approved version. After publication,
+normal scheduled/webhook runs send no extra draft or channel post.
+
+The original published report is retained in `publication_history`, including its
+parts, approval, forecast and Telegram message IDs. The new version starts with
+empty delivery IDs and no approval. A `manual_retest_requests` entry and new draft
+are saved together before sending. The GitHub run ID deduplicates retries, including
+**Re-run jobs** after successful publication; choose **Run workflow** to deliberately
+start another test. Pending tests resume normally without opening another cycle.
+An already active review is not replaced, source failures retain the earlier
+publication, and uncertain sends still require reconciliation. Do not clear state
+or delivery IDs to test again. `/dryrun` remains a preview that cannot be approved.
+
 `/status` and `/dryrun` work as regular private commands from the configured
 reviewer. `/status` returns saved status without private feedback text. `/dryrun`
 fetches a fresh deterministic next-day preview without creating a report/version,

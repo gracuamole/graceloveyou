@@ -25,6 +25,14 @@ state and uncertain-delivery recovery. It is disabled until explicitly configure
 
 Run `python3 -m unittest discover -s tests -v` for offline verification.
 
+To test again after publication, start a new **Reviewed next-day surf report** run
+from `main` and tick **Send another private draft after publication**. It sends a
+fresh next-day test draft to the configured reviewer. Only a new exact `correct`
+Reply on its final prompt can post it to the channel again. The checkbox defaults
+to off; scheduled runs and ordinary webhook dispatches never reopen published
+reports. Earlier publications stay in state, and rerunning the same GitHub run
+does not start another test cycle. See [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md).
+
 ## Faster replies with free hosting
 
 [FREE_HOSTING.md](FREE_HOSTING.md) describes the prepared Cloudflare Workers Free +

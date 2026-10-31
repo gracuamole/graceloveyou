@@ -1,5 +1,6 @@
 """Durable, fail-closed Telegram review workflow. No network without --run."""
 import argparse
+from copy import deepcopy
 import hashlib
 import json
 import os
@@ -660,12 +661,17 @@ class Review:
         if report['status'] != 'draft':
             return
         for index in range(len(report.get('draft_ids', [])), len(report['parts'])):
-            self.send(report, 'draft', f"DRAFT {report['date']} v{report['revision']} "
+            label = 'TEST DRAFT' if report.get('manual_request_id') else 'DRAFT'
+            self.send(report, 'draft', f"{label} {report['date']} v{report['revision']} "
                       f"({index + 1}/{len(report['parts'])})\n\n{report['parts'][index]}")
         if not report.get('prompt_ids'):
-            self.send(report, 'prompt', f"Review {report['date']} v{report['revision']} complete. "
-                      'Reply to THIS message with exactly correct to approve all parts, '
+            warning = ('Manual test: this forecast date was already published. '
+                       'A new correct reply will post this report to the channel again.\n\n'
+                       if report.get('manual_request_id') else '')
+            prompt = (f"Review {report['date']} v{report['revision']} complete.\n\n" + warning
+                      + 'Reply to THIS message with exactly correct to approve all parts, '
                       'or feedback whose final word is change. Each revision needs fresh approval.')
+            self.send(report, 'prompt', prompt)
         if report['status'] != 'review':
             report['status'] = 'review'
             self.store.save()
@@ -801,6 +807,47 @@ class Review:
             raise
         self.generate(target, snapshot.data, snapshot.name)
 
+    def reopen_published(self, target, today, request_id):
+        """Explicit manual test only; retain all earlier approvals/delivery records."""
+        self.assert_no_uncertain()
+        if (not re.fullmatch(r'[0-9]{1,30}', request_id)
+                or target != (datetime.fromisoformat(today) + timedelta(days=1)).date().isoformat()):
+            raise SafeError('Manual test requires a GitHub run ID and the next forecast date.')
+        if request_id in self.s.get('manual_retest_requests', {}):
+            print('Manual test already recorded for this GitHub run; no extra draft created.')
+            return False
+        previous = self.s['reports'].get(target)
+        if previous is None or previous['status'] != 'published':
+            print('Manual test not started: no published next-day report; continuing the existing workflow.')
+            return False
+        if not self.s['started']:
+            raise SafeError('Manual test requires the configured reviewer to send /start first.')
+        self.check_single_active(target)
+        try:
+            snapshot = self.forecast(target)
+        except SourceUnavailable as error:
+            self.notify_failure('manual-forecast-error:' + request_id,
+                                'The manual test draft could not be generated. ' + str(error)
+                                + ' The earlier publication is unchanged; nothing new was approved or published.')
+            raise
+        if snapshot.date != target:
+            raise SafeError('Manual test forecast date does not match the next forecast date.')
+        parts = list(snapshot.parts)
+        validate_parts(parts)
+        archived = deepcopy(previous)
+        history = archived.pop('publication_history', [])
+        history.append(archived)
+        report = dict(date=target, name=snapshot.name, forecast=snapshot.data, parts=parts,
+                      revision=previous['revision'] + 1, status='draft', draft_ids=[], prompt_ids=[],
+                      manual_request_id=request_id, publication_history=history)
+        self.s['reports'][target] = report
+        self.s.setdefault('manual_retest_requests', {})[request_id] = {
+            'date': target, 'revision': report['revision']}
+        # Persist the request and archive together before sending any test draft.
+        self.store.save()
+        print('Manual test saved. Sending a fresh private draft; a new exact approval is required to post again.')
+        return True
+
     def check_single_active(self, target):
         if any(date != target and report['status'] not in ('published', 'expired')
                for date, report in self.s['reports'].items()):
@@ -830,7 +877,17 @@ def main():
     parser.add_argument('--state', default='review-state/state.json')
     parser.add_argument('--persist-git', action='store_true')
     parser.add_argument('--status', action='store_true', help='Read saved state only; no network or messages')
+    parser.add_argument('--resend-published', action='store_true',
+                        help='Explicit GitHub manual test: reopen a published next-day report for fresh review')
     args = parser.parse_args()
+    manual_request_id = None
+    if args.resend_published:
+        if not args.run or not args.persist_git or args.status:
+            parser.error('--resend-published requires --run --persist-git and cannot be combined with --status')
+        manual_request_id = os.environ.get('GITHUB_RUN_ID', '')
+        if (os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch'
+                or not re.fullmatch(r'[0-9]{1,30}', manual_request_id)):
+            raise SafeError('Resending a published report requires an explicit GitHub manual workflow run.')
     if args.status:
         if args.run:
             parser.error('--status cannot be combined with --run')
@@ -859,6 +916,10 @@ def main():
         raise RuntimeError('Remove webhook before enabling the sole review poller')
     now = datetime.now(BALI)
     today = now.date().isoformat()
+    if manual_request_id:
+        target = (now + timedelta(days=1)).date().isoformat()
+        # Reopen before consuming replies: an old approval can never approve this test.
+        bot.reopen_published(target, today, manual_request_id)
     if inbox:
         outcomes = bot.consume_updates(inbox.updates(), today, ack=inbox.ack)
     else:

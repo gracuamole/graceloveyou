@@ -215,6 +215,201 @@ class ReviewTests(unittest.TestCase):
         self.bot.generate(TARGET, {}, 'ignored')
         self.assertEqual(self.report['parts'], original)
 
+    def prepare_published_test(self):
+        self.bot.s['started'] = True
+        self.draft()
+        self.bot.process(self.update(), TODAY)
+        self.bot.advance(TODAY)
+        self.bot.forecast = Mock(return_value=Forecast(
+            TARGET, 'Test spot', {'fresh': True}, [TARGET + ' fresh short-format report']))
+        self.tg.reset_mock()
+        return json.loads(json.dumps(self.report))
+
+    def run_workflow(self, flags=(), event='schedule', updates=()):
+        def call(method, **kwargs):
+            if method == 'getWebhookInfo':
+                return {'url': ''}
+            if method == 'getUpdates':
+                return list(updates)
+            self.counter += 1
+            return {'message_id': self.counter}
+        self.tg.call.side_effect = call
+        with patch('sys.argv', ['review_bot.py', '--run', '--persist-git', *flags]), \
+                patch('review_bot.Store', return_value=self.store), \
+                patch('review_bot.Review', return_value=self.bot), \
+                patch('review_bot.datetime', wraps=datetime) as clock, \
+                patch.dict('os.environ', {'TELEGRAM_BOT_TOKEN': 'SECRET', 'LEO_TELEGRAM_USER_ID': '42',
+                                         'LEO_TELEGRAM_CHAT_ID': '42', 'TELEGRAM_CHANNEL_ID': '-100',
+                                         'SURF_REVIEW_TRANSPORT': 'poll', 'GITHUB_EVENT_NAME': event,
+                                         'GITHUB_RUN_ID': '12345'}, clear=True):
+            clock.now.return_value = datetime(2026, 10, 29, 12, tzinfo=BALI)
+            main()
+
+    def test_scheduled_and_webhook_dispatch_runs_leave_published_report_alone(self):
+        previous = self.prepare_published_test()
+        for event in ('schedule', 'workflow_dispatch'):
+            with self.subTest(event=event):
+                self.run_workflow(event=event)  # Worker dispatch has no resend flag.
+                self.assertEqual(self.report, previous)
+                self.assertFalse(self.published())
+                self.assertFalse(any(c.args[0] == 'sendMessage' for c in self.tg.call.call_args_list))
+                self.bot.forecast.assert_not_called()
+                self.tg.reset_mock()
+
+    def test_manual_test_archives_publication_before_sending_and_requires_fresh_approval(self):
+        previous = self.prepare_published_test()
+        old_prompt = previous['prompt_ids'][-1]
+        self.assertTrue(self.bot.reopen_published(TARGET, TODAY, '12345'))
+        saved = Store(self.path).data
+        self.report = saved['reports'][TARGET]
+        self.assertEqual(self.report['publication_history'], [previous])
+        self.assertEqual(saved['manual_retest_requests'], {'12345': {'date': TARGET, 'revision': 2}})
+        self.assertNotIn('approval', self.report)
+        self.assertFalse(self.report.get('publish_ids'))
+        self.tg.call.assert_not_called()  # Both the request and history are already durable.
+        self.bot = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
+        self.report = self.bot.s['reports'][TARGET]
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['status'], 'review')
+        self.assertFalse(self.published())
+        private = [c.kwargs['text'] for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
+        self.assertTrue(private[0].startswith('TEST DRAFT'))
+        self.assertIn('already published', private[-1])
+        self.assertIn('post this report to the channel again', private[-1])
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), TODAY),
+                         'ignored_stale_prompt')
+        for text in ('Correct', ' correct', 'correct\n'):
+            self.assertEqual(self.bot.process(self.update(text), TODAY), 'ignored_text')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
+        self.store = self.bot.store
+        self.store.save()
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
+        restarted.advance(TODAY)
+        restarted.advance(TODAY)
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [TARGET + ' fresh short-format report'])
+        self.assertEqual(Store(self.path).data['reports'][TARGET]['publication_history'], [previous])
+        self.llm.assert_not_called()
+
+    def test_manual_request_id_prevents_duplicate_cycles_even_after_republication(self):
+        self.prepare_published_test()
+        self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.report = self.bot.s['reports'][TARGET]
+        self.bot.advance(TODAY)
+        self.bot.process(self.update(), TODAY)
+        self.bot.advance(TODAY)
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
+        restarted.forecast = self.bot.forecast
+        self.tg.reset_mock()
+        self.assertFalse(restarted.reopen_published(TARGET, TODAY, '12345'))
+        restarted.advance(TODAY)
+        self.tg.call.assert_not_called()
+        self.bot.forecast.assert_called_once_with(TARGET)
+        self.assertTrue(restarted.reopen_published(TARGET, TODAY, '67890'))
+        report = Store(self.path).data['reports'][TARGET]
+        self.assertEqual(report['revision'], 3)
+        self.assertEqual(len(report['publication_history']), 2)
+        self.assertTrue(all('publication_history' not in old for old in report['publication_history']))
+        self.assertTrue(all(old['publish_ids'] for old in report['publication_history']))
+
+    def test_manual_test_never_overwrites_an_active_review(self):
+        self.draft()
+        previous = json.loads(json.dumps(self.report))
+        self.bot.forecast = Mock()
+        self.assertFalse(self.bot.reopen_published(TARGET, TODAY, '12345'))
+        self.assertEqual(self.report, previous)
+        self.bot.forecast.assert_not_called()
+        self.assertNotIn('manual_retest_requests', self.bot.s)
+
+    def test_manual_test_feedback_needs_another_fresh_prompt_and_approval(self):
+        self.prepare_published_test()
+        self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.report = self.bot.s['reports'][TARGET]
+        self.bot.advance(TODAY)
+        old_prompt = self.report['prompt_ids'][-1]
+        self.bot.process(self.update('remove evening change'), TODAY)
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['revision'], 3)
+        self.assertEqual(self.report['manual_request_id'], '12345')
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), TODAY),
+                         'ignored_stale_prompt')
+        self.assertFalse(self.published())
+        self.bot.process(self.update(), TODAY)
+        self.bot.advance(TODAY)
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [TARGET + ' revised report'])
+
+    def test_manual_test_fetch_failure_preserves_original_publication(self):
+        previous = self.prepare_published_test()
+        self.bot.forecast.side_effect = SourceUnavailable('Required forecast unavailable.')
+        with self.assertRaises(SourceUnavailable):
+            self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.assertEqual(Store(self.path).data['reports'][TARGET], previous)
+        self.assertNotIn('manual_retest_requests', self.bot.s)
+        self.assertFalse(self.published())
+
+    def test_manual_test_refuses_uncertain_delivery_without_fetching(self):
+        self.prepare_published_test()
+        self.report['intent'] = {'kind': 'publish', 'text_sha256': 'unknown'}
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain send'):
+            self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.bot.forecast.assert_not_called()
+        self.tg.call.assert_not_called()
+
+    def test_manual_test_checkpoint_failure_prevents_delivery(self):
+        self.prepare_published_test()
+        self.store.save = Mock(side_effect=RuntimeError('push failed'))
+        with self.assertRaisesRegex(RuntimeError, 'push failed'):
+            self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.tg.call.assert_not_called()
+        self.assertEqual(Store(self.path).data['reports'][TARGET]['status'], 'published')
+
+    def test_manual_test_timeout_keeps_history_and_stops_all_automatic_retries(self):
+        previous = self.prepare_published_test()
+        self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.tg.call.side_effect = TimeoutError()
+        with self.assertRaises(TimeoutError):
+            self.bot.advance(TODAY)
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100)
+        self.tg.reset_mock()
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain send'):
+            restarted.advance(TODAY)
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain send'):
+            restarted.reopen_published(TARGET, TODAY, '67890')
+        self.tg.call.assert_not_called()
+        self.assertEqual(restarted.s['reports'][TARGET]['publication_history'], [previous])
+
+    def test_manual_test_invalid_forecast_never_replaces_publication(self):
+        previous = self.prepare_published_test()
+        for snapshot in (Forecast(TODAY, 'Test', {}, ['wrong date']), Forecast(TARGET, 'Test', {}, [])):
+            with self.subTest(date=snapshot.date, parts=snapshot.parts):
+                self.bot.forecast.return_value = snapshot
+                with self.assertRaises((SafeError, ValueError)):
+                    self.bot.reopen_published(TARGET, TODAY, '12345')
+                self.assertEqual(Store(self.path).data['reports'][TARGET], previous)
+                self.assertNotIn('manual_retest_requests', self.bot.s)
+                self.tg.call.assert_not_called()
+
+    def test_manual_cli_reopens_before_processing_an_old_approval(self):
+        previous = self.prepare_published_test()
+        self.run_workflow(('--resend-published',), 'workflow_dispatch', [self.update()])
+        report = self.bot.s['reports'][TARGET]
+        self.assertEqual(report['status'], 'review')
+        self.assertEqual(report['publication_history'], [previous])
+        self.assertEqual(self.bot.s['last_update_outcome'], 'ignored_stale_prompt')
+        self.assertFalse(self.published())
+        self.bot.forecast.assert_called_once_with(TARGET)
+
+    def test_manual_cli_rejects_scheduled_or_missing_run_context_before_network(self):
+        for event, run_id in (('schedule', '12345'), ('', '12345'), ('workflow_dispatch', ''),
+                              ('workflow_dispatch', 'invalid')):
+            with self.subTest(event=event, run_id=run_id), \
+                    patch('sys.argv', ['review_bot.py', '--run', '--persist-git', '--resend-published']), \
+                    patch.dict('os.environ', {'GITHUB_EVENT_NAME': event, 'GITHUB_RUN_ID': run_id}, clear=True), \
+                    patch('review_bot.Store') as store:
+                with self.assertRaisesRegex(SafeError, 'explicit GitHub manual workflow run'):
+                    main()
+                store.assert_not_called()
+        self.tg.call.assert_not_called()
+
     def test_second_active_report_is_rejected_before_fetching(self):
         self.bot.forecast = Mock()
         with self.assertRaisesRegex(SafeError, 'Another report is still active'):
