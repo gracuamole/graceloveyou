@@ -6459,7 +6459,11 @@
       "parts": [
         "The next-day surf draft could not be generated. Surfline forecast unavailable or missing required daylight/breaking-surf data. No new draft was created; check the next workflow run. Nothing was published. Only one failure notice is sent for this forecast date."
       ],
-      "notice_ids": []
+      "notice_ids": [],
+      "intent": {
+        "kind": "notice",
+        "text_sha256": "23040656c48be27d01e3c9055d60a6d11845f80342949c2cb93a97ace84458c6"
+      }
     }
   }
 }
