@@ -13566,14 +13566,14 @@
       "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2"
     }
   },
-  "offset": 248715027,
+  "offset": 248715028,
   "started": true,
   "binding": [
     941560570,
     941560570,
     -1004476747924
   ],
-  "last_update_outcome": "dryrun_requested",
+  "last_update_outcome": "ignored_stale_prompt",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -13619,7 +13619,8 @@
     248715023,
     248715024,
     248715025,
-    248715026
+    248715026,
+    248715027
   ],
   "manual_retest_requests": {
     "41192170935": {
