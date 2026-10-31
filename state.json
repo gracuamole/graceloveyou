@@ -9987,13 +9987,10 @@
       "status": "draft",
       "draft_ids": [
         26,
-        27
+        27,
+        28
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "8099e2618d2b7c49c66754e76c44275afa57147a9184d8f43f98fe73a680038c"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715015,
