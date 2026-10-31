@@ -1,5 +1,23 @@
 # Install the report-only update
 
+**Latest: remembered feedback.** Use `surf-memory-update-2026-10-31.zip` and
+[REMEMBER_FEEDBACK.md](REMEMBER_FEEDBACK.md). No state reset is needed.
+
+**Earlier update: you or Leo can review.** Use `surf-two-reviewers-update-2026-10-31.zip`
+and [TWO_REVIEWERS.md](TWO_REVIEWERS.md). The five matching Python/Worker/workflow
+files plus `OWNER_TELEGRAM_USER_ID` in both services allow either person to approve
+or request changes. All accepted corrections are logged with their forecast date;
+they do not automatically become rules for later days. This version passes
+**181 Python tests and 24 Worker tests**. No state reset is needed.
+
+**Earlier update: group review.** The
+`surf-group-review-update-2026-10-31.zip` first added group support; see
+[GROUP_REVIEW.md](GROUP_REVIEW.md) for the latest migration instructions.
+That update includes the report-only behavior below plus matching Python/Worker
+group support and an explicit state migration. Its complete suite passes
+**164 Python tests and 20 Worker tests**. The older three-file instructions below
+describe the report-only change for an existing private-chat deployment.
+
 Leo now receives only the **surf report** followed by its **final approval prompt**.
 No detailed surf analysis or Surfline data summary is generated or sent. The latest
 report format and rules remain: qualifying windows only, the coached beginner

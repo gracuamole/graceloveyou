@@ -24,13 +24,38 @@ async function readJson(request) {
   return JSON.parse(text);
 }
 
+function reviewerIds(env) {
+  const user = Number(env.LEO_TELEGRAM_USER_ID);
+  const rawOwner = String(env.OWNER_TELEGRAM_USER_ID ?? '').trim();
+  const owner = rawOwner ? Number(rawOwner) : user;
+  if (![user, owner].every((id) => Number.isSafeInteger(id) && id > 0 && id <= 2 ** 52)) return [];
+  return [...new Set([user, owner])];
+}
+
 function authorizedUpdate(update, env) {
   const message = update?.message;
   const user = Number(env.LEO_TELEGRAM_USER_ID), chat = Number(env.LEO_TELEGRAM_CHAT_ID);
-  return Number.isSafeInteger(user) && user > 0 && chat === user && safeId(update?.update_id)
-    && message?.from?.id === user && message?.chat?.id === chat
-    && message?.chat?.type === 'private' && !message?.from?.is_bot
+  const reviewers = reviewerIds(env);
+  const validChat = Number.isSafeInteger(chat) && (chat < 0 || (chat === user && reviewers.length === 1));
+  const validType = chat > 0 ? message?.chat?.type === 'private'
+    : ['group', 'supergroup'].includes(message?.chat?.type);
+  return validChat && validType && safeId(update?.update_id)
+    && reviewers.includes(message?.from?.id) && message?.chat?.id === chat
+    && !message?.from?.is_bot && !message?.sender_chat
     && !message?.forward_origin && typeof message?.text === 'string';
+}
+
+function groupIdRequest(update, env) {
+  const message = update?.message, reviewers = reviewerIds(env);
+  // Read-only setup help from the already allowlisted reviewer. Telegram routes
+  // addressed commands to this bot; no chat is enrolled and no work is dispatched.
+  return safeId(update?.update_id)
+    && reviewers.includes(message?.from?.id) && !message?.from?.is_bot
+    && !message?.forward_origin && !message?.sender_chat
+    && Number.isSafeInteger(message?.chat?.id) && message.chat.id < 0
+    && ['group', 'supergroup'].includes(message.chat.type)
+    && typeof message?.text === 'string'
+    && /^\/review_group_id(?:@[A-Za-z0-9_]+)?$/.test(message.text);
 }
 
 export function createWorker(fetcher = globalThis.fetch, clock = Date.now) {
@@ -60,7 +85,9 @@ export function createWorker(fetcher = globalThis.fetch, clock = Date.now) {
             'X-GitHub-Api-Version': '2022-11-28', 'Content-Type': 'application/json',
           },
           body: JSON.stringify({ ref: env.GITHUB_REF || 'main' }),
-          signal: AbortSignal.timeout(15_000), redirect: 'error',
+          // Workers rejects redirect:'error' before sending a request. Manual
+          // returns 3xx to the status check below without forwarding the PAT.
+          signal: AbortSignal.timeout(15_000), redirect: 'manual',
         },
       );
       if (response.status !== 204 && response.status !== 200) {
@@ -90,6 +117,10 @@ export function createWorker(fetcher = globalThis.fetch, clock = Date.now) {
                                  env.TELEGRAM_WEBHOOK_SECRET)) return json({ error: 'Unauthorized' }, 401);
           let update;
           try { update = await readJson(request); } catch { return json({ error: 'Invalid update' }, 400); }
+          if (groupIdRequest(update, env)) {
+            console.info(`Review group chat ID: ${update.message.chat.id}`);
+            return json({ ok: true });
+          }
           // Unauthorized users never enter the inbox or trigger GitHub jobs.
           if (!authorizedUpdate(update, env)) return json({ ok: true });
           const saved = await env.DB.prepare('INSERT OR IGNORE INTO inbox (update_id, payload) VALUES (?, ?)')

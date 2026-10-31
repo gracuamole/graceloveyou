@@ -81,3 +81,16 @@ paid VM, paid hosting plan, OpenAI credits or new LLM subscription is required.
 Live account eligibility, Surfline access from production and end-to-end latency
 still need a private-channel deployment test. No deployment, push, real Telegram
 message or live LLM call was performed while preparing these changes.
+
+## Surfline follow-up, 2026-10-31
+
+Surfline remains the selected source. After a hosted run reported HTTP 403, the
+original `test_curl.py` method returned live HTTP 200 locally with standard
+requests and Firefox. The transport now retains both original methods for the
+minimal `spotId`/`days=2` request rather than retrying only one client. A complete
+live 2026-11-01 preview succeeded, including recovery of a 403 wind request through
+the minimal standard-requests call. Default metric response units are converted
+before the existing parser's FT/KTS/F assumptions. Tested dependency versions are
+pinned. A manual read-only GitHub check is supplied to verify hosted access; it
+does not contact Telegram/Gemini or touch approval/publication state. No Open-Meteo
+source or automatic provider switch was added.

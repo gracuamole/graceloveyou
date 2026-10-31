@@ -21,14 +21,21 @@ See [PHASE2.md](PHASE2.md) for rules, assumptions, tests and operational limits.
 
 ## Telegram human review
 
-See [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) for the private draft → Leo feedback →
+See [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) for the draft → Leo feedback →
 revision → exact `correct` approval → channel workflow, deployment setup, durable
 state and uncertain-delivery recovery. It is disabled until explicitly configured.
 
-Each initial or revised draft is sent privately as the **surf report**, followed
+Each initial or revised draft goes to the configured review chat as the **surf report**, followed
 by its **final approval prompt**. No detailed analysis or Surfline data summary is
 sent. Feedback ending in `change` can Reply to the current report or final prompt;
 exact `correct` must Reply to the newest final prompt. Only the report is published.
+The review chat can be Leo's private chat or a group with you and Leo. Set the optional
+`OWNER_TELEGRAM_USER_ID` in GitHub and Cloudflare so either of you can approve or
+request changes in the group. See [TWO_REVIEWERS.md](TWO_REVIEWERS.md) for setup and
+feedback-history behavior, or [GROUP_REVIEW.md](GROUP_REVIEW.md) to move an existing
+review safely. Both GitHub and the Cloudflare Worker need the matching group update.
+Accepted corrections are logged with the dated report. They do not automatically
+become standing rules for future forecast dates.
 The agreed qualifying-window rules, coached beginner inside option and full-sentence
 cautions are retained. See [SIMPLE_REPORT_EXAMPLE.md](SIMPLE_REPORT_EXAMPLE.md).
 
@@ -36,9 +43,9 @@ Run `python3 -m unittest discover -s tests -v` for offline verification.
 
 To receive the report again, start a new **Reviewed next-day surf report**
 run from `main` and tick **Send report again for testing**. This works
-for both a published report and one awaiting review. It sends the report and a new final prompt privately. Only a new exact `correct` Reply on that
+for both a published report and one awaiting review. It sends the report and a new final prompt to the review chat. Only a new exact `correct` Reply on that
 prompt can publish. The checkbox defaults to off; scheduled runs and ordinary
-webhook dispatches never resend a completed private review or reopen published
+webhook dispatches never resend a completed review or reopen published
 reports. Earlier publications/reviews stay in state. **Re-run jobs** keeps the
 same run ID and does not start another test; choose **Run workflow** for that.
 See [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md).
@@ -53,3 +60,5 @@ paid server. Account/free-tier limits apply. Hosting is not activated automatica
 [PLAN_REVIEW.md](PLAN_REVIEW.md) explains the adopted improvements and why the
 working Surfline/Gemini workflow is retained. Private `/status` and `/dryrun`,
 LLM-free `note:` edits, numeric checks and durable failure notices are included.
+
+Feedback containing `remember` and ending in `change` can now persist across daily reports. See [REMEMBER_FEEDBACK.md](REMEMBER_FEEDBACK.md) for setup and commands.

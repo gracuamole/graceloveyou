@@ -17,7 +17,7 @@ billable Actions artifacts or extra caches.
 ## How it works
 
 Telegram sends replies directly to the Worker. The Worker verifies Telegram's
-secret header and the configured private reviewer IDs, writes each update once to
+secret header, the allowed numeric reviewer IDs and the configured review chat ID, writes each update once to
 D1, and requests a run of `surf-review.yml` on `main`. GitHub reads the saved inbox,
 persists processing in the existing `review-state` Git branch, and only then
 acknowledges the inbox item. Gemini revises the report in that same workflow.
@@ -34,13 +34,14 @@ publishes a report, invokes Gemini, or receives your bot token/Gemini key. Queue
 items survive coalesced GitHub pending runs. Duplicate Telegram deliveries do not
 create duplicate queue items. Acknowledged payloads are erased from D1, leaving ID
 tombstones for deduplication. Report/publication history stays on `review-state`.
-This transport change does not add the previously discussed reusable lesson memory.
+Standing feedback is stored in the same Git state; see [REMEMBER_FEEDBACK.md](REMEMBER_FEEDBACK.md).
 
 The alternative plan review and adopted improvements are in
 [PLAN_REVIEW.md](PLAN_REVIEW.md): private `/status` and `/dryrun`, an LLM-free
 `note:` edit, numeric revision checks, required-source validation and private
-failure notices. Initial reports remain deterministic; Gemini is only for free-form
-edits. This remains a Worker + GitHub design, so runner startup still adds delay.
+failure notices. Initial reports and previews start with a deterministic template. When remembered
+feedback exists, Gemini applies it before delivery; otherwise Gemini is used for
+free-form edits. This remains a Worker + GitHub design, so runner startup still adds delay.
 
 ## 1. Upload the prepared files
 
@@ -113,7 +114,8 @@ In the Worker's **Settings → Variables and Secrets**, add these plain variable
 | `GITHUB_WORKFLOW` | `surf-review.yml` |
 | `GITHUB_REF` | `main` |
 | `LEO_TELEGRAM_USER_ID` | The SAME numeric reviewer ID already configured in GitHub |
-| `LEO_TELEGRAM_CHAT_ID` | The SAME numeric private-chat ID already configured in GitHub |
+| `OWNER_TELEGRAM_USER_ID` | Optional: your positive personal user ID, matching the GitHub secret, to allow either of you to review in the group |
+| `LEO_TELEGRAM_CHAT_ID` | The SAME review chat ID configured in GitHub: Leo's private ID or a negative group ID |
 
 Add these as **secrets**:
 
@@ -131,6 +133,15 @@ python3 -c 'import secrets; print(secrets.token_urlsafe(32))'
 
 Keep those values private. You will copy the two shared secrets into GitHub in the
 next step. Cloudflare does not need `TELEGRAM_BOT_TOKEN` or `GEMINI_API_KEY`.
+
+To move existing private reviews to a group with you and Leo, follow
+[GROUP_REVIEW.md](GROUP_REVIEW.md). Changing only the chat secret is insufficient:
+the Python bot and Worker must both support groups, and the explicit move must
+retire old prompts while keeping publication history. The `/review_group_id@YourBotUsername`
+setup command lets Leo discover the group's numeric ID in Worker logs without
+temporarily removing the webhook or using another bot. It never changes routing.
+With the matching `OWNER_TELEGRAM_USER_ID` setting, you can also use that command.
+See [TWO_REVIEWERS.md](TWO_REVIEWERS.md) for the latest two-person review update.
 
 Add a Worker **Cron Trigger** using the expression `* * * * *`. This is the
 one-minute recovery/daily check, not a constantly billed server. New cron settings

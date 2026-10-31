@@ -14,7 +14,12 @@ At or after 09:07 Bali time (01:07 UTC), generate tomorrow's daylight report onc
 using the existing Surfline integration and Phase 2 recommendations in the simple
 grouped format. Poll Telegram
 every five minutes; GitHub scheduling can be delayed, so this is not a latency SLA.
-No draft is generated until the configured Leo has sent `/start` in private.
+No draft is generated until an allowed reviewer has sent `/start` in the review chat.
+That can be Leo's private conversation or a group with you and Leo. For a group,
+set optional `OWNER_TELEGRAM_USER_ID` in GitHub and Cloudflare to allow either of
+you to approve or request changes. One person's approval is sufficient. If that
+setting is absent, only Leo can review. See [GROUP_REVIEW.md](GROUP_REVIEW.md) for
+group setup and the explicit migration that safely retires private-chat prompts.
 
 Each draft delivery contains only the report parts followed by the final approval
 prompt. No separate detailed analysis or Surfline data summary is generated or sent.
@@ -30,10 +35,17 @@ Leo uses Telegram **Reply**:
   saved forecast, draft and feedback and returns the revised report. Each revision
   gets a new report and final prompt and requires fresh approval. The source
   snapshot remains saved internally; no additional review-note messages are sent.
-* Wrong users, groups, forwards, edited messages, stale prompt replies and unrelated
+* Wrong users, other chats, anonymous admins, forwards, edited messages, stale prompt replies and unrelated
   text are ignored. Usernames are never identity credentials. No unthreaded approvals.
 * Reports expire at the start of their forecast date in Bali. Late approvals cannot
   publish yesterday's next-day report. A failure never substitutes invented data.
+
+Each accepted correction is attributed and saved in the dated report's
+`feedback_log`. If both people send feedback before a run, their latest pending
+instructions are combined; a person's newer message replaces only their own
+pending instruction. Earlier messages remain in the log. Feedback containing the whole word `remember` also becomes a standing instruction
+for future reports. New days use fresh Surfline data. See
+[REMEMBER_FEEDBACK.md](REMEMBER_FEEDBACK.md) and [TWO_REVIEWERS.md](TWO_REVIEWERS.md).
 
 ### Manual testing, including a pending review
 
@@ -41,14 +53,15 @@ Start a **new** **Reviewed next-day surf report** run from `main` and tick
 **Send report again for testing (fresh approval required)**. The input is still
 named `resend_published` for compatibility and defaults to **false**. Ordinary
 manual runs, schedules and automatic Worker dispatches do not repeat completed
-private reviews or reopen published reports. No Worker change is required.
+reviews or reopen published reports. The report-only resend does not require a
+Worker change; switching to a group does require the matching Worker group support.
 The CLI accepts `--resend-published` only in a GitHub `workflow_dispatch` run with
 a numeric `GITHUB_RUN_ID`; the workflow passes it only for an explicitly checked input.
 
 For a published next-day report, fetch a fresh Surfline forecast and start a new
 version. For a report awaiting review, reuse its saved forecast: an unedited older
 draft adopts the current deterministic format; existing reviewer-corrected text and
-feedback are retained. Send the whole report privately, followed by a new final
+feedback are retained. Send the whole report to the review chat, followed by a new final
 prompt. Old prompts cannot approve this version. The prompt warns when exact
 `correct` will deliberately post another report for an already published date.
 
@@ -60,12 +73,14 @@ another test; choose **Run workflow** for a new test. Pending delivery, revision
 publication or uncertain-send work is never silently discarded. Do not clear state
 or delivery IDs to test again. `/dryrun` remains a preview that cannot be approved.
 
-`/status` and `/dryrun` work as regular private commands from the configured
+`/status` and `/dryrun` work as commands from the configured
 reviewer. `/status` returns saved status without private feedback text. `/dryrun`
 fetches a fresh deterministic next-day preview without creating a report/version,
 prompt or approval. A preview cannot be approved. A command-only run does not open
 a daily approval cycle, although existing pending work and the independent daily
-schedule continue. These private responses are persisted in `outbox` before sending.
+schedule continue. These responses are persisted in `outbox` before sending and
+are visible in the configured review chat. In a group, address commands as
+`/status@YourBotUsername` and `/dryrun@YourBotUsername`.
 
 Reply `note: Your observation change` on the latest real final prompt to append an
 attributed reviewer note without Gemini. All existing facts remain, the version
@@ -150,8 +165,11 @@ feedback ending in `change` on its current prompt can replace the pending feedba
    any remote pushes require approval and have not been performed here.
 3. Set repository Actions secrets:
    * `TELEGRAM_BOT_TOKEN`: the bot's token.
-   * `LEO_TELEGRAM_USER_ID` and `LEO_TELEGRAM_CHAT_ID`: Leo's verified positive numeric
-     ID, the same number for his private chat. Confirm with Leo through a trusted
+   * `LEO_TELEGRAM_USER_ID`: Leo's verified positive numeric user ID.
+     Optional `OWNER_TELEGRAM_USER_ID`: your positive numeric personal ID to allow
+     either of you to review in the configured group. Configure it in Cloudflare too.
+     `LEO_TELEGRAM_CHAT_ID`: the same number for his private chat, or the negative
+     ID of your review group. Keep the publication channel separate. Confirm through a trusted
      route and the bot's incoming `/start` metadata; do not infer from
      `@@Leonardosinaga`, auto-enroll the first sender, or use a third-party ID bot.
    * `TELEGRAM_CHANNEL_ID`: the verified negative numeric ID of graceloveyou.
@@ -160,9 +178,10 @@ feedback ending in `change` on its current prompt can replace the pending feedba
 4. Set Actions variable `GEMINI_MODEL` to exactly `gemini-3.5-flash-lite` (without
    quotes). The workflow sets `LLM_PROVIDER=gemini`. No model is silently selected
    or substituted, and there is no automatic fallback to paid OpenAI calls.
-5. Leo must open this bot's private conversation and send `/start`. Bots cannot
-   initiate private conversations from a username alone. If Leo already started
-   the bot long ago, ask him to send `/start` again for the new workflow.
+5. An allowed reviewer must send `/start` in the configured review chat. In a group, add the bot
+   first and send `/start@YourBotUsername`. Bots cannot initiate private conversations
+   from a username alone. If moving an existing installation, use the explicit
+   move procedure in [GROUP_REVIEW.md](GROUP_REVIEW.md) before starting in the new chat.
 6. Use this as the bot's **only** update consumer. Remove any webhook through the
    Telegram API before enabling polling; the bot refuses to run if one is present.
    Do not run another poller with this token. Telegram retains updates only for a
@@ -210,7 +229,11 @@ If you can establish that no message was delivered, clear the intent without
 adding an ID. Commit/push only the verified correction, then re-enable. If uncertain,
 leave it halted; never delete publication history or blindly rerun sends. Never change
 report parts after approval. Changing Leo/destination IDs also stops the workflow
-until the stored `binding` is deliberately reconciled by an operator.
+until the stored `binding` is deliberately reconciled by an operator. To change only
+the review chat, use the manual **Move review to the configured chat** input rather
+than editing state. This preserves publication history, requires a new `/start`,
+and sends fresh prompts that are bound to the new chat. It refuses uncertain sends,
+pending channel publication and unsent notices from the old chat.
 
 ## Local verification
 
@@ -290,8 +313,8 @@ not been tested by the offline tests.
 The optional OpenAI adapter remains available for local use by explicitly setting
 `LLM_PROVIDER=openai`, `OPENAI_API_KEY` and `OPENAI_MODEL`; the shipped workflow
 selects Gemini only. The existing state format needs no reset; optional outbox
-entries are added automatically. This provider
-switch does not implement the previously discussed cross-report lesson memory.
+entries are added automatically. Standing feedback memory is implemented separately; see
+[REMEMBER_FEEDBACK.md](REMEMBER_FEEDBACK.md).
 
 ## Green run but no Telegram reply
 

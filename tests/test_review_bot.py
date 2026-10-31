@@ -743,7 +743,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(json.dumps(self.report, sort_keys=True), before)
         self.assertEqual(len(self.bot.s['reports']), 1)
         preview = self.bot.s['outbox']['dryrun:5']
-        self.assertIn('PRIVATE PREVIEW ONLY', preview['parts'][0])
+        self.assertIn('REVIEW PREVIEW ONLY', preview['parts'][0])
         outcome = self.bot.process(self.update(reply_to_message={'message_id': preview['notice_ids'][0]}), TODAY)
         self.assertEqual(outcome, 'ignored_stale_prompt')
         self.assertFalse(self.published())
@@ -858,7 +858,7 @@ class ReviewTests(unittest.TestCase):
         self.bot.consume_updates([self.update('/dryrun', reply_to_message={})], TODAY)
         self.bot.advance(TODAY)
         self.assertEqual(self.bot.s['outbox']['dryrun:5']['status'], 'sent')
-        self.assertIn('Private preview failed', self.bot.s['outbox']['dryrun:5']['parts'][0])
+        self.assertIn('Review preview failed', self.bot.s['outbox']['dryrun:5']['parts'][0])
         self.assertEqual(json.dumps(self.report, sort_keys=True), original)
         self.assertFalse(self.published())
 
@@ -1295,6 +1295,488 @@ class GeminiRevisionTests(unittest.TestCase):
             with self.assertRaisesRegex(SafeError, 'No fallback'):
                 revise(self.report, 'fix change')
         self.post.assert_not_called()
+
+
+class GroupReviewTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.path = Path(self.tmp.name) / 'state.json'
+        self.original = dict(date=TARGET, forecast={}, parts=[TARGET + ' report'], revision=3,
+                             status='review', draft_ids=[101], prompt_ids=[102],
+                             feedback='Earlier saved correction change')
+        self.path.write_text(json.dumps(dict(version=1, reports={TARGET: self.original},
+                                            offset=90, started=True, binding=[42, 42, -100])))
+        self.store = Store(self.path)
+        self.tg = Mock()
+        self.next_id = 100
+        def call(method, **kwargs):
+            self.assertEqual(method, 'sendMessage')
+            self.next_id += 1
+            return {'message_id': self.next_id}
+        self.tg.call.side_effect = call
+        self.llm = Mock(return_value=[TARGET + ' corrected report'])
+        self.sleep = patch('review_bot.time.sleep').start()
+        self.addCleanup(patch.stopall)
+
+    def move(self):
+        return Review(self.store, self.tg, 42, -200, -100, self.llm,
+                      move_chat=True, bot_username='surf_test_bot')
+
+    def message(self, text, reply_id=None, **changes):
+        message = {'from': {'id': 42}, 'chat': {'id': -200, 'type': 'supergroup'}, 'text': text}
+        if reply_id is not None:
+            message['reply_to_message'] = {'message_id': reply_id}
+        message.update(changes)
+        return {'update_id': 95, 'message': message}
+
+    def start(self, bot):
+        self.assertEqual(bot.process(self.message('/start@surf_test_bot'), TODAY), 'started')
+        self.store.save()
+        bot.advance(TODAY)
+        return bot.s['reports'][TARGET]
+
+    def test_move_is_explicit_and_preserves_history_before_any_group_send(self):
+        before = self.path.read_bytes()
+        with self.assertRaisesRegex(ValueError, 'Identity/destination changed'):
+            Review(self.store, self.tg, 42, -200, -100)
+        self.assertEqual(self.path.read_bytes(), before)
+        bot = self.move()
+        saved = Store(self.path).data
+        report = saved['reports'][TARGET]
+        self.assertEqual(saved['binding'], [42, -200, -100])
+        self.assertEqual(saved['offset'], 90)
+        self.assertFalse(saved['started'])
+        self.assertEqual(report['feedback'], self.original['feedback'])
+        self.assertEqual(report['revision'], 4)
+        self.assertEqual(report['draft_ids'] + report['prompt_ids'], [])
+        self.assertEqual(report['review_history'][0]['prompt_ids'], [102])
+        self.assertEqual(report['review_history'][0]['review_chat_id'], 42)
+        bot.advance(TODAY)
+        self.tg.call.assert_not_called()
+        self.llm.assert_not_called()
+
+    def test_only_leo_can_start_correct_or_revise_in_the_configured_group(self):
+        bot = self.move()
+        report = self.start(bot)
+        self.assertEqual(report['status'], 'review')
+        self.assertEqual([c.kwargs['chat_id'] for c in self.tg.call.call_args_list], [-200, -200])
+        prompt = report['prompt_ids'][-1]
+        for changes in ({'from': {'id': 99}}, {'from': {'id': 42, 'is_bot': True}},
+                        {'chat': {'id': -201, 'type': 'supergroup'}},
+                        {'chat': {'id': 42, 'type': 'private'}},
+                        {'chat': {'id': -200, 'type': 'channel'}},
+                        {'sender_chat': {'id': -200}}, {'forward_origin': {'type': 'user'}}):
+            for text in ('correct', 'fix tide change', '/start@surf_test_bot'):
+                self.assertEqual(bot.process(self.message(text, prompt, **changes), TODAY),
+                                 'ignored_unauthorized')
+        self.assertEqual(report['status'], 'review')
+        self.llm.assert_not_called()
+        self.assertEqual(bot.process(self.message('correct', prompt), TODAY), 'approved')
+        self.assertEqual(report['approval']['chat_id'], -200)
+        self.store.save()
+        bot.advance(TODAY)
+        restarted = Review(Store(self.path), self.tg, 42, -200, -100, self.llm)
+        restarted.advance(TODAY)
+        self.assertEqual([c.kwargs['text'] for c in self.tg.call.call_args_list
+                          if c.kwargs['chat_id'] == -100], self.original['parts'])
+
+    def test_group_feedback_loops_and_needs_a_fresh_exact_approval(self):
+        bot = self.move()
+        report = self.start(bot)
+        old_prompt = report['prompt_ids'][-1]
+        self.assertEqual(bot.process(self.message('remove late window change', old_prompt), TODAY),
+                         'revision_pending')
+        bot.advance(TODAY)
+        self.llm.assert_called_once()
+        self.assertEqual(report['revision'], 5)
+        self.assertEqual(report['parts'], [TARGET + ' corrected report'])
+        for text, prompt in (('correct', old_prompt), ('Correct', report['prompt_ids'][-1]),
+                             (' correct', report['prompt_ids'][-1])):
+            bot.process(self.message(text, prompt), TODAY)
+            self.assertEqual(report['status'], 'review')
+        self.assertTrue(all(c.kwargs['chat_id'] == -200 for c in self.tg.call.call_args_list))
+        self.assertEqual(len(self.tg.call.call_args_list), 4)  # Report + prompt, twice.
+
+    def test_old_private_prompt_with_same_numeric_id_cannot_approve_group_report(self):
+        bot = self.move()
+        report = self.start(bot)
+        self.assertEqual(report['prompt_ids'], self.original['prompt_ids'])  # IDs are per chat.
+        outcome = bot.process(self.message('correct', 102, chat={'id': 42, 'type': 'private'}), TODAY)
+        self.assertEqual(outcome, 'ignored_unauthorized')
+        self.assertEqual(report['status'], 'review')
+
+    def test_published_history_is_not_reopened_or_matched_in_the_new_chat(self):
+        published = dict(self.original, date=TODAY, status='published', publish_ids=[103])
+        self.store.data['reports'][TODAY] = published
+        bot = self.move()
+        self.assertEqual(bot.s['reports'][TODAY]['publish_ids'], [103])
+        self.assertEqual(bot.s['reports'][TODAY]['review_chat_id'], 42)
+        self.assertEqual(bot.s['reports'][TODAY]['status'], 'published')
+        report = self.start(bot)
+        # A historical DM with this ID must not intercept approval of a group prompt.
+        self.assertEqual(bot.process(self.message('correct', report['prompt_ids'][-1]), TODAY), 'approved')
+        bot.advance(TODAY)
+        self.assertEqual(sum(c.kwargs['chat_id'] == -100 for c in self.tg.call.call_args_list), 1)
+
+    def test_retry_of_move_does_not_create_another_revision_or_reset_start(self):
+        bot = self.move()
+        report = self.start(bot)
+        before = self.path.read_bytes()
+        restarted = Review(Store(self.path), self.tg, 42, -200, -100, self.llm, move_chat=True)
+        restarted.advance(TODAY)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.assertEqual(report['revision'], 4)
+        self.assertEqual(len(self.tg.call.call_args_list), 2)
+
+    def test_pending_feedback_survives_move_and_waits_for_group_start(self):
+        self.store.data['reports'][TARGET]['status'] = 'revision_pending'
+        bot = self.move()
+        bot.advance(TODAY)
+        self.llm.assert_not_called()
+        self.start(bot)
+        self.llm.assert_called_once()
+        self.assertEqual(self.llm.call_args.args[1], self.original['feedback'])
+        self.assertEqual(bot.s['reports'][TARGET]['status'], 'review')
+        self.assertTrue(all(c.kwargs['chat_id'] == -200 for c in self.tg.call.call_args_list))
+
+    def test_move_refuses_uncertain_sends_publication_and_pending_notices(self):
+        for change in ('uncertain', 'approved', 'partial_publication', 'notice', 'notice_uncertain'):
+            with self.subTest(change=change):
+                state = json.loads(self.path.read_text())
+                if change == 'uncertain':
+                    state['reports'][TARGET]['intent'] = {'kind': 'draft'}
+                elif change == 'approved':
+                    state['reports'][TARGET]['status'] = 'approved'
+                elif change == 'partial_publication':
+                    state['reports'][TARGET]['publish_ids'] = [103]
+                else:
+                    state['outbox'] = {'old': dict(kind='notice', status='pending', parts=['notice'])}
+                    if change == 'notice_uncertain':
+                        state['outbox']['old']['intent'] = {'kind': 'notice'}
+                self.store.data = state
+                before = json.dumps(state, sort_keys=True)
+                with self.assertRaises(RuntimeError):
+                    self.move()
+                self.assertEqual(json.dumps(self.store.data, sort_keys=True), before)
+        self.tg.call.assert_not_called()
+
+    def test_move_cannot_change_reviewer_or_public_channel(self):
+        for user, group, channel in ((43, -200, -100), (42, -200, -101)):
+            with self.assertRaisesRegex(SafeError, 'cannot change Leo'):
+                Review(self.store, self.tg, user, group, channel, move_chat=True)
+        for user, group, channel in ((42, -100, -100), (42, 99, -100), (42, 0, -100)):
+            with self.assertRaises(ValueError):
+                Review(self.store, self.tg, user, group, channel, move_chat=True)
+        self.tg.call.assert_not_called()
+
+    def test_groups_supergroups_and_addressed_commands_need_no_privacy_change(self):
+        bot = self.move()
+        for chat_type in ('group', 'supergroup'):
+            bot.s['started'] = False
+            self.assertEqual(bot.process(self.message('/start@other_bot', chat={'id': -200, 'type': chat_type}),
+                                         TODAY), 'ignored_unthreaded')
+            self.assertFalse(bot.s['started'])
+            self.assertEqual(bot.process(self.message('/start@SuRf_TeSt_BoT', chat={'id': -200, 'type': chat_type}),
+                                         TODAY), 'started')
+            self.assertEqual(bot.process(self.message('/status@surf_test_bot', chat={'id': -200, 'type': chat_type}),
+                                         TODAY), 'status_requested')
+
+    def test_group_approval_chat_binding_cannot_be_tampered(self):
+        bot = self.move()
+        report = self.start(bot)
+        bot.process(self.message('correct', report['prompt_ids'][-1]), TODAY)
+        report['approval']['chat_id'] = 42
+        with self.assertRaisesRegex(ValueError, 'Approval does not match draft'):
+            bot.advance(TODAY)
+        self.assertFalse(any(c.kwargs['chat_id'] == -100 for c in self.tg.call.call_args_list))
+
+    def test_move_cli_requires_a_manual_run_before_accessing_state(self):
+        for event, run_id in (('schedule', '12'), ('workflow_dispatch', ''), ('workflow_dispatch', 'bad')):
+            with patch('sys.argv', ['review_bot.py', '--run', '--persist-git', '--move-review-chat']), \
+                    patch.dict('os.environ', {'GITHUB_EVENT_NAME': event, 'GITHUB_RUN_ID': run_id}, clear=True), \
+                    patch('review_bot.Store') as store:
+                with self.assertRaisesRegex(SafeError, 'explicit GitHub manual workflow run'):
+                    main()
+                store.assert_not_called()
+
+    def test_published_report_moves_without_resending_and_manual_group_test_is_explicit(self):
+        self.store.data['reports'][TARGET].update(status='published', publish_ids=[105])
+        bot = self.move()
+        self.start(bot)
+        bot.advance(TODAY)
+        self.tg.call.assert_not_called()
+        bot.forecast = Mock(return_value=Forecast(TARGET, 'Test spot', {}, [TARGET + ' fresh report']))
+        self.assertTrue(bot.reopen_published(TARGET, TODAY, '12345'))
+        bot.advance(TODAY)
+        report = bot.s['reports'][TARGET]
+        self.assertEqual(report['publication_history'][0]['publish_ids'], [105])
+        self.assertEqual(report['review_chat_id'], -200)
+        self.assertTrue(all(c.kwargs['chat_id'] == -200 for c in self.tg.call.call_args_list))
+        self.assertIn('already published', self.tg.call.call_args.kwargs['text'])
+        self.assertFalse(bot.reopen_published(TARGET, TODAY, '12345'))
+
+    def test_move_cli_verifies_group_and_bot_then_consumes_start_before_delivery(self):
+        original_send = self.tg.call.side_effect
+        def call(method, **kwargs):
+            if method == 'getChat':
+                self.assertEqual(kwargs, {'chat_id': -200})
+                return {'id': -200, 'type': 'supergroup'}
+            if method == 'getMe':
+                return {'username': 'surf_test_bot'}
+            if method == 'getWebhookInfo':
+                return {'url': ''}
+            if method == 'getUpdates':
+                return [self.message('/start@surf_test_bot')]
+            return original_send(method, **kwargs)
+        self.tg.call.side_effect = call
+        with patch('sys.argv', ['review_bot.py', '--run', '--persist-git', '--move-review-chat']), \
+                patch('review_bot.Store', return_value=self.store), \
+                patch('review_bot.Telegram', return_value=self.tg), \
+                patch('review_bot.datetime', wraps=datetime) as clock, \
+                patch.dict('os.environ', {'TELEGRAM_BOT_TOKEN': 'SECRET', 'LEO_TELEGRAM_USER_ID': '42',
+                                         'LEO_TELEGRAM_CHAT_ID': '-200', 'TELEGRAM_CHANNEL_ID': '-100',
+                                         'SURF_REVIEW_TRANSPORT': 'poll', 'GITHUB_EVENT_NAME': 'workflow_dispatch',
+                                         'GITHUB_RUN_ID': '12345'}, clear=True):
+            clock.now.return_value = datetime(2026, 10, 29, 12, tzinfo=BALI)
+            main()
+        saved = Store(self.path).data
+        self.assertTrue(saved['started'])
+        self.assertEqual(saved['reports'][TARGET]['status'], 'review')
+        self.assertEqual(saved['reports'][TARGET]['review_chat_id'], -200)
+        self.assertEqual([c.kwargs['chat_id'] for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage'],
+                         [-200, -200])
+
+    def test_move_cli_rejects_channel_destination_before_modifying_state(self):
+        before = self.path.read_bytes()
+        self.tg.call.return_value = {'id': -200, 'type': 'channel'}
+        self.tg.call.side_effect = None
+        with patch('sys.argv', ['review_bot.py', '--run', '--persist-git', '--move-review-chat']), \
+                patch('review_bot.Store', return_value=self.store), \
+                patch('review_bot.Telegram', return_value=self.tg), \
+                patch.dict('os.environ', {'TELEGRAM_BOT_TOKEN': 'SECRET', 'LEO_TELEGRAM_USER_ID': '42',
+                                         'LEO_TELEGRAM_CHAT_ID': '-200', 'TELEGRAM_CHANNEL_ID': '-100',
+                                         'GITHUB_EVENT_NAME': 'workflow_dispatch', 'GITHUB_RUN_ID': '12345'}, clear=True):
+            with self.assertRaisesRegex(SafeError, 'must identify the review group'):
+                main()
+        self.assertEqual(self.path.read_bytes(), before)
+        self.tg.call.assert_called_once_with('getChat', chat_id=-200)
+
+    def test_new_install_accepts_configured_group_without_a_chat_move(self):
+        self.store.data = dict(version=1, reports={}, offset=0, started=False)
+        bot = Review(self.store, self.tg, 42, -200, -100, bot_username='surf_test_bot')
+        self.assertEqual(bot.s['binding'], [42, -200, -100])
+        self.assertEqual(bot.process(self.message('/start@surf_test_bot'), TODAY), 'started')
+        self.tg.call.assert_not_called()
+
+
+class TwoReviewerTests(unittest.TestCase):
+    message = GroupReviewTests.message
+    start = GroupReviewTests.start
+
+    def setUp(self):
+        GroupReviewTests.setUp(self)
+        self.bot = Review(self.store, self.tg, 42, -200, -100, self.llm,
+                          move_chat=True, bot_username='surf_test_bot', owner=99)
+        self.report = self.start(self.bot)
+
+    def owner_update(self, text, update_id=96):
+        update = self.message(text, self.report['prompt_ids'][-1], **{'from': {'id': 99}})
+        update['update_id'] = update_id
+        return update
+
+    def sends_to_channel(self):
+        return [call for call in self.tg.call.call_args_list
+                if call.args[0] == 'sendMessage' and call.kwargs['chat_id'] == -100]
+
+    def test_owner_approval_records_actual_sender_and_publishes_once(self):
+        self.assertEqual(self.bot.process(self.owner_update('correct'), TODAY), 'approved')
+        self.assertEqual(self.report['approval']['user_id'], 99)
+        self.store.save()
+        restarted = Review(Store(self.path), self.tg, 42, -200, -100, self.llm, owner=99)
+        restarted.advance(TODAY)
+        restarted.process(self.owner_update('correct'), TODAY)
+        restarted.advance(TODAY)
+        self.assertEqual([call.kwargs['text'] for call in self.sends_to_channel()], self.original['parts'])
+
+    def test_leo_can_approve_with_both_reviewers_enabled(self):
+        self.assertIn('Either of you:', self.tg.call.call_args.kwargs['text'])
+        self.assertEqual(self.bot.process(self.message('correct', self.report['prompt_ids'][-1]), TODAY), 'approved')
+        self.assertEqual(self.report['approval']['user_id'], 42)
+        self.bot.advance(TODAY)
+        self.assertEqual(len(self.sends_to_channel()), 1)
+
+    def test_owner_can_revise_and_leo_can_approve_the_new_prompt(self):
+        old_prompt = self.report['prompt_ids'][-1]
+        self.bot.consume_updates([self.owner_update('remove late window change')], TODAY)
+        saved = Store(self.path).data['reports'][TARGET]
+        self.assertEqual(saved['feedback_log'][0], {
+            'user_id': 99, 'chat_id': -200, 'update_id': 96,
+            'revision': 4, 'text': 'remove late window change'})
+        self.bot.advance(TODAY)
+        self.llm.assert_called_once()
+        self.assertEqual(self.llm.call_args.args[1], 'remove late window change')
+        self.assertNotIn('pending_feedback', self.report)
+        self.assertEqual(self.bot.process(self.message('correct', old_prompt), TODAY), 'ignored_stale_prompt')
+        self.assertEqual(self.bot.process(self.message('correct', self.report['prompt_ids'][-1]), TODAY), 'approved')
+        self.bot.advance(TODAY)
+        self.assertEqual(len(self.sends_to_channel()), 1)
+
+    def test_other_members_bots_forwards_anonymous_admins_and_wrong_chats_are_ignored(self):
+        prompt = self.report['prompt_ids'][-1]
+        for override in ({'from': {'id': 100}}, {'from': {'id': 99, 'is_bot': True}},
+                         {'chat': {'id': -201, 'type': 'supergroup'}},
+                         {'chat': {'id': 99, 'type': 'private'}}, {'chat': {'id': -200, 'type': 'channel'}},
+                         {'sender_chat': {'id': -200}}, {'forward_origin': {'type': 'user'}}):
+            for text in ('correct', 'remove late window change'):
+                self.assertEqual(self.bot.process(self.message(text, prompt, **override), TODAY),
+                                 'ignored_unauthorized')
+        self.assertEqual(self.report['status'], 'review')
+        self.assertNotIn('feedback_log', self.report)
+        self.llm.assert_not_called()
+        self.assertFalse(self.sends_to_channel())
+
+    def test_both_pending_corrections_reach_one_revision_and_survive_restart(self):
+        leo = self.message('remove early window change', self.report['prompt_ids'][-1])
+        leo['update_id'] = 97
+        self.bot.consume_updates([self.owner_update('remove late window change'), leo], TODAY)
+        restarted = Review(Store(self.path), self.tg, 42, -200, -100, self.llm, owner=99)
+        restarted.advance(TODAY)
+        feedback = self.llm.call_args.args[1]
+        self.assertIn('Group owner: remove late window change', feedback)
+        self.assertIn('Leo: remove early window change', feedback)
+        self.assertEqual(len(Store(self.path).data['reports'][TARGET]['feedback_log']), 2)
+        self.assertEqual(len(self.tg.call.call_args_list), 4)  # Two report/prompt pairs only.
+        self.assertFalse(self.sends_to_channel())
+
+    def test_latest_pending_correction_per_person_replaces_only_their_own_text(self):
+        leo = self.message('keep the coach restriction change', self.report['prompt_ids'][-1])
+        leo['update_id'] = 97
+        self.bot.consume_updates([self.owner_update('remove 18:00 change'), leo,
+                                  self.owner_update('remove 17:00 change', 98)], TODAY)
+        self.assertNotIn('18:00', self.report['feedback'])
+        self.assertIn('17:00', self.report['feedback'])
+        self.assertIn('coach restriction', self.report['feedback'])
+        self.assertEqual([item['user_id'] for item in self.report['feedback_log']], [99, 42, 99])
+        self.assertIn('18:00', self.report['feedback_log'][0]['text'])
+
+    def test_duplicate_update_does_not_duplicate_correction_history(self):
+        update = self.owner_update('keep the coach restriction change')
+        self.bot.consume_updates([update, update], TODAY)
+        self.bot.consume_updates([update], TODAY)
+        self.assertEqual(len(self.report['feedback_log']), 1)
+
+    def test_both_note_only_edits_remain_free_of_llm_calls(self):
+        leo = self.message('note: Coach to assess currents change', self.report['prompt_ids'][-1])
+        leo['update_id'] = 97
+        self.bot.consume_updates([self.owner_update('note: Meet at the beach change'), leo], TODAY)
+        self.bot.advance(TODAY)
+        self.llm.assert_not_called()
+        self.assertIn('Meet at the beach', '\n'.join(self.report['parts']))
+        self.assertIn('Coach to assess currents', '\n'.join(self.report['parts']))
+        self.assertEqual(self.report['status'], 'review')
+        self.assertEqual(len(self.report['feedback_log']), 2)
+
+    def test_old_leo_pending_feedback_is_retained_when_owner_adds_a_correction(self):
+        self.report.update(status='revision_pending', feedback='legacy saved correction change')
+        self.bot.process(self.owner_update('remove late window change'), TODAY)
+        self.assertIn('Leo: legacy saved correction change', self.report['feedback'])
+        self.assertIn('Group owner: remove late window change', self.report['feedback'])
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['status'], 'review')
+
+    def test_removed_owner_cannot_complete_a_saved_approval(self):
+        self.bot.process(self.owner_update('correct'), TODAY)
+        self.store.save()
+        restarted = Review(Store(self.path), self.tg, 42, -200, -100, self.llm)
+        with self.assertRaisesRegex(ValueError, 'Approval does not match draft'):
+            restarted.advance(TODAY)
+        self.assertFalse(self.sends_to_channel())
+
+    def test_owner_must_have_a_valid_personal_id_and_both_reviewers_need_a_group(self):
+        for owner in (0, -100, True, 99.5, '99', 2**52 + 1):
+            with self.assertRaisesRegex(SafeError, 'positive numeric personal user ID'):
+                Review(self.store, self.tg, 42, -200, -100, owner=owner)
+        with self.assertRaisesRegex(SafeError, 'Two reviewers require'):
+            Review(self.store, self.tg, 42, 42, -100, owner=99)
+
+    def test_owner_can_use_addressed_group_commands(self):
+        self.bot.s['started'] = False
+        for text, expected in (('/start@surf_test_bot', 'started'),
+                               ('/status@surf_test_bot', 'status_requested'),
+                               ('/dryrun@surf_test_bot', 'dryrun_requested')):
+            self.assertEqual(self.bot.process(self.owner_update(text), TODAY), expected)
+        self.assertTrue(self.bot.s['started'])
+        self.assertEqual(self.report['status'], 'review')
+        self.assertFalse(self.sends_to_channel())
+
+    def test_manual_resend_and_later_group_move_preserve_dated_feedback_log(self):
+        self.bot.process(self.owner_update('remove late window change'), TODAY)
+        self.bot.advance(TODAY)
+        self.bot.reopen_published(TARGET, TODAY, '12345')
+        log = self.bot.s['reports'][TARGET]['feedback_log']
+        self.assertEqual(log[0]['user_id'], 99)
+        moved = Review(self.store, self.tg, 42, -300, -100, self.llm, move_chat=True, owner=99)
+        self.assertEqual(moved.s['reports'][TARGET]['feedback_log'], log)
+        self.assertEqual(moved.s['reports'][TARGET]['review_chat_id'], -300)
+
+    def test_new_forecast_does_not_automatically_reuse_old_date_corrections(self):
+        self.bot.process(self.owner_update('wind is 12345 change'), TODAY)
+        self.bot.advance(TODAY)
+        self.bot.advance(TARGET)  # Prior forecast expires at the start of its date.
+        next_date = '2026-10-31'
+        snapshot = Forecast(next_date, 'Test spot', {'fresh': True}, [next_date + ' fresh report'])
+        self.bot.forecast = Mock(return_value=snapshot)
+        with patch('review_bot.build_blocks', return_value=[next_date + ' fresh report']) as builder:
+            self.bot.generate_next_day(next_date)
+        builder.assert_called_once_with({'fresh': True}, next_date, 'Test spot')
+        new = self.bot.s['reports'][next_date]
+        self.assertNotIn('feedback', new)
+        self.assertNotIn('feedback_log', new)
+        self.assertNotIn('12345', '\n'.join(new['parts']))
+        self.assertIn('12345', self.bot.s['reports'][TARGET]['feedback_log'][0]['text'])
+
+    def test_two_approvals_in_the_same_batch_publish_only_once(self):
+        leo = self.message('correct', self.report['prompt_ids'][-1])
+        leo['update_id'] = 97
+        self.bot.consume_updates([self.owner_update('correct'), leo], TODAY)
+        self.assertEqual(self.report['approval']['user_id'], 99)
+        self.bot.advance(TODAY)
+        self.assertEqual(len(self.sends_to_channel()), 1)
+
+    def test_feedback_before_an_approval_in_one_batch_requires_a_new_prompt(self):
+        leo = self.message('correct', self.report['prompt_ids'][-1])
+        leo['update_id'] = 97
+        self.bot.consume_updates([self.owner_update('remove late window change'), leo], TODAY)
+        self.assertEqual(self.report['status'], 'revision_pending')
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['status'], 'review')
+        self.assertFalse(self.sends_to_channel())
+
+    def test_workflow_reads_owner_setting_and_publishes_their_exact_approval(self):
+        original_send = self.tg.call.side_effect
+        def call(method, **kwargs):
+            if method == 'getChat':
+                return {'id': -200, 'type': 'supergroup'}
+            if method == 'getMe':
+                return {'username': 'surf_test_bot'}
+            if method == 'getWebhookInfo':
+                return {'url': ''}
+            if method == 'getUpdates':
+                return [self.owner_update('correct')]
+            return original_send(method, **kwargs)
+        self.tg.call.side_effect = call
+        with patch('sys.argv', ['review_bot.py', '--run', '--persist-git']), \
+                patch('review_bot.Store', return_value=self.store), \
+                patch('review_bot.Telegram', return_value=self.tg), \
+                patch('review_bot.datetime', wraps=datetime) as clock, \
+                patch.dict('os.environ', {'TELEGRAM_BOT_TOKEN': 'SECRET', 'LEO_TELEGRAM_USER_ID': '42',
+                                         'OWNER_TELEGRAM_USER_ID': '99', 'LEO_TELEGRAM_CHAT_ID': '-200',
+                                         'TELEGRAM_CHANNEL_ID': '-100', 'SURF_REVIEW_TRANSPORT': 'poll'}, clear=True):
+            clock.now.return_value = datetime(2026, 10, 29, 12, tzinfo=BALI)
+            main()
+        self.assertEqual(Store(self.path).data['reports'][TARGET]['approval']['user_id'], 99)
+        self.assertEqual(len(self.sends_to_channel()), 1)
 
 
 if __name__ == '__main__':
