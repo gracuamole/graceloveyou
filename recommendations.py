@@ -1,10 +1,49 @@
 """Pure rules for normalized surf-mcp forecasts; no network or posting."""
 import math
+import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 BALI = ZoneInfo('Asia/Makassar')
 TIERS = ('beginner', 'intermediate', 'advanced')
+REPORT_CAUTIONS = (
+    'High energy: strong currents possible.',
+    'Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.',
+    'Below 100 kJ: generally too flat for worthwhile surfing.',
+)
+INSIDE_CAUTION = 'Check actual inside waves: beginners at most 2 ft; intermediate inside-only at most 4 ft.'
+
+
+def forecast_date_label(target):
+    return datetime.strptime(target, '%Y-%m-%d').strftime('%d %B %Y').lstrip('0')
+
+
+def report_header(target, name):
+    return f'Forecast date: {forecast_date_label(target)}\n\n📍{name.upper()}'
+
+
+def report_bold_entities(text):
+    """Telegram entity offsets count UTF-16 units, including preceding emoji."""
+    headings = {'🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED', '⚠️ CAUTIONS'}
+    entities, offset = [], 0
+    for line in text.splitlines(keepends=True):
+        content = line.rstrip('\r\n')
+        if content.startswith(('Forecast date:', '📍')) or content in headings:
+            entities.append({'type': 'bold', 'offset': offset,
+                             'length': len(content.encode('utf-16-le')) // 2})
+        offset += len(line.encode('utf-16-le')) // 2
+    return entities
+
+
+def clean_report_text(text):
+    """Remove the retired report banner without changing surf/coach advice."""
+    for pattern in (r'\bWITA\b',
+                    r'\bSource:\s*Surfline(?:\s+via\s+surf-mcp)?\.?',
+                    r'\bCheck\s+conditions\s+locally[;,.]?\s+recommendations\s+are\s+not\s+safety\s+guarantees\.?'):
+        text = re.sub(pattern, '', text, flags=re.IGNORECASE)
+    text = re.sub(r'[ \t]*\|[ \t]*(?=\r?$)', '', text, flags=re.MULTILINE)
+    text = re.sub(r'[ \t]+\n', '\n', text)
+    return re.sub(r'\n{3,}', '\n\n', text).strip()
 
 
 def number(value):
@@ -50,12 +89,15 @@ def recommend(row, tide, tier):
                ('tide', tide is not None and tide['band'] != 'unknown'), ('rating', bool(rating))] if not ok]
     if missing:
         return {'status': 'unknown', 'break': 'unassessed', 'coach': tier == 'beginner',
+                'missing': missing,
                 'notes': ['Missing/invalid ' + ', '.join(missing) + '; check locally.']}
     notes, coach, area, status = [], False, 'inside/outside', 'suitable to consider'
+    inside_limit = None
     if tier == 'beginner':
         area = 'inside whitewater'
         if hi > 2 or energy > 600 or period > 12:
             status, coach = 'conditional', True
+            inside_limit = 2
             notes.append('Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access.')
         if tide['band'] == 'low':
             status, coach = 'conditional', True
@@ -65,6 +107,7 @@ def recommend(row, tide, tier):
     elif tier == 'intermediate':
         if hi > 4 or energy > 1000 or period > 14:
             area, status = 'inside only', 'conditional'
+            inside_limit = 4
             notes.append('Outside exceeds intermediate limits; check inside waves are at most 4 ft.')
         if tide['band'] != 'mid':
             status = 'conditional'
@@ -91,7 +134,8 @@ def recommend(row, tide, tier):
             status = 'conditional'
         notes.append('Low Surfline quality rating; manage expectations.')
     notes.append(f'Breaking surf forecast {lo:g}–{hi:g} ft; inside height is not separately forecast.')
-    return {'status': status, 'break': area, 'coach': coach, 'notes': notes}
+    return {'status': status, 'break': area, 'coach': coach,
+            'inside_limit_ft': inside_limit, 'notes': notes}
 
 
 def daylight_intervals(day):
@@ -116,22 +160,80 @@ def daylight_intervals(day):
     return result
 
 
+def brief_advice(interval, tier):
+    advice, row = interval['tiers'][tier], interval['row']
+    if advice['status'] == 'unknown':
+        return 'Not assessed (missing ' + ', '.join(advice['missing']) + ')'
+    if advice['status'] == 'not recommended':
+        return 'Not recommended (too flat)'
+    energy = row['energy']['nearshore']
+    period = max(s['period_s'] for s in row['swells'] if positive(s.get('period_s')))
+    reasons = []
+    if tier == 'beginner':
+        label = 'Inside break'
+        if row['surf_max_ft'] > 2:
+            reasons.append('larger sets')
+        if energy > 600:
+            reasons.append('high energy')
+        if period > 12:
+            reasons.append('long period')
+        if interval['tide']['band'] == 'low':
+            reasons.append('low tide')
+        if advice['coach']:
+            label += ', coach recommended'
+    elif tier == 'intermediate':
+        label = 'Inside break only' if advice['break'] == 'inside only' else ''
+        if row['surf_max_ft'] > 4:
+            reasons.append('larger sets')
+        if energy > 1000:
+            reasons.append('high energy')
+        if period > 14:
+            reasons.append('long period')
+        if interval['tide']['band'] != 'mid':
+            reasons.append('mid tide preferred')
+    else:
+        lo, hi = row['surf_min_ft'], row['surf_max_ft']
+        height = f'{hi:g}' if lo == hi else f'{lo:g}–{hi:g}'
+        label = f'Breaking waves {height} ft'
+    if row['wind']['speed_kts'] * 1.852 > 20:
+        reasons.append('strong wind')
+    if str(row['rating']['key']).upper() in ('VERY_POOR', 'POOR', 'POOR_TO_FAIR'):
+        reasons.append('low quality rating')
+    if 100 <= energy < 200:
+        reasons.append('weak surf')
+    if reasons:
+        label = (label or 'Conditional') + ' (' + ', '.join(reasons) + ')'
+    return label
+
+
+def tier_windows(intervals, tier):
+    # Merge adjacent intervals with identical displayed advice. Disjoint windows
+    # retain their endpoints and are joined with "and", never bridged over gaps.
+    runs = []
+    for interval in intervals:
+        label = brief_advice(interval, tier)
+        if runs and runs[-1]['end'] == interval['start'] and runs[-1]['label'] == label:
+            runs[-1]['end'] = interval['end']
+        else:
+            runs.append({'start': interval['start'], 'end': interval['end'], 'label': label})
+    grouped = {}
+    for run in runs:
+        start, end = (datetime.fromtimestamp(run[key], BALI) for key in ('start', 'end'))
+        grouped.setdefault(run['label'], []).append(f'{start:%H:%M}–{end:%H:%M}')
+    return [' and '.join(times) + (' — ' + label if label else '') for label, times in grouped.items()]
+
+
 def render_day(day, name):
-    blocks = [f'{name} | {day["date"]} | WITA\nSource: Surfline via surf-mcp. Check conditions locally; recommendations are not safety guarantees.']
-    for interval in daylight_intervals(day):
-        a, b = (datetime.fromtimestamp(interval[k], BALI) for k in ('start', 'end'))
-        row, tide = interval['row'], interval['tide']
-        wind = row.get('wind') or {}
-        energy = (row.get('energy') or {}).get('nearshore')
-        periods = [s.get('period_s') for s in row.get('swells', []) if positive(s.get('period_s'))]
-        speed = wind.get('speed_kts')
-        lo, hi = row.get('surf_min_ft'), row.get('surf_max_ft')
-        height = f'{lo:g}–{hi:g} ft' if positive(lo) and positive(hi) and lo <= hi else 'N/A'
-        text = [f'{a:%H:%M}–{b:%H:%M}', f'Breaking surf: {height}',
-                f'Energy: {energy if positive(energy) else "N/A"} kJ | Period: {max(periods) if periods else "N/A"} s',
-                f'Wind: {round(speed * 1.852, 1) if positive(speed) else "N/A"} km/h {wind.get("cardinal") or "?"} | Rating: {(row.get("rating") or {}).get("key") or "N/A"}',
-                (f'Tide: {tide["height_m"]:.2f} m, {tide["band"]} {tide["trend"]}; mid {tide["mid_m"]:.2f} m' if tide else 'Tide: N/A')]
-        for tier, advice in interval['tiers'].items():
-            text.append(f'{tier.title()}: {advice["status"]}; {advice["break"]}' + ('; COACH' if advice['coach'] else '') + '. ' + ' '.join(advice['notes']))
-        blocks.append('\n'.join(text))
+    intervals = daylight_intervals(day)
+    blocks = [report_header(day['date'], name)]
+    for tier, heading in zip(TIERS, ('🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED')):
+        blocks.append(heading + '\n' + '\n'.join(tier_windows(intervals, tier)))
+    cautions = list(REPORT_CAUTIONS)
+    if any(advice.get('inside_limit_ft') and advice['status'] == 'conditional'
+           for interval in intervals for advice in interval['tiers'].values()):
+        cautions.append(INSIDE_CAUTION)
+    if any(positive((i['row'].get('energy') or {}).get('nearshore'))
+           and 100 <= i['row']['energy']['nearshore'] < 200 for i in intervals):
+        cautions.append('Weak surf: a longboard or foamie is preferred.')
+    blocks.append('⚠️ CAUTIONS\n' + '\n'.join('- ' + text for text in cautions))
     return blocks

@@ -1,11 +1,15 @@
 import copy
+from contextlib import redirect_stdout
 from datetime import datetime
+import io
+import sys
 import unittest
 from unittest.mock import Mock, patch
 
-from forecast_sources import SourceUnavailable, fetch_surfline, prepare_forecast
+from forecast_sources import SourceUnavailable, SurflineAccessDenied, fetch_surfline, prepare_forecast
 from recommendations import BALI
 from test_recommendations import row
+import surfline_check
 
 
 class SourceTests(unittest.TestCase):
@@ -29,8 +33,11 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(result.name, 'Old Mans')
         self.assertEqual(result.data, self.forecast)
         self.source.fetch_full_forecast.assert_called_once_with('existing-spot', days=3)
-        self.assertIn('Source: Surfline', result.parts[0])
-        self.assertIn('2–2 ft', '\n'.join(result.parts))
+        self.assertEqual(result.parts[0].splitlines()[0], 'Forecast date: 30 October 2026')
+        self.assertIn('📍OLD MANS', result.parts[0])
+        for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
+            self.assertNotIn(removed, '\n'.join(result.parts))
+        self.assertIn('Breaking waves 2 ft', '\n'.join(result.parts))
 
     def test_missing_required_feeds_fail_closed_with_safe_error(self):
         for failure in ('network', 'missing-day', 'missing-sun', 'missing-hour', 'missing-height'):
@@ -59,9 +66,39 @@ class SourceTests(unittest.TestCase):
             data['energy'] = None
         result = prepare_forecast(self.forecast, self.target, 'Test')
         rendered = '\n'.join(result.parts)
-        self.assertIn('Energy: N/A', rendered)
-        self.assertIn('Beginner: unknown', rendered)
+        self.assertEqual(rendered.count('Not assessed (missing energy)'), 3)
+        self.assertNotIn('Inside break', rendered)
+        self.assertNotIn('Breaking waves', rendered)
         self.assertNotIn('suitable to consider', rendered)
+
+    def test_access_denial_remains_specific_instead_of_becoming_missing_data(self):
+        self.source.fetch_full_forecast.side_effect = SurflineAccessDenied(403)
+        with patch.dict('sys.modules', {'main4_pkge_indi': self.source}):
+            with self.assertRaisesRegex(SourceUnavailable, 'Surfline denied forecast access \\(HTTP 403\\)'):
+                fetch_surfline(self.target)
+        self.source.fetch_full_forecast.assert_called_once()
+
+    def test_live_check_reports_coverage_without_report_delivery_or_credentials(self):
+        snapshot = prepare_forecast(self.forecast, self.target, 'Test')
+        output = io.StringIO()
+        with patch.object(sys, 'argv', ['surfline_check.py', '--date', self.target]), \
+                patch('surfline_check.fetch_surfline', return_value=snapshot) as fetch, \
+                patch('surfline_check.version', return_value='tested'), redirect_stdout(output):
+            result = surfline_check.main()
+        self.assertEqual(result, 0)
+        fetch.assert_called_once_with(self.target)
+        self.assertIn('Wind coverage: 13/13.', output.getvalue())
+        self.assertIn('PREVIEW ONLY; nothing sent', output.getvalue())
+        self.assertNotIn('Beginner:', output.getvalue())  # Summary, not a published report.
+
+    def test_live_check_exits_nonzero_on_denied_forecast(self):
+        output = io.StringIO()
+        with patch.object(sys, 'argv', ['surfline_check.py', '--date', self.target]), \
+                patch('surfline_check.fetch_surfline', side_effect=SurflineAccessDenied(403)), \
+                patch('surfline_check.version', return_value='tested'), redirect_stdout(output):
+            self.assertEqual(surfline_check.main(), 1)
+        self.assertIn('HTTP 403', output.getvalue())
+        self.assertNotIn('Deterministic report prepared:', output.getvalue())
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ from review_bot import (Review, Store, Telegram, SafeError, failure_detail, http
                         setting, digest, revise, validate_parts, validate_revision_text, main)
 from forecast_sources import Forecast, SourceUnavailable
 from datetime import datetime
-from recommendations import BALI
+from recommendations import BALI, clean_report_text
 
 TODAY, TARGET = '2026-10-29', '2026-10-30'
 
@@ -291,6 +291,8 @@ class ReviewTests(unittest.TestCase):
         self.bot.forecast.assert_called_once_with(TARGET)
 
     def test_note_command_works_without_api_key_and_needs_fresh_approval(self):
+        self.report['parts'][0] += (' | WITA\nSource: Surfline via surf-mcp. '
+                                   'Check conditions locally; recommendations are not safety guarantees.')
         self.draft()
         old_prompt = self.report['prompt_ids'][-1]
         previous = self.report['parts'][:]
@@ -300,7 +302,9 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance(TODAY)
         self.llm.assert_not_called()
         revised = '\n\n'.join(self.report['parts'])
-        self.assertTrue(revised.startswith('\n\n'.join(previous)))
+        self.assertTrue(revised.startswith(clean_report_text('\n\n'.join(previous))))
+        for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
+            self.assertNotIn(removed, revised)
         self.assertIn('Reviewer note (not Surfline data): Ask a coach about the current', revised)
         self.assertEqual(self.report['revision'], 2)
         self.assertFalse(self.published())
@@ -472,6 +476,56 @@ class SafeDiagnostics(unittest.TestCase):
         self.assertIn('HTTP 403', detail)
         self.assertNotIn('SECRET', detail)
 
+    def test_webhook_400_classifies_rejection_without_echoing_service_text(self):
+        cases = [
+            ('Bad Request: bad webhook: Failed to resolve host: PRIVATE_SECRET', 'DNS:'),
+            ('Bad Request: bad webhook: getaddrinfo: PRIVATE_SECRET', 'DNS:'),
+            ('Bad Request: secret token contains unallowed characters PRIVATE_SECRET', 'SECRET:'),
+            ('Bad Request: bad webhook: SSL certificate error PRIVATE_SECRET', 'TLS:'),
+            ('Bad Request: bad webhook: port is not supported PRIVATE_SECRET', 'PORT:'),
+            ('Bad Request: bad webhook: IP address is reserved PRIVATE_SECRET', 'IP:'),
+            ('Bad Request: invalid webhook URL PRIVATE_SECRET', 'URL:'),
+            ('Bad Request: invalid max_connections PRIVATE_SECRET', 'OPTIONS:'),
+            ('Bad Request: unexpected PRIVATE_SECRET https://example.invalid/token', 'raw service text is suppressed'),
+        ]
+        for description, expected in cases:
+            response = Mock(status_code=400)
+            response.json.return_value = {'ok': False, 'error_code': 400, 'description': description}
+            post = Mock(return_value=response)
+            with patch.dict('sys.modules', {'requests': Mock(post=post)}):
+                with self.assertRaises(SafeError) as caught:
+                    Telegram('BOT_PRIVATE_SECRET').call('setWebhook', url='https://surf.example/telegram')
+            detail = str(caught.exception)
+            self.assertIn(expected, detail)
+            self.assertNotIn('PRIVATE_SECRET', detail)
+            self.assertNotIn('example.invalid', detail)
+            self.assertNotIn('/start', detail)
+            post.assert_called_once()  # Diagnose only; never retry a configuration change.
+
+    def test_webhook_bad_response_retains_http_status_without_exposing_body(self):
+        for body in ([], {}, None):
+            response = Mock(status_code=400)
+            response.json.return_value = body
+            with patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):
+                with self.assertRaisesRegex(SafeError, 'Telegram setWebhook HTTP 400'):
+                    Telegram('BOT_SECRET').call('setWebhook', url='https://surf.example/telegram')
+        response.json.side_effect = ValueError('PRIVATE_SECRET')
+        with patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):
+            with self.assertRaises(SafeError) as caught:
+                Telegram('BOT_SECRET').call('setWebhook', url='https://surf.example/telegram')
+        self.assertNotIn('PRIVATE_SECRET', str(caught.exception))
+        self.assertIn('HTTP 400', str(caught.exception))
+
+    def test_webhook_api_error_with_http_200_is_also_classified(self):
+        response = Mock(status_code=200)
+        response.json.return_value = {'ok': False, 'error_code': 400,
+                                     'description': 'Bad Request: bad webhook: Failed to resolve host: PRIVATE_SECRET'}
+        with patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):
+            with self.assertRaises(SafeError) as caught:
+                Telegram('BOT_SECRET').call('setWebhook', url='https://surf.example/telegram')
+        self.assertIn('DNS:', str(caught.exception))
+        self.assertNotIn('PRIVATE_SECRET', str(caught.exception))
+
     def test_openai_quota_error_is_identified_without_raw_body(self):
         response = Mock(status_code=429, text='SECRET')
         with patch.dict('os.environ', {'LLM_PROVIDER': 'openai', 'OPENAI_API_KEY': 'SECRET', 'OPENAI_MODEL': 'model'}), \
@@ -539,11 +593,111 @@ class GeminiRevisionTests(unittest.TestCase):
         self.assertEqual(revise(self.report, 'Wind is 987.6 km/h change'),
                          [TARGET + ' Wind 987.6 km/h'])
 
-    def test_source_and_safety_caution_must_be_preserved(self):
+    def test_removed_banner_is_not_required_or_reintroduced_from_existing_state(self):
         self.report['parts'] = [TARGET + ' Source: Surfline via surf-mcp. '
                                 'Check conditions locally; recommendations are not safety guarantees.']
-        with self.assertRaisesRegex(SafeError, 'source attribution or safety caution'):
-            revise(self.report, 'make this shorter change')
+        validate_revision_text(self.report, 'make this shorter change', TARGET + ' corrected wind')
+        result = ''.join(revise(self.report, 'make this shorter change'))
+        self.assertEqual(result, TARGET + ' corrected wind')
+        context = json.loads(self.post.call_args.kwargs['json']['contents'][0]['parts'][0]['text'])
+        self.assertEqual(context['required_verbatim_text'], [])
+        self.assertNotIn('Source: Surfline', '\n'.join(context['draft']))
+        self.assertNotIn('safety guarantees', '\n'.join(context['draft']))
+        self.post.assert_called_once()
+
+    def protected_report(self):
+        self.report['name'] = "Old Man's / Batu Bolong"
+        self.report['parts'] = [
+            self.report['name'] + ' | ' + TARGET + ' | WITA\n'
+            'Source: Surfline via surf-mcp. '
+            'Check conditions locally; recommendations are not safety guarantees.\n\n'
+            '16:00–17:00\nBreaking surf: 2–3 ft\n\n'
+            '17:00–18:00\nBreaking surf: 2–3 ft']
+
+    def set_result(self, text):
+        self.response.json.return_value['candidates'][0]['content']['parts'] = [{'text': text}]
+
+    def test_time_block_removal_keeps_requested_format_and_retained_conditions(self):
+        self.protected_report()
+        edited = self.report['name'] + ' | ' + TARGET + ' | WITA\n\n16:00–17:00\nBreaking surf: 2–3 ft'
+        self.set_result(edited)
+        result = ''.join(revise(self.report, 'remove 17:00-18:00 report change'))
+        self.assertIn('16:00–17:00\nBreaking surf: 2–3 ft', result)
+        self.assertNotIn('17:00–18:00', result)
+        for label in ('WITA', 'Source: Surfline via surf-mcp.',
+                      'Check conditions locally; recommendations are not safety guarantees.'):
+            self.assertNotIn(label, result)
+        context = json.loads(self.post.call_args.kwargs['json']['contents'][0]['parts'][0]['text'])
+        self.assertEqual(context['required_verbatim_text'], [self.report['name'].upper()])
+        self.post.assert_called_once()
+
+    def test_old_banner_is_removed_even_if_model_copies_it_and_spot_typography_is_canonicalized(self):
+        self.protected_report()
+        original = self.report['parts'][0]
+        self.set_result(original)
+        result = ''.join(revise(self.report, 'keep formatting change'))
+        self.assertTrue(result.startswith("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG"))
+        self.assertIn('16:00–17:00\nBreaking surf: 2–3 ft', result)
+        self.assertIn('17:00–18:00\nBreaking surf: 2–3 ft', result)
+        self.set_result(original.replace("Old Man's / Batu Bolong", 'Old Man’s/Batu Bolong'))
+        result = ''.join(revise(self.report, 'tidy formatting change'))
+        self.assertIn(self.report['name'].upper(), result)
+        for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
+            self.assertNotIn(removed, result)
+
+    def test_report_formatting_cannot_rescue_a_changed_spot_or_invalid_numbers_or_date(self):
+        self.protected_report()
+        for edited, error in (
+                ('Kuta | ' + TARGET + ' | WITA\n16:00–17:00\nBreaking surf: 2–3 ft', 'spot'),
+                (self.report['name'] + ' | ' + TARGET + '\nWind 987.6 km/h', 'unsupported number'),
+                (self.report['name'] + '\n16:00–17:00\nBreaking surf: 2–3 ft', 'report validation')):
+            with self.subTest(edited=edited):
+                self.set_result(edited)
+                with self.assertRaisesRegex(SafeError, error):
+                    revise(self.report, 'remove 17:00-18:00 report change')
+
+    def test_repaired_pending_revision_still_needs_fresh_approval(self):
+        self.protected_report()
+        self.set_result("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n"
+                        '🟢 BEGINNER\n16:00–17:00 — Inside break, coach recommended (larger sets)\n\n'
+                        '🟡 INTERMEDIATE\n16:00–17:00\n\n'
+                        '🔵 ADVANCED\n16:00–17:00 — Breaking waves 2–3 ft\n\n'
+                        '⚠️ CAUTIONS\n- High energy: strong currents possible.\n'
+                        '- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n'
+                        '- Below 100 kJ: generally too flat for worthwhile surfing.')
+        self.report.update(revision=1, status='revision_pending', draft_ids=[50], prompt_ids=[51],
+                           feedback='remove 17:00-18:00 report change')
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'state.json'
+            path.write_text(json.dumps(dict(version=1, reports={TARGET: self.report}, offset=0, started=True)))
+            telegram = Mock()
+            telegram.call.side_effect = [{'message_id': value} for value in (101, 102, 103)]
+            bot = Review(Store(path), telegram, 42, 42, -100)
+            with patch('review_bot.time.sleep'):
+                bot.advance(TODAY)
+                saved = bot.s['reports'][TARGET]
+                self.assertEqual(saved['revision'], 2)
+                self.assertEqual(saved['status'], 'review')
+                self.assertNotIn('approval', saved)
+                for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
+                    self.assertNotIn(removed, ''.join(saved['parts']))
+                self.assertEqual(saved['prompt_ids'], [102])
+                self.assertTrue(all(call.kwargs['chat_id'] == 42 for call in telegram.call.call_args_list))
+                self.assertTrue(telegram.call.call_args_list[0].kwargs['entities'])
+                update = {'update_id': 10, 'message': {'text': 'correct', 'from': {'id': 42},
+                    'chat': {'id': 42, 'type': 'private'}, 'reply_to_message': {'message_id': 51}}}
+                self.assertEqual(bot.process(update, TODAY), 'ignored_stale_prompt')
+                bot.advance(TODAY)
+                self.assertEqual(telegram.call.call_count, 2)
+                update['message']['reply_to_message']['message_id'] = 102
+                self.assertEqual(bot.process(update, TODAY), 'approved')
+                bot.advance(TODAY)
+                bot.advance(TODAY)
+            self.assertEqual(telegram.call.call_count, 3)
+            self.assertEqual(telegram.call.call_args.kwargs['chat_id'], -100)
+            self.assertEqual(telegram.call.call_args.kwargs['text'], saved['parts'][0])
+            self.assertTrue(telegram.call.call_args.kwargs['entities'])
+            self.assertEqual(Store(path).data['reports'][TARGET]['status'], 'published')
 
     def test_numeric_formatting_allowed_but_new_negative_or_value_rejected(self):
         self.report['parts'] = [TARGET + ' 1,200 kJ; wind 15.0 km/h; tide -0.25 m']
@@ -555,8 +709,28 @@ class GeminiRevisionTests(unittest.TestCase):
 
     def test_legacy_report_spot_is_protected_without_state_reset(self):
         self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + ' | WITA\nSurf report']
-        with self.assertRaisesRegex(SafeError, 'spot, source'):
+        with self.assertRaisesRegex(SafeError, 'removed the spot'):
             validate_revision_text(self.report, 'shorter change', 'Kuta | ' + TARGET + ' | WITA\nSurf report')
+        self.set_result('Old Man’s/Batu Bolong | ' + TARGET + ' | WITA\nSurf report')
+        self.assertIn("OLD MAN'S / BATU BOLONG", ''.join(revise(self.report, 'tidy formatting change')))
+
+    def test_simple_format_date_and_caution_thresholds_are_allowed_but_new_measurements_are_not(self):
+        self.report['name'] = "Old Man's / Batu Bolong"
+        self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + '\n06:00–09:00\nBreaking surf: 3 ft']
+        simple = ("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n"
+                  '🟢 BEGINNER\n06:00–09:00 — Inside break\n\n'
+                  '🟡 INTERMEDIATE\n06:00–09:00\n\n'
+                  '🔵 ADVANCED\n06:00–09:00 — Breaking waves 3 ft\n\n'
+                  '⚠️ CAUTIONS\n- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n'
+                  '- Below 100 kJ: generally too flat for worthwhile surfing.')
+        self.set_result(simple)
+        self.assertEqual(''.join(revise(self.report, 'use the simple format change')), simple)
+        self.set_result(simple.replace('waves 3 ft', 'waves 987.6 ft'))
+        with self.assertRaisesRegex(SafeError, 'unsupported number'):
+            revise(self.report, 'use the simple format change')
+        self.set_result(simple.replace('30 October 2026', '31 October 2026'))
+        with self.assertRaisesRegex(SafeError, 'report validation'):
+            revise(self.report, 'use the simple format change')
 
     def test_status_diagnostics_and_no_provider_fallback(self):
         for status in (400, 403, 404, 429):

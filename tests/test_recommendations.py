@@ -1,7 +1,8 @@
 import copy
 import unittest
+from unittest.mock import patch
 from datetime import datetime
-from recommendations import BALI, recommend, tide_at, daylight_intervals, render_day
+from recommendations import BALI, recommend, tide_at, daylight_intervals, render_day, report_bold_entities
 from phase2 import chunks, build_blocks
 
 
@@ -113,13 +114,62 @@ class Coverage(unittest.TestCase):
 
     def test_report_and_message_limits(self):
         blocks = build_blocks({'daily': [self.day]}, self.day['date'], 'Test')
-        messages = chunks(blocks)
+        limit = max(len(block) for block in blocks)
+        messages = chunks(blocks, limit=limit)
         self.assertGreater(len(messages), 1)
-        self.assertTrue(all(len(m) <= 3900 for m in messages))
+        self.assertTrue(all(len(m) <= limit for m in messages))
         self.assertEqual('\n\n'.join(messages), '\n\n'.join(blocks))
-        self.assertIn('2–2 ft', '\n'.join(blocks))
+        self.assertIn('Breaking waves 2 ft', '\n'.join(blocks))
         with self.assertRaises(ValueError):
             build_blocks({'daily': []}, self.day['date'], 'Test')
+
+    def test_simple_windows_preserve_coach_changes_data_gaps_and_changing_heights(self):
+        self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
+                                'sunset_ts': self.base + 18 * 3600}
+        self.day['hourly'][8].update(row(2, 700, 13))
+        self.day['hourly'][12].update(row(energy=None))
+        for hour in (13, 14, 16, 17):
+            self.day['hourly'][hour].update(row(5, 1200, 15))
+        self.day['hourly'][15].update(row(3, 800))
+        with patch('recommendations.tide_at', return_value=TIDE):
+            blocks = render_day(self.day, "Old Man's / Batu Bolong")
+        self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG")
+        self.assertIn('06:00–08:00 and 09:00–12:00 — Inside break', blocks[1])
+        self.assertIn('08:00–09:00 — Inside break, coach recommended (high energy, long period)', blocks[1])
+        self.assertIn('12:00–13:00 — Not assessed (missing energy)', blocks[1])
+        self.assertIn('Inside break only (larger sets, high energy, long period)', blocks[2])
+        self.assertIn('13:00–15:00 and 16:00–18:00 — Breaking waves 5 ft', blocks[3])
+        self.assertIn('15:00–16:00 — Breaking waves 3 ft', blocks[3])
+        self.assertNotIn('13:00–18:00 — Breaking waves 5 ft', blocks[3])
+        self.assertIn('beginners at most 2 ft; intermediate inside-only at most 4 ft', blocks[4])
+        for removed in ('WITA', 'Source:', 'Energy:', 'Period:', 'Tide:', 'safety guarantees'):
+            self.assertNotIn(removed, '\n'.join(blocks))
+
+    def test_flat_windows_are_not_positive_and_advanced_ranges_are_not_averaged(self):
+        self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
+                                'sunset_ts': self.base + 8 * 3600}
+        self.day['hourly'][6].update(row(2, 99))
+        self.day['hourly'][7].update(row(3, 99))
+        with patch('recommendations.tide_at', return_value=TIDE):
+            blocks = render_day(self.day, 'Test')
+        self.assertEqual('\n'.join(blocks).count('06:00–08:00 — Not recommended (too flat)'), 3)
+        self.assertNotIn('Inside break', '\n'.join(blocks))
+        self.day['hourly'][6].update(row(3))
+        self.day['hourly'][6]['surf_min_ft'] = 2
+        self.day['hourly'][7].update(row(4))
+        self.day['hourly'][7]['surf_min_ft'] = 3
+        with patch('recommendations.tide_at', return_value=TIDE):
+            advanced = render_day(self.day, 'Test')[3]
+        self.assertIn('06:00–07:00 — Breaking waves 2–3 ft', advanced)
+        self.assertIn('07:00–08:00 — Breaking waves 3–4 ft', advanced)
+        self.assertNotIn('06:00–08:00', advanced)
+
+    def test_bold_entities_use_utf16_offsets_after_draft_prefix_and_emoji(self):
+        text = 'DRAFT 2026-10-30 v2 (1/1)\n\n🌊\nForecast date: 30 October 2026\n\n📍TEST\n\n🟢 BEGINNER\n06:00–09:00 — Inside break'
+        encoded = text.encode('utf-16-le')
+        highlighted = [encoded[e['offset'] * 2:(e['offset'] + e['length']) * 2].decode('utf-16-le')
+                       for e in report_bold_entities(text)]
+        self.assertEqual(highlighted, ['Forecast date: 30 October 2026', '📍TEST', '🟢 BEGINNER'])
 
 
 if __name__ == '__main__':

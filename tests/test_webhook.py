@@ -124,3 +124,43 @@ class WebhookSetupTests(unittest.TestCase):
             configure('inspect')
         self.assertNotIn('PRIVATE', output.getvalue())
         self.assertIn('pending deliveries: 2', output.getvalue())
+
+    def test_inspect_traces_delivery_without_mutating_any_service(self):
+        self.telegram.call.side_effect = [{'url': 'https://surf.example/telegram',
+            'pending_update_count': 0}]
+        self.inbox.call.return_value = {'enabled': True, 'pending': 1,
+            'last_wake_at': 0, 'next_wake_at': 1793426400000, 'last_completed_at': 1793422800000}
+        output = io.StringIO()
+        with patch.dict('os.environ', {'SURF_REVIEW_ENABLED': 'true'}), redirect_stdout(output):
+            configure('inspect')  # Inspection does not require pausing the review workflow.
+        self.telegram.call.assert_called_once_with('getWebhookInfo')
+        self.inbox.call.assert_called_once_with('/status')
+        self.assertIn('GitHub review transport: webhook', output.getvalue())
+        self.assertIn('GitHub review enabled: true', output.getvalue())
+        self.assertIn('Webhook matches configured Worker: yes', output.getvalue())
+        self.assertIn('Worker pending inbox updates: 1', output.getvalue())
+        self.assertIn('Worker last wakeup timestamp: none recorded', output.getvalue())
+        self.assertNotIn('PRIVATE', output.getvalue())
+        self.assertNotIn('https://surf.example', output.getvalue())
+
+    def test_inspect_handles_unconfigured_worker_and_polling_mode(self):
+        self.telegram.call.side_effect = [{'url': '', 'pending_update_count': 1}]
+        output = io.StringIO()
+        with patch.dict('os.environ', {'SURF_WEBHOOK_URL': '', 'SURF_REVIEW_TRANSPORT': 'poll'}), \
+                redirect_stdout(output):
+            configure('inspect')
+        self.inbox.call.assert_not_called()
+        self.assertIn('registered: no', output.getvalue())
+        self.assertIn('GitHub review transport: poll', output.getvalue())
+        self.assertIn('not configured', output.getvalue())
+
+    def test_delivery_error_is_classified_without_exposing_raw_response(self):
+        self.telegram.call.side_effect = [{'url': 'https://surf.example/telegram',
+            'last_error_date': 123, 'last_error_message': 'Wrong response from the webhook: 401 PRIVATE_SECRET',
+            'pending_update_count': 1}]
+        output = io.StringIO()
+        with redirect_stdout(output):
+            configure('inspect')
+        self.assertIn('DELIVERY 401', output.getvalue())
+        self.assertNotIn('PRIVATE_SECRET', output.getvalue())
+        self.telegram.call.assert_called_once_with('getWebhookInfo')
