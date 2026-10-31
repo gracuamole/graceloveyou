@@ -9986,7 +9986,11 @@
         72
       ],
       "prompt_ids": [],
-      "feedback": "start your forecast timing from 0600 change"
+      "feedback": "start your forecast timing from 0600 change",
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "4aa78e53cdb427b50843dda33abf4115097e440232a631339d3a06158cbd067c"
+      }
     }
   },
   "offset": 248715025,
