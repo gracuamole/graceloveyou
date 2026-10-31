@@ -6451,5 +6451,15 @@
     941560570,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_expired"
+  "last_update_outcome": "ignored_expired",
+  "outbox": {
+    "forecast-error:2026-11-01": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "The next-day surf draft could not be generated. Surfline forecast unavailable or missing required daylight/breaking-surf data. No new draft was created; check the next workflow run. Nothing was published. Only one failure notice is sent for this forecast date."
+      ],
+      "notice_ids": []
+    }
+  }
 }
