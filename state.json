@@ -9986,7 +9986,11 @@
         66
       ],
       "prompt_ids": [],
-      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp.\" change"
+      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp.\" change",
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "e4b89af4989b400c5b7624216057bc299b518d6ffb88520bb5f4730b2644e786"
+      }
     }
   },
   "offset": 248715023,
