@@ -9992,10 +9992,10 @@
       "prompt_ids": [
         62
       ],
-      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp. Check conditions locally; recommendations are not safety guarantees.\" change"
+      "feedback": "for all reports in the future, remove this line in the report \"Source: Surfline via surf-mcp.\" change"
     }
   },
-  "offset": 248715022,
+  "offset": 248715023,
   "started": true,
   "binding": [
     941560570,
@@ -10032,6 +10032,7 @@
     248715018,
     248715019,
     248715020,
-    248715021
+    248715021,
+    248715022
   ]
 }
