@@ -9985,12 +9985,10 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "85bd99a15eb4d68ec5730d4b0dfdf855dd0de25950f12704c2a1bad4b3f9f39b"
-      }
+      "draft_ids": [
+        26
+      ],
+      "prompt_ids": []
     }
   },
   "offset": 248715015,
