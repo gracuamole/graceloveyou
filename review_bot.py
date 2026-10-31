@@ -64,7 +64,37 @@ def setting(name, numeric=False):
     return value
 
 
-def http_failure(service, status):
+def webhook_rejection_hint(description):
+    """Classify Telegram text into fixed advice; never return service text/URLs."""
+    detail = description.casefold() if isinstance(description, str) else ''
+    detail = detail.strip().removeprefix('bad request:').strip().removeprefix('bad webhook:').strip()
+    if detail.startswith(('failed to resolve host', 'getaddrinfo', "can't resolve host")):
+        return ('DNS: Telegram could not resolve the Worker hostname. Verify SURF_WEBHOOK_URL '
+                'matches the deployed workers.dev URL. If newly created, wait a few minutes and retry setup.')
+    if detail.startswith(('secret token', 'invalid secret token', "can't use secret token")):
+        return ('SECRET: Telegram rejected TELEGRAM_WEBHOOK_SECRET. Use 32-256 ASCII letters, '
+                'digits, underscores or hyphens; copy the same value to GitHub and Cloudflare.')
+    if detail.startswith(('ssl', 'tls', 'certificate', 'invalid certificate')):
+        return ('TLS: Telegram rejected the webhook HTTPS/certificate configuration. Use the deployed '
+                'Worker HTTPS URL and check Cloudflare certificate/hostname settings.')
+    if detail.startswith(('port', 'webhook can be set up only on ports')):
+        return 'PORT: Use the deployed Worker HTTPS origin on default port 443, without a custom port.'
+    if detail.startswith(('ip address', 'invalid ip address', 'invalid ip_address')):
+        return 'IP: Telegram rejected the resolved webhook IP address. Check public DNS for the deployed Worker hostname.'
+    if detail.startswith(('invalid webhook url', 'wrong webhook url', 'invalid url',
+                          'wrong url', 'an https url must be provided', 'https url must be provided')):
+        return ('URL: Telegram rejected the webhook URL. Set SURF_WEBHOOK_URL to the deployed '
+                'HTTPS workers.dev origin only, without quotes, a path or query string.')
+    if detail.startswith(('invalid max_connections', 'invalid allowed_updates',
+                          'wrong max_connections', 'wrong allowed_updates')):
+        return 'OPTIONS: Telegram rejected webhook options. Restore the supplied webhook_setup.py settings.'
+    return ('Webhook registration was rejected. Check the deployed Worker URL and webhook settings. '
+            'The response did not match a recognized safe diagnostic; raw service text is suppressed.')
+
+
+def http_failure(service, status, description=None):
+    if service == 'Telegram setWebhook' and status == 400:
+        return SafeError(f'{service} HTTP {status}: ' + webhook_rejection_hint(description))
     if service.startswith('OpenAI'):
         hints = {
             400: 'Request rejected; check Responses-compatible model and request configuration.',
@@ -169,13 +199,20 @@ class Telegram:
                                      json=payload, timeout=35)
             status = response.status_code
             if isinstance(status, int) and status >= 400:
-                raise http_failure('Telegram ' + method, status)
+                description = None
+                if method == 'setWebhook' and status == 400:
+                    try:
+                        body = response.json()
+                        description = body.get('description') if isinstance(body, dict) else None
+                    except Exception:
+                        pass  # Retain the HTTP diagnosis even for malformed/non-JSON errors.
+                raise http_failure('Telegram ' + method, status, description)
             response.raise_for_status()
             body = response.json()
             if not body.get('ok'):
                 code = body.get('error_code')
                 if isinstance(code, int):
-                    raise http_failure('Telegram ' + method, code)
+                    raise http_failure('Telegram ' + method, code, body.get('description'))
                 raise SafeError(f'Telegram {method} returned an invalid response.')
             return body['result']
         except SafeError:
