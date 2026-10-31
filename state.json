@@ -9986,13 +9986,10 @@
       "revision": 1,
       "status": "draft",
       "draft_ids": [
-        26
+        26,
+        27
       ],
-      "prompt_ids": [],
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "8b26c3fa0de0a291d08e39a69cac991d40e1757f60e5136c3d8bb2d37afe0805"
-      }
+      "prompt_ids": []
     }
   },
   "offset": 248715015,
