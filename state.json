@@ -10033,7 +10033,10 @@
       "kind": "dryrun",
       "status": "pending",
       "date": "2026-11-01",
-      "notice_ids": []
+      "notice_ids": [],
+      "parts": [
+        "PRIVATE PREVIEW ONLY — no approval cycle; do not approve this message.\n\nForecast date: 1 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–18:00 — Inside break only, coach recommended\n\n🟡 INTERMEDIATE\n06:00–09:00 — Mid tide preferred\n09:00–18:00 — Low quality\n\n🔵 ADVANCED\n06:00–09:00\n09:00–18:00 — Low quality\n\n⚠️ CAUTIONS\n- Check actual inside waves: beginners max 2 ft; intermediate inside-only max 4 ft."
+      ]
     }
   },
   "webhook_processed_ids": [
