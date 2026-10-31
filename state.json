@@ -9995,10 +9995,9 @@
         "revision": 10,
         "sha256": "2ae95737ff4ce04e9a1e77411c8c03d391045e22e8354f6b2d897bd307a991da"
       },
-      "intent": {
-        "kind": "publish",
-        "text_sha256": "2ae95737ff4ce04e9a1e77411c8c03d391045e22e8354f6b2d897bd307a991da"
-      }
+      "publish_ids": [
+        47
+      ]
     }
   },
   "offset": 248715026,
