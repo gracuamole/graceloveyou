@@ -9990,7 +9990,11 @@
         39
       ],
       "prompt_ids": [],
-      "feedback": "remove 17:00-18:00 report change"
+      "feedback": "remove 17:00-18:00 report change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "cb1942a06aa14bd50e3f248f9f911a3e821c0507965fd02aa1fd75504b8c5b5a"
+      }
     }
   },
   "offset": 248715017,
