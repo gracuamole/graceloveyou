@@ -37,7 +37,7 @@ class SourceTests(unittest.TestCase):
         self.assertIn('📍OLD MANS', result.parts[0])
         for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
             self.assertNotIn(removed, '\n'.join(result.parts))
-        self.assertIn('Breaking waves 2 ft', '\n'.join(result.parts))
+        self.assertIn('🔵 ADVANCED\n07:00–18:00', '\n'.join(result.parts))
 
     def test_missing_required_feeds_fail_closed_with_safe_error(self):
         for failure in ('network', 'missing-day', 'missing-sun', 'missing-hour', 'missing-height'):
@@ -66,7 +66,7 @@ class SourceTests(unittest.TestCase):
             data['energy'] = None
         result = prepare_forecast(self.forecast, self.target, 'Test')
         rendered = '\n'.join(result.parts)
-        self.assertEqual(rendered.count('Not assessed (missing energy)'), 3)
+        self.assertEqual(rendered.count('Data unavailable'), 3)
         self.assertNotIn('Inside break', rendered)
         self.assertNotIn('Breaking waves', rendered)
         self.assertNotIn('suitable to consider', rendered)
@@ -87,7 +87,7 @@ class SourceTests(unittest.TestCase):
             result = surfline_check.main()
         self.assertEqual(result, 0)
         fetch.assert_called_once_with(self.target)
-        self.assertIn('Wind coverage: 13/13.', output.getvalue())
+        self.assertIn('Wind coverage: 11/11.', output.getvalue())
         self.assertIn('PREVIEW ONLY; nothing sent', output.getvalue())
         self.assertNotIn('Beginner:', output.getvalue())  # Summary, not a published report.
 
@@ -99,6 +99,14 @@ class SourceTests(unittest.TestCase):
             self.assertEqual(surfline_check.main(), 1)
         self.assertIn('HTTP 403', output.getvalue())
         self.assertNotIn('Deterministic report prepared:', output.getvalue())
+
+    def test_missing_night_or_partial_boundary_data_does_not_block_daylight_report(self):
+        for hour in list(range(7)) + list(range(18, 24)):
+            self.day['hourly'][hour]['surf_max_ft'] = None
+        result = prepare_forecast(self.forecast, self.target, 'Test')
+        self.assertIn('07:00–18:00', '\n'.join(result.parts))
+        self.assertNotIn('06:00', '\n'.join(result.parts))
+        self.assertNotIn('18:10', '\n'.join(result.parts))
 
 
 if __name__ == '__main__':

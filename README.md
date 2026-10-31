@@ -1,4 +1,13 @@
 # graceloveyou
+
+Reports use the simple grouped format: forecast date, spot, beginner/intermediate/
+advanced time windows, with essential restrictions and relevant cautions only.
+Good windows show just the times. Analysis uses full hours inside sunrise–sunset,
+rounding sunrise up and sunset down. See [PHASE2.md](PHASE2.md) for grouping
+rules and [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) to update an existing deployment.
+Use [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md) for the complete matching
+source/test file list, including the required forecast-check and webhook helpers.
+
 Automated posts for leo
 
 
@@ -15,3 +24,14 @@ revision → exact `correct` approval → channel workflow, deployment setup, du
 state and uncertain-delivery recovery. It is disabled until explicitly configured.
 
 Run `python3 -m unittest discover -s tests -v` for offline verification.
+
+## Faster replies with free hosting
+
+[FREE_HOSTING.md](FREE_HOSTING.md) describes the prepared Cloudflare Workers Free +
+D1 webhook option. Telegram replies wake the existing GitHub workflow; Gemini and
+approval/publication state remain in the existing deployment. Nothing requires a
+paid server. Account/free-tier limits apply. Hosting is not activated automatically.
+
+[PLAN_REVIEW.md](PLAN_REVIEW.md) explains the adopted improvements and why the
+working Surfline/Gemini workflow is retained. Private `/status` and `/dryrun`,
+LLM-free `note:` edits, numeric checks and durable failure notices are included.

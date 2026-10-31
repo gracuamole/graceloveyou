@@ -24,21 +24,39 @@ python phase2.py --fixture normalized.json --date 2026-10-30
 ```
 
 The fixture is a normalized `fetch_full_forecast` response, not raw Surfline JSON.
-Fixture posting is disabled. Sending uses the existing `TELEGRAM_BOT_TOKEN` and
-`TELEGRAM_CHANNEL_ID` environment variables. Reports are split between complete
-hourly blocks below Telegram's message limit. A partial delivery can occur if a
-later request fails; inspect the channel before rerunning. No automatic post retry.
+Fixture posting and direct posting are disabled. Delivery uses the review workflow
+and existing Telegram secrets. Deterministic reports are split between complete
+sections when necessary; all parts need one fresh approval before publication.
 
 ## Rules and assumptions
 
 These are recommendations for Old Man's / Batu Bolong, not validated safety
 thresholds for all Bali breaks. Advanced beginners are included in beginner.
-All three tiers receive advice for every interval; surfers of higher skill may
-still choose smaller waves with a longboard/foamie.
+All daylight intervals are evaluated for three tiers; the simple report groups
+matching time windows under 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED, followed
+by ⚠️ CAUTIONS only when relevant. Surfers of higher skill may still choose smaller waves with a
+longboard/foamie. The header is `Forecast date: 30 October 2026`, a blank line,
+then `📍OLD MAN'S / BATU BOLONG` (with the actual target date and spot).
+Good windows show only the times for every skill level, including advanced.
+Short comments appear only for necessary restrictions (inside break only, coach
+recommended, strong wind or another conditional limitation). Heights and long
+reason lists are not displayed beside otherwise good windows. Adjacent windows
+merge when their usable advice matches, even if underlying wave heights change;
+no height is averaged or invented. Disjoint matching windows use `and`; missing-data
+and flat, not-recommended periods remain explicit. Analysis uses only complete
+daylight hours: round sunrise up and sunset down. For example, 05:48–18:12 becomes
+06:00–18:00. Exact-hour endpoints stay unchanged, and no complete hour means the
+report is withheld. Raw hourly measurements stay
+in the saved forecast rather than an hourly table in the message.
+The WITA label, source
+line and generic safety-guarantee disclaimer have been removed at the user's
+request. Times still use Bali time, and the interval-specific skill/coach cautions
+remain. Revisions of saved drafts use the same display format and need fresh review.
 
 * Breaking heights use **maximum forecast breaking surf**, not swell height.
   Beginner ceiling is 2 ft inclusive; intermediate ceiling 4 ft inclusive;
-  above 4 ft outside surf is advanced. The exact ft range is always displayed.
+  above 4 ft outside surf is advanced. Heights/ranges still determine restrictions
+  internally; they are not routine commentary in the displayed report.
 * Beginner advice always starts inside/whitewater. Above 2 ft, 600 kJ or 12 s,
   retain the user's inside exception with coach assessment and a reminder that
   actual inside waves must be at most 2 ft. This does not assert inside waves
@@ -69,16 +87,20 @@ still choose smaller waves with a longboard/foamie.
   distort the calculated range.
 * Wind converts knots to km/h with factor 1.852. **Above** 20 km/h remains
   conditional for anyone comfortable, with coach recommended for beginners.
-  Cardinal direction is displayed; no offshore/onshore claim is made without
+  Strong wind appears as a conditional reason; no offshore/onshore claim is made without
   a calibrated break orientation. No wind-only blanket ban.
-* Surfline rating is shown as quality context. POOR, VERY_POOR, POOR_TO_FAIR
+* Surfline rating is used as quality context. POOR, VERY_POOR, POOR_TO_FAIR
   downgrade otherwise suitable advice to conditional; a good rating never
   overrides skill, height, energy, tide or wind cautions. No invented numeric
-  ranking or best-hour claim.
-* Use Surfline sunrise–sunset, with clipped partial first/last hours, not only
-  06:00/10:00/15:00. Each timestamped forecast row represents its following
-  hour. Missing hours remain visible as unknown. Missing sunlight withholds
-  the report instead of guessing daylight. Bali timezone is Asia/Makassar.
+  ranking or best-hour claim. Low quality appears as a short conditional reason.
+* Use Surfline sunrise–sunset, rounded inward to whole hours, not a hardcoded
+  schedule. Each timestamped forecast row represents its following hour. Skip
+  partial sunrise/sunset hours and all nighttime rows for recommendation analysis.
+  Missing hours remain visible as unavailable. Missing sunlight or an empty rounded
+  window withholds the report. Bali timezone is Asia/Makassar.
+* Show high-energy, wind, flat-surf, inside-limit or weak-surf cautions only when
+  triggered by the analyzed daylight rows. Nighttime conditions cannot create a
+  caution. Omit the entire cautions section when none applies.
 * Missing/negative/nonfinite core inputs are unknown, not zero or safe.
   Tide heights may be negative. A zero tidal range is unknown. Missing rating,
   wind, energy, period, breaking heights or tide prevents a positive recommendation.
@@ -89,7 +111,9 @@ still choose smaller waves with a longboard/foamie.
 Unit tests cover height/energy/wind boundaries, small powerful beginner surf,
 inside exceptions, flat surf, long periods, low tide, rating precedence, invalid
 inputs, tide interpolation and gaps, sunrise/sunset coverage, missing intervals,
-message splitting and offline CLI behavior. Tests are deterministic and never
+message splitting, grouped windows without hidden gaps, minimal commentary, flat and
+unknown periods, inward daylight rounding, nighttime exclusion, Telegram bold-entity
+offsets and offline CLI behavior. Tests are deterministic and never
 send to Telegram. Existing root `test_*.py` files are live endpoint probes;
 use discovery under `tests/` to avoid invoking those probes.
 

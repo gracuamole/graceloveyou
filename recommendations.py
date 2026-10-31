@@ -11,7 +11,7 @@ REPORT_CAUTIONS = (
     'Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.',
     'Below 100 kJ: generally too flat for worthwhile surfing.',
 )
-INSIDE_CAUTION = 'Check actual inside waves: beginners at most 2 ft; intermediate inside-only at most 4 ft.'
+INSIDE_CAUTION = 'Check actual inside waves: beginners max 2 ft; intermediate inside-only max 4 ft.'
 
 
 def forecast_date_label(target):
@@ -139,7 +139,7 @@ def recommend(row, tide, tier):
 
 
 def daylight_intervals(day):
-    """Cover sunrise to sunset, including gaps and partial boundary hours."""
+    """Analyze whole hours inside daylight: sunrise up, sunset down."""
     sunlight = day.get('sunlight') or {}
     start, end = sunlight.get('sunrise_ts'), sunlight.get('sunset_ts')
     if not number(start) or not number(end) or not start < end:
@@ -147,6 +147,10 @@ def daylight_intervals(day):
     date = day['date']
     if any(datetime.fromtimestamp(t, BALI).date().isoformat() != date for t in (start, end)):
         raise ValueError('Sunlight date mismatch')
+    start = math.ceil(start / 3600) * 3600
+    end = math.floor(end / 3600) * 3600
+    if start >= end:
+        raise ValueError('No complete daylight hour available; recommendations withheld')
     rows = {r['timestamp']: r for r in day.get('hourly', []) if number(r.get('timestamp'))}
     cursor, result = start, []
     while cursor < end:
@@ -163,47 +167,22 @@ def daylight_intervals(day):
 def brief_advice(interval, tier):
     advice, row = interval['tiers'][tier], interval['row']
     if advice['status'] == 'unknown':
-        return 'Not assessed (missing ' + ', '.join(advice['missing']) + ')'
+        return 'Data unavailable'
     if advice['status'] == 'not recommended':
         return 'Not recommended (too flat)'
-    energy = row['energy']['nearshore']
-    period = max(s['period_s'] for s in row['swells'] if positive(s.get('period_s')))
-    reasons = []
-    if tier == 'beginner':
-        label = 'Inside break'
-        if row['surf_max_ft'] > 2:
-            reasons.append('larger sets')
-        if energy > 600:
-            reasons.append('high energy')
-        if period > 12:
-            reasons.append('long period')
-        if interval['tide']['band'] == 'low':
-            reasons.append('low tide')
-        if advice['coach']:
-            label += ', coach recommended'
-    elif tier == 'intermediate':
-        label = 'Inside break only' if advice['break'] == 'inside only' else ''
-        if row['surf_max_ft'] > 4:
-            reasons.append('larger sets')
-        if energy > 1000:
-            reasons.append('high energy')
-        if period > 14:
-            reasons.append('long period')
-        if interval['tide']['band'] != 'mid':
-            reasons.append('mid tide preferred')
-    else:
-        lo, hi = row['surf_min_ft'], row['surf_max_ft']
-        height = f'{hi:g}' if lo == hi else f'{lo:g}–{hi:g}'
-        label = f'Breaking waves {height} ft'
+    labels = []
+    if advice.get('inside_limit_ft') or advice['break'] == 'inside only':
+        labels.append('inside break only')
+    if advice['coach']:
+        labels.append('coach recommended')
     if row['wind']['speed_kts'] * 1.852 > 20:
-        reasons.append('strong wind')
-    if str(row['rating']['key']).upper() in ('VERY_POOR', 'POOR', 'POOR_TO_FAIR'):
-        reasons.append('low quality rating')
-    if 100 <= energy < 200:
-        reasons.append('weak surf')
-    if reasons:
-        label = (label or 'Conditional') + ' (' + ', '.join(reasons) + ')'
-    return label
+        labels.append('strong wind')
+    if not labels and str(row['rating']['key']).upper() in ('VERY_POOR', 'POOR', 'POOR_TO_FAIR'):
+        labels.append('low quality')
+    if not labels and advice['status'] == 'conditional':
+        labels.append('mid tide preferred' if tier == 'intermediate' else 'conditional')
+    label = ', '.join(labels)
+    return label[:1].upper() + label[1:]
 
 
 def tier_windows(intervals, tier):
@@ -223,17 +202,31 @@ def tier_windows(intervals, tier):
     return [' and '.join(times) + (' — ' + label if label else '') for label, times in grouped.items()]
 
 
+def report_cautions(intervals):
+    """Only display caution rules triggered by the analyzed daylight rows."""
+    energies = [(i['row'].get('energy') or {}).get('nearshore') for i in intervals]
+    cautions = []
+    if any(positive(value) and value > 600 for value in energies):
+        cautions.append(REPORT_CAUTIONS[0])
+    if any(positive((i['row'].get('wind') or {}).get('speed_kts'))
+           and i['row']['wind']['speed_kts'] * 1.852 > 20 for i in intervals):
+        cautions.append(REPORT_CAUTIONS[1])
+    if any(positive(value) and value < 100 for value in energies):
+        cautions.append(REPORT_CAUTIONS[2])
+    if any(advice.get('inside_limit_ft') and advice['status'] == 'conditional'
+           for interval in intervals for advice in interval['tiers'].values()):
+        cautions.append(INSIDE_CAUTION)
+    if any(positive(value) and 100 <= value < 200 for value in energies):
+        cautions.append('Weak surf: a longboard or foamie is preferred.')
+    return cautions
+
+
 def render_day(day, name):
     intervals = daylight_intervals(day)
     blocks = [report_header(day['date'], name)]
     for tier, heading in zip(TIERS, ('🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED')):
         blocks.append(heading + '\n' + '\n'.join(tier_windows(intervals, tier)))
-    cautions = list(REPORT_CAUTIONS)
-    if any(advice.get('inside_limit_ft') and advice['status'] == 'conditional'
-           for interval in intervals for advice in interval['tiers'].values()):
-        cautions.append(INSIDE_CAUTION)
-    if any(positive((i['row'].get('energy') or {}).get('nearshore'))
-           and 100 <= i['row']['energy']['nearshore'] < 200 for i in intervals):
-        cautions.append('Weak surf: a longboard or foamie is preferred.')
-    blocks.append('⚠️ CAUTIONS\n' + '\n'.join('- ' + text for text in cautions))
+    cautions = report_cautions(intervals)
+    if cautions:
+        blocks.append('⚠️ CAUTIONS\n' + '\n'.join('- ' + text for text in cautions))
     return blocks

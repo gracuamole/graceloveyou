@@ -732,6 +732,54 @@ class GeminiRevisionTests(unittest.TestCase):
         with self.assertRaisesRegex(SafeError, 'report validation'):
             revise(self.report, 'use the simple format change')
 
+    def daylight_report(self):
+        from test_recommendations import Coverage
+        fixture = Coverage()
+        fixture.setUp()
+        fixture.day['sunlight'] = {'sunrise_ts': fixture.base + 5 * 3600 + 48 * 60,
+                                   'sunset_ts': fixture.base + 18 * 3600 + 12 * 60}
+        self.protected_report()
+        self.report['forecast'] = {'daily': [fixture.day]}
+        return fixture
+
+    def test_model_sees_only_the_target_days_rounded_daylight_forecast(self):
+        from recommendations import render_day
+        fixture = self.daylight_report()
+        for hour in list(range(6)) + list(range(18, 24)):
+            fixture.day['hourly'][hour]['outside_window_marker'] = 'NIGHT_SOURCE_ONLY'
+            fixture.day['hourly'][hour]['energy'] = {'nearshore': 5000}
+        self.report['forecast']['daily'].append({'date': '2026-10-31', 'marker': 'OTHER_DAY_ONLY'})
+        self.set_result('\n\n'.join(render_day(fixture.day, self.report['name'])))
+        revise(self.report, 'keep only useful commentary change')
+        context = json.loads(self.post.call_args.kwargs['json']['contents'][0]['parts'][0]['text'])
+        self.assertEqual(context['forecast']['analysis_window'], {'start': '06:00', 'end': '18:00'})
+        intervals = context['forecast']['intervals']
+        self.assertEqual(len(intervals), 12)
+        self.assertEqual(intervals[0]['start'], '06:00')
+        self.assertEqual(intervals[-1]['end'], '18:00')
+        self.assertTrue(all(fixture.base + 6 * 3600 <= item['conditions']['timestamp']
+                            < fixture.base + 18 * 3600 for item in intervals))
+        self.assertNotIn('NIGHT_SOURCE_ONLY', json.dumps(context))
+        self.assertNotIn('OTHER_DAY_ONLY', json.dumps(context))
+        self.assertEqual(context['report_format']['cautions'], [])
+
+    def test_revised_windows_cannot_extend_daylight_even_when_feedback_supplies_the_numbers(self):
+        self.daylight_report()
+        header = "Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n"
+        feedback = 'Consider 05:00, 19:00, 06:15 and 07:00, but use daylight only change'
+        for window in ('05:00–06:00', '17:00–19:00', '06:15–07:00', '17:00–06:00', '18:00–18:00'):
+            with self.subTest(window=window):
+                self.set_result(header + window)
+                with self.assertRaisesRegex(SafeError, 'rounded daylight window'):
+                    revise(self.report, feedback)
+        self.set_result(header + '06:00–18:00')
+        self.assertEqual(''.join(revise(self.report, feedback)), header + '06:00–18:00')
+        self.report['forecast']['daily'][0]['sunlight'] = None
+        self.post.reset_mock()
+        with self.assertRaisesRegex(SafeError, 'Saved forecast cannot supply'):
+            revise(self.report, feedback)
+        self.post.assert_not_called()
+
     def test_status_diagnostics_and_no_provider_fallback(self):
         for status in (400, 403, 404, 429):
             self.response.status_code = status

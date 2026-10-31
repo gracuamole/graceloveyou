@@ -11,7 +11,8 @@ runs. Legacy forecast builders remain available; direct send paths and Phase 2
 `--send` are disabled. `phase2.py` still previews tomorrow's Surfline report.
 
 At or after 09:07 Bali time (01:07 UTC), generate tomorrow's daylight report once
-using the existing Surfline integration and Phase 2 recommendations. Poll Telegram
+using the existing Surfline integration and Phase 2 recommendations in the simple
+grouped format. Poll Telegram
 every five minutes; GitHub scheduling can be delayed, so this is not a latency SLA.
 No draft is generated until the configured Leo has sent `/start` in private.
 
@@ -42,8 +43,52 @@ Reply `note: Your observation change` on the latest real final prompt to append 
 attributed reviewer note without Gemini. All existing facts remain, the version
 increments and a fresh final prompt needs fresh approval. Other feedback continues
 through Gemini. Numeric output must come from the draft, source snapshot or explicit
-feedback; source attribution and the standard safety caution must remain. This is
-a conservative sanity check, not proof of accuracy, correct units or associations.
+feedback. This is a conservative sanity check, not proof of accuracy, correct units
+or associations. The displayed header is a written-out forecast date (for example,
+`Forecast date: 30 October 2026`), then a blank line and `📍OLD MAN'S / BATU BOLONG`.
+The report groups matching windows under 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED,
+with just the times when conditions are good. Only necessary restrictions such as
+inside-only surfing, a coach recommendation, strong wind or another conditional
+limitation add a short comment. Advanced good windows no longer list wave heights.
+Unavailable/flat intervals stay visible, and merging never bridges a gap. Display
+⚠️ CAUTIONS only when daylight conditions trigger one; omit generic warnings that
+do not apply. An actual-inside-height reminder remains when the inside exception
+applies. Telegram headings
+are bold through entities; the exact text and approval hash stay unchanged.
+The WITA label, source-attribution line and generic safety-guarantee disclaimer are
+omitted at the user's request. All forecast times still use Bali time internally;
+conditions, skill advice and coach cautions remain in the report.
+Analysis begins at sunrise rounded up to the next hour and ends at sunset rounded
+down to the previous hour (05:48–18:12 becomes 06:00–18:00). Exact-hour endpoints
+stay unchanged. Only those complete daylight rows enter recommendations and
+cautions. Gemini receives a normalized target-day daylight snapshot rather than
+the original multi-day/night feed. Revised time ranges must be whole hours inside
+that same window, even when feedback supplies additional out-of-window times.
+The full source snapshot remains in state for diagnosis. Older draft-only states
+with no daily source metadata can use the draft without extra source observations;
+an invalid daily sunlight record stops the revision before an LLM request.
+The model receives the saved spot name as required text. Old banner wording is
+removed from revision input/output (including note-only revisions), so existing
+saved drafts can adopt this format through a new reviewed version. Harmless spot-name
+typography (curly apostrophes, case and whitespace around `/`) is recognized and
+the original spot label retained. A missing/different location, unsupported
+numbers, missing date, or blocked/truncated output still fails. Every resulting
+revision needs a fresh exact approval on its new final prompt.
+Already approved text and existing message/publication IDs are not rewritten.
+
+To update an existing deployment, pause `SURF_REVIEW_ENABLED`, wait for active runs,
+then upload `recommendations.py`, `review_bot.py`, `surfline_check.py`,
+`webhook_setup.py` and the updated `tests/` files to `main`. The forecast tests
+import `surfline_check.py`, and webhook inspection tests require the matching
+`webhook_setup.py`; an older/missing helper makes the tests fail before any bot run.
+For the complete matching source/test upload set, see
+[UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md).
+Re-enable review and start a NEW **Reviewed next-day surf report** run from
+`main`. Saved future-dated pending feedback uses the updated Gemini instructions.
+For a report already awaiting review, Reply to its latest final prompt with
+`Use the shorter format and full daylight hours change` to request a fresh version. A note-only
+edit keeps the current layout and appends the note; it does not regenerate an old
+hourly report. Never reset state to change presentation.
 
 The required-source adapter blocks generation when next-day daylight or breaking
 surf coverage is missing. Unknown secondary fields still produce explicit N/A and
@@ -137,6 +182,16 @@ and are deliberately excluded. Surfline feed availability and the provisional en
 units in `PHASE2.md` remain live validation items. Leo reviews the final report;
 LLM revisions are not independent confirmation of forecast accuracy.
 
+The original Surfline request methods remain in `main4_pkge_indi.py`, including the
+independent minimal `spotId`/`days=2` request used in `test_curl.py`. A failed package
+request tries that same standard-requests call and then the minimal Firefox call.
+Response unit metadata is checked before passing measurements to the parser, which
+expects FT/KTS/F. This avoids relabeling metric default responses. The tested
+library/transport versions are pinned in `requirements.txt`. For a live source
+check with no Telegram, LLM or state writes, run `python3 surfline_check.py` locally
+or **Surfline forecast check (no Telegram)** from `main` in GitHub Actions. That
+workflow is manual only, requests no secrets and cannot approve or publish reports.
+
 References: [Telegram Bot API](https://core.telegram.org/bots/api),
 [Telegram polling FAQ](https://core.telegram.org/bots/faq#getting-updates),
 [Gemini text generation](https://ai.google.dev/gemini-api/docs/text-generation),
@@ -168,6 +223,16 @@ above; diagnostics never clear it or retry a possibly delivered message.
    Expired reports stay expired; the next-day draft is generated after 09:07 Bali time.
 6. Reply to the latest final prompt with feedback ending in `change`. After the
    revised draft arrives, only exact `correct` on its new prompt approves publication.
+
+If an older deployment reports **LLM revision removed the spot, source attribution
+or safety caution**, pause `SURF_REVIEW_ENABLED`, let any active review run finish,
+and upload updated `review_bot.py`, `recommendations.py` and the updated `tests/`
+files to `main`. The updated application removes the
+retired banner and protects the spot and supplied numbers. Re-enable review and start
+a **new** Reviewed next-day surf report run from `main`. Existing future-dated
+`revision_pending` feedback is retried without resending it; do not edit `state.json`
+or clear an intent for this validation error. This is separate from an uncertain
+Telegram send. Location changes or unsupported facts still need corrected feedback.
 
 Gemini uses the same existing `requests` dependency; no new SDK is needed. It receives
 forecast data, report text and reviewer feedback, never API credentials. Truncated,

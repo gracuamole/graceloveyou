@@ -47,7 +47,11 @@ edits. This remains a Worker + GitHub design, so runner startup still adds delay
 Upload these files/folders to matching locations on GitHub's `main` branch:
 
 * `review_bot.py` (updated)
+* `recommendations.py` and `phase2.py` (report format, rules and preview builder)
 * `forecast_sources.py` (new required forecast adapter)
+* `main4_pkge_indi.py` and `requirements.txt` (updated Surfline transport/tested versions)
+* `surfline_check.py` (required by the offline forecast tests; read-only source check)
+* `.github/workflows/surfline-check.yml` (optional manual source-check workflow)
 * `webhook_setup.py` (new)
 * `.github/workflows/surf-review.yml` (updated)
 * `.github/workflows/configure-webhook.yml` (new)
@@ -58,6 +62,9 @@ Upload these files/folders to matching locations on GitHub's `main` branch:
 
 Keep the existing forecast files and dependencies. Never upload actual tokens,
 `.dev.vars`, `.env`, or `.wrangler` state. Do not replace `review-state/state.json`.
+For a matching Python source/test update to an already configured installation,
+use [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md). An older `webhook_setup.py`
+or missing `surfline_check.py` causes the corresponding offline tests to fail.
 
 ## 2. Create the free Cloudflare resources
 
@@ -170,19 +177,108 @@ bot preserves pending work rather than switching to a paid provider.
   `WEBHOOK_ENABLED`, GitHub token expiration/repository permission, and that the
   workflow file exists on `main` with `workflow_dispatch`. A successful dispatch
   appears as **Manually run** in GitHub even when the Worker initiated it.
+  Updated `webhook_setup.py` with action **inspect** traces both sides without
+  sending messages: Telegram registration/pending deliveries, GitHub transport and
+  enabled flag, matching Worker URL, Worker queue size, wakeup/retry timestamps and
+  last completed review. Upload it together with updated `review_bot.py` to `main`,
+  then start a NEW **Configure free Telegram webhook** run with action **inspect**.
+  Inspection works while review is enabled and does not acknowledge or erase updates.
+  A one-minute Worker cron is a recovery check, not a response-time guarantee.
+  If the Telegram reply has no later Actions run, diagnose delivery/dispatch before
+  assuming the LLM rejected the feedback.
+  * Missing/mismatched webhook or `GitHub review transport: poll`: finish the
+    intended webhook setup; polling retains GitHub's schedule delays.
+  * Telegram pending deliveries and a delivery error: inspect the classified
+    error and Worker logs. A 401 usually indicates a mismatched webhook secret.
+  * Worker inbox updates waiting without a new Actions run: check Cloudflare's
+    `GITHUB_ACTIONS_TOKEN` (Actions read/write for this repository), repository,
+    workflow filename, branch and wakeup logs. A token in GitHub alone is not
+    available to the Cloudflare Worker. Keep credentials out of pasted logs.
+  * **`GitHub wakeup unavailable` with the original Worker:** The original code
+    passed `redirect: 'error'`. Cloudflare Workers does not support that mode and
+    throws before contacting GitHub. Updated `cloudflare/worker.mjs` uses
+    `redirect: 'manual'` and rejects every response except HTTP 200/204, including
+    redirects, without forwarding the GitHub token. See the
+    [Cloudflare Request documentation](https://developers.cloudflare.com/workers/runtime-apis/request/#parameters).
+    In Cloudflare → Workers & Pages → your Worker → **Edit code**, replace
+    `redirect: 'error'` with `redirect: 'manual'`, then **Deploy**. Alternatively,
+    replace the Worker code with the updated local file and deploy it. Keep the
+    existing D1 binding, secrets and cron. No database or Git state reset is needed.
+    Recovery retries can already be backed off by up to fifteen minutes. To process
+    the saved correction immediately after deploying the fix, start one NEW
+    **Reviewed next-day surf report** run from `main`. Do not resend the correction
+    or clear the inbox. A later `GitHub wakeup failed (HTTP ...)` message is a
+    separate GitHub response to diagnose using its status code.
+  * Worker queue empty with no saved feedback/run: check Telegram delivery and the
+    Worker's numeric reviewer/chat allowlist. A regular reply to a report part still
+    wakes a correctly configured Worker, but the review bot only accepts feedback
+    as a Reply to the latest final review prompt.
 * **Webhook setup fails:** Run **Configure free Telegram webhook** with action
   **inspect**. It reports registration and pending-delivery count without printing
   secrets or raw Telegram error messages. A mismatched shared secret produces HTTP
   401; D1 failure/paused Worker produces HTTP 503 and Telegram retries delivery.
+  An error naming **Telegram setWebhook HTTP 400** occurs at registration after
+  the Worker's authenticated status check passed; bot `/start` and channel message
+  limits are not the relevant checks. Updated `review_bot.py` classifies Telegram's
+  response into fixed DNS, URL, TLS, SECRET, PORT, IP or OPTIONS guidance, without
+  logging the response text. An older generic 400 log cannot reveal which occurred.
+  Upload the updated file to `main`, keep `SURF_REVIEW_ENABLED=false`, then start a
+  **new** Configure workflow with action **enable** from `main` (do not rerun an
+  old checkout). For DNS failures, verify the exact deployed `workers.dev` hostname
+  and retry after a few minutes if it was newly created. Never paste a bot token
+  into a browser URL or public log to obtain diagnostics. The setup does not send
+  chat messages, drop pending updates or automatically retry registration.
 * **Revision fails:** Inspect the review workflow logs. The durable state retains
   feedback; the Worker retries uncompleted work with increasing delay. If Gemini's
   free quota is exhausted, wait for its quota reset; don't enable paid billing.
   The bot sends one private failure notice per draft version when possible.
   Replacement feedback ending in `change` can be sent on the same current prompt;
   `note:` works without an LLM. Numeric corrections must be stated explicitly.
+  For **LLM revision removed the spot, source attribution or safety caution**, upload
+  updated `review_bot.py`, `recommendations.py` and the updated `tests/` files
+  to `main` while review is paused and no run is
+  active. At the user's request, the report now omits WITA, the source line and the
+  generic safety-guarantee disclaimer; revisions no longer require/re-add them.
+  The application accepts harmless spot typography; changed
+  locations, unsupported numbers and incomplete output remain blocked. Re-enable
+  review and start a NEW review run from `main` to retry saved future feedback.
+  This validation error requires no state edit or intent clearing.
+* **Surfline HTTP 403:** This is a forecast-source request failure. Keep the
+  existing Surfline integration. Updated `main4_pkge_indi.py` uses the original
+  `test_curl.py` methods: package URL with minimal Firefox request, then the
+  independent URL + `params={spotId, days: 2}` with standard requests, then Firefox.
+  Denied identical requests are not repeated. Metric response units are checked
+  and converted before the `surf-mcp` parser assumes feet, knots and Fahrenheit.
+  Upload the updated runtime files and `requirements.txt` to `main`. To check the
+  GitHub runner without sending messages, also upload `surfline_check.py` and
+  `.github/workflows/surfline-check.yml`, then manually run **Surfline forecast
+  check (no Telegram)** from `main`. It needs no secrets, LLM or state checkout.
+  Once that succeeds, a new normal review run can generate the private draft.
+  If all original request methods remain denied on GitHub, the check reports the
+  failure rather than inventing a report or silently substituting another source.
 * **Uncertain send intent:** Pause `WEBHOOK_ENABLED` and `SURF_REVIEW_ENABLED` to stop
   retries. Follow `REVIEW_WORKFLOW.md` to reconcile Telegram delivery. Never reset
   `state.json`, delete D1, or blindly clear a send intent.
+* **`Update state.json` fails in Actions after a manual state edit:** This is the
+  commit title displayed for a **Phase 2 rules tests** run. Older copies of that
+  workflow run on every push, including `review-state`, whose old source tree may
+  have no `tests/` directory. A failed test run does not roll back the committed
+  state edit. Inspect the commit, then resume **Reviewed next-day surf report**
+  from `main` after completing delivery reconciliation. Updated
+  `.github/workflows/phase2-tests.yml` excludes pushes to `review-state`:
+  ```yaml
+  on:
+    pull_request:
+    push:
+      branches-ignore:
+        - review-state
+    workflow_dispatch:
+  ```
+  Apply this trigger change on **both** `main` and any existing copy on
+  **`review-state`**. GitHub reads a push workflow from the pushed branch;
+  changing `main` alone leaves the old state-branch trigger active. Keep the
+  remaining jobs and state history. Code tests still run for other branch pushes
+  and pull requests. This change makes no Telegram calls.
 * **Returning to polling:** First drain the inbox through a successful review run.
   Pause review and Worker dispatch, run the setup workflow with action **disable**
   to remove the Telegram webhook, then set `SURF_REVIEW_TRANSPORT=poll` and re-enable
@@ -207,6 +303,13 @@ Bali daily timing, and retention of approval/publication guards. No live deploym
 free-tier CPU measurement, account permission check or delivery test has been run
 by the implementation task. An incoming webhook can wake GitHub immediately, but
 runner startup/setup and Gemini still add delay. There is no exact latency SLA.
+
+On 2026-10-31 the restored Surfline method was tested locally against the live API:
+the original minimal conditions request returned HTTP 200, and a full preview for
+2026-11-01 completed. A rejected package wind request succeeded using standard
+requests with the original minimal parameters. This validates the local path;
+GitHub-hosted network access still needs the read-only check above. No Telegram
+message, Gemini request, remote deployment or GitHub push was performed in that test.
 
 Sources: [Workers Free pricing], [D1 Free pricing], [GitHub runner billing],
 [workflow dispatch API], [Telegram webhook API], [Gemini pricing].

@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 
 from forecast_sources import SourceUnavailable, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
-                             report_bold_entities, REPORT_CAUTIONS, INSIDE_CAUTION)
+                             report_bold_entities, daylight_intervals, report_cautions)
 from phase2 import build_blocks, chunks
 
 
@@ -279,20 +279,25 @@ class WebhookInbox:
 REVISION_INSTRUCTIONS = (
     'Revise a next-day Bali surf report using the reviewer\'s feedback. '
     'Return only the complete revised report as plain text. '
-    'Use report_format.header, then 🟢 BEGINNER, 🟡 INTERMEDIATE, 🔵 ADVANCED and ⚠️ CAUTIONS. '
+    'Use report_format.header, then 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED. '
+    'For good conditions, display only the time windows, without commentary or wave heights. '
+    'Add only essential restrictions, such as inside break only or coach recommended; '
+    'do not list every reason or repeat general advice beside each window. '
+    'Use only whole-hour windows inside forecast.analysis_window: sunrise is rounded up '
+    'and sunset down. Analyze only the supplied daylight intervals; ignore nighttime '
+    'or partial-hour windows in an older draft. '
     'Group times by skill level. Merge adjacent windows only when the advice matches; '
     'join disjoint matching windows with "and" without bridging missing/unknown periods. '
-    'Beginner lines show inside break and any coach recommendation with a short reason. '
-    'Intermediate lines may show just the times when unconditional; retain inside-only restrictions '
-    'and conditional reasons when applicable. Advanced lines show actual breaking-wave heights '
-    '(a range when heights differ); do not average away a change in wave height. '
-    'Keep not-assessed and not-recommended periods explicit. End with short caution bullets. '
+    'Keep data-unavailable and not-recommended periods explicit. Include ⚠️ CAUTIONS '
+    'only for relevant daylight conditions, using short non-repetitive bullets; '
+    'omit the section if no caution applies. Do not add wave-height commentary for good windows. '
     'Do not add hourly data tables, markdown markers, narrative introductions or sign-offs. '
     'Preserve target date, spot and the relevant skill/coach cautions. '
     'Omit the WITA label, source attribution and the generic sentence '
     '"Check conditions locally; recommendations are not safety guarantees." '
     'Copy the spot name verbatim. Use only numeric '
-    'values already present in the supplied draft, forecast or explicit feedback; '
+    'values already present in the supplied draft, daylight forecast, report_format.rule_values '
+    'or explicit feedback; '
     'do not add conversions, estimates, extra times or numeric list labels. '
     'The required_verbatim_text list is application-owned: include every item '
     'unchanged even when shortening the report or removing time intervals. '
@@ -375,14 +380,41 @@ def report_date_present(text, target):
     return target in text or forecast_date_label(target).casefold() in text.casefold()
 
 
+def revision_forecast(report):
+    """Expose the target day's rounded daylight rows, never the full multi-day feed."""
+    source = report.get('forecast') or {}
+    if not isinstance(source, dict) or 'daily' not in source:
+        return {}, []  # Older draft-only states have no extra source observations.
+    try:
+        day = next(day for day in source['daily'] if day['date'] == report['date'])
+        intervals = daylight_intervals(day)
+    except (StopIteration, ValueError, KeyError, TypeError):
+        raise SafeError('Saved forecast cannot supply a rounded daylight window. Feedback remains pending.') from None
+    label = lambda timestamp: datetime.fromtimestamp(timestamp, BALI).strftime('%H:%M')
+    context = {'date': report['date'],
+               'analysis_window': {'start': label(intervals[0]['start']), 'end': label(intervals[-1]['end'])},
+               'intervals': [{'start': label(interval['start']), 'end': label(interval['end']),
+                              'conditions': interval['row'], 'tide': interval['tide'],
+                              'recommendations': {
+                                  tier: {key: advice[key] for key in
+                                         ('status', 'break', 'coach', 'inside_limit_ft', 'missing')
+                                         if key in advice}
+                                  for tier, advice in interval['tiers'].items()}}
+                             for interval in intervals]}
+    return context, intervals
+
+
 def revision_input(report, feedback):
     spot = protected_revision_labels(report).get('spot')
+    forecast, intervals = revision_forecast(report)
     return json.dumps({'date': report['date'], 'draft': [clean_report_text(part) for part in report['parts']],
-                       'forecast': report['forecast'], 'feedback': feedback,
+                       'forecast': forecast, 'feedback': feedback,
                        'report_format': {
                            'header': report_header(report['date'], spot) if spot else
                                      'Forecast date: ' + forecast_date_label(report['date']),
-                           'cautions': list(REPORT_CAUTIONS) + [INSIDE_CAUTION],
+                           'cautions': report_cautions(intervals),
+                           'rule_values': {'beginner_inside_max_ft': 2, 'intermediate_inside_max_ft': 4,
+                                           'strong_wind_kmh': 20, 'flat_energy_kj': 100},
                        },
                        'required_verbatim_text': list(protected_revision_labels(report).values())},
                       ensure_ascii=False)
@@ -496,6 +528,15 @@ def validate_revision_text(report, feedback, result):
     if number_tokens(result) - number_tokens(supplied):
         raise SafeError('LLM revision introduced an unsupported number. Feedback remains pending; '
                         'include any intended numeric correction explicitly in your feedback.')
+    forecast, _ = revision_forecast(report)
+    window = forecast.get('analysis_window')
+    if window:
+        minutes = lambda value: int(value[:2]) * 60 + int(value[3:])
+        first, last = minutes(window['start']), minutes(window['end'])
+        for a, b, c, d in re.findall(r'(?<!\d)(\d{1,2}):(\d{2})\s*[–—-]\s*(\d{1,2}):(\d{2})', result):
+            start, end = int(a) * 60 + int(b), int(c) * 60 + int(d)
+            if int(b) or int(d) or not first <= start < end <= last:
+                raise SafeError('LLM revision includes times outside the rounded daylight window. Feedback remains pending.')
     if any(normalized_spot(text) not in normalized_spot(result)
            for text in protected_revision_labels(report).values()):
         raise SafeError('LLM revision removed the spot. Feedback remains pending.')
