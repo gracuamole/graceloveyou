@@ -1,4 +1,4 @@
-"""Private, deterministic decision explanations and saved Surfline summaries."""
+"""Retired offline audit helper; the report-only Telegram sender never imports it."""
 from datetime import datetime
 
 from recommendations import (BALI, TIERS, LOW_RATINGS, daylight_intervals, number,

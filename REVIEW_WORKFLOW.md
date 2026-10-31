@@ -16,66 +16,48 @@ grouped format. Poll Telegram
 every five minutes; GitHub scheduling can be delayed, so this is not a latency SLA.
 No draft is generated until the configured Leo has sent `/start` in private.
 
-Draft delivery is ordered: report parts, private **Detailed surf analysis**, private
-**Surfline data summary**, then the final approval prompt. The analysis explains
-each skill level's included/excluded windows and compares the current draft with
-the source-rule result. The summary shows actual saved hourly values, source
-ratings such as `Poor to fair`, sunrise/sunset and daylight tide events. Derived
-tide bands, conversions and unconfirmed energy units are labelled. No extra LLM
-call is needed for these deterministic notes. The usual one-part report produces
-one analysis message and one data message. Longer documents are split within
-Telegram's limit, with all their IDs recorded before the final prompt.
-
+Each draft delivery contains only the report parts followed by the final approval
+prompt. No separate detailed analysis or Surfline data summary is generated or sent.
 Leo uses Telegram **Reply**:
 
 * Exactly `correct` (lowercase, no extra spaces, punctuation or newline) on the
-  newest final prompt approves the complete current report. The analysis/data
-  messages must already be recorded as delivered. Publish only the exact report
-  text, without draft labels, to the channel. Private analysis/data are never
-  included in channel delivery. Each report part is delivered once on successful runs.
+  newest final prompt approves the complete current report. All report parts must
+  already be recorded as delivered. Publish their exact text, without draft labels,
+  to the channel once for that approved version.
 * Feedback whose final word is lowercase `change` (optional trailing whitespace)
-  can Reply to the current report, analysis, data summary or final prompt and goes
-  to Gemini. For example: `Wind should be 15 km/h change`.
-  Bare `change` is ignored. The LLM receives the saved forecast, draft and feedback,
-  and returns a complete revised report. It cannot authorize publication. Each new
-  version gets fresh private analysis/data and a fresh prompt requiring Leo's
-  approval again. Reviewer corrections appear separately from unchanged original
-  source values. Any draft/source-rule disagreement is explicitly flagged for review.
+  can Reply to the current report or final prompt and goes to Gemini. For example:
+  `Wind should be 15 km/h change`. Bare `change` is ignored. The model receives the
+  saved forecast, draft and feedback and returns the revised report. Each revision
+  gets a new report and final prompt and requires fresh approval. The source
+  snapshot remains saved internally; no additional review-note messages are sent.
 * Wrong users, groups, forwards, edited messages, stale prompt replies and unrelated
   text are ignored. Usernames are never identity credentials. No unthreaded approvals.
 * Reports expire at the start of their forecast date in Bali. Late approvals cannot
   publish yesterday's next-day report. A failure never substitutes invented data.
 
-### Manual testing after publication
+### Manual testing, including a pending review
 
 Start a **new** **Reviewed next-day surf report** run from `main` and tick
-**Send another private draft after publication (testing; fresh correct posts again)**.
-The `resend_published` input defaults to **false**. Ordinary manual runs, scheduled
-runs and the Worker's automatic dispatches continue to skip already published
-reports. No Worker change is required: it dispatches with only `ref`, without this
-input. The CLI accepts `--resend-published` only in a GitHub `workflow_dispatch`
-run with a numeric `GITHUB_RUN_ID`; the workflow passes it only for an explicitly
-checked input.
+**Send report again for testing (fresh approval required)**. The input is still
+named `resend_published` for compatibility and defaults to **false**. Ordinary
+manual runs, schedules and automatic Worker dispatches do not repeat completed
+private reviews or reopen published reports. No Worker change is required.
+The CLI accepts `--resend-published` only in a GitHub `workflow_dispatch` run with
+a numeric `GITHUB_RUN_ID`; the workflow passes it only for an explicitly checked input.
 
-For a next-day report already marked `published`, the option fetches a fresh
-Surfline forecast and creates a new version using the current format, even if
-the earlier version has identical text. It sends labeled **TEST DRAFT** messages
-privately to the configured reviewer, followed by the two private evidence documents
-and a final prompt warning that a new exact
-`correct` will post to the configured channel again. Feedback ending in `change`
-continues through the normal revision loop. Earlier approvals and old prompts
-cannot approve the new version. Publication needs a fresh Reply on its newest
-final prompt and is delivered once for that approved version. After publication,
-normal scheduled/webhook runs send no extra draft or channel post.
+For a published next-day report, fetch a fresh Surfline forecast and start a new
+version. For a report awaiting review, reuse its saved forecast: an unedited older
+draft adopts the current deterministic format; existing reviewer-corrected text and
+feedback are retained. Send the whole report privately, followed by a new final
+prompt. Old prompts cannot approve this version. The prompt warns when exact
+`correct` will deliberately post another report for an already published date.
 
-The original published report is retained in `publication_history`, including its
-parts, approval, forecast and Telegram message IDs. The new version starts with
-empty delivery IDs and no approval. A `manual_retest_requests` entry and new draft
-are saved together before sending. The GitHub run ID deduplicates retries, including
-**Re-run jobs** after successful publication; choose **Run workflow** to deliberately
-start another test. Pending tests resume normally without opening another cycle.
-An already active review is not replaced, source failures retain the earlier
-publication, and uncertain sends still require reconciliation. Do not clear state
+Published versions remain in `publication_history`; superseded pending versions
+remain in `review_history`, including their feedback and delivery IDs. Save the
+new version and `manual_retest_requests` entry together before sending. The GitHub
+run ID deduplicates retries: **Re-run jobs** resumes the same run without starting
+another test; choose **Run workflow** for a new test. Pending delivery, revision,
+publication or uncertain-send work is never silently discarded. Do not clear state
 or delivery IDs to test again. `/dryrun` remains a preview that cannot be approved.
 
 `/status` and `/dryrun` work as regular private commands from the configured
@@ -96,8 +78,7 @@ The report groups matching windows under 🟢 BEGINNER, 🟡 INTERMEDIATE and �
 with just the times when conditions qualify. Preserve the coached beginner inside
 exception for over-limit outside height/period when energy is at most 600, wind
 at most 20 km/h and the rating at least Fair. Other conditional, poor-to-fair,
-missing-data or flat periods are omitted from recommended times; the private
-analysis explains them. Use `No qualifying window.` when nothing qualifies.
+missing-data or flat periods are omitted from recommended times. Use `No qualifying window.` when nothing qualifies.
 Merging never bridges an excluded gap. Advanced good windows do not list heights.
 Display ⚠️ CAUTIONS in full sentences only when recommended daylight windows
 trigger one; omit generic warnings. An actual-inside-height reminder remains when the inside exception
@@ -125,8 +106,8 @@ revision needs a fresh exact approval on its new final prompt.
 Already approved text and existing message/publication IDs are not rewritten.
 
 To update an existing deployment, pause `SURF_REVIEW_ENABLED`, wait for active runs,
-then upload `recommendations.py`, `review_bot.py`, the new `review_context.py`,
-`surfline_check.py`, `webhook_setup.py` and the updated `tests/` files (including
+then upload `recommendations.py`, `review_bot.py`, `surfline_check.py`,
+`webhook_setup.py` and the matching `tests/` files (including
 `tests/fixtures/november_1_2026.json`) to `main`. The forecast tests
 import `surfline_check.py`, and webhook inspection tests require the matching
 `webhook_setup.py`; an older/missing helper makes the tests fail before any bot run.
@@ -139,13 +120,16 @@ For a report already awaiting review, Reply to its latest final prompt with
 edit keeps the current layout and appends the note; it does not regenerate an old
 hourly report. Never reset state to change presentation.
 
-An older pending review without private context receives only the missing analysis,
-data and a new final prompt; its already delivered report parts are not resent or
-silently rewritten. Its old `correct` cannot approve the new review bundle. Ask for
-the new good-window format through feedback as above. Already published reports
-receive no automatic context upgrade or new messages. Existing recorded approvals
-are not changed. Older states without a daily snapshot get explicit data-unavailable
-notes rather than invented observations; a fresh manual test can fetch a new snapshot.
+Existing pending reviews remain usable without the retired analysis/data messages.
+If the full report and final prompt are already saved as delivered, an ordinary run
+sends nothing extra. A partly delivered report resumes only its missing report parts
+and prompt; any unneeded note messages are skipped. Existing optional metadata and
+publication history are preserved. A new approval checks the public report hash,
+revision and configured reviewer, without requiring obsolete note-delivery IDs.
+Approvals already recorded by the older bundle workflow retain their original
+bundle-hash verification before publication. An uncertain old analysis/data send
+still needs normal reconciliation; this update never clears an intent automatically.
+Use the manual test checkbox to receive a new report and prompt, without state edits.
 
 The required-source adapter blocks generation when next-day daylight or breaking
 surf coverage is missing. Unknown secondary fields still produce explicit N/A and
@@ -201,12 +185,11 @@ change code/state and are part of the trust boundary. Never commit `.env` or tok
 
 Every processed update and state transition is committed and pushed to `review-state`.
 Inbox offsets advance only after handling; the next poll acknowledges saved updates.
-A revision failure retains the feedback for a future retry. Successful report,
-analysis and data IDs allow resuming partial private/channel delivery without
-resending acknowledged parts. The private documents are saved before the first
-report send. Content/input hashes bind them to the report revision; new approvals
-include the bundle hash as well as the exact public-report hash. Modified
-source/report/context cannot silently reuse a delivered approval.
+A revision failure retains the feedback for a future retry. Successful report and
+prompt IDs allow resuming delivery without resending acknowledged parts. Before
+channel publication, the approval hash must match the report text and version and
+the configured reviewer. Old bundle approvals are verified read-only for compatibility;
+new approvals do not depend on any analysis/data metadata.
 
 Telegram `sendMessage` has no idempotency key. Strict automatic exactly-once delivery
 across a network timeout cannot be guaranteed. This implementation chooses to stop

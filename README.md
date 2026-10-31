@@ -4,7 +4,7 @@ Reports use the simple grouped format: forecast date, spot and qualifying
 beginner/intermediate/advanced time windows. Good windows show just the times;
 the coached beginner inside-break exception keeps its short restriction.
 Cautions use full sentences. Conditional/poor-to-fair periods are omitted from
-recommended times and explained in Leo's private analysis. Analysis uses full hours inside sunrise–sunset,
+recommended times. Recommendations use full hours inside sunrise–sunset,
 rounding sunrise up and sunset down. See [PHASE2.md](PHASE2.md) for grouping
 rules and [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) to update an existing deployment.
 Use [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md) for the complete matching
@@ -25,24 +25,23 @@ See [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) for the private draft → Leo feedb
 revision → exact `correct` approval → channel workflow, deployment setup, durable
 state and uncertain-delivery recovery. It is disabled until explicitly configured.
 
-Each initial or revised draft is followed privately by **Detailed surf analysis**
-and a **Surfline data summary**, then the final approval prompt. The analysis
-explains included/excluded hours for each skill level. The data summary shows
-hourly values from the unchanged saved forecast, including actual rating labels
-such as **Poor to fair**. Feedback ending in `change` can Reply to any current
-review message; exact `correct` must Reply to the newest final prompt. Only the
-report is published. See [REVIEW_PACKET_EXAMPLE.md](REVIEW_PACKET_EXAMPLE.md) for
-an example generated from the saved 1 November forecast.
+Each initial or revised draft is sent privately as the **surf report**, followed
+by its **final approval prompt**. No detailed analysis or Surfline data summary is
+sent. Feedback ending in `change` can Reply to the current report or final prompt;
+exact `correct` must Reply to the newest final prompt. Only the report is published.
+The agreed qualifying-window rules, coached beginner inside option and full-sentence
+cautions are retained. See [SIMPLE_REPORT_EXAMPLE.md](SIMPLE_REPORT_EXAMPLE.md).
 
 Run `python3 -m unittest discover -s tests -v` for offline verification.
 
-To test again after publication, start a new **Reviewed next-day surf report** run
-from `main` and tick **Send another private draft after publication**. It sends a
-fresh next-day test draft to the configured reviewer. Only a new exact `correct`
-Reply on its final prompt can post it to the channel again. The checkbox defaults
-to off; scheduled runs and ordinary webhook dispatches never reopen published
-reports. Earlier publications stay in state, and rerunning the same GitHub run
-does not start another test cycle. See [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md).
+To receive the report again, start a new **Reviewed next-day surf report**
+run from `main` and tick **Send report again for testing**. This works
+for both a published report and one awaiting review. It sends the report and a new final prompt privately. Only a new exact `correct` Reply on that
+prompt can publish. The checkbox defaults to off; scheduled runs and ordinary
+webhook dispatches never resend a completed private review or reopen published
+reports. Earlier publications/reviews stay in state. **Re-run jobs** keeps the
+same run ID and does not start another test; choose **Run workflow** for that.
+See [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md).
 
 ## Faster replies with free hosting
 

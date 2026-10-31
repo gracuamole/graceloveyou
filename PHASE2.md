@@ -50,8 +50,7 @@ on the included coached inside option. Heights and long
 reason lists are not displayed beside otherwise good windows. Adjacent windows
 merge when their usable advice matches, even if underlying wave heights change;
 no height is averaged or invented. Disjoint matching windows use `and`; missing-data
-and excluded periods never bridge two recommended windows. Exclusion reasons,
-unknown data and flat periods are explained in the private analysis. Analysis uses only complete
+and excluded periods never bridge two recommended windows. Excluded, unknown and flat periods stay out of the displayed recommendations. Analysis uses only complete
 daylight hours: round sunrise up and sunset down. For example, 05:48–18:12 becomes
 06:00–18:00. Exact-hour endpoints stay unchanged, and no complete hour means the
 report is withheld. Raw hourly measurements stay
@@ -105,7 +104,7 @@ remain. Revisions of saved drafts use the same display format and need fresh rev
 * Surfline rating is used as quality context. POOR, VERY_POOR, POOR_TO_FAIR
   downgrade otherwise suitable advice to conditional; a good rating never
   overrides skill, height, energy, tide or wind cautions. No invented numeric
-  ranking or best-hour claim. Private analysis/data uses the actual label, for
+  ranking or best-hour claim. When a rating is referenced, use its actual label, for
   example `Poor to fair`, rather than `Low quality`. Unknown rating keys cannot
   produce a positive recommendation.
 * Use Surfline sunrise–sunset, rounded inward to whole hours, not a hardcoded
@@ -123,19 +122,14 @@ remain. Revisions of saved drafts use the same display format and need fresh rev
   wind, energy, period, breaking heights or tide prevents a positive recommendation.
   Unknown feed data cannot be rescued with fabricated inside heights.
 
-## Private review evidence
+## Report-only delivery
 
-After the report, `review_context.py` generates two private documents without an
-additional LLM call: a decision explanation per skill level (included and excluded
-windows, measured values and thresholds), then a summary of the unchanged saved
-Surfline snapshot. Each source row covers the following hour. Wind is converted
-to km/h, tide height to metres and displayed values are rounded. Energy units remain
-unconfirmed. Tide bands/trend are labelled as application calculations. Daylight
-tide events and the actual sunrise/sunset are included; night forecast rows are not.
-The original full snapshot remains saved. Reviewer corrections are labelled as
-feedback, never substituted into the original source values. If a revised draft
-differs from source-rule windows, the analysis explicitly flags that for Leo.
-See [REVIEW_PACKET_EXAMPLE.md](REVIEW_PACKET_EXAMPLE.md).
+Leo receives the short report and its final approval prompt. No separate analysis
+or data summary is generated or sent by `review_bot.py`. Source snapshots remain
+saved for internal recommendation/revision checks. The retired `review_context.py`
+helper is retained only as an offline audit utility for compatible older test sets;
+it is not imported by the sender. Existing optional review-note metadata does not
+block new report-only approvals. No state reset or history deletion is needed.
 
 ## Verification
 

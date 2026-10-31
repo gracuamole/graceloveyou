@@ -16,7 +16,6 @@ from forecast_sources import SourceUnavailable, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
                              report_bold_entities, daylight_intervals, report_cautions, tier_windows)
 from phase2 import build_blocks, chunks
-from review_context import build_review_context
 
 
 class SafeError(RuntimeError):
@@ -143,6 +142,7 @@ def digest(parts):
 
 
 def context_input_hash(report):
+    # Read-only compatibility for approvals saved by the former evidence workflow.
     return digest([1, report['date'], report['revision'], report.get('name'), report['parts'],
                    report.get('forecast'), report.get('feedback')])
 
@@ -323,7 +323,7 @@ REVISION_INSTRUCTIONS = (
     'Include ⚠️ CAUTIONS only for relevant recommended daylight conditions, '
     'using full sentences in short non-repetitive bullets; '
     'omit the section if no caution applies. Do not add wave-height commentary for good windows. '
-    'Do not add analysis or source-data sections to the report. They are sent separately and privately. '
+    'Return only the surf report. Do not add analysis or source-data sections; no separate review notes are sent. '
     'Do not add hourly data tables, markdown markers, narrative introductions or sign-offs. '
     'Preserve target date, spot and the relevant skill/coach cautions. '
     'Omit the WITA label, source attribution and the generic sentence '
@@ -349,8 +349,9 @@ UPDATE_OUTCOMES = {
     'ignored_stale_prompt': 'Ignored reply: it does not match a current saved final review prompt.',
     'ignored_expired': 'Ignored reply: that forecast date has already started in Bali; the report expired.',
     'ignored_not_reviewing': 'Ignored reply: this version is no longer waiting for approval or feedback.',
-    'ignored_context_pending': 'Private analysis/data must be delivered first. A new final prompt will be sent; approve only that prompt.',
-    'ignored_approval_not_prompt': 'Ignored approval: Reply with exactly correct on the latest final review prompt, not the report or analysis.',
+    'ignored_context_pending': 'An earlier run was waiting for review notes; only the report and approval prompt are now sent.',
+    'ignored_draft_pending': 'The report must be delivered completely first. A new final prompt will be sent.',
+    'ignored_approval_not_prompt': 'Ignored approval: Reply with exactly correct on the latest final review prompt.',
     'ignored_text': 'Ignored reply: send exactly correct, or feedback whose final word is lowercase change.',
     'approved': 'Exact approval recorded. Publication goes to the configured channel, with no private confirmation.',
     'revision_pending': 'Feedback saved. Preparing a revised draft with the configured LLM.',
@@ -676,6 +677,8 @@ class Review:
             self.drain_outbox()
 
     def send(self, report, kind, text):
+        if kind not in ('draft', 'prompt', 'publish', 'notice'):
+            raise SafeError('Only report, approval-prompt and command/notice delivery is enabled.')
         # A crash, timeout or failed persistence after this checkpoint leaves an
         # intent. Never retry it automatically: Telegram has no idempotency key.
         if report.get('intent'):
@@ -699,51 +702,29 @@ class Review:
     def deliver_draft(self, report):
         if report['status'] != 'draft':
             return
-        self.prepare_context(report)
         for index in range(len(report.get('draft_ids', [])), len(report['parts'])):
             label = 'TEST DRAFT' if report.get('manual_request_id') else 'DRAFT'
             self.send(report, 'draft', f"{label} {report['date']} v{report['revision']} "
                       f"({index + 1}/{len(report['parts'])})\n\n{report['parts'][index]}")
-        for kind in ('analysis', 'source'):
-            parts = report[kind + '_parts']
-            for index in range(len(report.get(kind + '_ids', [])), len(parts)):
-                self.send(report, kind, f"PRIVATE REVIEW {report['date']} v{report['revision']} "
-                          f"({index + 1}/{len(parts)})\n\n{parts[index]}")
         if not report.get('prompt_ids'):
-            warning = ('Manual test: this forecast date was already published. '
-                       'A new correct reply will post this report to the channel again.\n\n'
-                       if report.get('manual_request_id') else '')
+            warning = ''
+            if report.get('manual_request_id'):
+                warning = ('Manual test: this forecast date was already published. '
+                           'A new correct reply will post this report to the channel again.\n\n'
+                           if report.get('publication_history') else
+                           'Manual test: this report replaces an earlier pending draft. '
+                           'Only this version\'s new final prompt can approve publication.\n\n')
             prompt = (f"Review {report['date']} v{report['revision']} complete.\n\n" + warning
-                      + 'The report, detailed analysis and Surfline data have been delivered. '
+                      + 'The complete report has been delivered. '
                       'Reply to THIS message with exactly correct to publish only the report. '
-                      'For corrections, Reply to any message from this version with feedback whose '
+                      'For corrections, Reply to the report or this prompt with feedback whose '
                       'final word is change. Each revision needs fresh approval.')
             self.send(report, 'prompt', prompt)
         if report['status'] != 'review':
             report['status'] = 'review'
             self.store.save()
 
-    def prepare_context(self, report):
-        if report.get('context_input_sha256'):
-            if report['context_input_sha256'] != context_input_hash(report):
-                raise SafeError('Private analysis/data no longer matches this draft. Reconcile saved state before sending.')
-            validate_parts(report.get('analysis_parts'))
-            validate_parts(report.get('source_parts'))
-            if report.get('context_content_sha256') != digest([report['analysis_parts'], report['source_parts']]):
-                raise SafeError('Saved private analysis/data changed after preparation. Reconcile state before sending.')
-            return
-        if any(report.get(field) for field in ('analysis_ids', 'source_ids', 'analysis_parts', 'source_parts')):
-            raise SafeError('Private review context is incomplete. Reconcile saved state before sending.')
-        try:
-            analysis, source = build_review_context(report)
-        except (ValueError, KeyError, TypeError, StopIteration):
-            raise SafeError('Saved forecast cannot supply private analysis/data. No review prompt was sent.') from None
-        report.update(analysis_parts=split_text(analysis), source_parts=split_text(source),
-                      analysis_ids=[], source_ids=[], context_input_sha256=context_input_hash(report))
-        report['context_content_sha256'] = digest([report['analysis_parts'], report['source_parts']])
-        self.store.save()
-
-    def queue_context_upgrade(self, report):
+    def queue_draft_completion(self, report):
         report.setdefault('retired_prompt_ids', []).extend(report.get('prompt_ids', []))
         report.update(status='draft', prompt_ids=[])
         self.store.save()
@@ -772,7 +753,7 @@ class Review:
         reply_id = message.get('reply_to_message', {}).get('message_id')
         for report in self.s['reports'].values():
             current_ids = sum((report.get(kind + '_ids', [])
-                               for kind in ('draft', 'analysis', 'source', 'prompt')), [])
+                               for kind in ('draft', 'prompt')), [])
             if reply_id not in current_ids:
                 continue
             if report['date'] <= today:
@@ -783,13 +764,12 @@ class Review:
             if text == 'correct' and not pending:
                 if reply_id not in report.get('prompt_ids', []):
                     return 'ignored_approval_not_prompt'
-                if not context_ready(report):
-                    self.queue_context_upgrade(report)
-                    return 'ignored_context_pending'
+                if len(report.get('draft_ids', [])) != len(report['parts']):
+                    self.queue_draft_completion(report)
+                    return 'ignored_draft_pending'
                 report.update(status='approved', approval={
                     'user_id': self.user, 'update_id': update['update_id'],
-                    'revision': report['revision'], 'sha256': digest(report['parts']),
-                    'review_sha256': review_hash(report)})
+                    'revision': report['revision'], 'sha256': digest(report['parts'])})
                 return 'approved'
             elif re.search(r'\bchange\s*\Z', text) and text.strip() != 'change':
                 report.update(status='revision_pending', feedback=text)
@@ -809,8 +789,6 @@ class Review:
                     report['status'] = 'expired'
                     self.store.save()
                 continue
-            if report['status'] == 'review' and not context_ready(report):
-                self.queue_context_upgrade(report)
             if report['status'] == 'revision_pending':
                 try:
                     feedback = report['feedback']
@@ -895,7 +873,7 @@ class Review:
         self.generate(target, snapshot.data, snapshot.name)
 
     def reopen_published(self, target, today, request_id):
-        """Explicit manual test only; retain all earlier approvals/delivery records."""
+        """Explicit report-only test, including when a previous review is pending."""
         self.assert_no_uncertain()
         if (not re.fullmatch(r'[0-9]{1,30}', request_id)
                 or target != (datetime.fromisoformat(today) + timedelta(days=1)).date().isoformat()):
@@ -904,35 +882,58 @@ class Review:
             print('Manual test already recorded for this GitHub run; no extra draft created.')
             return False
         previous = self.s['reports'].get(target)
-        if previous is None or previous['status'] != 'published':
-            print('Manual test not started: no published next-day report; continuing the existing workflow.')
+        if previous is None:
+            print('Manual test not started: no next-day report; continuing normal generation.')
+            return False
+        if previous['status'] not in ('published', 'review'):
+            print('Manual test deferred: delivery, a saved revision or publication is pending. '
+                  'Continuing that work without discarding it; start a new manual test after it finishes.')
             return False
         if not self.s['started']:
             raise SafeError('Manual test requires the configured reviewer to send /start first.')
         self.check_single_active(target)
-        try:
-            snapshot = self.forecast(target)
-        except SourceUnavailable as error:
-            self.notify_failure('manual-forecast-error:' + request_id,
-                                'The manual test draft could not be generated. ' + str(error)
-                                + ' The earlier publication is unchanged; nothing new was approved or published.')
-            raise
-        if snapshot.date != target:
-            raise SafeError('Manual test forecast date does not match the next forecast date.')
-        parts = list(snapshot.parts)
+        if previous['status'] == 'published':
+            try:
+                snapshot = self.forecast(target)
+            except SourceUnavailable as error:
+                self.notify_failure('manual-forecast-error:' + request_id,
+                                    'The manual test draft could not be generated. ' + str(error)
+                                    + ' The earlier publication is unchanged; nothing new was approved or published.')
+                raise
+            if snapshot.date != target:
+                raise SafeError('Manual test forecast date does not match the next forecast date.')
+            parts, forecast, name = list(snapshot.parts), snapshot.data, snapshot.name
+        else:
+            # Resending a pending review must not erase Leo's existing corrections
+            # or depend on another live forecast request. Unedited older drafts
+            # can adopt the current deterministic format from their saved source.
+            forecast = deepcopy(previous.get('forecast') or {})
+            name = previous.get('name') or protected_revision_labels(previous).get('spot')
+            parts = list(previous['parts'])
+            if not previous.get('feedback') and isinstance(forecast, dict) and 'daily' in forecast:
+                if not name:
+                    raise SafeError('Saved spot name is missing. The pending review is unchanged.')
+                try:
+                    parts = chunks(build_blocks(forecast, target, name), limit=3000)
+                except (ValueError, KeyError, TypeError, StopIteration):
+                    raise SafeError('Saved forecast cannot rebuild the manual draft. The pending review is unchanged.') from None
         validate_parts(parts)
         archived = deepcopy(previous)
         history = archived.pop('publication_history', [])
-        history.append(archived)
-        report = dict(date=target, name=snapshot.name, forecast=snapshot.data, parts=parts,
+        review_history = archived.pop('review_history', [])
+        (history if previous['status'] == 'published' else review_history).append(archived)
+        report = dict(date=target, name=name, forecast=forecast, parts=parts,
                       revision=previous['revision'] + 1, status='draft', draft_ids=[], prompt_ids=[],
-                      manual_request_id=request_id, publication_history=history)
+                      manual_request_id=request_id, publication_history=history, review_history=review_history)
+        if previous['status'] == 'review' and previous.get('feedback'):
+            report['feedback'] = previous['feedback']
         self.s['reports'][target] = report
         self.s.setdefault('manual_retest_requests', {})[request_id] = {
             'date': target, 'revision': report['revision']}
         # Persist the request and archive together before sending any test draft.
         self.store.save()
-        print('Manual test saved. Sending a fresh private draft; a new exact approval is required to post again.')
+        print('Manual test saved. Sending the report and new approval prompt privately; '
+              'a new exact approval is required for channel publication.')
         return True
 
     def check_single_active(self, target):
@@ -965,7 +966,7 @@ def main():
     parser.add_argument('--persist-git', action='store_true')
     parser.add_argument('--status', action='store_true', help='Read saved state only; no network or messages')
     parser.add_argument('--resend-published', action='store_true',
-                        help='Explicit GitHub manual test: reopen a published next-day report for fresh review')
+                        help='Explicit GitHub manual test: resend a published or pending report privately for fresh review')
     args = parser.parse_args()
     manual_request_id = None
     if args.resend_published:
@@ -974,7 +975,7 @@ def main():
         manual_request_id = os.environ.get('GITHUB_RUN_ID', '')
         if (os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch'
                 or not re.fullmatch(r'[0-9]{1,30}', manual_request_id)):
-            raise SafeError('Resending a published report requires an explicit GitHub manual workflow run.')
+            raise SafeError('Resending a private review requires an explicit GitHub manual workflow run.')
     if args.status:
         if args.run:
             parser.error('--status cannot be combined with --run')
