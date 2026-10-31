@@ -13554,14 +13554,12 @@
       "source_parts": [
         "SURFLINE DATA SUMMARY — 1 November 2026 v11\nPrivate review only. Saved Surfline snapshot; revisions do not refresh or overwrite it.\nSunrise 05:51; sunset 18:16. Analyzed 06:00–18:00 (Bali time).\nSurf is breaking-wave height; inside waves are not separately forecast.\nE = nearshore energy (feed units unconfirmed); P = longest swell-partition period.\nEach row describes the following hour. Tide height is interpolated; bands/trend are application calculations.\nDisplayed values are rounded; the original snapshot stays saved.\n\nTime | Surf ft | E | P s | Wind km/h | Tide m (band/trend) | Rating\n06:00 | 3–4 | 222.7 | 14 | 8.1 E | 0.88 low/falling | Fair\n07:00 | 3–4 | 221.7 | 14 | 12 ESE | 0.62 low/falling | Fair\n08:00 | 3–4 | 221.5 | 14 | 13.1 ESE | 0.56 low/rising | Fair\n09:00 | 3–4 | 222.5 | 14 | 15.2 SE | 0.72 low/rising | Poor to fair\n10:00 | 3–4 | 223.5 | 14 | 14.6 SE | 1.04 low/rising | Poor to fair\n11:00 | 3–4 | 224.5 | 14 | 15.6 SE | 1.42 mid/rising | Poor to fair\n12:00 | 3–4 | 226.5 | 14 | 16.1 SE | 1.76 high/rising | Poor to fair\n13:00 | 3–4 | 228.6 | 14 | 16.7 SE | 1.98 high/rising | Poor to fair\n14:00 | 3–4 | 230.4 | 14 | 16.9 SSE | 2.03 high/falling | Poor to fair\n15:00 | 3–4 | 232 | 14 | 17 SSE | 1.93 high/falling | Poor to fair\n16:00 | 3–4 | 232.4 | 14 | 17.6 SE | 1.72 mid/falling | Poor to fair\n17:00 | 3–4 | 232 | 13 | 15.7 SE | 1.46 mid/falling | Poor to fair\n\nDaylight tide events: Low 07:44 (0.56 m); High 13:50 (2.04 m).\nDaylight gust range: 12.2–22.4 km/h.\nSwell ranges by feed position (positions do not identify a tracked swell system):\n1: 2.56–2.85 ft / 13–14 s / SW.\n2: 1.54–1.84 ft / 5–9 s / SSW.\n3: 1.03–1.19 ft / 9 s / SW.\nTide bands use the bracketing tidal cycle when available; otherwise the daily height range."
       ],
-      "analysis_ids": [],
+      "analysis_ids": [
+        79
+      ],
       "source_ids": [],
       "context_input_sha256": "cd9037113a5a990bc77274ba569cd784ad5ce21a8952d19f2c20b7df9375292f",
-      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2",
-      "intent": {
-        "kind": "analysis",
-        "text_sha256": "1ed5cc8516eb2684d704ec1e3e18275671bc1f1e89c028a4861ae806b0e6e9d5"
-      }
+      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2"
     }
   },
   "offset": 248715027,
