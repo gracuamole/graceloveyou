@@ -9984,7 +9984,11 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "feedback": "start your forecast timing from 0600 change"
+      "feedback": "start your forecast timing from 0600 change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "e8c9211f1bc0e16fc6deede3cb67f044712d83dd7051c04c45bdf80051af939c"
+      }
     }
   },
   "offset": 248715025,
