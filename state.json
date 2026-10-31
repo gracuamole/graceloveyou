@@ -9987,7 +9987,11 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "feedback": "remove 18:00 report change"
+      "feedback": "remove 18:00 report change",
+      "intent": {
+        "kind": "draft",
+        "text_sha256": "87f94355dfdd244b7a8aff1d8d0772b140b2eea590eb15e02f33e6c95a23e222"
+      }
     }
   },
   "offset": 248715016,
