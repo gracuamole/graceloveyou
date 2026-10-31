@@ -9984,19 +9984,17 @@
         "; inside height is not separately forecast."
       ],
       "revision": 3,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         38,
         39,
         40,
         41
       ],
-      "prompt_ids": [],
-      "feedback": "remove 17:00-18:00 report change",
-      "intent": {
-        "kind": "prompt",
-        "text_sha256": "841eb721a931c637eb60d29801bcd70f06e9a681455125f37f4534390f8b7935"
-      }
+      "prompt_ids": [
+        42
+      ],
+      "feedback": "remove 17:00-18:00 report change"
     }
   },
   "offset": 248715017,
