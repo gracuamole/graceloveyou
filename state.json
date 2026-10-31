@@ -9984,7 +9984,7 @@
         "; inside height is not separately forecast."
       ],
       "revision": 3,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         38,
         39,
@@ -9994,10 +9994,10 @@
       "prompt_ids": [
         42
       ],
-      "feedback": "remove 17:00-18:00 report change"
+      "feedback": "remove 05:51-06:00 report and for 06:00 report, remove the advanced report change"
     }
   },
-  "offset": 248715017,
+  "offset": 248715018,
   "started": true,
   "binding": [
     941560570,
@@ -10019,6 +10019,7 @@
   },
   "webhook_processed_ids": [
     248715015,
-    248715016
+    248715016,
+    248715017
   ]
 }
