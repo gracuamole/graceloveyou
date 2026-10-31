@@ -9991,7 +9991,11 @@
         28,
         29
       ],
-      "prompt_ids": []
+      "prompt_ids": [],
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "4c641cc680f4613097202c8f38ca870b64b757e6290f779edc5f5888aa328e18"
+      }
     }
   },
   "offset": 248715015,
