@@ -1,15 +1,19 @@
 """Surfline surf-mcp Python library + curl_cffi Telegram forecast.
 
 Uses surf_mcp's endpoint construction, parsing, hourly merging and grouping.
-Only replaces its HTTP transport to use the minimal curl_cffi request that
-matched the successful direct endpoint tests more closely.
+Only replaces its HTTP transport with the requests/curl_cffi methods from
+the original direct endpoint tests, retaining minimal parameter fallbacks.
 """
 import os
 import time
+from copy import deepcopy
+import math
 from datetime import datetime, timedelta
 from urllib.parse import urlparse, parse_qsl, urlencode, urlunparse
 from zoneinfo import ZoneInfo
 
+from forecast_sources import SourceUnavailable, SurflineAccessDenied
+import requests as plain_requests
 from curl_cffi import requests as curl_requests
 from surf_mcp import fetch_full_forecast
 import surf_mcp.surfline_client as surfline_client
@@ -21,24 +25,35 @@ HOURS = (6, 10, 15)
 TIMEOUT = 25
 
 # The package handles parsing and joining. This transport adds retries and
-# independently retries a failed feed using the minimal successful parameters.
+# independently checks a failed feed using the original minimal parameters.
 OPTIONAL = {"consistency", "energy", "weather", "swells", "wind", "tides", "conditions"}
 cache = {}
+last_status = {}
 
 
-def request_json(url, endpoint, label, attempts=3):
-    """Use curl_cffi for every request, including fallback requests."""
+def request_json(url, endpoint, label, attempts=3, params=None, transport='firefox'):
+    """Use the exact clients from test_curl.py, without package browser headers."""
     for attempt in range(1, attempts + 1):
         try:
-            response = curl_requests.get(
-                url, impersonate="firefox", timeout=TIMEOUT,
-            )
+            options = {'timeout': TIMEOUT}
+            if params is not None:
+                options['params'] = params
+            if transport == 'requests':
+                response = plain_requests.get(url, **options)
+            else:
+                response = curl_requests.get(url, impersonate='firefox', **options)
             print(f"Surfline {endpoint} [{label} {attempt}/{attempts}]: "
                   f"HTTP {response.status_code}", flush=True)
+            last_status[endpoint] = response.status_code
+            if response.status_code in (401, 403):
+                # No identical-request retry. The caller can still try the
+                # separately tested minimal request from test_curl.py.
+                return None
             response.raise_for_status()
             return response.json()
         except (Exception) as exc:
-            print(f"Surfline {endpoint}: {type(exc).__name__}: {exc}", flush=True)
+            # Requests/exceptions can contain URLs and future credential values.
+            print(f"Surfline {endpoint}: request failed ({type(exc).__name__})", flush=True)
             if attempt < attempts:
                 time.sleep(min(2 ** (attempt - 1), 4))
     return None
@@ -50,6 +65,55 @@ def minimal_endpoint_url(original_url):
     params = dict(parse_qsl(parsed.query))
     params = {"spotId": params.get("spotId", SPOT_ID), "days": "2"}
     return urlunparse(parsed._replace(query=urlencode(params)))
+
+
+def normalized_units(payload, endpoint):
+    """surf-mcp assumes FT/KTS/F; minimal API responses often default to M/KPH/C."""
+    specifications = {
+        'surf': ('waveHeight', 'FT'), 'swells': ('swellHeight', 'FT'),
+        'tides': ('tideHeight', 'FT'), 'wind': ('windSpeed', 'KTS'),
+        'weather': ('temperature', 'F'),
+    }
+    if endpoint not in specifications:
+        return payload
+    if not payload.get('data', {}).get(endpoint):
+        return payload  # No measurements to label or convert (e.g. sunlight-only weather).
+    key, target = specifications[endpoint]
+    unit = str(payload.get('associated', {}).get('units', {}).get(key, '')).upper()
+    factors = ({'FT': 1, 'M': 1 / .3048} if target == 'FT' else
+               {'KTS': 1, 'KT': 1, 'KPH': 1 / 1.852, 'KMH': 1 / 1.852,
+                'KM/H': 1 / 1.852, 'MPS': 3600 / 1852, 'M/S': 3600 / 1852,
+                'MPH': 1609.344 / 1852} if target == 'KTS' else {'F': 1, 'C': 1.8})
+    if unit not in factors:
+        raise SourceUnavailable('Surfline returned missing or unsupported measurement units. '
+                                'Forecast withheld rather than guessing units.')
+    factor, offset = factors[unit], 32 if target == 'F' and unit == 'C' else 0
+    data = deepcopy(payload)
+
+    def convert(record, field):
+        value = record.get(field)
+        try:
+            value = float(value) if not isinstance(value, bool) else float('nan')
+        except (TypeError, ValueError):
+            value = float('nan')
+        record[field] = value * factor + offset if math.isfinite(value) else None
+
+    for row in data.get('data', {}).get(endpoint, []):
+        if not isinstance(row, dict):
+            continue
+        if endpoint == 'surf':
+            surf = row.get('surf') or {}
+            convert(surf, 'min')
+            convert(surf, 'max')
+        elif endpoint == 'swells':
+            for swell in row.get('swells', []):
+                convert(swell, 'height')
+        else:
+            fields = {'tides': ('height',), 'wind': ('speed', 'gust'), 'weather': ('temperature',)}
+            for field in fields[endpoint]:
+                convert(row, field)
+    data['associated']['units'][key] = target
+    return data
 
 
 def empty_feed(endpoint):
@@ -69,19 +133,29 @@ def empty_feed(endpoint):
 
 def curl_get_json(url):
     endpoint = urlparse(url).path.rsplit("/", 1)[-1]
+    last_status.pop(endpoint, None)
     data = request_json(url, endpoint, "package")
     if data is None:
-        fallback_url = minimal_endpoint_url(url)
-        print(f"Surfline {endpoint}: trying independent endpoint request "
-              f"with spotId and days=2", flush=True)
-        data = request_json(fallback_url, endpoint, "fallback", attempts=2)
+        parsed = urlparse(minimal_endpoint_url(url))
+        params = dict(parse_qsl(parsed.query))
+        params['days'] = 2
+        base = urlunparse(parsed._replace(query=''))
+        # Match test_curl.py: URL + params=, no supplied headers/session token.
+        print(f"Surfline {endpoint}: trying the original minimal spotId/days=2 request", flush=True)
+        data = request_json(base, endpoint, 'minimal requests', attempts=1,
+                            params=params, transport='requests')
+        if data is None:
+            data = request_json(base, endpoint, 'minimal Firefox', attempts=1, params=params)
 
     if data is None:
+        if endpoint == 'rating' and last_status.get(endpoint) in (401, 403):
+            raise SurflineAccessDenied(last_status[endpoint])
         if endpoint not in OPTIONAL and endpoint != "surf":
             raise RuntimeError(f"Required Surfline feed unavailable: {endpoint}")
         print(f"Surfline {endpoint}: unavailable; using N/A where possible", flush=True)
         return empty_feed(endpoint)
 
+    data = normalized_units(data, endpoint)
     cache[endpoint] = data
     return data
 

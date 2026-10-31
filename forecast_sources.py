@@ -9,6 +9,17 @@ class SourceUnavailable(RuntimeError):
     """A fixed, credential-free error safe to show to the reviewer."""
 
 
+class SurflineAccessDenied(SourceUnavailable):
+    """A denied request is not a transient network failure to retry immediately."""
+    def __init__(self, status):
+        if status not in (401, 403):
+            raise ValueError('Unexpected access-denial status')
+        self.status = status
+        super().__init__(f'Surfline denied forecast access (HTTP {status}) after the configured request methods. '
+                         'No new draft was created. Run the Surfline forecast check workflow to diagnose '
+                         'access from the GitHub runner. Changing LLM settings does not fix forecast access.')
+
+
 @dataclass
 class Forecast:
     date: str
@@ -36,6 +47,8 @@ def fetch_surfline(target):
         source.cache.clear()
         data = source.fetch_full_forecast(source.SPOT_ID, days=3)
         return prepare_forecast(data, target, source.SPOT_NAME)
+    except SourceUnavailable:
+        raise
     except Exception:
         # Unofficial endpoints and parsers can fail in many ways. No raw URL/body.
         raise SourceUnavailable('Surfline forecast unavailable or missing required daylight/breaking-surf data. '
