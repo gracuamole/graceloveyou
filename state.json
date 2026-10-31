@@ -13557,7 +13557,11 @@
       "analysis_ids": [],
       "source_ids": [],
       "context_input_sha256": "cd9037113a5a990bc77274ba569cd784ad5ce21a8952d19f2c20b7df9375292f",
-      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2"
+      "context_content_sha256": "425bd07d7b9c04153ab1bf2e7da037d18a144610fa1919c46f50b9c69ddad9e2",
+      "intent": {
+        "kind": "analysis",
+        "text_sha256": "1ed5cc8516eb2684d704ec1e3e18275671bc1f1e89c028a4861ae806b0e6e9d5"
+      }
     }
   },
   "offset": 248715027,
