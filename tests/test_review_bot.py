@@ -2,10 +2,15 @@ import json
 from pathlib import Path
 import tempfile
 import subprocess
+import sys
 import unittest
 from unittest.mock import Mock, patch
 
-from review_bot import Review, Store, Telegram, SafeError, failure_detail, http_failure, setting, digest, revise, validate_parts
+from review_bot import (Review, Store, Telegram, SafeError, failure_detail, http_failure,
+                        setting, digest, revise, validate_parts, validate_revision_text, main)
+from forecast_sources import Forecast, SourceUnavailable
+from datetime import datetime
+from recommendations import BALI
 
 TODAY, TARGET = '2026-10-29', '2026-10-30'
 
@@ -47,6 +52,32 @@ class ReviewTests(unittest.TestCase):
     def published(self):
         return [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage'
                 and c.kwargs['chat_id'] == -100]
+
+    def test_reply_outcomes_explain_silence_without_changing_rules(self):
+        self.draft()
+        self.assertEqual(self.bot.process(self.update('fix wind change', reply_to_message={}), TODAY),
+                         'ignored_unthreaded')
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': 0}), TODAY),
+                         'ignored_stale_prompt')
+        self.assertEqual(self.bot.process(self.update('Correct'), TODAY), 'ignored_text')
+        self.assertEqual(self.bot.process(self.update(), TARGET), 'ignored_expired')
+        self.assertEqual(self.report['status'], 'review')
+        self.assertFalse(self.published())
+        self.assertEqual(self.bot.process(self.update('fix wind change'), TODAY), 'revision_pending')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_not_reviewing')
+
+    def test_status_cli_is_read_only_and_excludes_private_content(self):
+        self.report['feedback'] = 'PRIVATE_FEEDBACK_SECRET'
+        self.store.save()
+        before = self.path.read_bytes()
+        result = subprocess.run([sys.executable, str(Path(__file__).resolve().parents[1] / 'review_bot.py'),
+                                 '--status', '--state', str(self.path)],
+                                capture_output=True, text=True, env={})
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('Bali date:', result.stdout)
+        self.assertNotIn('PRIVATE_FEEDBACK_SECRET', result.stdout)
+        self.assertEqual(self.path.read_bytes(), before)
+        self.tg.call.assert_not_called()
 
     def test_approved_content_once_after_restart(self):
         self.draft()
@@ -183,6 +214,168 @@ class ReviewTests(unittest.TestCase):
         original = self.report['parts'][:]
         self.bot.generate(TARGET, {}, 'ignored')
         self.assertEqual(self.report['parts'], original)
+
+    def test_second_active_report_is_rejected_before_fetching(self):
+        self.bot.forecast = Mock()
+        with self.assertRaisesRegex(SafeError, 'Another report is still active'):
+            self.bot.generate_next_day('2026-10-31')
+        self.bot.forecast.assert_not_called()
+        self.assertEqual(list(self.bot.s['reports']), [TARGET])
+
+    def test_private_status_command_survives_restart_and_duplicate_delivery(self):
+        self.draft()
+        self.report['feedback'] = 'PRIVATE_FEEDBACK_SECRET'
+        before = digest(self.report['parts'])
+        command = self.update('/status', reply_to_message={})
+        self.tg.call.reset_mock()
+        self.bot.consume_updates([command], TODAY)
+        self.tg.call.assert_not_called()  # Queue/offset persist before any delivery.
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
+        restarted.advance(TODAY)
+        restarted.consume_updates([command], TODAY)
+        restarted.advance(TODAY)
+        notices = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
+        self.assertEqual(len(notices), 1)
+        self.assertEqual(notices[0].kwargs['chat_id'], 42)
+        self.assertIn('review', notices[0].kwargs['text'])
+        self.assertNotIn('PRIVATE_FEEDBACK_SECRET', notices[0].kwargs['text'])
+        self.assertEqual(digest(restarted.s['reports'][TARGET]['parts']), before)
+        self.assertEqual(restarted.s['reports'][TARGET]['status'], 'review')
+
+    def test_commands_from_other_users_never_queue_or_fetch(self):
+        self.draft()
+        self.bot.forecast = Mock()
+        for command in ('/status', '/dryrun'):
+            outcome = self.bot.process(self.update(command, **{'from': {'id': 9}}), TODAY)
+            self.assertEqual(outcome, 'ignored_unauthorized')
+        self.assertFalse(self.bot.s.get('outbox'))
+        self.bot.forecast.assert_not_called()
+
+    def test_dryrun_has_no_approval_cycle_or_llm_and_cannot_be_approved(self):
+        self.draft()
+        before = json.dumps(self.report, sort_keys=True)
+        self.bot.forecast = Mock(return_value=Forecast(TARGET, 'Test', {}, [TARGET + ' preview']))
+        self.bot.consume_updates([self.update('/dryrun', reply_to_message={})], TODAY)
+        self.bot.advance(TODAY)
+        self.bot.forecast.assert_called_once_with(TARGET)
+        self.llm.assert_not_called()
+        self.assertEqual(json.dumps(self.report, sort_keys=True), before)
+        self.assertEqual(len(self.bot.s['reports']), 1)
+        preview = self.bot.s['outbox']['dryrun:5']
+        self.assertIn('PRIVATE PREVIEW ONLY', preview['parts'][0])
+        outcome = self.bot.process(self.update(reply_to_message={'message_id': preview['notice_ids'][0]}), TODAY)
+        self.assertEqual(outcome, 'ignored_stale_prompt')
+        self.assertFalse(self.published())
+
+    def test_command_only_run_does_not_generate_daily_approval_cycle(self):
+        self.bot.s['reports'].clear()
+        self.bot.s['started'] = True
+        command = {'update_id': 7, 'message': {'text': '/dryrun', 'from': {'id': 42},
+                                             'chat': {'id': 42, 'type': 'private'}}}
+        self.bot.forecast = Mock(return_value=Forecast(TARGET, 'Test', {}, [TARGET + ' preview']))
+        self.bot.generate_next_day = Mock()
+        self.tg.call.side_effect = lambda method, **kw: (
+            {'url': ''} if method == 'getWebhookInfo' else [command] if method == 'getUpdates'
+            else {'message_id': 999})
+        with patch('sys.argv', ['review_bot.py', '--run', '--persist-git']), \
+                patch('review_bot.Store', return_value=self.store), \
+                patch('review_bot.Review', return_value=self.bot), \
+                patch('review_bot.datetime', wraps=datetime) as clock, \
+                patch.dict('os.environ', {'TELEGRAM_BOT_TOKEN': 'SECRET', 'LEO_TELEGRAM_USER_ID': '42',
+                                         'LEO_TELEGRAM_CHAT_ID': '42', 'TELEGRAM_CHANNEL_ID': '-100',
+                                         'SURF_REVIEW_TRANSPORT': 'poll'}, clear=True):
+            clock.now.return_value = datetime(2026, 10, 29, 12, tzinfo=BALI)
+            main()
+        self.bot.generate_next_day.assert_not_called()
+        self.assertFalse(self.bot.s['reports'])
+        self.bot.forecast.assert_called_once_with(TARGET)
+
+    def test_note_command_works_without_api_key_and_needs_fresh_approval(self):
+        self.draft()
+        old_prompt = self.report['prompt_ids'][-1]
+        previous = self.report['parts'][:]
+        outcome = self.bot.process(self.update('note: Ask a coach about the current change'), TODAY)
+        self.assertEqual(outcome, 'note_pending')
+        self.store.save()
+        self.bot.advance(TODAY)
+        self.llm.assert_not_called()
+        revised = '\n\n'.join(self.report['parts'])
+        self.assertTrue(revised.startswith('\n\n'.join(previous)))
+        self.assertIn('Reviewer note (not Surfline data): Ask a coach about the current', revised)
+        self.assertEqual(self.report['revision'], 2)
+        self.assertFalse(self.published())
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), TODAY),
+                         'ignored_stale_prompt')
+        self.bot.process(self.update(), TODAY)
+        self.bot.advance(TODAY)
+        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+
+    def test_revision_failure_notice_once_and_feedback_can_be_replaced(self):
+        self.draft()
+        self.bot.s['started'] = True
+        self.bot.process(self.update('fix wind change'), TODAY)
+        self.store.save()
+        self.llm.side_effect = SafeError('Gemini revision HTTP 429: Free quota exhausted.')
+        self.tg.call.reset_mock()
+        with self.assertRaises(SafeError):
+            self.bot.advance(TODAY)
+        with patch.object(self.store, 'save', wraps=self.store.save) as checkpoint:
+            with self.assertRaises(SafeError):
+                self.bot.advance(TODAY)
+            checkpoint.assert_not_called()  # No empty Git commit on a repeated failure.
+        notices = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
+        self.assertEqual(len(notices), 1)
+        self.assertEqual(notices[0].kwargs['chat_id'], 42)
+        self.assertIn('429', notices[0].kwargs['text'])
+        self.assertEqual(self.report['status'], 'revision_pending')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_not_reviewing')
+        self.bot.process(self.update('note: Coach to confirm wind change'), TODAY)
+        self.store.save()
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['status'], 'review')
+        self.assertEqual(self.report['revision'], 2)
+        self.assertFalse(self.published())
+
+    def test_private_notice_timeout_halts_all_later_delivery(self):
+        self.draft()
+        self.bot.consume_updates([self.update('/status', reply_to_message={})], TODAY)
+        self.tg.call.side_effect = TimeoutError()
+        with self.assertRaises(TimeoutError):
+            self.bot.advance(TODAY)
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
+        self.assertEqual(restarted.s['outbox']['status:5']['intent']['kind'], 'notice')
+        restarted.process(self.update(), TODAY)
+        restarted.store.save()
+        self.assertEqual(restarted.s['reports'][TARGET]['status'], 'approved')
+        self.tg.call.reset_mock()
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain send'):
+            restarted.advance(TODAY)
+        self.tg.call.assert_not_called()
+        self.assertFalse(self.published())
+
+    def test_unknown_source_failure_sends_one_notice_without_creating_report(self):
+        self.bot.s['reports'].clear()
+        self.bot.s['started'] = True
+        self.bot.forecast = Mock(side_effect=SourceUnavailable('Surfline required data unavailable.'))
+        for attempt in range(2):
+            with self.assertRaises(SourceUnavailable):
+                self.bot.generate_next_day(TARGET)
+        self.assertFalse(self.bot.s['reports'])
+        self.llm.assert_not_called()
+        self.assertEqual(self.tg.call.call_count, 1)
+        self.assertEqual(self.tg.call.call_args.kwargs['chat_id'], 42)
+        self.assertFalse(self.published())
+
+    def test_failed_preview_does_not_mutate_active_report(self):
+        self.draft()
+        original = json.dumps(self.report, sort_keys=True)
+        self.bot.forecast = Mock(side_effect=SourceUnavailable('Surfline unavailable.'))
+        self.bot.consume_updates([self.update('/dryrun', reply_to_message={})], TODAY)
+        self.bot.advance(TODAY)
+        self.assertEqual(self.bot.s['outbox']['dryrun:5']['status'], 'sent')
+        self.assertIn('Private preview failed', self.bot.s['outbox']['dryrun:5']['parts'][0])
+        self.assertEqual(json.dumps(self.report, sort_keys=True), original)
+        self.assertFalse(self.published())
 
     def test_draft_timeout_also_halts_without_publication(self):
         self.tg.call.side_effect = TimeoutError()
@@ -337,6 +530,33 @@ class GeminiRevisionTests(unittest.TestCase):
             self.response.json.return_value['candidates'][0]['content']['parts'] = [{'text': content}]
             with self.assertRaisesRegex(SafeError, 'report validation'):
                 revise(self.report, 'fix change')
+
+    def test_invented_numbers_cannot_become_draft(self):
+        self.response.json.return_value['candidates'][0]['content']['parts'] = [
+            {'text': TARGET + ' Wind 987.6 km/h'}]
+        with self.assertRaisesRegex(SafeError, 'unsupported number'):
+            revise(self.report, 'fix wind change')
+        self.assertEqual(revise(self.report, 'Wind is 987.6 km/h change'),
+                         [TARGET + ' Wind 987.6 km/h'])
+
+    def test_source_and_safety_caution_must_be_preserved(self):
+        self.report['parts'] = [TARGET + ' Source: Surfline via surf-mcp. '
+                                'Check conditions locally; recommendations are not safety guarantees.']
+        with self.assertRaisesRegex(SafeError, 'source attribution or safety caution'):
+            revise(self.report, 'make this shorter change')
+
+    def test_numeric_formatting_allowed_but_new_negative_or_value_rejected(self):
+        self.report['parts'] = [TARGET + ' 1,200 kJ; wind 15.0 km/h; tide -0.25 m']
+        validate_revision_text(self.report, 'tidy up change', TARGET + ' 1200 kJ, wind 15 km/h; -0.250 m')
+        for text in (TARGET + ' 1201 kJ', TARGET + ' wind -15 km/h', TARGET + ' tide 0.26 m',
+                     TARGET + ' wind 1e10 km/h'):
+            with self.assertRaisesRegex(SafeError, 'unsupported number'):
+                validate_revision_text(self.report, 'tidy up change', text)
+
+    def test_legacy_report_spot_is_protected_without_state_reset(self):
+        self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + ' | WITA\nSurf report']
+        with self.assertRaisesRegex(SafeError, 'spot, source'):
+            validate_revision_text(self.report, 'shorter change', 'Kuta | ' + TARGET + ' | WITA\nSurf report')
 
     def test_status_diagnostics_and_no_provider_fallback(self):
         for status in (400, 403, 404, 429):
