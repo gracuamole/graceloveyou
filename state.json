@@ -9981,24 +9981,30 @@
         "Forecast date: 1 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low tide: shallower, faster/dumpier; prefer rising mid to high. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n12:00–13:00 and 17:00–18:00: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n🟡 INTERMEDIATE\n06:00–12:00 and 13:00–17:00 and 18:00–23:00: conditional; inside/outside. Prefer mid tide, rising or falling. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n12:00–13:00 and 17:00–18:00: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n⚠️ CAUTIONS\n- High energy: strong currents possible.\n- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n- Below 100 kJ: generally too flat for worthwhile surfing.\n- Check actual inside waves: beginners at most 2 ft; intermediate inside-only at most 4 ft."
       ],
       "revision": 10,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         72
       ],
       "prompt_ids": [
         73
       ],
-      "feedback": "start your forecast timing from 0600 change"
+      "feedback": "start your forecast timing from 0600 change",
+      "approval": {
+        "user_id": 941560570,
+        "update_id": 248715025,
+        "revision": 10,
+        "sha256": "2ae95737ff4ce04e9a1e77411c8c03d391045e22e8354f6b2d897bd307a991da"
+      }
     }
   },
-  "offset": 248715025,
+  "offset": 248715026,
   "started": true,
   "binding": [
     941560570,
     941560570,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -10031,6 +10037,7 @@
     248715021,
     248715022,
     248715023,
-    248715024
+    248715024,
+    248715025
   ]
 }
