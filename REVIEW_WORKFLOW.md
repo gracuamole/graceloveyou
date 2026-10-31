@@ -31,6 +31,27 @@ Telegram's **Reply** on that final prompt:
 * Reports expire at the start of their forecast date in Bali. Late approvals cannot
   publish yesterday's next-day report. A failure never substitutes invented data.
 
+`/status` and `/dryrun` work as regular private commands from the configured
+reviewer. `/status` returns saved status without private feedback text. `/dryrun`
+fetches a fresh deterministic next-day preview without creating a report/version,
+prompt or approval. A preview cannot be approved. A command-only run does not open
+a daily approval cycle, although existing pending work and the independent daily
+schedule continue. These private responses are persisted in `outbox` before sending.
+
+Reply `note: Your observation change` on the latest real final prompt to append an
+attributed reviewer note without Gemini. All existing facts remain, the version
+increments and a fresh final prompt needs fresh approval. Other feedback continues
+through Gemini. Numeric output must come from the draft, source snapshot or explicit
+feedback; source attribution and the standard safety caution must remain. This is
+a conservative sanity check, not proof of accuracy, correct units or associations.
+
+The required-source adapter blocks generation when next-day daylight or breaking
+surf coverage is missing. Unknown secondary fields still produce explicit N/A and
+unknown recommendations. After `/start`, source/revision failures queue one private
+notice per forecast date/version respectively. Telegram/persistence failures may
+prevent such notices. A pending failed revision cannot be approved, but replacement
+feedback ending in `change` on its current prompt can replace the pending feedback.
+
 ## Setup after deployment approval
 
 1. Deploy these changes to the default branch. All legacy scheduled publishers must
@@ -92,7 +113,9 @@ To recover: disable the workflow variable, wait for any active run to stop, insp
 `state.json` on `review-state` and Telegram's actual private/channel messages. The
 intent records `kind` and a text hash. If the send succeeded, append its Telegram
 message ID to `draft_ids`, `prompt_ids`, or `publish_ids` as appropriate, then clear
-`intent`. For a published part its index is the current length of `publish_ids`.
+`intent`. Private command/failure sends store intents in the relevant `outbox` entry;
+append the verified ID to that entry's `notice_ids`, then clear its intent. For a
+published part its index is the current length of `publish_ids`.
 If you can establish that no message was delivered, clear the intent without
 adding an ID. Commit/push only the verified correction, then re-enable. If uncertain,
 leave it halted; never delete publication history or blindly rerun sends. Never change
@@ -156,5 +179,42 @@ not been tested by the offline tests.
 
 The optional OpenAI adapter remains available for local use by explicitly setting
 `LLM_PROVIDER=openai`, `OPENAI_API_KEY` and `OPENAI_MODEL`; the shipped workflow
-selects Gemini only. The existing state format needs no migration. This provider
+selects Gemini only. The existing state format needs no reset; optional outbox
+entries are added automatically. This provider
 switch does not implement the previously discussed cross-report lesson memory.
+
+## Green run but no Telegram reply
+
+A successful run can be idle. Read the workflow's **Inspect saved review status
+(read-only)** step, then **Poll reviews and advance durable workflow**. The status
+step never contacts Telegram or the LLM and never changes state. The polling step
+now logs a fixed reason for each processed message, without printing message text,
+API keys or numeric user IDs. Reasons include wrong reviewer/chat, a regular message
+instead of Telegram Reply, stale review prompt, expired forecast, invalid command,
+accepted approval, accepted feedback, or no newly returned messages. The last outcome
+is saved for future diagnosis. This is an additive field; no state reset is required.
+
+Use Reply on the latest FINAL prompt for a forecast date that is still in the future.
+A report for a date that has already started in Bali cannot accept corrections or
+approval. New reports are generated after 09:07. Exact `correct` publishes to the
+configured channel; this implementation does not send a private success confirmation.
+After uploading diagnostics, send a fresh reply to the valid prompt, then start one
+new manual workflow run to see the result. Old ignored messages have already been
+acknowledged and are not replayed. If the job is skipped, verify
+`SURF_REVIEW_ENABLED=true`; an overall green run alone does not mean the bot job ran.
+
+For a local state checkout, `python3 review_bot.py --status --state
+review-state/state.json` provides the same read-only summary without credentials.
+
+## Optional free webhook transport
+
+See [FREE_HOSTING.md](FREE_HOSTING.md) for Cloudflare Workers Free + D1 setup.
+`SURF_REVIEW_TRANSPORT=webhook` reads the authenticated durable webhook inbox instead
+of calling Telegram `getUpdates`. The root report state format stays compatible;
+webhook processed IDs are added for crash-safe replay handling. Git commits still
+precede each inbox acknowledgement and Telegram side effect. `--status` remains
+read-only. In this mode the GitHub five-minute cron job is skipped, webhook updates
+request a workflow dispatch, and the daily cron remains as a backup. The Cloudflare
+one-minute recovery check also wakes the daily draft after 09:07 Bali time. Setting
+`SURF_REVIEW_TRANSPORT=poll` preserves the original polling mode, provided the
+Telegram webhook is removed first. Both transports must never run concurrently.
