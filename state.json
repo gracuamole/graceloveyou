@@ -13544,7 +13544,11 @@
             47
           ]
         }
-      ]
+      ],
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "b6653e4c3da777fee4f0eada5e8b01f53fcf68e4a51f6d45753fab4648795b48"
+      }
     }
   },
   "offset": 248715027,
