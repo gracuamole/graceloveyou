@@ -10000,14 +10000,14 @@
       ]
     }
   },
-  "offset": 248715026,
+  "offset": 248715027,
   "started": true,
   "binding": [
     941560570,
     941560570,
     -1004476747924
   ],
-  "last_update_outcome": "approved",
+  "last_update_outcome": "dryrun_requested",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -10028,6 +10028,12 @@
       "notice_ids": [
         64
       ]
+    },
+    "dryrun:248715026": {
+      "kind": "dryrun",
+      "status": "pending",
+      "date": "2026-11-01",
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -10041,6 +10047,7 @@
     248715022,
     248715023,
     248715024,
-    248715025
+    248715025,
+    248715026
   ]
 }
