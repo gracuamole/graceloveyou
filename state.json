@@ -10020,7 +10020,11 @@
       "parts": [
         "The surf report revision failed. Your feedback is saved and nothing was approved or published by this revision. LLM revision removed the spot, source attribution or safety caution. Feedback remains pending.\nAn operator can inspect Actions logs. Only one error notice is sent for this version; a later successful revision still needs fresh approval."
       ],
-      "notice_ids": []
+      "notice_ids": [],
+      "intent": {
+        "kind": "notice",
+        "text_sha256": "bc2b4f8953879b83a4a188fae8d1af71a7c59213a8de1b5adeab6ccfe5edc598"
+      }
     }
   },
   "webhook_processed_ids": [
