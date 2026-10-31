@@ -9983,18 +9983,16 @@
         ". Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n14:00–15:00\nBreaking surf: 3–4 ft\nEnergy: 243.6 kJ | Period: 14.0 s\nWind: 16.7 km/h SE | Rating: POOR_TO_FAIR\nTide: 2.03 m, mid rising; mid 1.68 m\nBeginner: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nIntermediate: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nAdvanced: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n15:00–16:00\nBreaking surf: 3–4 ft\nEnergy: 243.6 kJ | Period: 14.0 s\nWind: 17.8 km/h SSE | Rating: POOR_TO_FAIR\nTide: 1.93 m, mid falling; mid 1.68 m\nBeginner: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nIntermediate: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nAdvanced: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\n\n16:00–17:00\nBreaking surf: 3–4 ft\nEnergy: 242.5 kJ | Period: 14.0 s\nWind: 18.1 km/h SE | Rating: POOR_TO_FAIR\nTide: 1.72 m, mid falling; mid 1.68 m\nBeginner: conditional; inside whitewater; COACH. Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nIntermediate: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast.\nAdvanced: conditional; inside/outside. Low Surfline quality rating; manage expectations. Breaking surf forecast 3–4 ft; inside height is not separately forecast."
       ],
       "revision": 5,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         49,
         50,
         51
       ],
-      "prompt_ids": [],
-      "feedback": "for 06:00 report, remove the advanced report change",
-      "intent": {
-        "kind": "prompt",
-        "text_sha256": "06b90dab70f039ab51019d83b5c6d1ef55ab1108416fdf4435d9f7ae8f6230a9"
-      }
+      "prompt_ids": [
+        52
+      ],
+      "feedback": "for 06:00 report, remove the advanced report change"
     }
   },
   "offset": 248715019,
