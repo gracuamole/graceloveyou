@@ -9982,13 +9982,11 @@
       ],
       "revision": 10,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        72
+      ],
       "prompt_ids": [],
-      "feedback": "start your forecast timing from 0600 change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "e8c9211f1bc0e16fc6deede3cb67f044712d83dd7051c04c45bdf80051af939c"
-      }
+      "feedback": "start your forecast timing from 0600 change"
     }
   },
   "offset": 248715025,
