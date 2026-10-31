@@ -1,8 +1,10 @@
 # graceloveyou
 
-Reports use the simple grouped format: forecast date, spot, beginner/intermediate/
-advanced time windows, with essential restrictions and relevant cautions only.
-Good windows show just the times. Analysis uses full hours inside sunrise–sunset,
+Reports use the simple grouped format: forecast date, spot and qualifying
+beginner/intermediate/advanced time windows. Good windows show just the times;
+the coached beginner inside-break exception keeps its short restriction.
+Cautions use full sentences. Conditional/poor-to-fair periods are omitted from
+recommended times and explained in Leo's private analysis. Analysis uses full hours inside sunrise–sunset,
 rounding sunrise up and sunset down. See [PHASE2.md](PHASE2.md) for grouping
 rules and [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) to update an existing deployment.
 Use [UPDATE_INSTRUCTIONS.md](UPDATE_INSTRUCTIONS.md) for the complete matching
@@ -22,6 +24,15 @@ See [PHASE2.md](PHASE2.md) for rules, assumptions, tests and operational limits.
 See [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md) for the private draft → Leo feedback →
 revision → exact `correct` approval → channel workflow, deployment setup, durable
 state and uncertain-delivery recovery. It is disabled until explicitly configured.
+
+Each initial or revised draft is followed privately by **Detailed surf analysis**
+and a **Surfline data summary**, then the final approval prompt. The analysis
+explains included/excluded hours for each skill level. The data summary shows
+hourly values from the unchanged saved forecast, including actual rating labels
+such as **Poor to fair**. Feedback ending in `change` can Reply to any current
+review message; exact `correct` must Reply to the newest final prompt. Only the
+report is published. See [REVIEW_PACKET_EXAMPLE.md](REVIEW_PACKET_EXAMPLE.md) for
+an example generated from the saved 1 November forecast.
 
 Run `python3 -m unittest discover -s tests -v` for offline verification.
 

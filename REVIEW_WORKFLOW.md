@@ -16,17 +16,31 @@ grouped format. Poll Telegram
 every five minutes; GitHub scheduling can be delayed, so this is not a latency SLA.
 No draft is generated until the configured Leo has sent `/start` in private.
 
-Drafts can contain several labeled parts, followed by a review prompt. Leo must use
-Telegram's **Reply** on that final prompt:
+Draft delivery is ordered: report parts, private **Detailed surf analysis**, private
+**Surfline data summary**, then the final approval prompt. The analysis explains
+each skill level's included/excluded windows and compares the current draft with
+the source-rule result. The summary shows actual saved hourly values, source
+ratings such as `Poor to fair`, sunrise/sunset and daylight tide events. Derived
+tide bands, conversions and unconfirmed energy units are labelled. No extra LLM
+call is needed for these deterministic notes. The usual one-part report produces
+one analysis message and one data message. Longer documents are split within
+Telegram's limit, with all their IDs recorded before the final prompt.
 
-* Exactly `correct` (lowercase, no extra spaces, punctuation or newline) approves
-  the complete current version. Publish its exact report text, without draft labels,
-  to the configured channel. Each part is delivered once on successful runs.
+Leo uses Telegram **Reply**:
+
+* Exactly `correct` (lowercase, no extra spaces, punctuation or newline) on the
+  newest final prompt approves the complete current report. The analysis/data
+  messages must already be recorded as delivered. Publish only the exact report
+  text, without draft labels, to the channel. Private analysis/data are never
+  included in channel delivery. Each report part is delivered once on successful runs.
 * Feedback whose final word is lowercase `change` (optional trailing whitespace)
-  goes to the configured Gemini model. For example: `Wind should be 15 km/h change`.
+  can Reply to the current report, analysis, data summary or final prompt and goes
+  to Gemini. For example: `Wind should be 15 km/h change`.
   Bare `change` is ignored. The LLM receives the saved forecast, draft and feedback,
   and returns a complete revised report. It cannot authorize publication. Each new
-  version gets a fresh prompt and requires Leo's approval again.
+  version gets fresh private analysis/data and a fresh prompt requiring Leo's
+  approval again. Reviewer corrections appear separately from unchanged original
+  source values. Any draft/source-rule disagreement is explicitly flagged for review.
 * Wrong users, groups, forwards, edited messages, stale prompt replies and unrelated
   text are ignored. Usernames are never identity credentials. No unthreaded approvals.
 * Reports expire at the start of their forecast date in Bali. Late approvals cannot
@@ -46,7 +60,8 @@ checked input.
 For a next-day report already marked `published`, the option fetches a fresh
 Surfline forecast and creates a new version using the current format, even if
 the earlier version has identical text. It sends labeled **TEST DRAFT** messages
-privately to the configured reviewer, followed by a warning that a new exact
+privately to the configured reviewer, followed by the two private evidence documents
+and a final prompt warning that a new exact
 `correct` will post to the configured channel again. Feedback ending in `change`
 continues through the normal revision loop. Earlier approvals and old prompts
 cannot approve the new version. Publication needs a fresh Reply on its newest
@@ -78,12 +93,14 @@ feedback. This is a conservative sanity check, not proof of accuracy, correct un
 or associations. The displayed header is a written-out forecast date (for example,
 `Forecast date: 30 October 2026`), then a blank line and `📍OLD MAN'S / BATU BOLONG`.
 The report groups matching windows under 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED,
-with just the times when conditions are good. Only necessary restrictions such as
-inside-only surfing, a coach recommendation, strong wind or another conditional
-limitation add a short comment. Advanced good windows no longer list wave heights.
-Unavailable/flat intervals stay visible, and merging never bridges a gap. Display
-⚠️ CAUTIONS only when daylight conditions trigger one; omit generic warnings that
-do not apply. An actual-inside-height reminder remains when the inside exception
+with just the times when conditions qualify. Preserve the coached beginner inside
+exception for over-limit outside height/period when energy is at most 600, wind
+at most 20 km/h and the rating at least Fair. Other conditional, poor-to-fair,
+missing-data or flat periods are omitted from recommended times; the private
+analysis explains them. Use `No qualifying window.` when nothing qualifies.
+Merging never bridges an excluded gap. Advanced good windows do not list heights.
+Display ⚠️ CAUTIONS in full sentences only when recommended daylight windows
+trigger one; omit generic warnings. An actual-inside-height reminder remains when the inside exception
 applies. Telegram headings
 are bold through entities; the exact text and approval hash stay unchanged.
 The WITA label, source-attribution line and generic safety-guarantee disclaimer are
@@ -108,8 +125,9 @@ revision needs a fresh exact approval on its new final prompt.
 Already approved text and existing message/publication IDs are not rewritten.
 
 To update an existing deployment, pause `SURF_REVIEW_ENABLED`, wait for active runs,
-then upload `recommendations.py`, `review_bot.py`, `surfline_check.py`,
-`webhook_setup.py` and the updated `tests/` files to `main`. The forecast tests
+then upload `recommendations.py`, `review_bot.py`, the new `review_context.py`,
+`surfline_check.py`, `webhook_setup.py` and the updated `tests/` files (including
+`tests/fixtures/november_1_2026.json`) to `main`. The forecast tests
 import `surfline_check.py`, and webhook inspection tests require the matching
 `webhook_setup.py`; an older/missing helper makes the tests fail before any bot run.
 For the complete matching source/test upload set, see
@@ -120,6 +138,14 @@ For a report already awaiting review, Reply to its latest final prompt with
 `Use the shorter format and full daylight hours change` to request a fresh version. A note-only
 edit keeps the current layout and appends the note; it does not regenerate an old
 hourly report. Never reset state to change presentation.
+
+An older pending review without private context receives only the missing analysis,
+data and a new final prompt; its already delivered report parts are not resent or
+silently rewritten. Its old `correct` cannot approve the new review bundle. Ask for
+the new good-window format through feedback as above. Already published reports
+receive no automatic context upgrade or new messages. Existing recorded approvals
+are not changed. Older states without a daily snapshot get explicit data-unavailable
+notes rather than invented observations; a fresh manual test can fetch a new snapshot.
 
 The required-source adapter blocks generation when next-day daylight or breaking
 surf coverage is missing. Unknown secondary fields still produce explicit N/A and
@@ -175,8 +201,12 @@ change code/state and are part of the trust boundary. Never commit `.env` or tok
 
 Every processed update and state transition is committed and pushed to `review-state`.
 Inbox offsets advance only after handling; the next poll acknowledges saved updates.
-A revision failure retains the feedback for a future retry. Successful part IDs allow
-resuming partial draft/channel delivery, without resending acknowledged parts.
+A revision failure retains the feedback for a future retry. Successful report,
+analysis and data IDs allow resuming partial private/channel delivery without
+resending acknowledged parts. The private documents are saved before the first
+report send. Content/input hashes bind them to the report revision; new approvals
+include the bundle hash as well as the exact public-report hash. Modified
+source/report/context cannot silently reuse a delivered approval.
 
 Telegram `sendMessage` has no idempotency key. Strict automatic exactly-once delivery
 across a network timeout cannot be guaranteed. This implementation chooses to stop
@@ -188,7 +218,8 @@ Even a known rejection is conservative and requires operator reconciliation.
 To recover: disable the workflow variable, wait for any active run to stop, inspect
 `state.json` on `review-state` and Telegram's actual private/channel messages. The
 intent records `kind` and a text hash. If the send succeeded, append its Telegram
-message ID to `draft_ids`, `prompt_ids`, or `publish_ids` as appropriate, then clear
+message ID to `draft_ids`, `analysis_ids`, `source_ids`, `prompt_ids`, or `publish_ids`
+as appropriate, then clear
 `intent`. Private command/failure sends store intents in the relevant `outbox` entry;
 append the verified ID to that entry's `notice_ids`, then clear its intent. For a
 published part its index is the current length of `publish_ids`.

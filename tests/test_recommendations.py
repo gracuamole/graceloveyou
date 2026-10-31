@@ -2,7 +2,8 @@ import copy
 import unittest
 from unittest.mock import patch
 from datetime import datetime
-from recommendations import BALI, recommend, tide_at, daylight_intervals, render_day, report_bold_entities
+from recommendations import (BALI, recommend, tide_at, daylight_intervals, render_day,
+                             report_bold_entities, qualifies, rating_label)
 from phase2 import chunks, build_blocks
 
 
@@ -127,7 +128,7 @@ class Coverage(unittest.TestCase):
     def test_windows_keep_essential_restrictions_and_gaps_with_minimal_commentary(self):
         self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
                                 'sunset_ts': self.base + 18 * 3600}
-        self.day['hourly'][8].update(row(2, 700, 13))
+        self.day['hourly'][8].update(row(3, 400, 13))
         self.day['hourly'][12].update(row(energy=None))
         for hour in (13, 14, 16, 17):
             self.day['hourly'][hour].update(row(5, 1200, 15))
@@ -135,12 +136,13 @@ class Coverage(unittest.TestCase):
         with patch('recommendations.tide_at', return_value=TIDE):
             blocks = render_day(self.day, "Old Man's / Batu Bolong")
         self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG")
-        self.assertIn('🟢 BEGINNER\n06:00–08:00 and 09:00–12:00\n', blocks[1])
-        self.assertIn('08:00–09:00 and 13:00–18:00 — Inside break only, coach recommended', blocks[1])
-        self.assertIn('12:00–13:00 — Data unavailable', blocks[1])
-        self.assertIn('13:00–15:00 and 16:00–18:00 — Inside break only', blocks[2])
-        self.assertEqual(blocks[3], '🔵 ADVANCED\n06:00–12:00 and 13:00–18:00\n12:00–13:00 — Data unavailable')
-        self.assertIn('beginners max 2 ft; intermediate inside-only max 4 ft', blocks[4])
+        self.assertEqual(blocks[1], '🟢 BEGINNER\n06:00–08:00 and 09:00–12:00\n'
+                         '08:00–09:00 — Inside break only, coach recommended')
+        self.assertEqual(blocks[2], '🟡 INTERMEDIATE\n06:00–12:00 and 15:00–16:00')
+        self.assertEqual(blocks[3], '🔵 ADVANCED\n06:00–12:00 and 13:00–18:00')
+        self.assertIn('confirm that the inside waves are no higher than 2 ft before beginners enter.', blocks[4])
+        self.assertIn('Higher wave energy can contribute', blocks[4])
+        self.assertNotIn('12:00–13:00', '\n'.join(blocks))
         self.assertNotIn('Wind above', blocks[4])
         self.assertNotIn('Below 100', blocks[4])
         for removed in ('WITA', 'Source:', 'Energy:', 'Period:', 'Tide:', 'safety guarantees'):
@@ -153,7 +155,8 @@ class Coverage(unittest.TestCase):
         self.day['hourly'][7].update(row(3, 99))
         with patch('recommendations.tide_at', return_value=TIDE):
             blocks = render_day(self.day, 'Test')
-        self.assertEqual('\n'.join(blocks).count('06:00–08:00 — Not recommended (too flat)'), 3)
+        self.assertEqual('\n'.join(blocks).count('No qualifying window.'), 3)
+        self.assertNotIn('06:00–08:00', '\n'.join(blocks))
         self.assertNotIn('Inside break', '\n'.join(blocks))
         self.day['hourly'][6].update(row(3))
         self.day['hourly'][6]['surf_min_ft'] = 2
@@ -162,6 +165,49 @@ class Coverage(unittest.TestCase):
         with patch('recommendations.tide_at', return_value=TIDE):
             advanced = render_day(self.day, 'Test')[3]
         self.assertEqual(advanced, '🔵 ADVANCED\n06:00–08:00')
+
+    def test_beginner_inside_exception_cannot_bypass_energy_wind_rating_or_missing_data(self):
+        self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
+                                'sunset_ts': self.base + 7 * 3600}
+        for data, expected in ((row(4, 222, 14), True), (row(4, 600, 14), True),
+                               (row(4, 601, 14), False), (row(4, 222, 14, 20 / 1.852 + .1), False),
+                               (row(4, None, 14), False)):
+            self.day['hourly'][6].update(data)
+            with patch('recommendations.tide_at', return_value={'band': 'low'}):
+                interval = daylight_intervals(self.day)[0]
+            self.assertEqual(qualifies(interval, 'beginner'), expected)
+        for rating in ('VERY_POOR', 'POOR', 'POOR_TO_FAIR'):
+            self.day['hourly'][6].update(row(4, 222, 14))
+            self.day['hourly'][6]['rating']['key'] = rating
+            with patch('recommendations.tide_at', return_value=TIDE):
+                interval = daylight_intervals(self.day)[0]
+            self.assertFalse(qualifies(interval, 'beginner'))
+        self.assertEqual(rating_label('POOR_TO_FAIR'), 'Poor to fair')
+
+    def test_poor_to_fair_and_strong_wind_are_not_listed_as_recommended_times(self):
+        self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
+                                'sunset_ts': self.base + 10 * 3600}
+        self.day['hourly'][7]['rating']['key'] = 'POOR_TO_FAIR'
+        self.day['hourly'][8]['wind']['speed_kts'] = 30
+        with patch('recommendations.tide_at', return_value=TIDE):
+            blocks = render_day(self.day, 'Test')
+        for block in blocks[1:4]:
+            self.assertIn('06:00–07:00 and 09:00–10:00', block)
+            self.assertNotIn('06:00–10:00', block)
+        self.assertNotIn('Low quality', '\n'.join(blocks))
+
+    def test_unequal_high_tides_use_the_local_cycle_and_exact_hour_uses_next_sample(self):
+        self.day['tide_extrema'] = [
+            {'timestamp': self.base + h * 3600, 'height_ft': height, 'type': kind}
+            for h, height, kind in ((0, 9, 'HIGH'), (8, 1, 'LOW'), (14, 6, 'HIGH'), (20, 2, 'LOW'))]
+        self.day['tide_hourly'] = [
+            {'timestamp': self.base + h * 3600, 'height_ft': height}
+            for h, height in ((7, 2), (8, 1), (9, 2), (13, 5.8), (14, 6), (15, 5.8))]
+        low = tide_at(self.day, self.base + 8 * 3600)
+        high = tide_at(self.day, self.base + 14 * 3600)
+        self.assertEqual((low['band'], low['trend']), ('low', 'rising'))
+        self.assertEqual((high['band'], high['trend']), ('high', 'falling'))
+        self.assertEqual(high['band_basis'], 'tidal cycle')
 
     def test_sunrise_up_and_sunset_down_use_only_complete_hours(self):
         for rise, setting, first, last in (

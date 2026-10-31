@@ -32,18 +32,26 @@ sections when necessary; all parts need one fresh approval before publication.
 
 These are recommendations for Old Man's / Batu Bolong, not validated safety
 thresholds for all Bali breaks. Advanced beginners are included in beginner.
-All daylight intervals are evaluated for three tiers; the simple report groups
+All complete daylight intervals are evaluated for three tiers; the simple report groups
 matching time windows under 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED, followed
 by ⚠️ CAUTIONS only when relevant. Surfers of higher skill may still choose smaller waves with a
 longboard/foamie. The header is `Forecast date: 30 October 2026`, a blank line,
 then `📍OLD MAN'S / BATU BOLONG` (with the actual target date and spot).
 Good windows show only the times for every skill level, including advanced.
-Short comments appear only for necessary restrictions (inside break only, coach
-recommended, strong wind or another conditional limitation). Heights and long
+Only qualifying good windows are listed. The explicit exception is a coached
+beginner inside-break option when the outside height or period exceeds beginner
+limits, provided nearshore energy is at most 600, wind at most 20 km/h, data are
+complete and the Surfline rating is at least Fair. Low tide may accompany that
+coached inside option. High energy, strong wind, poor/poor-to-fair ratings or
+missing data cannot be bypassed by this exception. Other conditional periods,
+including intermediate inside-only options, are omitted. If no hour qualifies,
+show `No qualifying window.` Short comments appear only for necessary restrictions
+on the included coached inside option. Heights and long
 reason lists are not displayed beside otherwise good windows. Adjacent windows
 merge when their usable advice matches, even if underlying wave heights change;
 no height is averaged or invented. Disjoint matching windows use `and`; missing-data
-and flat, not-recommended periods remain explicit. Analysis uses only complete
+and excluded periods never bridge two recommended windows. Exclusion reasons,
+unknown data and flat periods are explained in the private analysis. Analysis uses only complete
 daylight hours: round sunrise up and sunset down. For example, 05:48–18:12 becomes
 06:00–18:00. Exact-hour endpoints stay unchanged, and no complete hour means the
 report is withheld. Raw hourly measurements stay
@@ -57,9 +65,11 @@ remain. Revisions of saved drafts use the same display format and need fresh rev
   Beginner ceiling is 2 ft inclusive; intermediate ceiling 4 ft inclusive;
   above 4 ft outside surf is advanced. Heights/ranges still determine restrictions
   internally; they are not routine commentary in the displayed report.
-* Beginner advice always starts inside/whitewater. Above 2 ft, 600 kJ or 12 s,
-  retain the user's inside exception with coach assessment and a reminder that
-  actual inside waves must be at most 2 ft. This does not assert inside waves
+* Beginner advice always starts inside/whitewater. Above 2 ft or 12 s, retain
+  the user's inside exception with coach assessment and a reminder that actual
+  inside waves must be at most 2 ft, when the eligibility checks above pass.
+  Energy above 600 is excluded for beginners in this good-window report.
+  This does not assert inside waves
   are smaller than the forecast or that entry is safe.
 * Intermediate energy above 1,000 kJ, breaking surf above 4 ft, or period above
   14 s restricts advice to inside only, with actual inside waves at most 4 ft.
@@ -77,34 +87,55 @@ remain. Revisions of saved drafts use the same display format and need fresh rev
   including secondary swells. This can overstate risk from a tiny long-period
   partition. It is not an energy-weighted dominant period.
 * Tide is interpolated between samples no more than two hours apart, with no
-  extrapolation. Heights are converted from feet to metres. Mid is
-  `(daily minimum + daily maximum) / 2`, including available extrema. Low is
-  below 33% of that daily range, mid 33–67%, high above 67%. This daily-range
-  definition is an assumption; it is not a fixed 1.2 m threshold or half the
+  extrapolation. At an exact hourly sample, trend uses the following bracket.
+  Heights are converted from feet to metres. Low/mid/high uses the bracketing
+  LOW/HIGH cycle when those extrema are available within 24 hours. This fixes
+  unequal high tides causing a daytime high to be labelled mid. Without that
+  bracket, fall back to the daily minimum/maximum, including available extrema.
+  Low is below 33% of the selected range, mid 33–67%, high above 67%. These bands
+  are an application assumption; they are not fixed tide heights or half the
   time between high and low. Rising/falling comes from the bracketing samples.
   Beginner prefers mid/high; low adds coach caution. Intermediate/advanced
   prefer mid. Tide does not certify reef clearance; incomplete daily data may
   distort the calculated range.
 * Wind converts knots to km/h with factor 1.852. **Above** 20 km/h remains
-  conditional for anyone comfortable, with coach recommended for beginners.
-  Strong wind appears as a conditional reason; no offshore/onshore claim is made without
-  a calibrated break orientation. No wind-only blanket ban.
+  conditional in the underlying assessment and is omitted from this good-window
+  report. This is a recommendation filter; no offshore/onshore claim is made
+  without a calibrated break orientation.
 * Surfline rating is used as quality context. POOR, VERY_POOR, POOR_TO_FAIR
   downgrade otherwise suitable advice to conditional; a good rating never
   overrides skill, height, energy, tide or wind cautions. No invented numeric
-  ranking or best-hour claim. Low quality appears as a short conditional reason.
+  ranking or best-hour claim. Private analysis/data uses the actual label, for
+  example `Poor to fair`, rather than `Low quality`. Unknown rating keys cannot
+  produce a positive recommendation.
 * Use Surfline sunrise–sunset, rounded inward to whole hours, not a hardcoded
   schedule. Each timestamped forecast row represents its following hour. Skip
   partial sunrise/sunset hours and all nighttime rows for recommendation analysis.
   Missing hours remain visible as unavailable. Missing sunlight or an empty rounded
   window withholds the report. Bali timezone is Asia/Makassar.
-* Show high-energy, wind, flat-surf, inside-limit or weak-surf cautions only when
-  triggered by the analyzed daylight rows. Nighttime conditions cannot create a
-  caution. Omit the entire cautions section when none applies.
+* Show cautions in full sentences and only when triggered by recommended daylight
+  windows. Nighttime/excluded conditions cannot create a public caution. The
+  beginner inside caution asks a coach to assess currents and confirm inside
+  waves are no higher than 2 ft. The 600 energy flag is an application rule, not
+  a validated current-strength forecast. Omit the cautions section when none applies.
 * Missing/negative/nonfinite core inputs are unknown, not zero or safe.
   Tide heights may be negative. A zero tidal range is unknown. Missing rating,
   wind, energy, period, breaking heights or tide prevents a positive recommendation.
   Unknown feed data cannot be rescued with fabricated inside heights.
+
+## Private review evidence
+
+After the report, `review_context.py` generates two private documents without an
+additional LLM call: a decision explanation per skill level (included and excluded
+windows, measured values and thresholds), then a summary of the unchanged saved
+Surfline snapshot. Each source row covers the following hour. Wind is converted
+to km/h, tide height to metres and displayed values are rounded. Energy units remain
+unconfirmed. Tide bands/trend are labelled as application calculations. Daylight
+tide events and the actual sunrise/sunset are included; night forecast rows are not.
+The original full snapshot remains saved. Reviewer corrections are labelled as
+feedback, never substituted into the original source values. If a revised draft
+differs from source-rule windows, the analysis explicitly flags that for Leo.
+See [REVIEW_PACKET_EXAMPLE.md](REVIEW_PACKET_EXAMPLE.md).
 
 ## Verification
 

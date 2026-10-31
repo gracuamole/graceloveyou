@@ -210,6 +210,180 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(persisted['prompt_ids'], self.report['prompt_ids'])
         self.assertNotIn('intent', persisted)
 
+    def test_report_analysis_source_and_final_prompt_are_delivered_in_order(self):
+        r = json.loads((Path(__file__).parent / 'fixtures/november_1_2026.json').read_text())
+        self.bot.s['reports'].clear()
+        self.bot.generate(r['date'], r['forecast'], r['name'])
+        self.report = self.bot.s['reports'][r['date']]
+        self.bot.advance('2026-10-31')
+        calls = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
+        self.assertEqual(len(calls), 4)
+        self.assertTrue(calls[0].kwargs['text'].startswith('DRAFT'))
+        self.assertIn('DETAILED SURF ANALYSIS', calls[1].kwargs['text'])
+        self.assertIn('SURFLINE DATA SUMMARY', calls[2].kwargs['text'])
+        self.assertTrue(calls[3].kwargs['text'].startswith('Review'))
+        self.assertTrue(all(c.kwargs['chat_id'] == 42 for c in calls))
+        self.assertIn('the tide is low', calls[1].kwargs['text'])
+        self.assertIn('222.7', calls[2].kwargs['text'])
+        self.bot.process(self.update(), '2026-10-31')
+        self.store.save()
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100)
+        restarted.advance('2026-10-31')
+        restarted.advance('2026-10-31')
+        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertTrue(all('PRIVATE REVIEW' not in c.kwargs['text'] for c in self.published()))
+
+    def assert_context_send_recovery(self, kind):
+        def call(method, **kwargs):
+            if self.report.get('intent', {}).get('kind') == kind:
+                raise TimeoutError()
+            self.counter += 1
+            return {'message_id': self.counter}
+        self.tg.call.side_effect = call
+        with self.assertRaises(TimeoutError):
+            self.bot.advance(TODAY)
+        saved = Store(self.path)
+        self.assertEqual(saved.data['reports'][TARGET]['intent']['kind'], kind)
+        self.assertFalse(saved.data['reports'][TARGET].get('prompt_ids'))
+        restarted = Review(saved, self.tg, 42, 42, -100)
+        self.tg.reset_mock()
+        with self.assertRaisesRegex(RuntimeError, 'Uncertain send'):
+            restarted.advance(TODAY)
+        self.tg.call.assert_not_called()
+        # Operator verifies this particular private message was never delivered.
+        saved.data['reports'][TARGET].pop('intent')
+        saved.save()
+        self.tg.call.side_effect = None
+        self.tg.call.return_value = {'message_id': 999}
+        restarted = Review(Store(self.path), self.tg, 42, 42, -100)
+        restarted.advance(TODAY)
+        calls = self.tg.call.call_args_list
+        expected = 'DETAILED SURF ANALYSIS' if kind == 'analysis' else 'SURFLINE DATA SUMMARY'
+        self.assertIn(expected, calls[0].kwargs['text'])
+        self.assertFalse(any(c.kwargs['text'].startswith('DRAFT') for c in calls))
+        self.assertEqual(len(calls), 3 if kind == 'analysis' else 2)
+        self.assertFalse(self.published())
+
+    def test_analysis_timeout_requires_reconciliation_and_resumes_without_duplicate_report(self):
+        self.assert_context_send_recovery('analysis')
+
+    def test_source_timeout_requires_reconciliation_and_never_resends_known_analysis(self):
+        self.assert_context_send_recovery('source')
+
+    def test_feedback_can_reply_to_analysis_or_source_but_approval_requires_final_prompt(self):
+        self.draft()
+        for kind in ('draft', 'analysis', 'source'):
+            reply = {'message_id': self.report[kind + '_ids'][0]}
+            self.assertEqual(self.bot.process(self.update(reply_to_message=reply), TODAY),
+                             'ignored_approval_not_prompt')
+            self.assertEqual(self.report['status'], 'review')
+        self.assertEqual(self.bot.process(self.update('fix the conditions change', reply_to_message={
+            'message_id': self.report['analysis_ids'][0]}), TODAY), 'revision_pending')
+        self.bot.advance(TODAY)
+        old_source_id = self.report['source_ids'][0]
+        self.assertEqual(self.bot.process(self.update('fix wind change', reply_to_message={
+            'message_id': old_source_id}), TODAY), 'revision_pending')
+        self.bot.advance(TODAY)
+        self.assertEqual(self.bot.process(self.update('fix wind change', reply_to_message={
+            'message_id': old_source_id}), TODAY), 'ignored_stale_prompt')
+        self.assertFalse(self.published())
+
+    def test_revised_context_is_new_and_original_forecast_is_retained(self):
+        self.draft()
+        old = {kind: self.report[kind + '_ids'][:] for kind in ('analysis', 'source', 'prompt')}
+        before = json.dumps(self.report['forecast'], sort_keys=True)
+        self.bot.process(self.update('fix wind change'), TODAY)
+        self.bot.advance(TODAY)
+        for kind in ('analysis', 'source', 'prompt'):
+            self.assertFalse(set(old[kind]) & set(self.report[kind + '_ids']))
+        self.assertEqual(json.dumps(self.report['forecast'], sort_keys=True), before)
+        self.assertEqual(self.report['revision'], 2)
+        self.assertFalse(self.published())
+
+    def test_private_context_tampering_cannot_be_approved_or_published(self):
+        self.draft()
+        self.report['analysis_parts'][0] += '\nAltered after delivery.'
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_context_pending')
+        self.assertNotIn('approval', self.report)
+        self.tg.reset_mock()
+        with self.assertRaisesRegex(SafeError, 'changed after preparation'):
+            self.bot.advance(TODAY)
+        self.tg.call.assert_not_called()
+
+    def test_approved_private_context_hash_is_checked_before_channel_publication(self):
+        self.draft()
+        self.bot.process(self.update(), TODAY)
+        self.report['source_parts'][0] += '\nAltered after approval.'
+        with self.assertRaisesRegex(ValueError, 'Approval does not match'):
+            self.bot.advance(TODAY)
+        self.assertFalse(self.published())
+
+    def test_legacy_review_receives_only_missing_context_and_new_approval_prompt(self):
+        self.report.update(status='review', draft_ids=[71, 72], prompt_ids=[73])
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_context_pending')
+        self.assertEqual(self.report['retired_prompt_ids'], [73])
+        self.bot.advance(TODAY)
+        calls = self.tg.call.call_args_list
+        self.assertEqual(len(calls), 3)
+        self.assertIn('DETAILED SURF ANALYSIS', calls[0].kwargs['text'])
+        self.assertIn('SURFLINE DATA SUMMARY', calls[1].kwargs['text'])
+        self.assertTrue(calls[2].kwargs['text'].startswith('Review'))
+        self.assertEqual(self.report['draft_ids'], [71, 72])
+        self.assertFalse(self.published())
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': 73}), TODAY),
+                         'ignored_stale_prompt')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
+
+    def test_legacy_published_report_never_receives_new_context_automatically(self):
+        self.report.update(status='published', draft_ids=[71, 72], prompt_ids=[73], publish_ids=[80, 81])
+        before = json.dumps(self.report, sort_keys=True)
+        self.bot.advance(TODAY)
+        self.tg.call.assert_not_called()
+        self.assertEqual(json.dumps(self.report, sort_keys=True), before)
+
+    def test_private_review_headings_cannot_enter_an_llm_report(self):
+        for heading in ('DETAILED SURF ANALYSIS', 'SURFLINE DATA SUMMARY', 'PRIVATE REVIEW'):
+            with self.assertRaisesRegex(SafeError, 'mixed private review material'):
+                validate_revision_text(self.report, 'tidy wording change', TARGET + '\n' + heading)
+
+    def test_real_forecast_revision_updates_private_analysis_and_retains_original_data(self):
+        r = json.loads((Path(__file__).parent / 'fixtures/november_1_2026.json').read_text())
+        self.bot.s['reports'].clear()
+        self.bot.generate(r['date'], r['forecast'], r['name'])
+        self.report = self.bot.s['reports'][r['date']]
+        self.bot.advance('2026-10-31')
+        original_source = json.dumps(self.report['forecast'], sort_keys=True)
+        old_prompt = self.report['prompt_ids'][0]
+        self.llm.return_value = [self.report['parts'][0].replace('06:00–09:00', '06:00–08:00')]
+        self.bot.process(self.update('remove 08:00–09:00 change', reply_to_message={
+            'message_id': self.report['analysis_ids'][0]}), '2026-10-31')
+        self.tg.reset_mock()
+        self.bot.advance('2026-10-31')
+        self.assertEqual(self.tg.call.call_count, 4)
+        self.assertIn('Current draft: 06:00–08:00', ''.join(self.report['analysis_parts']))
+        self.assertIn('remove 08:00–09:00 change', ''.join(self.report['analysis_parts']))
+        self.assertIn('current draft differs from the source-rule windows', ''.join(self.report['analysis_parts']))
+        self.assertIn('08:00 | 3–4 | 221.5', ''.join(self.report['source_parts']))
+        self.assertEqual(json.dumps(self.report['forecast'], sort_keys=True), original_source)
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), '2026-10-31'),
+                         'ignored_stale_prompt')
+        self.assertFalse(self.published())
+        self.bot.process(self.update(), '2026-10-31')
+        self.bot.advance('2026-10-31')
+        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+
+    def test_long_private_documents_split_safely_before_the_final_approval_prompt(self):
+        with patch('review_bot.build_review_context', return_value=('🌊' * 3300, 'data ' * 1300)):
+            self.draft()
+        self.assertEqual(len(self.report['analysis_parts']), 3)
+        self.assertEqual(len(self.report['source_parts']), 3)
+        calls = self.tg.call.call_args_list
+        self.assertEqual(len(calls), 9)  # Two report parts, six private context parts, then prompt.
+        self.assertTrue(calls[-1].kwargs['text'].startswith('Review'))
+        self.assertTrue(all(len(c.kwargs['text'].encode('utf-16-le')) // 2 <= 3400 for c in calls))
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
+        self.assertFalse(self.published())
+
     def test_generate_target_is_never_replaced(self):
         original = self.report['parts'][:]
         self.bot.generate(TARGET, {}, 'ignored')
@@ -418,8 +592,8 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(list(self.bot.s['reports']), [TARGET])
 
     def test_private_status_command_survives_restart_and_duplicate_delivery(self):
-        self.draft()
         self.report['feedback'] = 'PRIVATE_FEEDBACK_SECRET'
+        self.draft()
         before = digest(self.report['parts'])
         command = self.update('/status', reply_to_message={})
         self.tg.call.reset_mock()
@@ -866,7 +1040,7 @@ class GeminiRevisionTests(unittest.TestCase):
             path = Path(temporary) / 'state.json'
             path.write_text(json.dumps(dict(version=1, reports={TARGET: self.report}, offset=0, started=True)))
             telegram = Mock()
-            telegram.call.side_effect = [{'message_id': value} for value in (101, 102, 103)]
+            telegram.call.side_effect = [{'message_id': value} for value in (101, 102, 103, 104, 105)]
             bot = Review(Store(path), telegram, 42, 42, -100)
             with patch('review_bot.time.sleep'):
                 bot.advance(TODAY)
@@ -876,19 +1050,21 @@ class GeminiRevisionTests(unittest.TestCase):
                 self.assertNotIn('approval', saved)
                 for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
                     self.assertNotIn(removed, ''.join(saved['parts']))
-                self.assertEqual(saved['prompt_ids'], [102])
+                self.assertEqual(saved['analysis_ids'], [102])
+                self.assertEqual(saved['source_ids'], [103])
+                self.assertEqual(saved['prompt_ids'], [104])
                 self.assertTrue(all(call.kwargs['chat_id'] == 42 for call in telegram.call.call_args_list))
                 self.assertTrue(telegram.call.call_args_list[0].kwargs['entities'])
                 update = {'update_id': 10, 'message': {'text': 'correct', 'from': {'id': 42},
                     'chat': {'id': 42, 'type': 'private'}, 'reply_to_message': {'message_id': 51}}}
                 self.assertEqual(bot.process(update, TODAY), 'ignored_stale_prompt')
                 bot.advance(TODAY)
-                self.assertEqual(telegram.call.call_count, 2)
-                update['message']['reply_to_message']['message_id'] = 102
+                self.assertEqual(telegram.call.call_count, 4)
+                update['message']['reply_to_message']['message_id'] = 104
                 self.assertEqual(bot.process(update, TODAY), 'approved')
                 bot.advance(TODAY)
                 bot.advance(TODAY)
-            self.assertEqual(telegram.call.call_count, 3)
+            self.assertEqual(telegram.call.call_count, 5)
             self.assertEqual(telegram.call.call_args.kwargs['chat_id'], -100)
             self.assertEqual(telegram.call.call_args.kwargs['text'], saved['parts'][0])
             self.assertTrue(telegram.call.call_args.kwargs['entities'])

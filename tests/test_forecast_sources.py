@@ -66,7 +66,7 @@ class SourceTests(unittest.TestCase):
             data['energy'] = None
         result = prepare_forecast(self.forecast, self.target, 'Test')
         rendered = '\n'.join(result.parts)
-        self.assertEqual(rendered.count('Data unavailable'), 3)
+        self.assertEqual(rendered.count('No qualifying window.'), 3)
         self.assertNotIn('Inside break', rendered)
         self.assertNotIn('Breaking waves', rendered)
         self.assertNotIn('suitable to consider', rendered)

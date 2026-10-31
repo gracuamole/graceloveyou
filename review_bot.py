@@ -14,8 +14,9 @@ from urllib.parse import urlsplit
 
 from forecast_sources import SourceUnavailable, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
-                             report_bold_entities, daylight_intervals, report_cautions)
+                             report_bold_entities, daylight_intervals, report_cautions, tier_windows)
 from phase2 import build_blocks, chunks
+from review_context import build_review_context
 
 
 class SafeError(RuntimeError):
@@ -141,6 +142,26 @@ def digest(parts):
     return hashlib.sha256(json.dumps(parts, ensure_ascii=False).encode()).hexdigest()
 
 
+def context_input_hash(report):
+    return digest([1, report['date'], report['revision'], report.get('name'), report['parts'],
+                   report.get('forecast'), report.get('feedback')])
+
+
+def context_ready(report):
+    return (report.get('context_input_sha256') == context_input_hash(report)
+            and len(report.get('draft_ids', [])) == len(report['parts'])
+            and report.get('context_content_sha256') == digest([
+                report.get('analysis_parts'), report.get('source_parts')])
+            and all(report.get(kind + '_parts')
+                    and len(report.get(kind + '_ids', [])) == len(report[kind + '_parts'])
+                    for kind in ('analysis', 'source')))
+
+
+def review_hash(report):
+    return digest([report['parts'], report.get('analysis_parts'), report.get('source_parts'),
+                   report.get('context_input_sha256')])
+
+
 def validate_state(data):
     if not isinstance(data, dict) or data.get('version') != 1:
         raise ValueError('Unsupported review state')
@@ -154,6 +175,9 @@ def validate_state(data):
             raise ValueError('Incomplete review state')
         datetime.strptime(target, '%Y-%m-%d')
         validate_parts(report.get('parts'))
+        for field in ('analysis_parts', 'source_parts'):
+            if field in report:
+                validate_parts(report[field])
     outbox = data.get('outbox', {})
     if not isinstance(outbox, dict):
         raise ValueError('Incomplete review state')
@@ -289,9 +313,17 @@ REVISION_INSTRUCTIONS = (
     'or partial-hour windows in an older draft. '
     'Group times by skill level. Merge adjacent windows only when the advice matches; '
     'join disjoint matching windows with "and" without bridging missing/unknown periods. '
-    'Keep data-unavailable and not-recommended periods explicit. Include ⚠️ CAUTIONS '
-    'only for relevant daylight conditions, using short non-repetitive bullets; '
+    'List only qualifying good windows from report_format.qualifying_windows; '
+    'omit poor, poor-to-fair, strong-wind, missing-data, flat and other conditional periods. '
+    'If a tier has no qualifying time, write No qualifying window. '
+    'The explicit exception is the supplied coached beginner inside-break window, '
+    'where outside height/period exceeds beginner limits but energy is at most 600, '
+    'wind is at most 20 km/h and the rating is at least Fair. Retain its inside/coach restriction. '
+    'A mid-tide preference is not evidence that the listed hours are actually mid tide. '
+    'Include ⚠️ CAUTIONS only for relevant recommended daylight conditions, '
+    'using full sentences in short non-repetitive bullets; '
     'omit the section if no caution applies. Do not add wave-height commentary for good windows. '
+    'Do not add analysis or source-data sections to the report. They are sent separately and privately. '
     'Do not add hourly data tables, markdown markers, narrative introductions or sign-offs. '
     'Preserve target date, spot and the relevant skill/coach cautions. '
     'Omit the WITA label, source attribution and the generic sentence '
@@ -317,6 +349,8 @@ UPDATE_OUTCOMES = {
     'ignored_stale_prompt': 'Ignored reply: it does not match a current saved final review prompt.',
     'ignored_expired': 'Ignored reply: that forecast date has already started in Bali; the report expired.',
     'ignored_not_reviewing': 'Ignored reply: this version is no longer waiting for approval or feedback.',
+    'ignored_context_pending': 'Private analysis/data must be delivered first. A new final prompt will be sent; approve only that prompt.',
+    'ignored_approval_not_prompt': 'Ignored approval: Reply with exactly correct on the latest final review prompt, not the report or analysis.',
     'ignored_text': 'Ignored reply: send exactly correct, or feedback whose final word is lowercase change.',
     'approved': 'Exact approval recorded. Publication goes to the configured channel, with no private confirmation.',
     'revision_pending': 'Feedback saved. Preparing a revised draft with the configured LLM.',
@@ -414,8 +448,11 @@ def revision_input(report, feedback):
                            'header': report_header(report['date'], spot) if spot else
                                      'Forecast date: ' + forecast_date_label(report['date']),
                            'cautions': report_cautions(intervals),
+                           'qualifying_windows': {tier: tier_windows(intervals, tier)
+                                                  for tier in ('beginner', 'intermediate', 'advanced')},
                            'rule_values': {'beginner_inside_max_ft': 2, 'intermediate_inside_max_ft': 4,
-                                           'strong_wind_kmh': 20, 'flat_energy_kj': 100},
+                                           'strong_wind_kmh': 20, 'flat_energy_feed': 100,
+                                           'beginner_energy_max_feed': 600},
                        },
                        'required_verbatim_text': list(protected_revision_labels(report).values())},
                       ensure_ascii=False)
@@ -523,6 +560,8 @@ def number_tokens(text):
 
 
 def validate_revision_text(report, feedback, result):
+    if re.search(r'(?im)^\s*(?:DETAILED SURF ANALYSIS|SURFLINE DATA SUMMARY|PRIVATE REVIEW)\b', result):
+        raise SafeError('LLM revision mixed private review material into the public report. Feedback remains pending.')
     # Includes only application-owned display/rule values in addition to the
     # existing draft, forecast and feedback; no arbitrary numeric allowance.
     supplied = revision_input(report, feedback)
@@ -660,21 +699,54 @@ class Review:
     def deliver_draft(self, report):
         if report['status'] != 'draft':
             return
+        self.prepare_context(report)
         for index in range(len(report.get('draft_ids', [])), len(report['parts'])):
             label = 'TEST DRAFT' if report.get('manual_request_id') else 'DRAFT'
             self.send(report, 'draft', f"{label} {report['date']} v{report['revision']} "
                       f"({index + 1}/{len(report['parts'])})\n\n{report['parts'][index]}")
+        for kind in ('analysis', 'source'):
+            parts = report[kind + '_parts']
+            for index in range(len(report.get(kind + '_ids', [])), len(parts)):
+                self.send(report, kind, f"PRIVATE REVIEW {report['date']} v{report['revision']} "
+                          f"({index + 1}/{len(parts)})\n\n{parts[index]}")
         if not report.get('prompt_ids'):
             warning = ('Manual test: this forecast date was already published. '
                        'A new correct reply will post this report to the channel again.\n\n'
                        if report.get('manual_request_id') else '')
             prompt = (f"Review {report['date']} v{report['revision']} complete.\n\n" + warning
-                      + 'Reply to THIS message with exactly correct to approve all parts, '
-                      'or feedback whose final word is change. Each revision needs fresh approval.')
+                      + 'The report, detailed analysis and Surfline data have been delivered. '
+                      'Reply to THIS message with exactly correct to publish only the report. '
+                      'For corrections, Reply to any message from this version with feedback whose '
+                      'final word is change. Each revision needs fresh approval.')
             self.send(report, 'prompt', prompt)
         if report['status'] != 'review':
             report['status'] = 'review'
             self.store.save()
+
+    def prepare_context(self, report):
+        if report.get('context_input_sha256'):
+            if report['context_input_sha256'] != context_input_hash(report):
+                raise SafeError('Private analysis/data no longer matches this draft. Reconcile saved state before sending.')
+            validate_parts(report.get('analysis_parts'))
+            validate_parts(report.get('source_parts'))
+            if report.get('context_content_sha256') != digest([report['analysis_parts'], report['source_parts']]):
+                raise SafeError('Saved private analysis/data changed after preparation. Reconcile state before sending.')
+            return
+        if any(report.get(field) for field in ('analysis_ids', 'source_ids', 'analysis_parts', 'source_parts')):
+            raise SafeError('Private review context is incomplete. Reconcile saved state before sending.')
+        try:
+            analysis, source = build_review_context(report)
+        except (ValueError, KeyError, TypeError, StopIteration):
+            raise SafeError('Saved forecast cannot supply private analysis/data. No review prompt was sent.') from None
+        report.update(analysis_parts=split_text(analysis), source_parts=split_text(source),
+                      analysis_ids=[], source_ids=[], context_input_sha256=context_input_hash(report))
+        report['context_content_sha256'] = digest([report['analysis_parts'], report['source_parts']])
+        self.store.save()
+
+    def queue_context_upgrade(self, report):
+        report.setdefault('retired_prompt_ids', []).extend(report.get('prompt_ids', []))
+        report.update(status='draft', prompt_ids=[])
+        self.store.save()
 
     def process(self, update, today):
         message = update.get('message', {})
@@ -699,7 +771,9 @@ class Review:
             return 'dryrun_requested'
         reply_id = message.get('reply_to_message', {}).get('message_id')
         for report in self.s['reports'].values():
-            if reply_id not in report.get('prompt_ids', []):
+            current_ids = sum((report.get(kind + '_ids', [])
+                               for kind in ('draft', 'analysis', 'source', 'prompt')), [])
+            if reply_id not in current_ids:
                 continue
             if report['date'] <= today:
                 return 'ignored_expired'
@@ -707,9 +781,15 @@ class Review:
             if report['status'] != 'review' and not pending:
                 return 'ignored_not_reviewing'
             if text == 'correct' and not pending:
+                if reply_id not in report.get('prompt_ids', []):
+                    return 'ignored_approval_not_prompt'
+                if not context_ready(report):
+                    self.queue_context_upgrade(report)
+                    return 'ignored_context_pending'
                 report.update(status='approved', approval={
                     'user_id': self.user, 'update_id': update['update_id'],
-                    'revision': report['revision'], 'sha256': digest(report['parts'])})
+                    'revision': report['revision'], 'sha256': digest(report['parts']),
+                    'review_sha256': review_hash(report)})
                 return 'approved'
             elif re.search(r'\bchange\s*\Z', text) and text.strip() != 'change':
                 report.update(status='revision_pending', feedback=text)
@@ -729,6 +809,8 @@ class Review:
                     report['status'] = 'expired'
                     self.store.save()
                 continue
+            if report['status'] == 'review' and not context_ready(report):
+                self.queue_context_upgrade(report)
             if report['status'] == 'revision_pending':
                 try:
                     feedback = report['feedback']
@@ -745,13 +827,18 @@ class Review:
                 report.update(parts=parts, revision=report['revision'] + 1,
                               status='draft', draft_ids=[], prompt_ids=[])
                 report.pop('approval', None)
+                for field in ('analysis_parts', 'source_parts', 'analysis_ids', 'source_ids',
+                              'context_input_sha256', 'context_content_sha256'):
+                    report.pop(field, None)
                 self.store.save()
             self.deliver_draft(report)
             if report['status'] == 'approved':
                 approval = report['approval']
                 if (approval['sha256'] != digest(report['parts'])
                         or approval['revision'] != report['revision']
-                        or approval['user_id'] != self.user):
+                        or approval['user_id'] != self.user
+                        or ('review_sha256' in approval
+                            and (not context_ready(report) or approval['review_sha256'] != review_hash(report)))):
                     raise ValueError('Approval does not match draft')
                 for index in range(len(report.get('publish_ids', [])), len(report['parts'])):
                     self.send(report, 'publish', report['parts'][index])
