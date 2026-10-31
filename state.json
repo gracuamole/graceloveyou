@@ -9992,7 +9992,11 @@
         35
       ],
       "prompt_ids": [],
-      "feedback": "remove 18:00 report change"
+      "feedback": "remove 18:00 report change",
+      "intent": {
+        "kind": "prompt",
+        "text_sha256": "47d868c202b63f62d5fc304badac349865ab606b937189e4d3176cf1263800b9"
+      }
     }
   },
   "offset": 248715016,
