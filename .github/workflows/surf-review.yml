@@ -11,7 +11,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   review:
-    if: ${{ vars.SURF_REVIEW_ENABLED == 'true' }}
+    # In webhook mode replies trigger workflow_dispatch; keep only daily cron as backup.
+    if: ${{ vars.SURF_REVIEW_ENABLED == 'true' && (vars.SURF_REVIEW_TRANSPORT != 'webhook' || github.event_name != 'schedule' || github.event.schedule == '7 1 * * *') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -43,4 +44,7 @@ jobs:
           LLM_PROVIDER: gemini
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          SURF_REVIEW_TRANSPORT: ${{ vars.SURF_REVIEW_TRANSPORT || 'poll' }}
+          SURF_WEBHOOK_URL: ${{ vars.SURF_WEBHOOK_URL }}
+          SURF_WEBHOOK_TOKEN: ${{ secrets.SURF_WEBHOOK_TOKEN }}
         run: python review_bot.py --run --persist-git --state review-state/state.json

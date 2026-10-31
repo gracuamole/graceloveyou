@@ -1,0 +1,39 @@
+name: Configure free Telegram webhook
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Inspect status, enable the Cloudflare webhook, or remove it'
+        required: true
+        default: inspect
+        type: choice
+        options:
+          - inspect
+          - enable
+          - disable
+permissions:
+  contents: read
+concurrency:
+  group: surf-review-state
+  cancel-in-progress: false
+jobs:
+  configure:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - name: Configure Telegram delivery
+        env:
+          SETUP_ACTION: ${{ inputs.action }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          SURF_WEBHOOK_TOKEN: ${{ secrets.SURF_WEBHOOK_TOKEN }}
+          TELEGRAM_WEBHOOK_SECRET: ${{ secrets.TELEGRAM_WEBHOOK_SECRET }}
+          SURF_WEBHOOK_URL: ${{ vars.SURF_WEBHOOK_URL }}
+          SURF_REVIEW_ENABLED: ${{ vars.SURF_REVIEW_ENABLED }}
+          SURF_REVIEW_TRANSPORT: ${{ vars.SURF_REVIEW_TRANSPORT }}
+        run: python webhook_setup.py --action "$SETUP_ACTION"
