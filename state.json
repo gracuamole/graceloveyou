@@ -9984,13 +9984,11 @@
       ],
       "revision": 7,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        59
+      ],
       "prompt_ids": [],
-      "feedback": "for 06:00-07:00 report, remove the report for advanced level change",
-      "intent": {
-        "kind": "draft",
-        "text_sha256": "201b41772da65d73a1aec2fb041598d8976e9f4bb269c141ef0c2bc61c21b54b"
-      }
+      "feedback": "for 06:00-07:00 report, remove the report for advanced level change"
     }
   },
   "offset": 248715021,
