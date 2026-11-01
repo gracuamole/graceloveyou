@@ -20413,17 +20413,14 @@
         "Forecast date: 2 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nNo qualifying window.\n\n🟡 INTERMEDIATE\nNo qualifying window.\n\n🔵 ADVANCED\nNo qualifying window."
       ],
       "revision": 1,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         16
       ],
-      "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "19bde6e62ba1ea4f19a6b8a037ffd010e5b2a3b07ad9e9a0a7f75630be21dbaa"
-      }
+      "prompt_ids": [
+        17
+      ],
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715045,
