@@ -20414,14 +20414,11 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        16
+      ],
       "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "f811c70bfa51afd132e63baf1336f5086d3a0805cfda2b92e5eecd33e018cb04"
-      }
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715045,
