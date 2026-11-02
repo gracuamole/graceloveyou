@@ -23708,11 +23708,13 @@
         "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–15:00 and 16:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\n06:00–15:00 and 16:00–18:00 — Outside break\n\n🔵 ADVANCED\n06:00–15:00 and 16:00–18:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day.\n- leo might love grace too much"
       ],
       "revision": 4,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         37
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        38
+      ],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41433752604",
       "publication_history": [],
@@ -30338,12 +30340,7 @@
           "revision": 1,
           "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
         }
-      ],
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "e1e7e310dbf449a7f47fb389ffe7ce879ffa1cdd94e71180b74483e45d2afe6a"
-      }
+      ]
     }
   },
   "offset": 248715058,
