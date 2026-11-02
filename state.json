@@ -23709,7 +23709,9 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        35
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41433265200",
@@ -27030,12 +27032,7 @@
           "revision": 1,
           "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
         }
-      ],
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "ff37af8c30f73f7f7ffb2f46ad158e83e24a6e9e9fa22ab82cfe25b97ee78c16"
-      }
+      ]
     }
   },
   "offset": 248715058,
