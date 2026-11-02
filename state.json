@@ -23708,7 +23708,7 @@
         "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n15:00 - 16:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day.\n- leo might love grace too much"
       ],
       "revision": 8,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         46
       ],
@@ -43580,17 +43580,24 @@
       "rebuild_feedback": [
         "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "approval": {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715058,
+        "revision": 8,
+        "sha256": "7c61a2958e603a898c96026f49f4909ca0cd22573bd67878be2ba08e04a49d45"
+      }
     }
   },
-  "offset": 248715058,
+  "offset": 248715059,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_text",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -43661,7 +43668,8 @@
     248715054,
     248715055,
     248715056,
-    248715057
+    248715057,
+    248715058
   ],
   "manual_retest_requests": {
     "41192170935": {
