@@ -10,7 +10,7 @@ Their schedule definitions remain, but jobs are explicitly disabled, including m
 runs. Legacy forecast builders remain available; direct send paths and Phase 2
 `--send` are disabled. `phase2.py` still previews tomorrow's Surfline report.
 
-At or after 09:07 Bali time (01:07 UTC), generate tomorrow's daylight report once
+At or after 06:07 Bali time (22:07 UTC on the previous day), generate tomorrow's daylight report once
 using the existing Surfline integration and Phase 2 recommendations in the simple
 grouped format. Poll Telegram
 every five minutes; GitHub scheduling can be delayed, so this is not a latency SLA.
@@ -288,7 +288,7 @@ above; diagnostics never clear it or retry a possibly delivered message.
    Gemini workflow and may be removed if no other workflow needs them.
 5. Set `SURF_REVIEW_ENABLED=true` and start a NEW manual run from the default branch.
    Saved revision-pending feedback is retried when its forecast date is still future.
-   Expired reports stay expired; the next-day draft is generated after 09:07 Bali time.
+   Expired reports stay expired; the next-day draft is generated after 06:07 Bali time.
 6. Reply to the latest final prompt with feedback ending in `change`. After the
    revised draft arrives, only exact `correct` on its new prompt approves publication.
 
@@ -329,7 +329,7 @@ is saved for future diagnosis. This is an additive field; no state reset is requ
 
 Use Reply on the latest FINAL prompt for a forecast date that is still in the future.
 A report for a date that has already started in Bali cannot accept corrections or
-approval. New reports are generated after 09:07. Exact `correct` publishes to the
+approval. New reports are generated after 06:07. Exact `correct` publishes to the
 configured channel; this implementation does not send a private success confirmation.
 After uploading diagnostics, send a fresh reply to the valid prompt, then start one
 new manual workflow run to see the result. Old ignored messages have already been
@@ -348,6 +348,6 @@ webhook processed IDs are added for crash-safe replay handling. Git commits stil
 precede each inbox acknowledgement and Telegram side effect. `--status` remains
 read-only. In this mode the GitHub five-minute cron job is skipped, webhook updates
 request a workflow dispatch, and the daily cron remains as a backup. The Cloudflare
-one-minute recovery check also wakes the daily draft after 09:07 Bali time. Setting
+one-minute recovery check also wakes the daily draft after 06:07 Bali time. Setting
 `SURF_REVIEW_TRANSPORT=poll` preserves the original polling mode, provided the
 Telegram webhook is removed first. Both transports must never run concurrently.

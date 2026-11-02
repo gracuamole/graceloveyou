@@ -23,7 +23,7 @@ persists processing in the existing `review-state` Git branch, and only then
 acknowledges the inbox item. Gemini revises the report in that same workflow.
 
 A one-minute Cloudflare recovery cron retries pending work and requests the daily
-draft after 09:07 Bali time. It only wakes GitHub when there is work. Repeated
+draft after 06:07 Bali time. It only wakes GitHub when there is work. Repeated
 uncompleted work backs off from one minute to two, four, then fifteen minutes.
 The regular daily GitHub cron remains a backup. The five-minute GitHub poll job is
 skipped in webhook mode. Incoming replies request an immediate workflow start,

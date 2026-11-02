@@ -4,7 +4,7 @@ The plan has useful suggestions. This implementation adopts them incrementally:
 Cloudflare Workers Free + D1 receive Telegram webhooks and wake the existing public
 GitHub Actions workflow; the working Python Surfline integration and Gemini remain.
 It is prepared locally, not deployed. Your Mac can be off once setup is complete.
-The existing spot (Old Man's / Batu Bolong), one report a day and 09:07 Bali generation
+The existing spot (Old Man's / Batu Bolong), one report a day and 06:07 Bali generation
 time are preserved. Follow [FREE_HOSTING.md](FREE_HOSTING.md) for setup.
 
 | Suggestion | Decision and implementation |

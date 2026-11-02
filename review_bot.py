@@ -432,8 +432,8 @@ def show_status(store, now):
         print('Last saved Telegram result: ' + previous)
     report = store.data['reports'].get(target)
     if report is None:
-        if (now.hour, now.minute) < (9, 7):
-            print('Next draft: not generated; generation opens at 09:07 Bali time.')
+        if (now.hour, now.minute) < (6, 7):
+            print('Next draft: not generated; generation opens at 06:07 Bali time.')
         elif store.data['started']:
             print('Next draft: generation pending; a private preview/status command does not start an approval cycle.')
         else:
@@ -757,7 +757,7 @@ class Review:
             if target > today and report['status'] != 'expired':
                 lines.append(f"{target} v{report['revision']}: {labels[report['status']] }.")
         if len(lines) == 2:
-            lines.append('No active future report. Daily generation opens at 09:07 Bali time.')
+            lines.append('No active future report. Daily generation opens at 06:07 Bali time.')
         if any(r.get('intent') for r in list(self.s['reports'].values())
                + list(self.s.get('outbox', {}).values())):
             lines.append('Delivery is uncertain; operator reconciliation is required before any further sends.')
@@ -1279,7 +1279,7 @@ def main():
     target = (now + timedelta(days=1)).date().isoformat()
     command_only = bool(outcomes) and outcomes <= {
         'status_requested', 'dryrun_requested', 'memory_requested', 'memory_forgotten', 'memory_usage'}
-    if (store.data['started'] and not command_only and (now.hour, now.minute) >= (9, 7)
+    if (store.data['started'] and not command_only and (now.hour, now.minute) >= (6, 7)
             and target not in store.data['reports']):
         bot.generate_next_day(target)
         bot.advance(datetime.now(BALI).date().isoformat())
