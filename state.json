@@ -23711,7 +23711,12 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "review_chat_id": -1003835479548
+      "review_chat_id": -1003835479548,
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "c77398e2005e5c5e2a58c465370c3687f4b6cc286fceace81cd7b5b9d1bfd7d3"
+      }
     }
   },
   "offset": 248715045,
