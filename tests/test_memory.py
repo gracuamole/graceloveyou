@@ -58,7 +58,7 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(len(self.report['pending_feedback']), 2)
         self.bot.advance(TODAY)
         self.assertIn('remember', self.llm.call_args.args[1])
-        self.assertIn('Feedback marked remember has been saved', self.tg.call.call_args.kwargs['text'])
+        self.assertIn('Remember the change for future reports:', self.tg.call.call_args.kwargs['text'])
         self.assertFalse(self.sends_to_channel())
 
     def test_ordinary_feedback_and_invalid_trigger_text_do_not_create_memory(self):

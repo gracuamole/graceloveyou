@@ -219,7 +219,7 @@ class ReviewTests(unittest.TestCase):
         calls = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
         self.assertEqual(len(calls), 2)
         self.assertTrue(calls[0].kwargs['text'].startswith('DRAFT'))
-        self.assertTrue(calls[1].kwargs['text'].startswith('Review'))
+        self.assertTrue(calls[1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertTrue(all(c.kwargs['chat_id'] == 42 for c in calls))
         for heading in ('DETAILED SURF ANALYSIS', 'SURFLINE DATA SUMMARY', 'PRIVATE REVIEW'):
             self.assertFalse(any(heading in c.kwargs['text'] for c in calls))
@@ -268,7 +268,7 @@ class ReviewTests(unittest.TestCase):
         self.report['source_ids'] = []
         self.bot.advance(TODAY)
         self.assertEqual(self.tg.call.call_count, 1)
-        self.assertTrue(self.tg.call.call_args.kwargs['text'].startswith('Review'))
+        self.assertTrue(self.tg.call.call_args.kwargs['text'].startswith('@Leonardosinaga'))
         self.assertEqual(self.report['analysis_ids'], [201])
         self.assertFalse(self.report['source_ids'])
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
@@ -348,7 +348,7 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance(TODAY)
         self.assertEqual(self.tg.call.call_count, 2)
         self.assertIn('part two', self.tg.call.call_args_list[0].kwargs['text'])
-        self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('Review'))
+        self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertFalse(self.published())
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
 
@@ -372,7 +372,7 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)
         self.assertIn('11:00–18:00', self.tg.call.call_args_list[0].kwargs['text'])
-        self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('Review'))
+        self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertNotIn('analysis_parts', self.report)
         self.assertNotIn('source_parts', self.report)
         self.assertEqual(json.dumps(self.report['forecast'], sort_keys=True), original_source)
@@ -389,7 +389,7 @@ class ReviewTests(unittest.TestCase):
         calls = self.tg.call.call_args_list
         self.assertEqual(len(calls), 4)
         self.assertEqual(len(self.report['draft_ids']), 3)
-        self.assertTrue(calls[-1].kwargs['text'].startswith('Review'))
+        self.assertTrue(calls[-1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertTrue(all(len(c.kwargs['text'].encode('utf-16-le')) // 2 <= 3400 for c in calls))
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
         self.assertFalse(self.published())
@@ -513,7 +513,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(len(texts), 3)  # Both report parts and the final prompt.
         self.assertTrue(texts[0].startswith('TEST DRAFT'))
         self.assertTrue(texts[1].startswith('TEST DRAFT'))
-        self.assertIn('replaces an earlier pending draft', texts[2])
+        self.assertIn('3. Send report to HSC channel:', texts[2])
         self.assertNotIn('already published', texts[2])
         self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), TODAY),
                          'ignored_stale_prompt')
@@ -601,7 +601,7 @@ class ReviewTests(unittest.TestCase):
         sent = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
         self.assertEqual(len(sent), 2)
         self.assertTrue(sent[0].kwargs['text'].startswith('TEST DRAFT'))
-        self.assertTrue(sent[1].kwargs['text'].startswith('Review'))
+        self.assertTrue(sent[1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertTrue(all(c.kwargs['chat_id'] == 42 for c in sent))
         self.assertFalse(self.published())
         self.bot.forecast.assert_not_called()
@@ -1600,7 +1600,7 @@ class TwoReviewerTests(unittest.TestCase):
         self.assertEqual([call.kwargs['text'] for call in self.sends_to_channel()], self.original['parts'])
 
     def test_leo_can_approve_with_both_reviewers_enabled(self):
-        self.assertIn('Either of you:', self.tg.call.call_args.kwargs['text'])
+        self.assertIn('@Leonardosinaga', self.tg.call.call_args.kwargs['text'])
         self.assertEqual(self.bot.process(self.message('correct', self.report['prompt_ids'][-1]), TODAY), 'approved')
         self.assertEqual(self.report['approval']['user_id'], 42)
         self.bot.advance(TODAY)
