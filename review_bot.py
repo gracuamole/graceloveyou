@@ -633,6 +633,15 @@ def number_tokens(text):
 
 
 def validate_revision_text(report, feedback, result):
+    # Wind warnings are application-owned; the model cannot silently remove them.
+    _, intervals = revision_forecast(report)
+    for tier, heading in (('beginner', '🟢 BEGINNER'), ('intermediate', '🟡 INTERMEDIATE'), ('advanced', '🔵 ADVANCED')):
+        required = [line for line in tier_windows(intervals, tier) if 'forecasted to be windy' in line]
+        if not required:
+            continue
+        section = re.search(re.escape(heading) + r'\s*\n(.*?)(?=\n(?:🟢|🟡|🔵|⚠️)|\Z)', result, re.S)
+        if not section or any(line not in section[1] for line in required):
+            raise SafeError('LLM revision removed a required windy-period warning. Feedback remains pending; retry the revision.')
     if re.search(r'(?im)^\s*(?:DETAILED SURF ANALYSIS|SURFLINE DATA SUMMARY|PRIVATE REVIEW)\b', result):
         raise SafeError('LLM revision mixed private review material into the public report. Feedback remains pending.')
     # Includes only application-owned display/rule values in addition to the
