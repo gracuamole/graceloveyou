@@ -23713,7 +23713,12 @@
         18
       ],
       "prompt_ids": [],
-      "review_chat_id": -1003835479548
+      "review_chat_id": -1003835479548,
+      "intent": {
+        "kind": "prompt",
+        "chat_id": -1003835479548,
+        "text_sha256": "bf2c6e698b4a99f9ef521abbbc9b5c8ee73fe9c590b8dc674ba22c20fd7f3fe1"
+      }
     }
   },
   "offset": 248715045,
