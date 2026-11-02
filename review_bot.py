@@ -817,6 +817,14 @@ class Review:
         self.store.save()
         payload = {'chat_id': destination, 'text': text}
         entities = report_bold_entities(text)
+        if kind == 'prompt':
+            for label in ('Change the report:', 'Remember the change for future reports:',
+                          'Send report to HSC channel:'):
+                start = text.find(label)
+                if start >= 0:
+                    entities.append({'type': 'bold',
+                                     'offset': len(text[:start].encode('utf-16-le')) // 2,
+                                     'length': len(label.encode('utf-16-le')) // 2})
         if entities:
             payload['entities'] = entities
         result = self.tg.call('sendMessage', **payload)
@@ -839,21 +847,13 @@ class Review:
             self.send(report, 'draft', f"{label} {report['date']} v{report['revision']} "
                       f"({index + 1}/{len(report['parts'])})\n\n{report['parts'][index]}")
         if not report.get('prompt_ids'):
-            warning = ''
-            if report.get('manual_request_id'):
-                warning = ('Manual test: this forecast date was already published. '
-                           'A new correct reply will post this report to the channel again.\n\n'
-                           if report.get('publication_history') else
-                           'Manual test: this report replaces an earlier pending draft. '
-                           'Only this version\'s new final prompt can approve publication.\n\n')
-            if report.get('memory_saved_ids'):
-                warning += 'Feedback marked remember has been saved for future reports.\n\n'
-            prompt = (f"Review {report['date']} v{report['revision']} complete.\n\n" + warning
-                      + 'The complete report has been delivered. '
-                      + ('Either of you: ' if len(self.reviewers) > 1 else 'Leo: ')
-                      + 'Reply to THIS message with exactly correct to publish only the report. '
-                      'For corrections, Reply to the report or this prompt with feedback whose '
-                      'final word is change. Each revision needs fresh approval.')
+            prompt = ('@Leonardosinaga\n\n'
+                      '1. Change the report: reply THIS message, write "change" at the end\n'
+                      '2. Remember the change for future reports: reply THIS message, write "remember change" at the end\n'
+                      '3. Send report to HSC channel: reply THIS message, write "correct"')
+            if report.get('manual_request_id') and report.get('publication_history'):
+                prompt += ('\n\nManual test: this forecast date was already published. '
+                           'A new correct reply will post this report to the channel again.')
             self.send(report, 'prompt', prompt)
         if report['status'] != 'review':
             report['status'] = 'review'
