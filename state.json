@@ -43621,7 +43621,7 @@
     },
     "memory-error:2026-11-03:8": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "Saved feedback could not be applied to the new draft. LLM revision removed a required windy-period warning. Feedback remains pending; retry the revision. Nothing was approved or published. The draft remains pending for a later retry."
       ],
