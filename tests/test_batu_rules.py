@@ -102,3 +102,15 @@ class BatuRules(unittest.TestCase):
             self.assertIn('06:00 - 12:00 - forecasted', block)
             self.assertIn('13:00 - 18:00 - forecasted', block)
             self.assertNotIn('06:00 - 18:00', block)
+
+
+    def test_llm_cannot_drop_or_move_windy_warnings_between_levels(self):
+        from review_bot import validate_revision_text, SafeError
+        self.day['hourly'][15]['wind']['speed_kts'] = 20.2 / 1.852
+        self.report['parts'] = render_day(self.day, self.report['name'])
+        text = '\n\n'.join(self.report['parts'])
+        validate_revision_text(self.report, 'keep cautions short change', text)
+        for warning in ('15:00 - 16:00 - forecasted to be windy, coach recommended',
+                        '15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf'):
+            with self.assertRaisesRegex(SafeError, 'required windy-period warning'):
+                validate_revision_text(self.report, 'keep cautions short change', text.replace(warning, '', 1))
