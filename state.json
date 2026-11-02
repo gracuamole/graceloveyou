@@ -23705,16 +23705,12 @@
         ]
       },
       "parts": [
-        "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–15:00 and 16:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\n06:00–15:00 and 16:00–18:00 — Outside break\n\n🔵 ADVANCED\n06:00–15:00 and 16:00–18:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
+        "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–15:00 and 16:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\n06:00–15:00 and 16:00–18:00 — Outside break\n\n🔵 ADVANCED\n06:00–15:00 and 16:00–18:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day.\n- leo might love grace too much"
       ],
-      "revision": 1,
-      "status": "revision_pending",
-      "draft_ids": [
-        18
-      ],
-      "prompt_ids": [
-        19
-      ],
+      "revision": 2,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
         {
@@ -23725,16 +23721,7 @@
           "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
         }
       ],
-      "feedback": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715051,
-          "revision": 1,
-          "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
-        }
-      ]
+      "feedback": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
     }
   },
   "offset": 248715052,
