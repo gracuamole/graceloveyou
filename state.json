@@ -43625,12 +43625,9 @@
       "parts": [
         "Saved feedback could not be applied to the new draft. LLM revision removed a required windy-period warning. Feedback remains pending; retry the revision. Nothing was approved or published. The draft remains pending for a later retry."
       ],
-      "notice_ids": [],
-      "intent": {
-        "kind": "notice",
-        "chat_id": -1003835479548,
-        "text_sha256": "ee4a116fb3e75aff2c3c3df864c12a732a7bab6f2fb6316e609d20207b0e2c92"
-      }
+      "notice_ids": [
+        45
+      ]
     }
   },
   "webhook_processed_ids": [
