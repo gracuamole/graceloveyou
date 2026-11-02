@@ -1,7 +1,7 @@
 name: Reviewed next-day surf report
 on:
   schedule:
-    - cron: '7 1 * * *'
+    - cron: '7 22 * * *'
     - cron: '*/5 * * * *'
   workflow_dispatch:
     inputs:
@@ -23,7 +23,7 @@ concurrency:
 jobs:
   review:
     # In webhook mode replies trigger workflow_dispatch; keep only daily cron as backup.
-    if: ${{ vars.SURF_REVIEW_ENABLED == 'true' && (vars.SURF_REVIEW_TRANSPORT != 'webhook' || github.event_name != 'schedule' || github.event.schedule == '7 1 * * *') }}
+    if: ${{ vars.SURF_REVIEW_ENABLED == 'true' && (vars.SURF_REVIEW_TRANSPORT != 'webhook' || github.event_name != 'schedule' || github.event.schedule == '7 22 * * *') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
