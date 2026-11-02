@@ -23705,18 +23705,14 @@
         ]
       },
       "parts": [
-        "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n15:00 - 16:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day.\n- leo might love grace too much"
+        "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n15:00 - 16:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
-      "revision": 5,
-      "status": "review",
-      "draft_ids": [
-        39
-      ],
-      "prompt_ids": [
-        40
-      ],
+      "revision": 6,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
-      "manual_request_id": "41434792105",
+      "manual_request_id": "41457303204",
       "publication_history": [],
       "review_history": [
         {
@@ -33635,6 +33631,3316 @@
               "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
             }
           ]
+        },
+        {
+          "date": "2026-11-03",
+          "name": "Old Man's / Batu Bolong",
+          "forecast": {
+            "spot_id": "605112930a374f33cf5f8f05",
+            "days_requested": 3,
+            "fetched_at_utc": "2026-11-02T00:51:12.134396+00:00",
+            "daily": [
+              {
+                "date": "2026-11-02",
+                "day_to_watch": false,
+                "headline": "More shoulder/head high+ surf for the magnets. ESE winds ",
+                "observation": "Rain/storm activity greets us this morning. Surf is a touch bigger than the day before, with the exposed breaks and magnets looking like the only decent options, with some shoulder/head high surf. Again, more ESE winds are on the cards and looking to be a bit stiffer. The bukit will be cleanest option. Still, keep overall expectations on the lower end of the scale as there is plenty of brown water about and overall energy is expected to be down until later in the day.",
+                "hourly": [
+                  {
+                    "timestamp": 1793548800,
+                    "local_iso": "2026-11-02T00:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 0,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.87,
+                        "period_s": 13.0,
+                        "direction_deg": 231.2,
+                        "direction_min_deg": 226.8,
+                        "cardinal": "SW",
+                        "impact": 0.704,
+                        "power": 182.1,
+                        "spectral_power": 260.0
+                      },
+                      {
+                        "height_ft": 1.86,
+                        "period_s": 5.0,
+                        "direction_deg": 198.9,
+                        "direction_min_deg": 188.5,
+                        "cardinal": "SSW",
+                        "impact": 0.296,
+                        "power": 4.9,
+                        "spectral_power": 16.8
+                      }
+                    ],
+                    "swell_power_total": 187.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.1,
+                      "gust_kts": 12.5,
+                      "direction_deg": 125.9,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 276.8,
+                      "nearshore": 208.3,
+                      "wind_swell": 5.3,
+                      "ground_swell": 203.0
+                    },
+                    "wave_count": 41.7,
+                    "weather": {
+                      "temperature_f": 79.2,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793552400,
+                    "local_iso": "2026-11-02T01:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 1,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.85,
+                        "period_s": 13.0,
+                        "direction_deg": 231.3,
+                        "direction_min_deg": 227.0,
+                        "cardinal": "SW",
+                        "impact": 0.7,
+                        "power": 176.9,
+                        "spectral_power": 253.4
+                      },
+                      {
+                        "height_ft": 1.88,
+                        "period_s": 5.0,
+                        "direction_deg": 199.2,
+                        "direction_min_deg": 189.3,
+                        "cardinal": "SSW",
+                        "impact": 0.3,
+                        "power": 5.2,
+                        "spectral_power": 17.5
+                      }
+                    ],
+                    "swell_power_total": 182.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.9,
+                      "gust_kts": 11.3,
+                      "direction_deg": 119.0,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 270.9,
+                      "nearshore": 202.8,
+                      "wind_swell": 5.7,
+                      "ground_swell": 197.1
+                    },
+                    "wave_count": 41.9,
+                    "weather": {
+                      "temperature_f": 78.5,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793556000,
+                    "local_iso": "2026-11-02T02:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 2,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.82,
+                        "period_s": 13.0,
+                        "direction_deg": 231.5,
+                        "direction_min_deg": 227.2,
+                        "cardinal": "SW",
+                        "impact": 0.693,
+                        "power": 170.9,
+                        "spectral_power": 247.2
+                      },
+                      {
+                        "height_ft": 1.92,
+                        "period_s": 5.0,
+                        "direction_deg": 199.5,
+                        "direction_min_deg": 189.9,
+                        "cardinal": "SSW",
+                        "impact": 0.307,
+                        "power": 5.7,
+                        "spectral_power": 18.6
+                      }
+                    ],
+                    "swell_power_total": 176.6,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.4,
+                      "gust_kts": 11.5,
+                      "direction_deg": 116.2,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 265.8,
+                      "nearshore": 197.9,
+                      "wind_swell": 6.2,
+                      "ground_swell": 191.7
+                    },
+                    "wave_count": 42.0,
+                    "weather": {
+                      "temperature_f": 78.5,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793559600,
+                    "local_iso": "2026-11-02T03:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 3,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.81,
+                        "period_s": 13.0,
+                        "direction_deg": 231.4,
+                        "direction_min_deg": 227.1,
+                        "cardinal": "SW",
+                        "impact": 0.688,
+                        "power": 168.0,
+                        "spectral_power": 242.7
+                      },
+                      {
+                        "height_ft": 1.95,
+                        "period_s": 5.0,
+                        "direction_deg": 199.3,
+                        "direction_min_deg": 190.0,
+                        "cardinal": "SSW",
+                        "impact": 0.312,
+                        "power": 6.1,
+                        "spectral_power": 19.5
+                      }
+                    ],
+                    "swell_power_total": 174.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.1,
+                      "gust_kts": 10.7,
+                      "direction_deg": 112.8,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 262.2,
+                      "nearshore": 194.2,
+                      "wind_swell": 6.8,
+                      "ground_swell": 187.4
+                    },
+                    "wave_count": 42.3,
+                    "weather": {
+                      "temperature_f": 78.3,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793563200,
+                    "local_iso": "2026-11-02T04:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 4,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.79,
+                        "period_s": 13.0,
+                        "direction_deg": 231.4,
+                        "direction_min_deg": 227.1,
+                        "cardinal": "SW",
+                        "impact": 0.679,
+                        "power": 163.3,
+                        "spectral_power": 238.4
+                      },
+                      {
+                        "height_ft": 2.02,
+                        "period_s": 5.0,
+                        "direction_deg": 199.5,
+                        "direction_min_deg": 190.4,
+                        "cardinal": "SSW",
+                        "impact": 0.321,
+                        "power": 6.9,
+                        "spectral_power": 21.4
+                      }
+                    ],
+                    "swell_power_total": 170.2,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.5,
+                      "gust_kts": 10.3,
+                      "direction_deg": 113.6,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 259.8,
+                      "nearshore": 191.5,
+                      "wind_swell": 7.5,
+                      "ground_swell": 184.0
+                    },
+                    "wave_count": 42.6,
+                    "weather": {
+                      "temperature_f": 78.5,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793566800,
+                    "local_iso": "2026-11-02T05:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 5,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.77,
+                        "period_s": 13.0,
+                        "direction_deg": 231.2,
+                        "direction_min_deg": 226.9,
+                        "cardinal": "SW",
+                        "impact": 0.669,
+                        "power": 158.0,
+                        "spectral_power": 233.7
+                      },
+                      {
+                        "height_ft": 2.09,
+                        "period_s": 6.0,
+                        "direction_deg": 199.8,
+                        "direction_min_deg": 190.8,
+                        "cardinal": "SSW",
+                        "impact": 0.331,
+                        "power": 8.2,
+                        "spectral_power": 24.3
+                      }
+                    ],
+                    "swell_power_total": 166.2,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.4,
+                      "gust_kts": 10.1,
+                      "direction_deg": 110.6,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 258.1,
+                      "nearshore": 189.4,
+                      "wind_swell": 8.4,
+                      "ground_swell": 181.1
+                    },
+                    "wave_count": 42.9,
+                    "weather": {
+                      "temperature_f": 78.4,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793570400,
+                    "local_iso": "2026-11-02T06:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 6,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.75,
+                        "period_s": 13.0,
+                        "direction_deg": 231.0,
+                        "direction_min_deg": 226.7,
+                        "cardinal": "SW",
+                        "impact": 0.66,
+                        "power": 154.0,
+                        "spectral_power": 230.0
+                      },
+                      {
+                        "height_ft": 2.15,
+                        "period_s": 6.0,
+                        "direction_deg": 199.9,
+                        "direction_min_deg": 191.0,
+                        "cardinal": "SSW",
+                        "impact": 0.34,
+                        "power": 9.2,
+                        "spectral_power": 26.6
+                      }
+                    ],
+                    "swell_power_total": 163.2,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.5,
+                      "gust_kts": 10.3,
+                      "direction_deg": 118.7,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 256.7,
+                      "nearshore": 187.7,
+                      "wind_swell": 9.1,
+                      "ground_swell": 178.5
+                    },
+                    "wave_count": 43.1,
+                    "weather": {
+                      "temperature_f": 78.6,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793574000,
+                    "local_iso": "2026-11-02T07:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 7,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.74,
+                        "period_s": 13.0,
+                        "direction_deg": 230.8,
+                        "direction_min_deg": 226.4,
+                        "cardinal": "SW",
+                        "impact": 0.654,
+                        "power": 150.7,
+                        "spectral_power": 227.2
+                      },
+                      {
+                        "height_ft": 2.2,
+                        "period_s": 6.0,
+                        "direction_deg": 200.2,
+                        "direction_min_deg": 191.3,
+                        "cardinal": "SSW",
+                        "impact": 0.346,
+                        "power": 10.0,
+                        "spectral_power": 28.4
+                      }
+                    ],
+                    "swell_power_total": 160.7,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.2,
+                      "gust_kts": 9.9,
+                      "direction_deg": 118.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 255.6,
+                      "nearshore": 186.3,
+                      "wind_swell": 9.7,
+                      "ground_swell": 176.6
+                    },
+                    "wave_count": 43.4,
+                    "weather": {
+                      "temperature_f": 78.4,
+                      "condition": "LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793577600,
+                    "local_iso": "2026-11-02T08:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 8,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.74,
+                        "period_s": 13.0,
+                        "direction_deg": 230.4,
+                        "direction_min_deg": 225.9,
+                        "cardinal": "SW",
+                        "impact": 0.652,
+                        "power": 150.5,
+                        "spectral_power": 226.1
+                      },
+                      {
+                        "height_ft": 2.22,
+                        "period_s": 6.0,
+                        "direction_deg": 200.3,
+                        "direction_min_deg": 191.5,
+                        "cardinal": "SSW",
+                        "impact": 0.348,
+                        "power": 10.3,
+                        "spectral_power": 29.1
+                      }
+                    ],
+                    "swell_power_total": 160.8,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.5,
+                      "gust_kts": 9.3,
+                      "direction_deg": 117.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 255.2,
+                      "nearshore": 185.5,
+                      "wind_swell": 10.0,
+                      "ground_swell": 175.5
+                    },
+                    "wave_count": 43.7,
+                    "weather": {
+                      "temperature_f": 78.3,
+                      "condition": "LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1016.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793581200,
+                    "local_iso": "2026-11-02T09:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 9,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.75,
+                        "period_s": 13.0,
+                        "direction_deg": 230.1,
+                        "direction_min_deg": 225.5,
+                        "cardinal": "SW",
+                        "impact": 0.652,
+                        "power": 151.0,
+                        "spectral_power": 226.0
+                      },
+                      {
+                        "height_ft": 2.22,
+                        "period_s": 6.0,
+                        "direction_deg": 200.3,
+                        "direction_min_deg": 191.6,
+                        "cardinal": "SSW",
+                        "impact": 0.348,
+                        "power": 10.5,
+                        "spectral_power": 29.4
+                      }
+                    ],
+                    "swell_power_total": 161.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.3,
+                      "gust_kts": 9.3,
+                      "direction_deg": 118.7,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 255.4,
+                      "nearshore": 185.4,
+                      "wind_swell": 10.2,
+                      "ground_swell": 175.2
+                    },
+                    "wave_count": 43.9,
+                    "weather": {
+                      "temperature_f": 78.5,
+                      "condition": "HEAVY_THUNDER_STORMS",
+                      "pressure_hpa": 1016.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793584800,
+                    "local_iso": "2026-11-02T10:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 10,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.76,
+                        "period_s": 13.0,
+                        "direction_deg": 229.8,
+                        "direction_min_deg": 225.2,
+                        "cardinal": "SW",
+                        "impact": 0.651,
+                        "power": 151.2,
+                        "spectral_power": 226.5
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 6.0,
+                        "direction_deg": 200.5,
+                        "direction_min_deg": 191.8,
+                        "cardinal": "SSW",
+                        "impact": 0.349,
+                        "power": 10.7,
+                        "spectral_power": 29.9
+                      }
+                    ],
+                    "swell_power_total": 161.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.4,
+                      "gust_kts": 9.0,
+                      "direction_deg": 120.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 256.3,
+                      "nearshore": 185.9,
+                      "wind_swell": 10.3,
+                      "ground_swell": 175.6
+                    },
+                    "wave_count": 44.2,
+                    "weather": {
+                      "temperature_f": 78.8,
+                      "condition": "HEAVY_THUNDER_STORMS",
+                      "pressure_hpa": 1016.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793588400,
+                    "local_iso": "2026-11-02T11:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 11,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.77,
+                        "period_s": 13.0,
+                        "direction_deg": 229.5,
+                        "direction_min_deg": 224.9,
+                        "cardinal": "SW",
+                        "impact": 0.65,
+                        "power": 151.3,
+                        "spectral_power": 227.3
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 6.0,
+                        "direction_deg": 200.9,
+                        "direction_min_deg": 192.0,
+                        "cardinal": "SSW",
+                        "impact": 0.35,
+                        "power": 11.0,
+                        "spectral_power": 30.6
+                      }
+                    ],
+                    "swell_power_total": 162.3,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.4,
+                      "gust_kts": 9.1,
+                      "direction_deg": 124.8,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 257.9,
+                      "nearshore": 187.0,
+                      "wind_swell": 10.5,
+                      "ground_swell": 176.6
+                    },
+                    "wave_count": 44.6,
+                    "weather": {
+                      "temperature_f": 79.1,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793592000,
+                    "local_iso": "2026-11-02T12:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 12,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.79,
+                        "period_s": 13.0,
+                        "direction_deg": 229.2,
+                        "direction_min_deg": 224.6,
+                        "cardinal": "SW",
+                        "impact": 0.65,
+                        "power": 152.7,
+                        "spectral_power": 229.2
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 6.0,
+                        "direction_deg": 201.1,
+                        "direction_min_deg": 192.2,
+                        "cardinal": "SSW",
+                        "impact": 0.35,
+                        "power": 11.2,
+                        "spectral_power": 31.2
+                      }
+                    ],
+                    "swell_power_total": 163.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.7,
+                      "gust_kts": 9.5,
+                      "direction_deg": 129.8,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 260.4,
+                      "nearshore": 188.8,
+                      "wind_swell": 10.6,
+                      "ground_swell": 178.2
+                    },
+                    "wave_count": 45.0,
+                    "weather": {
+                      "temperature_f": 80.0,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793595600,
+                    "local_iso": "2026-11-02T13:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 13,
+                    "utc_offset": 8,
+                    "surf_min_ft": 2.0,
+                    "surf_max_ft": 3.0,
+                    "surf_human": "Thigh to stomach",
+                    "swells": [
+                      {
+                        "height_ft": 2.81,
+                        "period_s": 13.0,
+                        "direction_deg": 229.0,
+                        "direction_min_deg": 224.4,
+                        "cardinal": "SW",
+                        "impact": 0.648,
+                        "power": 153.9,
+                        "spectral_power": 232.3
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 6.0,
+                        "direction_deg": 201.6,
+                        "direction_min_deg": 192.7,
+                        "cardinal": "SSW",
+                        "impact": 0.352,
+                        "power": 11.7,
+                        "spectral_power": 32.6
+                      }
+                    ],
+                    "swell_power_total": 165.6,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.6,
+                      "gust_kts": 9.1,
+                      "direction_deg": 132.8,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 265.0,
+                      "nearshore": 192.1,
+                      "wind_swell": 10.7,
+                      "ground_swell": 181.4
+                    },
+                    "wave_count": 45.5,
+                    "weather": {
+                      "temperature_f": 80.7,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793599200,
+                    "local_iso": "2026-11-02T14:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 14,
+                    "utc_offset": 8,
+                    "surf_min_ft": 2.0,
+                    "surf_max_ft": 3.0,
+                    "surf_human": "Thigh to stomach",
+                    "swells": [
+                      {
+                        "height_ft": 2.86,
+                        "period_s": 13.0,
+                        "direction_deg": 228.8,
+                        "direction_min_deg": 224.1,
+                        "cardinal": "SW",
+                        "impact": 0.649,
+                        "power": 158.5,
+                        "spectral_power": 239.8
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 6.0,
+                        "direction_deg": 202.1,
+                        "direction_min_deg": 193.1,
+                        "cardinal": "SSW",
+                        "impact": 0.351,
+                        "power": 12.1,
+                        "spectral_power": 33.8
+                      }
+                    ],
+                    "swell_power_total": 170.6,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.6,
+                      "gust_kts": 9.3,
+                      "direction_deg": 136.9,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 273.6,
+                      "nearshore": 198.5,
+                      "wind_swell": 10.8,
+                      "ground_swell": 187.8
+                    },
+                    "wave_count": 46.1,
+                    "weather": {
+                      "temperature_f": 80.7,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793602800,
+                    "local_iso": "2026-11-02T15:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 15,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 2.95,
+                        "period_s": 13.0,
+                        "direction_deg": 228.7,
+                        "direction_min_deg": 224.0,
+                        "cardinal": "SW",
+                        "impact": 0.648,
+                        "power": 166.2,
+                        "spectral_power": 252.9
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 6.0,
+                        "direction_deg": 202.5,
+                        "direction_min_deg": 193.5,
+                        "cardinal": "SSW",
+                        "impact": 0.352,
+                        "power": 12.5,
+                        "spectral_power": 35.0
+                      }
+                    ],
+                    "swell_power_total": 178.7,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.6,
+                      "gust_kts": 9.6,
+                      "direction_deg": 139.5,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 287.8,
+                      "nearshore": 209.3,
+                      "wind_swell": 10.8,
+                      "ground_swell": 198.4
+                    },
+                    "wave_count": 46.8,
+                    "weather": {
+                      "temperature_f": 80.7,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793606400,
+                    "local_iso": "2026-11-02T16:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 16,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 3.03,
+                        "period_s": 13.0,
+                        "direction_deg": 228.7,
+                        "direction_min_deg": 224.0,
+                        "cardinal": "SW",
+                        "impact": 0.65,
+                        "power": 172.3,
+                        "spectral_power": 265.2
+                      },
+                      {
+                        "height_ft": 2.25,
+                        "period_s": 6.0,
+                        "direction_deg": 202.9,
+                        "direction_min_deg": 193.7,
+                        "cardinal": "SSW",
+                        "impact": 0.35,
+                        "power": 12.8,
+                        "spectral_power": 36.5
+                      }
+                    ],
+                    "swell_power_total": 185.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.7,
+                      "gust_kts": 9.9,
+                      "direction_deg": 137.4,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 301.7,
+                      "nearshore": 219.7,
+                      "wind_swell": 10.9,
+                      "ground_swell": 208.8
+                    },
+                    "wave_count": 47.7,
+                    "weather": {
+                      "temperature_f": 81.1,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793610000,
+                    "local_iso": "2026-11-02T17:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 17,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 3.08,
+                        "period_s": 12.0,
+                        "direction_deg": 228.7,
+                        "direction_min_deg": 224.1,
+                        "cardinal": "SW",
+                        "impact": 0.649,
+                        "power": 172.3,
+                        "spectral_power": 271.4
+                      },
+                      {
+                        "height_ft": 2.25,
+                        "period_s": 6.0,
+                        "direction_deg": 203.3,
+                        "direction_min_deg": 194.0,
+                        "cardinal": "SSW",
+                        "impact": 0.351,
+                        "power": 13.2,
+                        "spectral_power": 38.5
+                      }
+                    ],
+                    "swell_power_total": 185.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.6,
+                      "gust_kts": 9.9,
+                      "direction_deg": 127.2,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 309.8,
+                      "nearshore": 225.5,
+                      "wind_swell": 11.0,
+                      "ground_swell": 214.5
+                    },
+                    "wave_count": 48.5,
+                    "weather": {
+                      "temperature_f": 81.1,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793613600,
+                    "local_iso": "2026-11-02T18:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 18,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 3.14,
+                        "period_s": 12.0,
+                        "direction_deg": 228.8,
+                        "direction_min_deg": 224.1,
+                        "cardinal": "SW",
+                        "impact": 0.649,
+                        "power": 174.9,
+                        "spectral_power": 278.6
+                      },
+                      {
+                        "height_ft": 2.25,
+                        "period_s": 6.0,
+                        "direction_deg": 204.0,
+                        "direction_min_deg": 194.7,
+                        "cardinal": "SSW",
+                        "impact": 0.351,
+                        "power": 13.6,
+                        "spectral_power": 40.0
+                      }
+                    ],
+                    "swell_power_total": 188.4,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.7,
+                      "gust_kts": 10.1,
+                      "direction_deg": 119.8,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 318.6,
+                      "nearshore": 232.1,
+                      "wind_swell": 11.0,
+                      "ground_swell": 221.1
+                    },
+                    "wave_count": 49.3,
+                    "weather": {
+                      "temperature_f": 81.0,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793617200,
+                    "local_iso": "2026-11-02T19:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 19,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 3.21,
+                        "period_s": 12.0,
+                        "direction_deg": 228.8,
+                        "direction_min_deg": 224.2,
+                        "cardinal": "SW",
+                        "impact": 0.652,
+                        "power": 181.9,
+                        "spectral_power": 290.6
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 7.0,
+                        "direction_deg": 204.7,
+                        "direction_min_deg": 195.6,
+                        "cardinal": "SSW",
+                        "impact": 0.348,
+                        "power": 13.6,
+                        "spectral_power": 40.8
+                      }
+                    ],
+                    "swell_power_total": 195.6,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.3,
+                      "gust_kts": 10.4,
+                      "direction_deg": 113.5,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 331.4,
+                      "nearshore": 241.5,
+                      "wind_swell": 11.0,
+                      "ground_swell": 230.6
+                    },
+                    "wave_count": 50.0,
+                    "weather": {
+                      "temperature_f": 80.7,
+                      "condition": "NIGHT_CLEAR",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793620800,
+                    "local_iso": "2026-11-02T20:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 20,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to chest",
+                    "swells": [
+                      {
+                        "height_ft": 3.23,
+                        "period_s": 12.0,
+                        "direction_deg": 229.2,
+                        "direction_min_deg": 224.5,
+                        "cardinal": "SW",
+                        "impact": 0.533,
+                        "power": 148.8,
+                        "spectral_power": 281.0
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 7.0,
+                        "direction_deg": 205.3,
+                        "direction_min_deg": 196.4,
+                        "cardinal": "SSW",
+                        "impact": 0.284,
+                        "power": 11.2,
+                        "spectral_power": 39.6
+                      },
+                      {
+                        "height_ft": 0.67,
+                        "period_s": 18.0,
+                        "direction_deg": 225.9,
+                        "direction_min_deg": 221.1,
+                        "cardinal": "SW",
+                        "impact": 0.184,
+                        "power": 4.7,
+                        "spectral_power": 25.6
+                      }
+                    ],
+                    "swell_power_total": 164.6,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.3,
+                      "gust_kts": 10.5,
+                      "direction_deg": 114.8,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 346.1,
+                      "nearshore": 252.2,
+                      "wind_swell": 10.9,
+                      "ground_swell": 241.3
+                    },
+                    "wave_count": 50.4,
+                    "weather": {
+                      "temperature_f": 80.5,
+                      "condition": "NIGHT_CLEAR",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793624400,
+                    "local_iso": "2026-11-02T21:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 21,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.38,
+                        "period_s": 12.0,
+                        "direction_deg": 229.4,
+                        "direction_min_deg": 224.7,
+                        "cardinal": "SW",
+                        "impact": 0.659,
+                        "power": 199.4,
+                        "spectral_power": 318.2
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 7.0,
+                        "direction_deg": 205.9,
+                        "direction_min_deg": 197.0,
+                        "cardinal": "SSW",
+                        "impact": 0.341,
+                        "power": 13.5,
+                        "spectral_power": 41.6
+                      }
+                    ],
+                    "swell_power_total": 212.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.3,
+                      "gust_kts": 9.7,
+                      "direction_deg": 111.3,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 359.8,
+                      "nearshore": 262.3,
+                      "wind_swell": 10.8,
+                      "ground_swell": 251.5
+                    },
+                    "wave_count": 50.6,
+                    "weather": {
+                      "temperature_f": 80.2,
+                      "condition": "NIGHT_CLEAR",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793628000,
+                    "local_iso": "2026-11-02T22:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 22,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.33,
+                        "period_s": 12.0,
+                        "direction_deg": 230.1,
+                        "direction_min_deg": 225.5,
+                        "cardinal": "SW",
+                        "impact": 0.521,
+                        "power": 152.5,
+                        "spectral_power": 293.6
+                      },
+                      {
+                        "height_ft": 2.24,
+                        "period_s": 7.0,
+                        "direction_deg": 206.3,
+                        "direction_min_deg": 197.6,
+                        "cardinal": "SSW",
+                        "impact": 0.272,
+                        "power": 10.8,
+                        "spectral_power": 39.7
+                      },
+                      {
+                        "height_ft": 0.84,
+                        "period_s": 17.0,
+                        "direction_deg": 224.7,
+                        "direction_min_deg": 220.1,
+                        "cardinal": "SW",
+                        "impact": 0.207,
+                        "power": 7.8,
+                        "spectral_power": 37.7
+                      }
+                    ],
+                    "swell_power_total": 171.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.0,
+                      "gust_kts": 9.5,
+                      "direction_deg": 108.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 371.0,
+                      "nearshore": 270.7,
+                      "wind_swell": 10.7,
+                      "ground_swell": 260.0
+                    },
+                    "wave_count": 50.5,
+                    "weather": {
+                      "temperature_f": 80.1,
+                      "condition": "NIGHT_CLEAR",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793631600,
+                    "local_iso": "2026-11-02T23:00:00+08:00",
+                    "local_day": "2026-11-02",
+                    "local_hour": 23,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.33,
+                        "period_s": 12.0,
+                        "direction_deg": 230.2,
+                        "direction_min_deg": 225.7,
+                        "cardinal": "SW",
+                        "impact": 0.505,
+                        "power": 146.6,
+                        "spectral_power": 289.0
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 7.0,
+                        "direction_deg": 206.6,
+                        "direction_min_deg": 198.0,
+                        "cardinal": "SSW",
+                        "impact": 0.264,
+                        "power": 10.5,
+                        "spectral_power": 39.5
+                      },
+                      {
+                        "height_ft": 1.03,
+                        "period_s": 16.0,
+                        "direction_deg": 226.6,
+                        "direction_min_deg": 221.3,
+                        "cardinal": "SW",
+                        "impact": 0.231,
+                        "power": 12.0,
+                        "spectral_power": 51.9
+                      }
+                    ],
+                    "swell_power_total": 169.1,
+                    "swell_probability_pct": 86.7,
+                    "wind": {
+                      "speed_kts": 5.8,
+                      "gust_kts": 9.7,
+                      "direction_deg": 118.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 380.5,
+                      "nearshore": 278.1,
+                      "wind_swell": 10.6,
+                      "ground_swell": 267.6
+                    },
+                    "wave_count": 50.5,
+                    "weather": {
+                      "temperature_f": 80.0,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  }
+                ],
+                "tide_hourly": [
+                  {
+                    "timestamp": 1793548800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 7.58
+                  },
+                  {
+                    "timestamp": 1793552400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 8.22
+                  },
+                  {
+                    "timestamp": 1793556000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 8.32
+                  },
+                  {
+                    "timestamp": 1793559600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 7.84
+                  },
+                  {
+                    "timestamp": 1793563200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.9
+                  },
+                  {
+                    "timestamp": 1793566800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.68
+                  },
+                  {
+                    "timestamp": 1793570400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.4
+                  },
+                  {
+                    "timestamp": 1793574000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.34
+                  },
+                  {
+                    "timestamp": 1793577600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 2.69
+                  },
+                  {
+                    "timestamp": 1793581200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 2.6
+                  },
+                  {
+                    "timestamp": 1793584800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.03
+                  },
+                  {
+                    "timestamp": 1793588400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.83
+                  },
+                  {
+                    "timestamp": 1793592000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.77
+                  },
+                  {
+                    "timestamp": 1793595600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.61
+                  },
+                  {
+                    "timestamp": 1793599200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.16
+                  },
+                  {
+                    "timestamp": 1793602800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.34
+                  },
+                  {
+                    "timestamp": 1793606400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.16
+                  },
+                  {
+                    "timestamp": 1793610000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.7
+                  },
+                  {
+                    "timestamp": 1793613600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.1
+                  },
+                  {
+                    "timestamp": 1793617200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.54
+                  },
+                  {
+                    "timestamp": 1793620800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.21
+                  },
+                  {
+                    "timestamp": 1793624400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.22
+                  },
+                  {
+                    "timestamp": 1793628000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.62
+                  },
+                  {
+                    "timestamp": 1793631600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.32
+                  }
+                ],
+                "tide_extrema": [
+                  {
+                    "timestamp": 1793554788,
+                    "utc_offset": 8,
+                    "type": "HIGH",
+                    "height_ft": 8.37
+                  },
+                  {
+                    "timestamp": 1793580029,
+                    "utc_offset": 8,
+                    "type": "LOW",
+                    "height_ft": 2.56
+                  },
+                  {
+                    "timestamp": 1793602729,
+                    "utc_offset": 8,
+                    "type": "HIGH",
+                    "height_ft": 6.33
+                  },
+                  {
+                    "timestamp": 1793622472,
+                    "utc_offset": 8,
+                    "type": "LOW",
+                    "height_ft": 4.17
+                  }
+                ],
+                "tide_pushes": [
+                  {
+                    "low_ts": 1793580029,
+                    "low_height_ft": 2.56,
+                    "high_ts": 1793602729,
+                    "high_height_ft": 6.33,
+                    "duration_hours": 6.3,
+                    "utc_offset": 8
+                  }
+                ],
+                "sunlight": {
+                  "date_ts": 1793548800,
+                  "utc_offset": 8,
+                  "dawn_ts": 1793568603,
+                  "sunrise_ts": 1793569904,
+                  "sunset_ts": 1793614613,
+                  "dusk_ts": 1793615913
+                }
+              },
+              {
+                "date": "2026-11-03",
+                "day_to_watch": true,
+                "headline": "Fun SSW swell around the region. Beachies likely the pick. Better than the last few days ",
+                "observation": "Chest to overhead high surf at best for the exposed southern breaks and swell magnets around the island. Knee to stomach at less exposed regions. E winds early to favour the west coast before ESE/SEs kick in before lunch. Some reef breaks may struggle a touch but the beachies and sand bottomed breaks will likely be fun enough on a modest low tide.",
+                "hourly": [
+                  {
+                    "timestamp": 1793635200,
+                    "local_iso": "2026-11-03T00:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 0,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.36,
+                        "period_s": 12.0,
+                        "direction_deg": 230.2,
+                        "direction_min_deg": 225.7,
+                        "cardinal": "SW",
+                        "impact": 0.499,
+                        "power": 145.6,
+                        "spectral_power": 291.0
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 7.0,
+                        "direction_deg": 207.0,
+                        "direction_min_deg": 198.5,
+                        "cardinal": "SSW",
+                        "impact": 0.261,
+                        "power": 10.4,
+                        "spectral_power": 39.7
+                      },
+                      {
+                        "height_ft": 1.11,
+                        "period_s": 16.0,
+                        "direction_deg": 226.4,
+                        "direction_min_deg": 221.2,
+                        "cardinal": "SW",
+                        "impact": 0.241,
+                        "power": 14.5,
+                        "spectral_power": 59.9
+                      }
+                    ],
+                    "swell_power_total": 170.4,
+                    "swell_probability_pct": 86.7,
+                    "wind": {
+                      "speed_kts": 5.9,
+                      "gust_kts": 9.3,
+                      "direction_deg": 123.6,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 390.5,
+                      "nearshore": 286.3,
+                      "wind_swell": 10.3,
+                      "ground_swell": 275.9
+                    },
+                    "wave_count": 50.3,
+                    "weather": {
+                      "temperature_f": 79.9,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793638800,
+                    "local_iso": "2026-11-03T01:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 1,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.37,
+                        "period_s": 12.0,
+                        "direction_deg": 230.3,
+                        "direction_min_deg": 225.7,
+                        "cardinal": "SW",
+                        "impact": 0.486,
+                        "power": 140.9,
+                        "spectral_power": 288.3
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 7.0,
+                        "direction_deg": 207.4,
+                        "direction_min_deg": 198.9,
+                        "cardinal": "SSW",
+                        "impact": 0.255,
+                        "power": 10.2,
+                        "spectral_power": 39.9
+                      },
+                      {
+                        "height_ft": 1.26,
+                        "period_s": 16.0,
+                        "direction_deg": 226.6,
+                        "direction_min_deg": 221.7,
+                        "cardinal": "SW",
+                        "impact": 0.26,
+                        "power": 19.9,
+                        "spectral_power": 76.1
+                      }
+                    ],
+                    "swell_power_total": 171.0,
+                    "swell_probability_pct": 86.7,
+                    "wind": {
+                      "speed_kts": 7.5,
+                      "gust_kts": 10.2,
+                      "direction_deg": 118.7,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 404.3,
+                      "nearshore": 297.4,
+                      "wind_swell": 10.0,
+                      "ground_swell": 287.4
+                    },
+                    "wave_count": 50.3,
+                    "weather": {
+                      "temperature_f": 79.7,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793642400,
+                    "local_iso": "2026-11-03T02:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 2,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.37,
+                        "period_s": 12.0,
+                        "direction_deg": 230.6,
+                        "direction_min_deg": 226.1,
+                        "cardinal": "SW",
+                        "impact": 0.472,
+                        "power": 135.6,
+                        "spectral_power": 284.8
+                      },
+                      {
+                        "height_ft": 2.23,
+                        "period_s": 7.0,
+                        "direction_deg": 207.8,
+                        "direction_min_deg": 199.4,
+                        "cardinal": "SSW",
+                        "impact": 0.252,
+                        "power": 10.3,
+                        "spectral_power": 40.4
+                      },
+                      {
+                        "height_ft": 1.41,
+                        "period_s": 16.0,
+                        "direction_deg": 226.4,
+                        "direction_min_deg": 221.7,
+                        "cardinal": "SW",
+                        "impact": 0.276,
+                        "power": 25.8,
+                        "spectral_power": 92.7
+                      }
+                    ],
+                    "swell_power_total": 171.7,
+                    "swell_probability_pct": 90.0,
+                    "wind": {
+                      "speed_kts": 8.0,
+                      "gust_kts": 10.7,
+                      "direction_deg": 115.0,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 417.9,
+                      "nearshore": 308.9,
+                      "wind_swell": 9.7,
+                      "ground_swell": 299.2
+                    },
+                    "wave_count": 50.3,
+                    "weather": {
+                      "temperature_f": 79.8,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793646000,
+                    "local_iso": "2026-11-03T03:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 3,
+                    "utc_offset": 8,
+                    "surf_min_ft": 3.0,
+                    "surf_max_ft": 4.0,
+                    "surf_human": "Waist to shoulder",
+                    "swells": [
+                      {
+                        "height_ft": 3.39,
+                        "period_s": 12.0,
+                        "direction_deg": 230.8,
+                        "direction_min_deg": 226.3,
+                        "cardinal": "SW",
+                        "impact": 0.465,
+                        "power": 133.7,
+                        "spectral_power": 283.6
+                      },
+                      {
+                        "height_ft": 2.19,
+                        "period_s": 7.0,
+                        "direction_deg": 208.0,
+                        "direction_min_deg": 199.5,
+                        "cardinal": "SSW",
+                        "impact": 0.247,
+                        "power": 10.1,
+                        "spectral_power": 40.3
+                      },
+                      {
+                        "height_ft": 1.52,
+                        "period_s": 16.0,
+                        "direction_deg": 226.2,
+                        "direction_min_deg": 221.5,
+                        "cardinal": "SW",
+                        "impact": 0.288,
+                        "power": 31.5,
+                        "spectral_power": 107.7
+                      }
+                    ],
+                    "swell_power_total": 175.4,
+                    "swell_probability_pct": 90.0,
+                    "wind": {
+                      "speed_kts": 7.4,
+                      "gust_kts": 10.3,
+                      "direction_deg": 113.2,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 431.6,
+                      "nearshore": 321.3,
+                      "wind_swell": 9.3,
+                      "ground_swell": 312.0
+                    },
+                    "wave_count": 50.5,
+                    "weather": {
+                      "temperature_f": 79.6,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793649600,
+                    "local_iso": "2026-11-03T04:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 4,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.4,
+                        "period_s": 12.0,
+                        "direction_deg": 231.4,
+                        "direction_min_deg": 226.9,
+                        "cardinal": "SW",
+                        "impact": 0.457,
+                        "power": 131.3,
+                        "spectral_power": 283.3
+                      },
+                      {
+                        "height_ft": 2.19,
+                        "period_s": 7.0,
+                        "direction_deg": 208.4,
+                        "direction_min_deg": 199.9,
+                        "cardinal": "SSW",
+                        "impact": 0.246,
+                        "power": 10.7,
+                        "spectral_power": 42.8
+                      },
+                      {
+                        "height_ft": 1.6,
+                        "period_s": 16.0,
+                        "direction_deg": 225.5,
+                        "direction_min_deg": 220.9,
+                        "cardinal": "SW",
+                        "impact": 0.296,
+                        "power": 36.1,
+                        "spectral_power": 120.0
+                      }
+                    ],
+                    "swell_power_total": 178.0,
+                    "swell_probability_pct": 90.0,
+                    "wind": {
+                      "speed_kts": 6.8,
+                      "gust_kts": 10.1,
+                      "direction_deg": 105.3,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 446.2,
+                      "nearshore": 334.9,
+                      "wind_swell": 8.9,
+                      "ground_swell": 326.0
+                    },
+                    "wave_count": 50.5,
+                    "weather": {
+                      "temperature_f": 79.5,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793653200,
+                    "local_iso": "2026-11-03T05:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 5,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.4,
+                        "period_s": 12.0,
+                        "direction_deg": 231.5,
+                        "direction_min_deg": 227.1,
+                        "cardinal": "SW",
+                        "impact": 0.447,
+                        "power": 126.7,
+                        "spectral_power": 280.2
+                      },
+                      {
+                        "height_ft": 2.18,
+                        "period_s": 7.0,
+                        "direction_deg": 208.8,
+                        "direction_min_deg": 200.2,
+                        "cardinal": "SSW",
+                        "impact": 0.244,
+                        "power": 11.1,
+                        "spectral_power": 44.9
+                      },
+                      {
+                        "height_ft": 1.73,
+                        "period_s": 16.0,
+                        "direction_deg": 225.5,
+                        "direction_min_deg": 220.9,
+                        "cardinal": "SW",
+                        "impact": 0.309,
+                        "power": 43.7,
+                        "spectral_power": 139.6
+                      }
+                    ],
+                    "swell_power_total": 181.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 5.8,
+                      "gust_kts": 9.3,
+                      "direction_deg": 104.3,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 464.7,
+                      "nearshore": 351.7,
+                      "wind_swell": 8.5,
+                      "ground_swell": 343.1
+                    },
+                    "wave_count": 50.4,
+                    "weather": {
+                      "temperature_f": 79.8,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793656800,
+                    "local_iso": "2026-11-03T06:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 6,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.42,
+                        "period_s": 11.0,
+                        "direction_deg": 231.5,
+                        "direction_min_deg": 227.1,
+                        "cardinal": "SW",
+                        "impact": 0.439,
+                        "power": 123.7,
+                        "spectral_power": 278.5
+                      },
+                      {
+                        "height_ft": 2.14,
+                        "period_s": 7.0,
+                        "direction_deg": 208.4,
+                        "direction_min_deg": 199.8,
+                        "cardinal": "SSW",
+                        "impact": 0.239,
+                        "power": 11.0,
+                        "spectral_power": 45.4
+                      },
+                      {
+                        "height_ft": 1.86,
+                        "period_s": 16.0,
+                        "direction_deg": 225.6,
+                        "direction_min_deg": 221.0,
+                        "cardinal": "SW",
+                        "impact": 0.322,
+                        "power": 52.3,
+                        "spectral_power": 160.5
+                      }
+                    ],
+                    "swell_power_total": 187.0,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 5.0,
+                      "gust_kts": 8.6,
+                      "direction_deg": 107.4,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 484.5,
+                      "nearshore": 369.7,
+                      "wind_swell": 8.2,
+                      "ground_swell": 361.5
+                    },
+                    "wave_count": 50.1,
+                    "weather": {
+                      "temperature_f": 79.8,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793660400,
+                    "local_iso": "2026-11-03T07:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 7,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.98,
+                        "period_s": 11.0,
+                        "direction_deg": 225.5,
+                        "direction_min_deg": 217.7,
+                        "cardinal": "SW",
+                        "impact": 0.581,
+                        "power": 216.6,
+                        "spectral_power": 326.2
+                      },
+                      {
+                        "height_ft": 2.09,
+                        "period_s": 16.0,
+                        "direction_deg": 224.5,
+                        "direction_min_deg": 219.8,
+                        "cardinal": "SW",
+                        "impact": 0.419,
+                        "power": 85.3,
+                        "spectral_power": 178.0
+                      }
+                    ],
+                    "swell_power_total": 301.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 6.5,
+                      "gust_kts": 10.1,
+                      "direction_deg": 108.3,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 504.2,
+                      "nearshore": 388.1,
+                      "wind_swell": 8.0,
+                      "ground_swell": 380.1
+                    },
+                    "wave_count": 49.6,
+                    "weather": {
+                      "temperature_f": 80.0,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793664000,
+                    "local_iso": "2026-11-03T08:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 8,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.96,
+                        "period_s": 11.0,
+                        "direction_deg": 225.2,
+                        "direction_min_deg": 217.4,
+                        "cardinal": "SW",
+                        "impact": 0.569,
+                        "power": 207.0,
+                        "spectral_power": 323.9
+                      },
+                      {
+                        "height_ft": 2.22,
+                        "period_s": 16.0,
+                        "direction_deg": 225.6,
+                        "direction_min_deg": 220.7,
+                        "cardinal": "SW",
+                        "impact": 0.431,
+                        "power": 97.1,
+                        "spectral_power": 200.3
+                      }
+                    ],
+                    "swell_power_total": 304.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.7,
+                      "gust_kts": 11.1,
+                      "direction_deg": 106.6,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 524.2,
+                      "nearshore": 406.6,
+                      "wind_swell": 7.7,
+                      "ground_swell": 398.9
+                    },
+                    "wave_count": 49.0,
+                    "weather": {
+                      "temperature_f": 80.3,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793667600,
+                    "local_iso": "2026-11-03T09:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 9,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.84,
+                        "period_s": 11.0,
+                        "direction_deg": 224.8,
+                        "direction_min_deg": 217.0,
+                        "cardinal": "SW",
+                        "impact": 0.539,
+                        "power": 182.6,
+                        "spectral_power": 296.7
+                      },
+                      {
+                        "height_ft": 2.49,
+                        "period_s": 16.0,
+                        "direction_deg": 226.1,
+                        "direction_min_deg": 221.3,
+                        "cardinal": "SW",
+                        "impact": 0.461,
+                        "power": 129.9,
+                        "spectral_power": 247.1
+                      }
+                    ],
+                    "swell_power_total": 312.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.6,
+                      "gust_kts": 12.1,
+                      "direction_deg": 100.0,
+                      "cardinal": "E"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 543.8,
+                      "nearshore": 424.6,
+                      "wind_swell": 7.5,
+                      "ground_swell": 417.2
+                    },
+                    "wave_count": 48.3,
+                    "weather": {
+                      "temperature_f": 80.6,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793671200,
+                    "local_iso": "2026-11-03T10:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 10,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.81,
+                        "period_s": 11.0,
+                        "direction_deg": 224.6,
+                        "direction_min_deg": 216.7,
+                        "cardinal": "SW",
+                        "impact": 0.529,
+                        "power": 173.8,
+                        "spectral_power": 291.1
+                      },
+                      {
+                        "height_ft": 2.61,
+                        "period_s": 16.0,
+                        "direction_deg": 226.2,
+                        "direction_min_deg": 221.4,
+                        "cardinal": "SW",
+                        "impact": 0.471,
+                        "power": 143.9,
+                        "spectral_power": 270.4
+                      }
+                    ],
+                    "swell_power_total": 317.7,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 9.5,
+                      "gust_kts": 12.3,
+                      "direction_deg": 96.4,
+                      "cardinal": "E"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 561.5,
+                      "nearshore": 440.8,
+                      "wind_swell": 7.2,
+                      "ground_swell": 433.5
+                    },
+                    "wave_count": 47.8,
+                    "weather": {
+                      "temperature_f": 80.9,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1015.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793674800,
+                    "local_iso": "2026-11-03T11:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 11,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.76,
+                        "period_s": 11.0,
+                        "direction_deg": 224.3,
+                        "direction_min_deg": 216.4,
+                        "cardinal": "SW",
+                        "impact": 0.519,
+                        "power": 165.1,
+                        "spectral_power": 284.9
+                      },
+                      {
+                        "height_ft": 2.72,
+                        "period_s": 16.0,
+                        "direction_deg": 226.2,
+                        "direction_min_deg": 221.4,
+                        "cardinal": "SW",
+                        "impact": 0.481,
+                        "power": 156.8,
+                        "spectral_power": 291.6
+                      }
+                    ],
+                    "swell_power_total": 321.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.4,
+                      "gust_kts": 11.1,
+                      "direction_deg": 97.3,
+                      "cardinal": "E"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 576.4,
+                      "nearshore": 454.3,
+                      "wind_swell": 7.0,
+                      "ground_swell": 447.3
+                    },
+                    "wave_count": 47.4,
+                    "weather": {
+                      "temperature_f": 81.4,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793678400,
+                    "local_iso": "2026-11-03T12:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 12,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 5.0,
+                    "surf_human": "Chest to head",
+                    "swells": [
+                      {
+                        "height_ft": 3.74,
+                        "period_s": 11.0,
+                        "direction_deg": 224.1,
+                        "direction_min_deg": 216.2,
+                        "cardinal": "SW",
+                        "impact": 0.513,
+                        "power": 160.1,
+                        "spectral_power": 284.9
+                      },
+                      {
+                        "height_ft": 2.8,
+                        "period_s": 15.0,
+                        "direction_deg": 225.9,
+                        "direction_min_deg": 221.1,
+                        "cardinal": "SW",
+                        "impact": 0.486,
+                        "power": 162.7,
+                        "spectral_power": 305.5
+                      }
+                    ],
+                    "swell_power_total": 322.8,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 7.7,
+                      "gust_kts": 10.1,
+                      "direction_deg": 114.0,
+                      "cardinal": "ESE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 590.4,
+                      "nearshore": 466.8,
+                      "wind_swell": 6.8,
+                      "ground_swell": 460.0
+                    },
+                    "wave_count": 47.1,
+                    "weather": {
+                      "temperature_f": 81.5,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793682000,
+                    "local_iso": "2026-11-03T13:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 13,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.66,
+                        "period_s": 11.0,
+                        "direction_deg": 223.9,
+                        "direction_min_deg": 215.9,
+                        "cardinal": "SW",
+                        "impact": 0.5,
+                        "power": 147.7,
+                        "spectral_power": 272.5
+                      },
+                      {
+                        "height_ft": 2.94,
+                        "period_s": 15.0,
+                        "direction_deg": 225.5,
+                        "direction_min_deg": 220.7,
+                        "cardinal": "SW",
+                        "impact": 0.499,
+                        "power": 179.1,
+                        "spectral_power": 331.2
+                      }
+                    ],
+                    "swell_power_total": 326.8,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.6,
+                      "gust_kts": 10.9,
+                      "direction_deg": 128.6,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 603.7,
+                      "nearshore": 478.6,
+                      "wind_swell": 6.6,
+                      "ground_swell": 472.0
+                    },
+                    "wave_count": 47.0,
+                    "weather": {
+                      "temperature_f": 81.5,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793685600,
+                    "local_iso": "2026-11-03T14:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 14,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.6,
+                        "period_s": 11.0,
+                        "direction_deg": 223.4,
+                        "direction_min_deg": 215.2,
+                        "cardinal": "SW",
+                        "impact": 0.455,
+                        "power": 129.2,
+                        "spectral_power": 263.8
+                      },
+                      {
+                        "height_ft": 3.06,
+                        "period_s": 15.0,
+                        "direction_deg": 225.6,
+                        "direction_min_deg": 220.8,
+                        "cardinal": "SW",
+                        "impact": 0.472,
+                        "power": 178.7,
+                        "spectral_power": 352.0
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 24.0,
+                        "direction_deg": 229.8,
+                        "direction_min_deg": 225.4,
+                        "cardinal": "SW",
+                        "impact": 0.073,
+                        "power": 0.2,
+                        "spectral_power": 2.7
+                      }
+                    ],
+                    "swell_power_total": 308.1,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 10.4,
+                      "gust_kts": 12.1,
+                      "direction_deg": 141.3,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 618.5,
+                      "nearshore": 491.4,
+                      "wind_swell": 6.4,
+                      "ground_swell": 485.0
+                    },
+                    "wave_count": 46.8,
+                    "weather": {
+                      "temperature_f": 81.6,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1011.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793689200,
+                    "local_iso": "2026-11-03T15:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 15,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.51,
+                        "period_s": 11.0,
+                        "direction_deg": 222.3,
+                        "direction_min_deg": 213.8,
+                        "cardinal": "SW",
+                        "impact": 0.442,
+                        "power": 118.1,
+                        "spectral_power": 248.4
+                      },
+                      {
+                        "height_ft": 3.22,
+                        "period_s": 15.0,
+                        "direction_deg": 226.1,
+                        "direction_min_deg": 221.3,
+                        "cardinal": "SW",
+                        "impact": 0.484,
+                        "power": 199.6,
+                        "spectral_power": 382.8
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 24.0,
+                        "direction_deg": 229.6,
+                        "direction_min_deg": 225.2,
+                        "cardinal": "SW",
+                        "impact": 0.074,
+                        "power": 0.2,
+                        "spectral_power": 2.8
+                      }
+                    ],
+                    "swell_power_total": 317.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 10.9,
+                      "gust_kts": 12.5,
+                      "direction_deg": 146.0,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 634.0,
+                      "nearshore": 504.8,
+                      "wind_swell": 6.3,
+                      "ground_swell": 498.5
+                    },
+                    "wave_count": 46.6,
+                    "weather": {
+                      "temperature_f": 81.5,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1011.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793692800,
+                    "local_iso": "2026-11-03T16:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 16,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.47,
+                        "period_s": 11.0,
+                        "direction_deg": 221.3,
+                        "direction_min_deg": 212.3,
+                        "cardinal": "SW",
+                        "impact": 0.433,
+                        "power": 111.1,
+                        "spectral_power": 239.1
+                      },
+                      {
+                        "height_ft": 3.33,
+                        "period_s": 15.0,
+                        "direction_deg": 226.3,
+                        "direction_min_deg": 221.5,
+                        "cardinal": "SW",
+                        "impact": 0.493,
+                        "power": 216.0,
+                        "spectral_power": 407.6
+                      },
+                      {
+                        "height_ft": 0.18,
+                        "period_s": 24.0,
+                        "direction_deg": 229.1,
+                        "direction_min_deg": 224.6,
+                        "cardinal": "SW",
+                        "impact": 0.074,
+                        "power": 0.2,
+                        "spectral_power": 2.9
+                      }
+                    ],
+                    "swell_power_total": 327.3,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 9.9,
+                      "gust_kts": 11.7,
+                      "direction_deg": 145.2,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "POOR_TO_FAIR",
+                      "value": 2.0
+                    },
+                    "energy": {
+                      "offshore": 649.6,
+                      "nearshore": 517.8,
+                      "wind_swell": 6.2,
+                      "ground_swell": 511.6
+                    },
+                    "wave_count": 46.4,
+                    "weather": {
+                      "temperature_f": 81.4,
+                      "condition": "CLEAR",
+                      "pressure_hpa": 1011.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793696400,
+                    "local_iso": "2026-11-03T17:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 17,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.43,
+                        "period_s": 15.0,
+                        "direction_deg": 226.5,
+                        "direction_min_deg": 221.7,
+                        "cardinal": "SW",
+                        "impact": 0.503,
+                        "power": 231.1,
+                        "spectral_power": 430.4
+                      },
+                      {
+                        "height_ft": 3.41,
+                        "period_s": 11.0,
+                        "direction_deg": 220.5,
+                        "direction_min_deg": 211.6,
+                        "cardinal": "SW",
+                        "impact": 0.425,
+                        "power": 104.1,
+                        "spectral_power": 229.4
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 24.0,
+                        "direction_deg": 229.9,
+                        "direction_min_deg": 226.2,
+                        "cardinal": "SW",
+                        "impact": 0.072,
+                        "power": 0.2,
+                        "spectral_power": 2.7
+                      }
+                    ],
+                    "swell_power_total": 335.4,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 10.4,
+                      "gust_kts": 12.5,
+                      "direction_deg": 134.1,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 662.5,
+                      "nearshore": 528.5,
+                      "wind_swell": 6.1,
+                      "ground_swell": 522.4
+                    },
+                    "wave_count": 46.2,
+                    "weather": {
+                      "temperature_f": 81.2,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1011.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793700000,
+                    "local_iso": "2026-11-03T18:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 18,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.65,
+                        "period_s": 15.0,
+                        "direction_deg": 227.1,
+                        "direction_min_deg": 222.4,
+                        "cardinal": "SW",
+                        "impact": 0.525,
+                        "power": 270.6,
+                        "spectral_power": 475.6
+                      },
+                      {
+                        "height_ft": 3.23,
+                        "period_s": 11.0,
+                        "direction_deg": 218.3,
+                        "direction_min_deg": 209.1,
+                        "cardinal": "SW",
+                        "impact": 0.403,
+                        "power": 85.1,
+                        "spectral_power": 195.0
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 24.0,
+                        "direction_deg": 228.4,
+                        "direction_min_deg": 224.0,
+                        "cardinal": "SW",
+                        "impact": 0.072,
+                        "power": 0.2,
+                        "spectral_power": 2.7
+                      }
+                    ],
+                    "swell_power_total": 355.9,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 10.9,
+                      "gust_kts": 14.2,
+                      "direction_deg": 130.2,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 673.3,
+                      "nearshore": 537.4,
+                      "wind_swell": 6.0,
+                      "ground_swell": 531.4
+                    },
+                    "wave_count": 46.2,
+                    "weather": {
+                      "temperature_f": 81.2,
+                      "condition": "BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1012.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793703600,
+                    "local_iso": "2026-11-03T19:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 19,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.65,
+                        "period_s": 15.0,
+                        "direction_deg": 226.7,
+                        "direction_min_deg": 222.0,
+                        "cardinal": "SW",
+                        "impact": 0.524,
+                        "power": 268.2,
+                        "spectral_power": 480.0
+                      },
+                      {
+                        "height_ft": 3.27,
+                        "period_s": 10.0,
+                        "direction_deg": 218.0,
+                        "direction_min_deg": 208.6,
+                        "cardinal": "SW",
+                        "impact": 0.405,
+                        "power": 86.3,
+                        "spectral_power": 199.9
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 24.0,
+                        "direction_deg": 228.4,
+                        "direction_min_deg": 224.1,
+                        "cardinal": "SW",
+                        "impact": 0.071,
+                        "power": 0.2,
+                        "spectral_power": 2.6
+                      }
+                    ],
+                    "swell_power_total": 354.7,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 10.1,
+                      "gust_kts": 13.8,
+                      "direction_deg": 134.9,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 682.5,
+                      "nearshore": 544.2,
+                      "wind_swell": 6.0,
+                      "ground_swell": 538.2
+                    },
+                    "wave_count": 46.2,
+                    "weather": {
+                      "temperature_f": 80.8,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793707200,
+                    "local_iso": "2026-11-03T20:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 20,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.76,
+                        "period_s": 14.0,
+                        "direction_deg": 226.4,
+                        "direction_min_deg": 221.8,
+                        "cardinal": "SW",
+                        "impact": 0.576,
+                        "power": 311.1,
+                        "spectral_power": 505.1
+                      },
+                      {
+                        "height_ft": 3.2,
+                        "period_s": 10.0,
+                        "direction_deg": 216.9,
+                        "direction_min_deg": 207.2,
+                        "cardinal": "SW",
+                        "impact": 0.424,
+                        "power": 84.8,
+                        "spectral_power": 186.9
+                      }
+                    ],
+                    "swell_power_total": 395.8,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 9.3,
+                      "gust_kts": 13.3,
+                      "direction_deg": 136.1,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 692.0,
+                      "nearshore": 550.4,
+                      "wind_swell": 6.1,
+                      "ground_swell": 544.3
+                    },
+                    "wave_count": 46.1,
+                    "weather": {
+                      "temperature_f": 80.5,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1013.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793710800,
+                    "local_iso": "2026-11-03T21:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 21,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.76,
+                        "period_s": 14.0,
+                        "direction_deg": 226.3,
+                        "direction_min_deg": 221.6,
+                        "cardinal": "SW",
+                        "impact": 0.574,
+                        "power": 307.0,
+                        "spectral_power": 507.2
+                      },
+                      {
+                        "height_ft": 3.25,
+                        "period_s": 10.0,
+                        "direction_deg": 216.6,
+                        "direction_min_deg": 207.2,
+                        "cardinal": "SW",
+                        "impact": 0.426,
+                        "power": 86.5,
+                        "spectral_power": 192.2
+                      }
+                    ],
+                    "swell_power_total": 393.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 8.9,
+                      "gust_kts": 13.2,
+                      "direction_deg": 134.0,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 699.3,
+                      "nearshore": 554.5,
+                      "wind_swell": 6.2,
+                      "ground_swell": 548.3
+                    },
+                    "wave_count": 46.1,
+                    "weather": {
+                      "temperature_f": 80.5,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793714400,
+                    "local_iso": "2026-11-03T22:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 22,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 3.8,
+                        "period_s": 14.0,
+                        "direction_deg": 226.3,
+                        "direction_min_deg": 221.7,
+                        "cardinal": "SW",
+                        "impact": 0.577,
+                        "power": 312.3,
+                        "spectral_power": 515.1
+                      },
+                      {
+                        "height_ft": 3.24,
+                        "period_s": 10.0,
+                        "direction_deg": 216.1,
+                        "direction_min_deg": 206.8,
+                        "cardinal": "SW",
+                        "impact": 0.423,
+                        "power": 84.1,
+                        "spectral_power": 188.7
+                      }
+                    ],
+                    "swell_power_total": 396.4,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 9.7,
+                      "gust_kts": 14.0,
+                      "direction_deg": 135.6,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 703.9,
+                      "nearshore": 556.4,
+                      "wind_swell": 6.2,
+                      "ground_swell": 550.2
+                    },
+                    "wave_count": 46.1,
+                    "weather": {
+                      "temperature_f": 80.5,
+                      "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  },
+                  {
+                    "timestamp": 1793718000,
+                    "local_iso": "2026-11-03T23:00:00+08:00",
+                    "local_day": "2026-11-03",
+                    "local_hour": 23,
+                    "utc_offset": 8,
+                    "surf_min_ft": 4.0,
+                    "surf_max_ft": 6.0,
+                    "surf_human": "Chest to overhead",
+                    "swells": [
+                      {
+                        "height_ft": 4.14,
+                        "period_s": 14.0,
+                        "direction_deg": 225.9,
+                        "direction_min_deg": 221.2,
+                        "cardinal": "SW",
+                        "impact": 0.577,
+                        "power": 366.3,
+                        "spectral_power": 573.6
+                      },
+                      {
+                        "height_ft": 2.81,
+                        "period_s": 10.0,
+                        "direction_deg": 213.0,
+                        "direction_min_deg": 202.9,
+                        "cardinal": "SSW",
+                        "impact": 0.351,
+                        "power": 49.0,
+                        "spectral_power": 126.3
+                      },
+                      {
+                        "height_ft": 0.17,
+                        "period_s": 23.0,
+                        "direction_deg": 229.8,
+                        "direction_min_deg": 225.5,
+                        "cardinal": "SW",
+                        "impact": 0.072,
+                        "power": 0.2,
+                        "spectral_power": 2.6
+                      }
+                    ],
+                    "swell_power_total": 415.5,
+                    "swell_probability_pct": 100.0,
+                    "wind": {
+                      "speed_kts": 9.8,
+                      "gust_kts": 13.6,
+                      "direction_deg": 132.3,
+                      "cardinal": "SE"
+                    },
+                    "rating": {
+                      "key": "FAIR",
+                      "value": 3.0
+                    },
+                    "energy": {
+                      "offshore": 702.5,
+                      "nearshore": 553.6,
+                      "wind_swell": 6.3,
+                      "ground_swell": 547.3
+                    },
+                    "wave_count": 46.3,
+                    "weather": {
+                      "temperature_f": 80.1,
+                      "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                      "pressure_hpa": 1014.0
+                    }
+                  }
+                ],
+                "tide_hourly": [
+                  {
+                    "timestamp": 1793635200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.13
+                  },
+                  {
+                    "timestamp": 1793638800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.87
+                  },
+                  {
+                    "timestamp": 1793642400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 7.34
+                  },
+                  {
+                    "timestamp": 1793646000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 7.46
+                  },
+                  {
+                    "timestamp": 1793649600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 7.19
+                  },
+                  {
+                    "timestamp": 1793653200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.58
+                  },
+                  {
+                    "timestamp": 1793656800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.72
+                  },
+                  {
+                    "timestamp": 1793660400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.78
+                  },
+                  {
+                    "timestamp": 1793664000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.94
+                  },
+                  {
+                    "timestamp": 1793667600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.38
+                  },
+                  {
+                    "timestamp": 1793671200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.21
+                  },
+                  {
+                    "timestamp": 1793674800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.44
+                  },
+                  {
+                    "timestamp": 1793678400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 3.98
+                  },
+                  {
+                    "timestamp": 1793682000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.68
+                  },
+                  {
+                    "timestamp": 1793685600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.38
+                  },
+                  {
+                    "timestamp": 1793689200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.94
+                  },
+                  {
+                    "timestamp": 1793692800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.27
+                  },
+                  {
+                    "timestamp": 1793696400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.32
+                  },
+                  {
+                    "timestamp": 1793700000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 6.1
+                  },
+                  {
+                    "timestamp": 1793703600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.67
+                  },
+                  {
+                    "timestamp": 1793707200,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 5.15
+                  },
+                  {
+                    "timestamp": 1793710800,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.72
+                  },
+                  {
+                    "timestamp": 1793714400,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.51
+                  },
+                  {
+                    "timestamp": 1793718000,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.57
+                  }
+                ],
+                "tide_extrema": [
+                  {
+                    "timestamp": 1793645304,
+                    "utc_offset": 8,
+                    "type": "HIGH",
+                    "height_ft": 7.48
+                  },
+                  {
+                    "timestamp": 1793670857,
+                    "utc_offset": 8,
+                    "type": "LOW",
+                    "height_ft": 3.22
+                  },
+                  {
+                    "timestamp": 1793695244,
+                    "utc_offset": 8,
+                    "type": "HIGH",
+                    "height_ft": 6.33
+                  },
+                  {
+                    "timestamp": 1793715394,
+                    "utc_offset": 8,
+                    "type": "LOW",
+                    "height_ft": 4.49
+                  }
+                ],
+                "tide_pushes": [
+                  {
+                    "low_ts": 1793670857,
+                    "low_height_ft": 3.22,
+                    "high_ts": 1793695244,
+                    "high_height_ft": 6.33,
+                    "duration_hours": 6.8,
+                    "utc_offset": 8
+                  }
+                ],
+                "sunlight": {
+                  "date_ts": 1793635200,
+                  "utc_offset": 8,
+                  "dawn_ts": 1793654988,
+                  "sunrise_ts": 1793656291,
+                  "sunset_ts": 1793701025,
+                  "dusk_ts": 1793702328
+                }
+              },
+              {
+                "date": "2026-11-04",
+                "day_to_watch": false,
+                "headline": "More waist-to-head-high surf. Not a lot to get excited about but fun enough for the keen. ",
+                "observation": "Much the same as yesterday but touch smaller. Waist to head high surf from the SSW depending on location and exposure to the swell in the water. Dawn/early session should see a fun wave for the west coast beachies under light NE winds before heading to another modest 1.1m low just before lunch. SSE winds to trend from mid morning. Wet season swell, with dry season winds still trending.",
+                "hourly": [],
+                "tide_hourly": [
+                  {
+                    "timestamp": 1793721600,
+                    "utc_offset": 8,
+                    "type": "NORMAL",
+                    "height_ft": 4.9
+                  }
+                ],
+                "tide_extrema": [],
+                "tide_pushes": [],
+                "sunlight": null
+              }
+            ]
+          },
+          "parts": [
+            "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n15:00 - 16:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day.\n- leo might love grace too much"
+          ],
+          "revision": 5,
+          "status": "review",
+          "draft_ids": [
+            39
+          ],
+          "prompt_ids": [
+            40
+          ],
+          "review_chat_id": -1003835479548,
+          "manual_request_id": "41434792105",
+          "feedback": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change",
+          "feedback_log": [
+            {
+              "user_id": 941560570,
+              "chat_id": -1003835479548,
+              "update_id": 248715051,
+              "revision": 1,
+              "text": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
+            }
+          ],
+          "rebuild_feedback": [
+            "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
+          ],
+          "memory_pending": false
         }
       ],
       "feedback": "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change",
@@ -33650,7 +36956,7 @@
       "rebuild_feedback": [
         "add one more line under \"CAUTIONS\" saying \"leo might love grace too much\" change"
       ],
-      "memory_pending": false
+      "memory_pending": true
     }
   },
   "offset": 248715058,
@@ -33739,6 +37045,10 @@
     "41434792105": {
       "date": "2026-11-03",
       "revision": 5
+    },
+    "41457303204": {
+      "date": "2026-11-03",
+      "revision": 6
     }
   },
   "review_chat_history": [
