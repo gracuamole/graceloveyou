@@ -43587,6 +43587,11 @@
         "update_id": 248715058,
         "revision": 8,
         "sha256": "7c61a2958e603a898c96026f49f4909ca0cd22573bd67878be2ba08e04a49d45"
+      },
+      "intent": {
+        "kind": "publish",
+        "chat_id": -1004476747924,
+        "text_sha256": "7c61a2958e603a898c96026f49f4909ca0cd22573bd67878be2ba08e04a49d45"
       }
     }
   },
