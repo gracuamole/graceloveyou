@@ -47142,17 +47142,14 @@
         "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n14:00 - 15:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n14:00 - 15:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n14:00 - 15:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         49
       ],
-      "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "d71a7f08a77d926b7c1bb51dd9c18202bb51519b0731ab4ae7d9d7fa10a4a0aa"
-      }
+      "prompt_ids": [
+        50
+      ],
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715059,
