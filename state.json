@@ -23718,14 +23718,14 @@
       "review_chat_id": -1003835479548
     }
   },
-  "offset": 248715045,
+  "offset": 248715046,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "started",
+  "last_update_outcome": "ignored_unthreaded",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -23773,7 +23773,8 @@
     248715025,
     248715026,
     248715027,
-    248715044
+    248715044,
+    248715045
   ],
   "manual_retest_requests": {
     "41192170935": {
