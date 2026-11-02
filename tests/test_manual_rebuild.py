@@ -36,7 +36,7 @@ class ManualRebuild(unittest.TestCase):
         self.tg.assert_not_called()
         self.llm.return_value = report['parts'][:]
         self.bot.advance('2026-11-01')
-        self.assertIn('take priority over ALL', self.llm.call_args.args[1])
+        self.assertIn('Reapply explicit report corrections over that baseline', self.llm.call_args.args[1])
         self.assertEqual(report['status'], 'review')
         self.assertNotIn('approval', report)
         self.assertFalse(report['memory_pending'])

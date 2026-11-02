@@ -104,13 +104,27 @@ class BatuRules(unittest.TestCase):
             self.assertNotIn('06:00 - 18:00', block)
 
 
-    def test_llm_cannot_drop_or_move_windy_warnings_between_levels(self):
-        from review_bot import validate_revision_text, SafeError
+    def test_explicit_feedback_can_remove_wind_warnings_without_code_restoration(self):
+        from unittest.mock import patch
+        from review_bot import revise, REVISION_INSTRUCTIONS
         self.day['hourly'][15]['wind']['speed_kts'] = 20.2 / 1.852
         self.report['parts'] = render_day(self.day, self.report['name'])
-        text = '\n\n'.join(self.report['parts'])
-        validate_revision_text(self.report, 'keep cautions short change', text)
-        for warning in ('15:00 - 16:00 - forecasted to be windy, coach recommended',
-                        '15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf'):
-            with self.assertRaisesRegex(SafeError, 'required windy-period warning'):
-                validate_revision_text(self.report, 'keep cautions short change', text.replace(warning, '', 1))
+        original = '\n\n'.join(self.report['parts'])
+        revised = '\n'.join(line for line in original.splitlines() if 'forecasted to be windy' not in line)
+        with patch.dict('os.environ', {'LLM_PROVIDER': 'gemini'}), patch('review_bot.gemini_text', return_value=revised):
+            result = '\n\n'.join(revise(self.report, 'remove the per-level windy warnings change'))
+        self.assertNotIn('forecasted to be windy', result)
+        self.assertIn('All day is surfable', result)
+        self.assertIn('Explicit reviewer corrections take priority', REVISION_INSTRUCTIONS)
+        self.assertIn('adding a caution must not remove windy-period lines', REVISION_INSTRUCTIONS)
+
+    def test_unrelated_edit_can_preserve_warnings_without_rewriting_model_result(self):
+        from unittest.mock import patch
+        from review_bot import revise
+        self.day['hourly'][15]['wind']['speed_kts'] = 20.2 / 1.852
+        self.report['parts'] = render_day(self.day, self.report['name'])
+        revised = '\n\n'.join(self.report['parts']) + '\n- Reviewer custom note.'
+        with patch.dict('os.environ', {'LLM_PROVIDER': 'gemini'}), patch('review_bot.gemini_text', return_value=revised):
+            result = '\n\n'.join(revise(self.report, 'add Reviewer custom note change'))
+        self.assertEqual(result.count('forecasted to be windy'), 3)
+        self.assertIn('Reviewer custom note.', result)
