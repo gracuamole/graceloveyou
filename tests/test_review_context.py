@@ -18,8 +18,8 @@ class ContextTests(unittest.TestCase):
     def test_november_first_uses_current_batu_rules(self):
         text = '\n\n'.join(self.report['parts'])
         self.assertIn('06:00–07:00 and 10:00–18:00 — Inside break', text)
-        self.assertIn('🟡 INTERMEDIATE\n06:00–18:00 — Outside break', text)
-        self.assertIn('🔵 ADVANCED\n06:00–18:00 — Outside break', text)
+        self.assertIn('🟡 INTERMEDIATE\nAll day is surfable - Outside break', text)
+        self.assertIn('🔵 ADVANCED\nAll day is surfable - Outside break', text)
         self.assertNotIn('coach recommended', text)
 
     def test_analysis_explains_current_batu_exclusions(self):
@@ -27,7 +27,7 @@ class ContextTests(unittest.TestCase):
         self.assertIn('no mid-tide restriction', analysis)
         self.assertIn('07:00–08:00: Excluded — Rounded tide is below 0.8 m', analysis)
         self.assertIn('INTERMEDIATE', analysis)
-        self.assertIn('06:00–18:00 — Outside break', analysis)
+        self.assertIn('All day is surfable - Outside break', analysis)
         self.assertNotIn('coached inside-break exception', analysis)
 
     def test_source_summary_preserves_actual_values_and_identifies_calculations(self):

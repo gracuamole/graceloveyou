@@ -8,7 +8,7 @@ Other spot names retain the previous policy. Names containing Batu Bolong select
 - Yellow/POOR_TO_FAIR permits all levels. Orange/POOR permits beginners inside only; it is not automatically described as too small. VERY_POOR still excludes all levels.
 - Beginners: inside break, upper breaking-surf forecast strictly below 2.5 m, tide rounded half-up to one decimal at least 0.8 m. Thus 0.75 and 0.79 qualify, 0.749 does not. Inside wave height is not separately forecast.
 - Intermediate/advanced: outside break. No intermediate mid-tide requirement or old 4 ft/period cutoff. Low tide excludes inside recommendations only.
-- Existing wind-above-20 km/h exclusion remains. For approaching 20, implementation uses 17–20 km/h with a rise between adjacent daylight wind or gust samples and adds a windy caution without excluding that window.
+- Wind at or above 20 km/h remains eligible when other conditions qualify. Each level lists merged windy periods: beginners coach recommended; intermediate/advanced personal preference. When all rounded daylight hours qualify, show All day is surfable with the inside/outside label. A rising wind/gust trend approaching 20 (at least 17 km/h wind), or any wind at least 20, adds the general windy caution.
 - Target-date gusts at least 17 km/h before actual sunrise add a possible-choppiness caution. Evening and other-day gusts do not trigger it. Missing gusts are not invented.
 - Sessions remain sunrise rounded up through sunset rounded down. No extra analysis messages are sent.
 - Missing required height, energy, wind, tide or rating excludes a window. High energy cautions remain for advanced-only windows.

@@ -539,7 +539,7 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(self.bot.reopen_published(r['date'], '2026-10-31', '12345'))
         report = self.bot.s['reports'][r['date']]
         self.assertIn('06:00–07:00 and 10:00–18:00 — Inside break', '\n'.join(report['parts']))
-        self.assertIn('🟡 INTERMEDIATE\n06:00–18:00 — Outside break', '\n'.join(report['parts']))
+        self.assertIn('🟡 INTERMEDIATE\nAll day is surfable - Outside break', '\n'.join(report['parts']))
         self.assertIn('06:00–18:00', report['review_history'][0]['parts'][0])
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)

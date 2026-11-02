@@ -199,9 +199,6 @@ def batu_recommend(row, tide, tier):
             reasons.append('Breaking surf is not below 2.5 m')
         if rounded_tide(tide['height_m']) < .8:
             reasons.append('Rounded tide is below 0.8 m for the inside break')
-    # The user relaxed approaching-20 winds, not the existing above-20 cutoff.
-    if wind * 1.852 > 20:
-        reasons.append('Wind exceeds 20 km/h')
     if reasons:
         advice['status'] = 'not recommended'
     advice['notes'] = reasons
@@ -221,7 +218,7 @@ def batu_cautions(day, intervals):
     gusts = [r.get('wind', {}).get('gust_kts') for r in rows]
     rising = any(positive(a) and positive(b) and b > a
                  for values in (winds, gusts) for a, b in zip(values, values[1:]))
-    if rising and any(positive(w) and 17 <= w * 1.852 <= 20 for w in winds):
+    if (rising and any(positive(w) and w * 1.852 >= 17 for w in winds)) or any(positive(w) and w * 1.852 >= 20 for w in winds):
         cautions.append('Conditions may become windy later in the day.')
     if any(qualifies(i, 'advanced') and i['row']['energy']['nearshore'] >= 1000 for i in intervals):
         cautions.append('High wave energy may produce powerful sets and strong currents.')
@@ -312,8 +309,25 @@ def tier_windows(intervals, tier):
     for run in runs:
         start, end = (datetime.fromtimestamp(run[key], BALI) for key in ('start', 'end'))
         grouped.setdefault(run['label'], []).append(f'{start:%H:%M}–{end:%H:%M}')
-    return ([' and '.join(times) + (' — ' + label if label else '') for label, times in grouped.items()]
+    result = ([' and '.join(times) + (' — ' + label if label else '') for label, times in grouped.items()]
             or ['No qualifying window.'])
+    if intervals and intervals[0].get('policy') == BATU_POLICY:
+        if all(qualifies(i, tier) for i in intervals):
+            result = ['All day is surfable - ' + ('Inside break' if tier == 'beginner' else 'Outside break')]
+        windy = []
+        for i in intervals:
+            if not qualifies(i, tier) or i['row']['wind']['speed_kts'] * 1.852 < 20:
+                continue
+            if windy and windy[-1][1] == i['start']:
+                windy[-1][1] = i['end']
+            else:
+                windy.append([i['start'], i['end']])
+        warning = ('forecasted to be windy, coach recommended' if tier == 'beginner' else
+                   'forecasted to be windy, but up to your personal preference if you want to surf')
+        for start, end in windy:
+            a, b = (datetime.fromtimestamp(t, BALI).strftime('%H:%M') for t in (start, end))
+            result.append(f'{a} - {b} - {warning}')
+    return result
 
 
 def report_cautions(intervals):
