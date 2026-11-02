@@ -23708,17 +23708,14 @@
         "Forecast date: 3 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–15:00 and 16:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\n06:00–15:00 and 16:00–18:00 — Outside break\n\n🔵 ADVANCED\n06:00–15:00 and 16:00–18:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         18
       ],
-      "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "bf2c6e698b4a99f9ef521abbbc9b5c8ee73fe9c590b8dc674ba22c20fd7f3fe1"
-      }
+      "prompt_ids": [
+        19
+      ],
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715045,
