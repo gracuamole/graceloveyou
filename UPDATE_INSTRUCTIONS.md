@@ -1,3 +1,5 @@
+Latest Batu Bolong rules: see [BATU_RULES_UPDATE.md](BATU_RULES_UPDATE.md). This supersedes older spot-rule descriptions below.
+
 # Install the report-only update
 
 **Latest: remembered feedback.** Use `surf-memory-update-2026-10-31.zip` and

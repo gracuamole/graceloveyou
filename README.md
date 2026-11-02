@@ -1,3 +1,5 @@
+Latest Batu Bolong rules: see [BATU_RULES_UPDATE.md](BATU_RULES_UPDATE.md). This supersedes older spot-rule descriptions below.
+
 # graceloveyou
 
 Reports use the simple grouped format: forecast date, spot and qualifying

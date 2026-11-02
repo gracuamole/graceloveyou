@@ -1,3 +1,5 @@
+Latest Batu Bolong rules: see [BATU_RULES_UPDATE.md](BATU_RULES_UPDATE.md). This supersedes older spot-rule descriptions below.
+
 # Superseded sending instructions
 
 Direct sending is now disabled. Use [REVIEW_WORKFLOW.md](REVIEW_WORKFLOW.md).

@@ -89,6 +89,26 @@ def decision_runs(intervals, tier):
 
 
 def reasoning(report, intervals):
+    if intervals and intervals[0].get('policy'):
+        lines = ['DETAILED SURF ANALYSIS — ' + forecast_date_label(report['date']),
+                 'Batu Bolong rules: wave energy at least 80 kJ; 1000 kJ or more advanced only. '
+                 'Beginners inside below 2.5 m breaking surf, rounded tide at least 0.8 m. '
+                 'Intermediate and advanced outside; no mid-tide restriction. '
+                 'Poor to fair permits all levels; Poor permits beginners only.']
+        sections = current_sections(report['parts'])
+        for tier in TIERS:
+            if sections.get(tier):
+                lines.append('Current draft: ' + '; '.join(sections[tier]))
+                if sections[tier] != tier_windows(intervals, tier):
+                    lines.append('The current draft differs from the source-rule windows; reviewers must assess the edits.')
+            lines.extend(['', tier.upper(), 'Source-rule windows: ' + '; '.join(tier_windows(intervals, tier))])
+            for interval in intervals:
+                advice = interval['tiers'][tier]
+                if not qualifies(interval, tier):
+                    lines.append(clock(interval['start']) + '–' + clock(interval['end']) + ': Excluded — ' + '; '.join(advice['notes']))
+        if report.get('feedback'):
+            lines.append('Reviewer feedback for this draft (not original Surfline data): ' + report['feedback'])
+        return '\n'.join(lines)
     sections = current_sections(report['parts'])
     lines = ['DETAILED SURF ANALYSIS — ' + forecast_date_label(report['date'])
              + f" v{report['revision']}", 'Private review only. This explains the saved source and current draft.']
@@ -195,5 +215,5 @@ def build_review_context(report):
                 'SURFLINE DATA SUMMARY\nNo saved daily Surfline snapshot is available for this older draft. '
                 'No measurements have been invented. Use a fresh manual test draft to fetch current data.')
     day = next(d for d in source['daily'] if d['date'] == report['date'])
-    intervals = daylight_intervals(day)
+    intervals = daylight_intervals(day, report.get("name"))
     return reasoning(report, intervals), source_summary(report, day, intervals)

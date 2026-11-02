@@ -354,12 +354,15 @@ REVISION_INSTRUCTIONS = (
     'Group times by skill level. Merge adjacent windows only when the advice matches; '
     'join disjoint matching windows with "and" without bridging missing/unknown periods. '
     'List only qualifying good windows from report_format.qualifying_windows; '
-    'omit poor, poor-to-fair, strong-wind, missing-data, flat and other conditional periods. '
+    'Use the supplied spot-specific recommendations as authoritative for eligibility. '
+    'For Batu Bolong, yellow/Poor to fair permits all tiers and orange/Poor permits beginners only. '
+    'Use nearshore wave energy: below 80 kJ excludes all, 80 to below 1000 permits all, '
+    '1000 or above permits advanced only. Beginners use inside, others outside. '
+    'Beginners require breaking surf below 2.5 m and tide rounded half-up to one decimal at least 0.8 m. '
+    'Do not impose old 2 ft/4 ft, period, 600-energy, or intermediate mid-tide limits on Batu Bolong. '
+    'Preserve the supplied Inside break and Outside break labels. '
     'If a tier has no qualifying time, write No qualifying window. '
-    'The explicit exception is the supplied coached beginner inside-break window, '
-    'where outside height/period exceeds beginner limits but energy is at most 600, '
-    'wind is at most 20 km/h and the rating is at least Fair. Retain its inside/coach restriction. '
-    'A mid-tide preference is not evidence that the listed hours are actually mid tide. '
+    'Use report_format.cautions, including the pre-sunrise gust caution when supplied. '
     'Include ⚠️ CAUTIONS only for relevant recommended daylight conditions, '
     'using full sentences in short non-repetitive bullets; '
     'omit the section if no caution applies. Do not add wave-height commentary for good windows. '
@@ -481,7 +484,7 @@ def revision_forecast(report):
         return {}, []  # Older draft-only states have no extra source observations.
     try:
         day = next(day for day in source['daily'] if day['date'] == report['date'])
-        intervals = daylight_intervals(day)
+        intervals = daylight_intervals(day, protected_revision_labels(report).get('spot'))
     except (StopIteration, ValueError, KeyError, TypeError):
         raise SafeError('Saved forecast cannot supply a rounded daylight window. Feedback remains pending.') from None
     label = lambda timestamp: datetime.fromtimestamp(timestamp, BALI).strftime('%H:%M')
@@ -513,7 +516,9 @@ def revision_input(report, feedback):
                                                   for tier in ('beginner', 'intermediate', 'advanced')},
                            'rule_values': {'beginner_inside_max_ft': 2, 'intermediate_inside_max_ft': 4,
                                            'strong_wind_kmh': 20, 'flat_energy_feed': 100,
-                                           'beginner_energy_max_feed': 600},
+                                           'beginner_energy_max_feed': 600, 'batu_min_energy_kj': 80,
+                                           'batu_advanced_only_energy_kj': 1000, 'batu_beginner_surf_max_m': 2.5,
+                                           'batu_inside_tide_min_m': 0.8, 'batu_red_gust_kmh': 17},
                        },
                        'required_verbatim_text': list(protected_revision_labels(report).values())},
                       ensure_ascii=False)

@@ -134,8 +134,8 @@ class Coverage(unittest.TestCase):
             self.day['hourly'][hour].update(row(5, 1200, 15))
         self.day['hourly'][15].update(row(3, 800))
         with patch('recommendations.tide_at', return_value=TIDE):
-            blocks = render_day(self.day, "Old Man's / Batu Bolong")
-        self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG")
+            blocks = render_day(self.day, "Legacy test spot")
+        self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n📍LEGACY TEST SPOT")
         self.assertEqual(blocks[1], '🟢 BEGINNER\n06:00–08:00 and 09:00–12:00\n'
                          '08:00–09:00 — Inside break only, coach recommended')
         self.assertEqual(blocks[2], '🟡 INTERMEDIATE\n06:00–12:00 and 15:00–16:00')

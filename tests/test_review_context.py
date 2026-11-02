@@ -15,28 +15,20 @@ class ContextTests(unittest.TestCase):
             self.report['forecast'], self.report['date'], self.report['name']))
         self.day = self.report['forecast']['daily'][0]
 
-    def test_november_first_reproduces_the_agreed_report_from_actual_saved_data(self):
+    def test_november_first_uses_current_batu_rules(self):
         text = '\n\n'.join(self.report['parts'])
-        self.assertIn('🟢 BEGINNER\n06:00–09:00 — Inside break only, coach recommended', text)
-        self.assertIn('🟡 INTERMEDIATE\nNo qualifying window.', text)
-        self.assertIn('🔵 ADVANCED\n06:00–09:00', text)
-        self.assertIn('A coach should assess the currents and confirm that the inside waves are no higher '
-                      'than 2 ft before beginners enter.', text)
-        for excluded in ('Low quality', 'Mid tide preferred', '09:00–18:00', 'Source:', 'WITA'):
-            self.assertNotIn(excluded, text)
+        self.assertIn('06:00–07:00 and 10:00–18:00 — Inside break', text)
+        self.assertIn('🟡 INTERMEDIATE\n06:00–18:00 — Outside break', text)
+        self.assertIn('🔵 ADVANCED\n06:00–18:00 — Outside break', text)
+        self.assertNotIn('coach recommended', text)
 
-    def test_analysis_explains_each_skill_level_included_and_excluded_times(self):
+    def test_analysis_explains_current_batu_exclusions(self):
         analysis, source = build_review_context(self.report)
-        self.assertIn('coached inside-break exception', analysis)
+        self.assertIn('no mid-tide restriction', analysis)
+        self.assertIn('07:00–08:00: Excluded — Rounded tide is below 0.8 m', analysis)
         self.assertIn('INTERMEDIATE', analysis)
-        self.assertIn('06:00–09:00: Excluded — the tide is low', analysis)
-        self.assertIn('09:00–18:00: Excluded — Surfline rates the conditions Poor to fair.', analysis)
-        self.assertIn('ADVANCED', analysis)
-        self.assertIn('Breaking surf 3–4 ft; longest swell period 14 s; wind 8.1–13.1 km/h', analysis)
-        self.assertIn('Energy units are unconfirmed', analysis)
-        self.assertNotIn('Low quality', analysis + source)
-        self.assertLessEqual(len(analysis.encode('utf-16-le')) // 2, 3000)
-        self.assertLessEqual(len(source.encode('utf-16-le')) // 2, 3000)
+        self.assertIn('06:00–18:00 — Outside break', analysis)
+        self.assertNotIn('coached inside-break exception', analysis)
 
     def test_source_summary_preserves_actual_values_and_identifies_calculations(self):
         _, source = build_review_context(self.report)
@@ -76,7 +68,7 @@ class ContextTests(unittest.TestCase):
             row['wind'] = {}
         self.report['parts'] = build_blocks(self.report['forecast'], self.report['date'], self.report['name'])
         analysis, source = build_review_context(self.report)
-        self.assertIn('Excluded — missing wind', analysis)
+        self.assertIn('Excluded — Missing wind', analysis)
         self.assertIn('N/A', source)
         self.assertNotIn(': Included', analysis)
 

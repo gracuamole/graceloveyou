@@ -365,13 +365,13 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance('2026-10-31')
         original_source = json.dumps(self.report['forecast'], sort_keys=True)
         old_prompt = self.report['prompt_ids'][0]
-        self.llm.return_value = [self.report['parts'][0].replace('06:00–09:00', '06:00–08:00')]
-        self.bot.process(self.update('remove 08:00–09:00 change', reply_to_message={
+        self.llm.return_value = [self.report['parts'][0].replace('10:00–18:00', '11:00–18:00')]
+        self.bot.process(self.update('remove 10:00–11:00 change', reply_to_message={
             'message_id': self.report['draft_ids'][0]}), '2026-10-31')
         self.tg.reset_mock()
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)
-        self.assertIn('06:00–08:00', self.tg.call.call_args_list[0].kwargs['text'])
+        self.assertIn('11:00–18:00', self.tg.call.call_args_list[0].kwargs['text'])
         self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('Review'))
         self.assertNotIn('analysis_parts', self.report)
         self.assertNotIn('source_parts', self.report)
@@ -538,8 +538,8 @@ class ReviewTests(unittest.TestCase):
         self.bot.forecast = Mock()
         self.assertTrue(self.bot.reopen_published(r['date'], '2026-10-31', '12345'))
         report = self.bot.s['reports'][r['date']]
-        self.assertIn('06:00–09:00 — Inside break only, coach recommended', '\n'.join(report['parts']))
-        self.assertIn('🟡 INTERMEDIATE\nNo qualifying window.', '\n'.join(report['parts']))
+        self.assertIn('06:00–07:00 and 10:00–18:00 — Inside break', '\n'.join(report['parts']))
+        self.assertIn('🟡 INTERMEDIATE\n06:00–18:00 — Outside break', '\n'.join(report['parts']))
         self.assertIn('06:00–18:00', report['review_history'][0]['parts'][0])
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)
