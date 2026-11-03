@@ -1,14 +1,66 @@
 """Pure rules for normalized surf-mcp forecasts; no network or posting."""
 import math
+import re
+from decimal import Decimal, ROUND_HALF_UP
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 BALI = ZoneInfo('Asia/Makassar')
 TIERS = ('beginner', 'intermediate', 'advanced')
+LOW_RATINGS = {'VERY_POOR', 'POOR', 'POOR_TO_FAIR'}
+GOOD_RATINGS = {'FAIR', 'FAIR_TO_GOOD', 'GOOD', 'EPIC'}
+REPORT_CAUTIONS = (
+    'Higher wave energy can contribute to stronger currents, so assess the currents before entering.',
+    'When wind exceeds 20 km/h, surf only if comfortable, and beginners should go with a coach.',
+    'Very low wave energy may leave too little surf for a worthwhile session.',
+)
+INSIDE_CAUTION = ('A coach should assess the currents and confirm that the inside waves are no higher '
+                  'than 2 ft before beginners enter.')
+
+
+def rating_label(key):
+    return str(key).replace('_', ' ').lower().capitalize() if key else 'Unavailable'
+
+
+def forecast_date_label(target):
+    return datetime.strptime(target, '%Y-%m-%d').strftime('%d %B %Y').lstrip('0')
+
+
+def report_header(target, name):
+    return f'Forecast date: {forecast_date_label(target)}\n\n📍{name.upper()}'
+
+
+def report_bold_entities(text):
+    """Telegram entity offsets count UTF-16 units, including preceding emoji."""
+    headings = {'🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED', '⚠️ CAUTIONS'}
+    entities, offset = [], 0
+    for line in text.splitlines(keepends=True):
+        content = line.rstrip('\r\n')
+        if content.startswith(('Forecast date:', '📍')) or content in headings:
+            entities.append({'type': 'bold', 'offset': offset,
+                             'length': len(content.encode('utf-16-le')) // 2})
+        offset += len(line.encode('utf-16-le')) // 2
+    return entities
+
+
+def clean_report_text(text):
+    """Remove the retired report banner without changing surf/coach advice."""
+    for pattern in (r'\bWITA\b',
+                    r'\bSource:\s*Surfline(?:\s+via\s+surf-mcp)?\.?',
+                    r'\bCheck\s+conditions\s+locally[;,.]?\s+recommendations\s+are\s+not\s+safety\s+guarantees\.?'):
+        text = re.sub(pattern, '', text, flags=re.IGNORECASE)
+    text = re.sub(r'[ \t]*\|[ \t]*(?=\r?$)', '', text, flags=re.MULTILINE)
+    text = re.sub(r'[ \t]+\n', '\n', text)
+    return re.sub(r'\n{3,}', '\n\n', text).strip()
 
 
 def number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def wind_kmh(knots):
+    """Round upward to whole km/h, avoiding conversion noise at exact integers."""
+    return math.ceil(round(knots * 1.852, 9)) if number(knots) and knots >= 0 else None
 
 
 def positive(value):
@@ -26,13 +78,25 @@ def tide_at(day, timestamp):
                if number(t.get('height_ft'))]
     heights = [h for _, h in samples] + extrema
     low, high = min(heights), max(heights)
+    # Unequal successive high tides must not make a daytime high read as mid tide.
+    events = sorted((t['timestamp'], t['height_ft'] * .3048, t.get('type'))
+                    for t in day.get('tide_extrema', [])
+                    if number(t.get('timestamp')) and number(t.get('height_ft')))
+    before = [event for event in events if event[0] <= timestamp]
+    after = [event for event in events if event[0] > timestamp]
+    basis = 'daily range'
+    if (before and after and {before[-1][2], after[0][2]} == {'LOW', 'HIGH'}
+            and after[0][0] - before[-1][0] <= 24 * 3600):
+        low, high = sorted((before[-1][1], after[0][1]))
+        basis = 'tidal cycle'
     for (a, x), (b, y) in zip(samples, samples[1:]):
-        if a <= timestamp <= b and 0 < b - a <= 7200:
+        if (a <= timestamp < b or timestamp == b == samples[-1][0]) and 0 < b - a <= 7200:
             height = x + (y - x) * (timestamp - a) / (b - a)
             fraction = (height - low) / (high - low) if high > low else None
             band = 'unknown' if fraction is None else ('low' if fraction < .33 else 'high' if fraction > .67 else 'mid')
             return {'height_m': height, 'mid_m': (low + high) / 2,
-                    'band': band, 'trend': 'rising' if y > x else 'falling' if y < x else 'slack'}
+                    'band': band, 'band_basis': basis,
+                    'trend': 'rising' if y > x else 'falling' if y < x else 'slack'}
     return None
 
 
@@ -47,15 +111,19 @@ def recommend(row, tide, tier):
     rating = (row.get('rating') or {}).get('key')
     missing = [name for name, ok in [('breaking height', positive(lo) and positive(hi) and lo <= hi),
                ('energy', positive(energy)), ('period', positive(period)), ('wind', positive(wind)),
-               ('tide', tide is not None and tide['band'] != 'unknown'), ('rating', bool(rating))] if not ok]
+               ('tide', tide is not None and tide['band'] != 'unknown'),
+               ('rating', str(rating).upper() in LOW_RATINGS | GOOD_RATINGS)] if not ok]
     if missing:
         return {'status': 'unknown', 'break': 'unassessed', 'coach': tier == 'beginner',
+                'missing': missing,
                 'notes': ['Missing/invalid ' + ', '.join(missing) + '; check locally.']}
     notes, coach, area, status = [], False, 'inside/outside', 'suitable to consider'
+    inside_limit = None
     if tier == 'beginner':
         area = 'inside whitewater'
         if hi > 2 or energy > 600 or period > 12:
             status, coach = 'conditional', True
+            inside_limit = 2
             notes.append('Inside exception only; coach must assess actual inside waves (max 2 ft), currents and access.')
         if tide['band'] == 'low':
             status, coach = 'conditional', True
@@ -65,6 +133,7 @@ def recommend(row, tide, tier):
     elif tier == 'intermediate':
         if hi > 4 or energy > 1000 or period > 14:
             area, status = 'inside only', 'conditional'
+            inside_limit = 4
             notes.append('Outside exceeds intermediate limits; check inside waves are at most 4 ft.')
         if tide['band'] != 'mid':
             status = 'conditional'
@@ -81,21 +150,88 @@ def recommend(row, tide, tier):
         notes.append('Weak/small surf; longboard or 8 ft+ foamie preferred.')
     if tier == 'intermediate' and 600 <= energy <= 1000 and 10 <= period <= 14 and hi <= 4 and tide['band'] == 'mid':
         notes.append('Within preferred intermediate energy, period and tide range.')
-    if wind * 1.852 > 20:
+    if wind_kmh(wind) > 20:
         if status != 'not recommended':
             status = 'conditional'
         coach = coach or tier == 'beginner'
         notes.append('Wind above 20 km/h: try only if comfortable; beginners should use a coach.')
-    if str(rating).upper() in ('VERY_POOR', 'POOR', 'POOR_TO_FAIR'):
+    if str(rating).upper() in LOW_RATINGS:
         if status == 'suitable to consider':
             status = 'conditional'
-        notes.append('Low Surfline quality rating; manage expectations.')
+        notes.append('Surfline rating is ' + rating_label(rating) + '; this is not a good recommendation window.')
     notes.append(f'Breaking surf forecast {lo:g}–{hi:g} ft; inside height is not separately forecast.')
-    return {'status': status, 'break': area, 'coach': coach, 'notes': notes}
+    return {'status': status, 'break': area, 'coach': coach,
+            'inside_limit_ft': inside_limit, 'notes': notes}
 
 
-def daylight_intervals(day):
-    """Cover sunrise to sunset, including gaps and partial boundary hours."""
+BATU_POLICY = 'batu-bolong-2026-11-01'
+
+
+def is_batu_bolong(name):
+    return 'batu bolong' in str(name).casefold()
+
+
+def rounded_tide(height):
+    # Remove feet-conversion floating-point noise, then use decimal half-up.
+    return float(Decimal(str(round(height, 9))).quantize(Decimal('0.1'), rounding=ROUND_HALF_UP))
+
+
+def batu_recommend(row, tide, tier):
+    lo, hi = row.get('surf_min_ft'), row.get('surf_max_ft')
+    energy = (row.get('energy') or {}).get('nearshore')
+    wind = (row.get('wind') or {}).get('speed_kts')
+    rating = str((row.get('rating') or {}).get('key')).upper()
+    missing = [name for name, ok in (
+        ('breaking height', positive(lo) and positive(hi) and lo <= hi),
+        ('wave energy', positive(energy)), ('wind', positive(wind)),
+        ('tide', tide is not None and number(tide.get('height_m'))),
+        ('rating', rating in LOW_RATINGS | GOOD_RATINGS)) if not ok]
+    advice = dict(status='unknown' if missing else 'suitable to consider',
+                  **{'break': 'inside' if tier == 'beginner' else 'outside'},
+                  coach=False, inside_limit_ft=None, notes=[], policy=BATU_POLICY)
+    if missing:
+        advice.update(missing=missing, notes=['Missing ' + ', '.join(missing)])
+        return advice
+    reasons = []
+    if energy < 80:
+        reasons.append('Wave energy is below 80 kJ')
+    if tier != 'advanced' and energy >= 1000:
+        reasons.append('Wave energy of 1000 kJ or more is advanced only')
+    if rating == 'VERY_POOR' or (rating == 'POOR' and tier != 'beginner'):
+        reasons.append('Surfline rating excludes this level')
+    if tier == 'beginner':
+        if hi * .3048 >= 2.5:
+            reasons.append('Breaking surf is not below 2.5 m')
+        if rounded_tide(tide['height_m']) < .8:
+            reasons.append('Rounded tide is below 0.8 m for the inside break')
+    if reasons:
+        advice['status'] = 'not recommended'
+    advice['notes'] = reasons
+    return advice
+
+
+def batu_cautions(day, intervals):
+    cautions = []
+    sunrise = day['sunlight']['sunrise_ts']
+    if any(number(r.get('timestamp')) and
+           datetime.fromtimestamp(r['timestamp'], BALI).date().isoformat() == day['date'] and
+           r['timestamp'] < sunrise and positive(r.get('wind', {}).get('gust_kts')) and
+           wind_kmh(r['wind']['gust_kts']) >= 17 for r in day.get('hourly', [])):
+        cautions.append('Waves may be choppy from sunrise following strong early gusts.')
+    rows = [i['row'] for i in intervals]
+    winds = [r.get('wind', {}).get('speed_kts') for r in rows]
+    gusts = [r.get('wind', {}).get('gust_kts') for r in rows]
+    rising = any(positive(a) and positive(b) and b > a
+                 for values in (winds, gusts) for a, b in zip(values, values[1:]))
+    if (rising and any(positive(w) and wind_kmh(w) >= 17 for w in winds)) or any(positive(w) and wind_kmh(w) >= 20 for w in winds):
+        cautions.append('Conditions may become windy later in the day.')
+    if any(qualifies(i, 'advanced') and i['row']['energy']['nearshore'] >= 1000 for i in intervals):
+        cautions.append('High wave energy may produce powerful sets and strong currents.')
+    return cautions
+
+
+def daylight_intervals(day, name=None):
+    """Analyze whole hours inside daylight: sunrise up, sunset down."""
     sunlight = day.get('sunlight') or {}
     start, end = sunlight.get('sunrise_ts'), sunlight.get('sunset_ts')
     if not number(start) or not number(end) or not start < end:
@@ -103,6 +239,10 @@ def daylight_intervals(day):
     date = day['date']
     if any(datetime.fromtimestamp(t, BALI).date().isoformat() != date for t in (start, end)):
         raise ValueError('Sunlight date mismatch')
+    start = math.ceil(start / 3600) * 3600
+    end = math.floor(end / 3600) * 3600
+    if start >= end:
+        raise ValueError('No complete daylight hour available; recommendations withheld')
     rows = {r['timestamp']: r for r in day.get('hourly', []) if number(r.get('timestamp'))}
     cursor, result = start, []
     while cursor < end:
@@ -111,27 +251,117 @@ def daylight_intervals(day):
         row = rows.get(hour, {})
         tide = tide_at(day, cursor)
         result.append({'start': cursor, 'end': stop, 'row': row, 'tide': tide,
-                       'tiers': {tier: recommend(row, tide, tier) for tier in TIERS}})
+                       'tiers': {tier: (batu_recommend if is_batu_bolong(name) else recommend)(row, tide, tier) for tier in TIERS}})
         cursor = stop
+    if is_batu_bolong(name):
+        for interval in result:
+            interval['policy'] = BATU_POLICY
+        result[0]['day_cautions'] = batu_cautions(day, result)
     return result
 
 
+def brief_advice(interval, tier):
+    advice, row = interval['tiers'][tier], interval['row']
+    if advice.get('policy') == BATU_POLICY:
+        return 'Inside break' if tier == 'beginner' else 'Outside break'
+    if advice['status'] == 'unknown':
+        return 'Data unavailable'
+    if advice['status'] == 'not recommended':
+        return 'Not recommended (too flat)'
+    labels = []
+    if advice.get('inside_limit_ft') or advice['break'] == 'inside only':
+        labels.append('inside break only')
+    if advice['coach']:
+        labels.append('coach recommended')
+    if wind_kmh(row['wind']['speed_kts']) > 20:
+        labels.append('strong wind')
+    if not labels and str(row['rating']['key']).upper() in LOW_RATINGS:
+        labels.append(rating_label(row['rating']['key']).lower())
+    if not labels and advice['status'] == 'conditional':
+        labels.append('mid tide preferred' if tier == 'intermediate' else 'conditional')
+    label = ', '.join(labels)
+    return label[:1].upper() + label[1:]
+
+
+def qualifies(interval, tier):
+    """Good windows only, with the explicit coached beginner inside exception."""
+    advice = interval['tiers'][tier]
+    if advice.get('policy') == BATU_POLICY:
+        return advice['status'] == 'suitable to consider'
+    if advice['status'] == 'suitable to consider':
+        return True
+    row = interval['row']
+    return (tier == 'beginner' and advice['status'] == 'conditional'
+            and advice.get('inside_limit_ft') == 2
+            and row['energy']['nearshore'] <= 600
+            and wind_kmh(row['wind']['speed_kts']) <= 20
+            and str(row['rating']['key']).upper() not in LOW_RATINGS)
+
+
+def tier_windows(intervals, tier):
+    # Merge adjacent intervals with identical displayed advice. Disjoint windows
+    # retain their endpoints and are joined with "and", never bridged over gaps.
+    runs = []
+    for interval in intervals:
+        if not qualifies(interval, tier):
+            continue
+        label = brief_advice(interval, tier)
+        if runs and runs[-1]['end'] == interval['start'] and runs[-1]['label'] == label:
+            runs[-1]['end'] = interval['end']
+        else:
+            runs.append({'start': interval['start'], 'end': interval['end'], 'label': label})
+    grouped = {}
+    for run in runs:
+        start, end = (datetime.fromtimestamp(run[key], BALI) for key in ('start', 'end'))
+        grouped.setdefault(run['label'], []).append(f'{start:%H:%M}–{end:%H:%M}')
+    result = ([' and '.join(times) + (' — ' + label if label else '') for label, times in grouped.items()]
+            or ['No qualifying window.'])
+    if intervals and intervals[0].get('policy') == BATU_POLICY:
+        if all(qualifies(i, tier) for i in intervals):
+            result = ['All day is surfable - ' + ('Inside break' if tier == 'beginner' else 'Outside break')]
+        windy = []
+        for i in intervals:
+            if not qualifies(i, tier) or wind_kmh(i['row']['wind']['speed_kts']) < 20:
+                continue
+            if windy and windy[-1][1] == i['start']:
+                windy[-1][1] = i['end']
+            else:
+                windy.append([i['start'], i['end']])
+        warning = ('forecasted to be windy, coach recommended' if tier == 'beginner' else
+                   'forecasted to be windy, but up to your personal preference if you want to surf')
+        for start, end in windy:
+            a, b = (datetime.fromtimestamp(t, BALI).strftime('%H:%M') for t in (start, end))
+            result.append(f'{a} - {b} - {warning}')
+    return result
+
+
+def report_cautions(intervals):
+    """Use full sentences for cautions relevant to the recommended windows."""
+    if intervals and intervals[0].get('policy') == BATU_POLICY:
+        return intervals[0].get('day_cautions', []) if any(qualifies(i, t) for i in intervals for t in TIERS) else []
+    intervals = [i for i in intervals if any(qualifies(i, tier) for tier in TIERS)]
+    energies = [(i['row'].get('energy') or {}).get('nearshore') for i in intervals]
+    cautions = []
+    if any(positive(value) and value > 600 for value in energies):
+        cautions.append(REPORT_CAUTIONS[0])
+    if any(positive((i['row'].get('wind') or {}).get('speed_kts'))
+           and wind_kmh(i['row']['wind']['speed_kts']) > 20 for i in intervals):
+        cautions.append(REPORT_CAUTIONS[1])
+    if any(positive(value) and value < 100 for value in energies):
+        cautions.append(REPORT_CAUTIONS[2])
+    if any(qualifies(i, 'beginner') and i['tiers']['beginner'].get('inside_limit_ft') for i in intervals):
+        cautions.append(INSIDE_CAUTION)
+    if any(positive(value) and 100 <= value < 200 for value in energies):
+        cautions.append('A longboard or foamie is preferred when the surf is weak.')
+    return cautions
+
+
 def render_day(day, name):
-    blocks = [f'{name} | {day["date"]} | WITA\nSource: Surfline via surf-mcp. Check conditions locally; recommendations are not safety guarantees.']
-    for interval in daylight_intervals(day):
-        a, b = (datetime.fromtimestamp(interval[k], BALI) for k in ('start', 'end'))
-        row, tide = interval['row'], interval['tide']
-        wind = row.get('wind') or {}
-        energy = (row.get('energy') or {}).get('nearshore')
-        periods = [s.get('period_s') for s in row.get('swells', []) if positive(s.get('period_s'))]
-        speed = wind.get('speed_kts')
-        lo, hi = row.get('surf_min_ft'), row.get('surf_max_ft')
-        height = f'{lo:g}–{hi:g} ft' if positive(lo) and positive(hi) and lo <= hi else 'N/A'
-        text = [f'{a:%H:%M}–{b:%H:%M}', f'Breaking surf: {height}',
-                f'Energy: {energy if positive(energy) else "N/A"} kJ | Period: {max(periods) if periods else "N/A"} s',
-                f'Wind: {round(speed * 1.852, 1) if positive(speed) else "N/A"} km/h {wind.get("cardinal") or "?"} | Rating: {(row.get("rating") or {}).get("key") or "N/A"}',
-                (f'Tide: {tide["height_m"]:.2f} m, {tide["band"]} {tide["trend"]}; mid {tide["mid_m"]:.2f} m' if tide else 'Tide: N/A')]
-        for tier, advice in interval['tiers'].items():
-            text.append(f'{tier.title()}: {advice["status"]}; {advice["break"]}' + ('; COACH' if advice['coach'] else '') + '. ' + ' '.join(advice['notes']))
-        blocks.append('\n'.join(text))
+    intervals = daylight_intervals(day, name)
+    blocks = [report_header(day['date'], name)]
+    for tier, heading in zip(TIERS, ('🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED')):
+        blocks.append(heading + '\n' + '\n'.join(tier_windows(intervals, tier)))
+    cautions = report_cautions(intervals)
+    if cautions:
+        blocks.append('⚠️ CAUTIONS\n' + '\n'.join('- ' + text for text in cautions))
     return blocks
