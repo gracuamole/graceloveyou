@@ -50708,7 +50708,12 @@
           ],
           "review_chat_id": -1003835479548
         }
-      ]
+      ],
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "542458be4287ed5bd1d94623459e6855af3f90f4a9b9d5c6a73996c8f8f0acf6"
+      }
     }
   },
   "offset": 248715059,
