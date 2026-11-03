@@ -47143,7 +47143,9 @@
       ],
       "revision": 4,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        57
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41624505164",
@@ -50725,12 +50727,7 @@
           "text": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
         }
       ],
-      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "32664b00ae00ff5bdc5e0d79e437c103f67273977019dbb70cca12fd39169cc6"
-      }
+      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
     }
   },
   "offset": 248715061,
