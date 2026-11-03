@@ -47139,16 +47139,12 @@
         ]
       },
       "parts": [
-        "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n13:00 - 15:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n13:00 - 15:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n13:00 - 15:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
+        "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00 - 13:00 - Inside break\n13:00 - 18:00 - Inside break - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\n06:00 - 13:00 - Outside break\n13:00 - 18:00 - Outside break - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\n06:00 - 13:00 - Outside break\n13:00 - 18:00 - Outside break - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
-      "revision": 2,
-      "status": "revision_pending",
-      "draft_ids": [
-        51
-      ],
-      "prompt_ids": [
-        52
-      ],
+      "revision": 3,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41624505164",
       "publication_history": [],
@@ -50722,16 +50718,7 @@
           "text": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
         }
       ],
-      "feedback": "make the windy period to be 1pm - 6pm for all levels \n\nchange",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715059,
-          "revision": 2,
-          "text": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
-        }
-      ]
+      "feedback": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
     }
   },
   "offset": 248715060,
