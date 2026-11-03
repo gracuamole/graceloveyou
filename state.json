@@ -47142,11 +47142,13 @@
         "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n13:00 - 18:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n13:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n13:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 4,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         57
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        58
+      ],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41624505164",
       "publication_history": [],
@@ -50727,12 +50729,7 @@
           "text": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
         }
       ],
-      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange",
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "d71a7f08a77d926b7c1bb51dd9c18202bb51519b0731ab4ae7d9d7fa10a4a0aa"
-      }
+      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
     }
   },
   "offset": 248715061,
