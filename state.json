@@ -50737,11 +50737,9 @@
         "revision": 4,
         "sha256": "5f2459d19356d938bc2a10c3e8a5d61e6796c00cc6a94f128a98442acfe1ca6a"
       },
-      "intent": {
-        "kind": "publish",
-        "chat_id": -1004476747924,
-        "text_sha256": "8ac8fde2871aaa1c223bd94ca9e101fe6148a6aa6f71b8fb8a096cc286bef88a"
-      }
+      "publish_ids": [
+        50
+      ]
     }
   },
   "offset": 248715062,
