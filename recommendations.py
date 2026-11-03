@@ -58,6 +58,11 @@ def number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
 
 
+def wind_kmh(knots):
+    """Round upward to whole km/h, avoiding conversion noise at exact integers."""
+    return math.ceil(round(knots * 1.852, 9)) if number(knots) and knots >= 0 else None
+
+
 def positive(value):
     return number(value) and value >= 0
 
@@ -145,7 +150,7 @@ def recommend(row, tide, tier):
         notes.append('Weak/small surf; longboard or 8 ft+ foamie preferred.')
     if tier == 'intermediate' and 600 <= energy <= 1000 and 10 <= period <= 14 and hi <= 4 and tide['band'] == 'mid':
         notes.append('Within preferred intermediate energy, period and tide range.')
-    if wind * 1.852 > 20:
+    if wind_kmh(wind) > 20:
         if status != 'not recommended':
             status = 'conditional'
         coach = coach or tier == 'beginner'
@@ -211,14 +216,14 @@ def batu_cautions(day, intervals):
     if any(number(r.get('timestamp')) and
            datetime.fromtimestamp(r['timestamp'], BALI).date().isoformat() == day['date'] and
            r['timestamp'] < sunrise and positive(r.get('wind', {}).get('gust_kts')) and
-           r['wind']['gust_kts'] * 1.852 >= 17 for r in day.get('hourly', [])):
+           wind_kmh(r['wind']['gust_kts']) >= 17 for r in day.get('hourly', [])):
         cautions.append('Waves may be choppy from sunrise following strong early gusts.')
     rows = [i['row'] for i in intervals]
     winds = [r.get('wind', {}).get('speed_kts') for r in rows]
     gusts = [r.get('wind', {}).get('gust_kts') for r in rows]
     rising = any(positive(a) and positive(b) and b > a
                  for values in (winds, gusts) for a, b in zip(values, values[1:]))
-    if (rising and any(positive(w) and w * 1.852 >= 17 for w in winds)) or any(positive(w) and w * 1.852 >= 20 for w in winds):
+    if (rising and any(positive(w) and wind_kmh(w) >= 17 for w in winds)) or any(positive(w) and wind_kmh(w) >= 20 for w in winds):
         cautions.append('Conditions may become windy later in the day.')
     if any(qualifies(i, 'advanced') and i['row']['energy']['nearshore'] >= 1000 for i in intervals):
         cautions.append('High wave energy may produce powerful sets and strong currents.')
@@ -268,7 +273,7 @@ def brief_advice(interval, tier):
         labels.append('inside break only')
     if advice['coach']:
         labels.append('coach recommended')
-    if row['wind']['speed_kts'] * 1.852 > 20:
+    if wind_kmh(row['wind']['speed_kts']) > 20:
         labels.append('strong wind')
     if not labels and str(row['rating']['key']).upper() in LOW_RATINGS:
         labels.append(rating_label(row['rating']['key']).lower())
@@ -289,7 +294,7 @@ def qualifies(interval, tier):
     return (tier == 'beginner' and advice['status'] == 'conditional'
             and advice.get('inside_limit_ft') == 2
             and row['energy']['nearshore'] <= 600
-            and row['wind']['speed_kts'] * 1.852 <= 20
+            and wind_kmh(row['wind']['speed_kts']) <= 20
             and str(row['rating']['key']).upper() not in LOW_RATINGS)
 
 
@@ -316,7 +321,7 @@ def tier_windows(intervals, tier):
             result = ['All day is surfable - ' + ('Inside break' if tier == 'beginner' else 'Outside break')]
         windy = []
         for i in intervals:
-            if not qualifies(i, tier) or i['row']['wind']['speed_kts'] * 1.852 < 20:
+            if not qualifies(i, tier) or wind_kmh(i['row']['wind']['speed_kts']) < 20:
                 continue
             if windy and windy[-1][1] == i['start']:
                 windy[-1][1] = i['end']
@@ -340,7 +345,7 @@ def report_cautions(intervals):
     if any(positive(value) and value > 600 for value in energies):
         cautions.append(REPORT_CAUTIONS[0])
     if any(positive((i['row'].get('wind') or {}).get('speed_kts'))
-           and i['row']['wind']['speed_kts'] * 1.852 > 20 for i in intervals):
+           and wind_kmh(i['row']['wind']['speed_kts']) > 20 for i in intervals):
         cautions.append(REPORT_CAUTIONS[1])
     if any(positive(value) and value < 100 for value in energies):
         cautions.append(REPORT_CAUTIONS[2])

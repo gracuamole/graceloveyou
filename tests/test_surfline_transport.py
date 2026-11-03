@@ -125,6 +125,12 @@ class TransportTests(unittest.TestCase):
         payload = {'data': {'weather': [], 'sunlightTimes': [{'sunrise': 123}]}}
         self.assertEqual(self.transport.normalized_units(payload, 'weather'), payload)
 
+    def test_unused_consistency_endpoint_makes_no_http_request(self):
+        self.assertEqual(self.transport.curl_get_json(self.base + 'consistency' + self.query),
+                         {'data': {'consistency': []}})
+        self.curl.get.assert_not_called()
+        self.plain.get.assert_not_called()
+
 
 if __name__ == '__main__':
     unittest.main()

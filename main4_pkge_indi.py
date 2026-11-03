@@ -133,6 +133,8 @@ def empty_feed(endpoint):
 
 def curl_get_json(url):
     endpoint = urlparse(url).path.rsplit("/", 1)[-1]
+    if endpoint == 'consistency':
+        return empty_feed(endpoint)  # Wave counts are unused: no HTTP request.
     last_status.pop(endpoint, None)
     data = request_json(url, endpoint, "package")
     if data is None:

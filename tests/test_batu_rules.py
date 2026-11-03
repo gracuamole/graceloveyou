@@ -65,7 +65,7 @@ class BatuRules(unittest.TestCase):
         text = '\n'.join(render_day(self.day,self.report['name']))
         self.assertIn('Waves may be choppy from sunrise',text)
         self.assertIn('All day is surfable - Inside break',text)
-        self.day['hourly'][5]['wind']['gust_kts'] = 16.99 / 1.852
+        self.day['hourly'][5]['wind']['gust_kts'] = 16 / 1.852
         self.day['hourly'][20]['wind']['gust_kts'] = 40
         self.assertNotIn('choppy','\n'.join(render_day(self.day,self.report['name'])))
 
@@ -128,3 +128,15 @@ class BatuRules(unittest.TestCase):
             result = '\n\n'.join(revise(self.report, 'add Reviewer custom note change'))
         self.assertEqual(result.count('forecasted to be windy'), 3)
         self.assertIn('Reviewer custom note.', result)
+
+
+    def test_upward_wind_rounding_and_warning_boundary(self):
+        from recommendations import wind_kmh
+        self.assertEqual(wind_kmh(10.6), 20)
+        self.assertEqual(wind_kmh(19.01 / 1.852), 20)
+        self.assertEqual(wind_kmh(19 / 1.852), 19)
+        self.assertEqual(wind_kmh(16.01 / 1.852), 17)
+        self.assertIsNone(wind_kmh(None))
+        self.day['hourly'][13]['wind']['speed_kts'] = 10.6
+        text = '\n'.join(render_day(self.day, self.report['name']))
+        self.assertIn('13:00 - 14:00 - forecasted to be windy', text)

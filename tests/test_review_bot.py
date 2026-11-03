@@ -6,7 +6,7 @@ import sys
 import unittest
 from unittest.mock import Mock, patch
 
-from review_bot import (Review, Store, Telegram, SafeError, failure_detail, http_failure,
+from review_bot import (display_12_hour, Review, Store, Telegram, SafeError, failure_detail, http_failure,
                         setting, digest, revise, validate_parts, validate_revision_text, main)
 from forecast_sources import Forecast, SourceUnavailable
 from datetime import datetime
@@ -87,7 +87,7 @@ class ReviewTests(unittest.TestCase):
         restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
         restarted.advance(TODAY)
         restarted.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def test_exact_authorization_and_latest_prompt(self):
         self.draft()
@@ -231,7 +231,7 @@ class ReviewTests(unittest.TestCase):
         restarted = Review(Store(self.path), self.tg, 42, 42, -100)
         restarted.advance('2026-10-31')
         restarted.advance('2026-10-31')
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def legacy_context(self):
         from review_bot import context_input_hash, review_hash
@@ -260,7 +260,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
         self.assertNotIn('review_sha256', self.report['approval'])
         self.bot.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def test_partial_legacy_optional_delivery_is_skipped_and_only_prompt_is_sent(self):
         self.report.update(draft_ids=[71, 72])
@@ -318,7 +318,7 @@ class ReviewTests(unittest.TestCase):
         self.tg.reset_mock()
         restarted = Review(Store(self.path), self.tg, 42, 42, -100)
         restarted.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
         self.assertEqual(self.tg.call.call_count, 2)
 
     def test_old_recorded_bundle_hash_is_still_checked_before_publication(self):
@@ -339,7 +339,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
         self.assertNotIn('review_sha256', self.report['approval'])
         self.bot.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def test_incomplete_report_must_finish_before_approval(self):
         self.report.update(status='review', draft_ids=[71], prompt_ids=[73])
@@ -371,7 +371,7 @@ class ReviewTests(unittest.TestCase):
         self.tg.reset_mock()
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)
-        self.assertIn('11:00–18:00', self.tg.call.call_args_list[0].kwargs['text'])
+        self.assertIn('11:00 AM–6:00 PM', self.tg.call.call_args_list[0].kwargs['text'])
         self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertNotIn('analysis_parts', self.report)
         self.assertNotIn('source_parts', self.report)
@@ -381,7 +381,7 @@ class ReviewTests(unittest.TestCase):
         self.assertFalse(self.published())
         self.bot.process(self.update(), '2026-10-31')
         self.bot.advance('2026-10-31')
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def test_multipart_report_finishes_before_the_final_approval_prompt(self):
         self.report['parts'] = ['🌊' * 1400] * 3
@@ -523,7 +523,7 @@ class ReviewTests(unittest.TestCase):
         self.bot.process(self.update(), TODAY)
         self.bot.advance(TODAY)
         self.bot.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
         self.bot.forecast.assert_not_called()
 
     def test_manual_repeat_refreshes_an_unedited_older_format_from_saved_forecast(self):
@@ -793,7 +793,7 @@ class ReviewTests(unittest.TestCase):
                          'ignored_stale_prompt')
         self.bot.process(self.update(), TODAY)
         self.bot.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], self.report['parts'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
 
     def test_revision_failure_notice_once_and_feedback_can_be_replaced(self):
         self.draft()
@@ -1178,7 +1178,7 @@ class GeminiRevisionTests(unittest.TestCase):
                 bot.advance(TODAY)
             self.assertEqual(telegram.call.call_count, 3)
             self.assertEqual(telegram.call.call_args.kwargs['chat_id'], -100)
-            self.assertEqual(telegram.call.call_args.kwargs['text'], saved['parts'][0])
+            self.assertEqual(telegram.call.call_args.kwargs['text'], display_12_hour(saved['parts'][0]))
             self.assertTrue(telegram.call.call_args.kwargs['entities'])
             self.assertEqual(Store(path).data['reports'][TARGET]['status'], 'published')
 

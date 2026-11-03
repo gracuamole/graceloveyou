@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 
 from forecast_sources import SourceUnavailable, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
-                             report_bold_entities, daylight_intervals, report_cautions, tier_windows)
+                             report_bold_entities, daylight_intervals, report_cautions, tier_windows, wind_kmh)
 from phase2 import build_blocks, chunks
 
 
@@ -267,6 +267,14 @@ class Store:
                 subprocess.run(['git', '-C', root] + args, check=True, capture_output=True)
 
 
+def display_12_hour(text):
+    """Display forecast clocks in AM/PM; leave dates and already formatted clocks alone."""
+    def replace(match):
+        hour, minute = int(match[1]), match[2]
+        return f'{hour % 12 or 12}:{minute} ' + ('AM' if hour < 12 else 'PM')
+    return re.sub(r'(?<![\d:])(2[0-3]|[01]?\d):([0-5]\d)(?![\d:]|\s*[AaPp][Mm]\b)', replace, text)
+
+
 class Telegram:
     def __init__(self, token):
         self.token = token
@@ -364,6 +372,7 @@ REVISION_INSTRUCTIONS = (
     'Beginners require breaking surf below 2.5 m and tide rounded half-up to one decimal at least 0.8 m. '
     'Do not impose old 2 ft/4 ft, period, 600-energy, or intermediate mid-tide limits on Batu Bolong. '
     'Preserve break labels unless reviewer feedback changes them. '
+    'Convert wind and gust knots to km/h and round upward to whole km/h before applying thresholds. '
     'For Batu Bolong, wind at or above 20 km/h does not exclude otherwise qualifying hours. '
     'Preserve per-tier windy warnings unless feedback explicitly changes or removes them. '
     'When every rounded daylight hour qualifies, use All day is surfable - followed by the break label. '
@@ -489,7 +498,7 @@ def report_date_present(text, target):
 
 def revision_forecast(report):
     """Expose the target day's rounded daylight rows, never the full multi-day feed."""
-    source = report.get('forecast') or {}
+    source = deepcopy(report.get('forecast') or {})
     if not isinstance(source, dict) or 'daily' not in source:
         return {}, []  # Older draft-only states have no extra source observations.
     try:
@@ -497,6 +506,11 @@ def revision_forecast(report):
         intervals = daylight_intervals(day, protected_revision_labels(report).get('spot'))
     except (StopIteration, ValueError, KeyError, TypeError):
         raise SafeError('Saved forecast cannot supply a rounded daylight window. Feedback remains pending.') from None
+    for interval in intervals:
+        wind = interval['row'].get('wind')
+        if isinstance(wind, dict):
+            wind['speed_kmh_rounded_up'] = wind_kmh(wind.get('speed_kts'))
+            wind['gust_kmh_rounded_up'] = wind_kmh(wind.get('gust_kts'))
     label = lambda timestamp: datetime.fromtimestamp(timestamp, BALI).strftime('%H:%M')
     context = {'date': report['date'],
                'analysis_window': {'start': label(intervals[0]['start']), 'end': label(intervals[-1]['end'])},
@@ -815,6 +829,7 @@ class Review:
         # intent. Never retry it automatically: Telegram has no idempotency key.
         if report.get('intent'):
             raise RuntimeError('Uncertain send requires manual reconciliation')
+        text = display_12_hour(text)
         destination = self.channel if kind == 'publish' else self.chat
         report['intent'] = {'kind': kind, 'chat_id': destination, 'text_sha256': digest([text])}
         self.store.save()
