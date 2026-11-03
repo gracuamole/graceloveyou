@@ -47142,7 +47142,7 @@
         "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n13:00 - 18:00 - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n13:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n13:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 4,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         57
       ],
@@ -50729,17 +50729,24 @@
           "text": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
         }
       ],
-      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
+      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange",
+      "approval": {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715061,
+        "revision": 4,
+        "sha256": "5f2459d19356d938bc2a10c3e8a5d61e6796c00cc6a94f128a98442acfe1ca6a"
+      }
     }
   },
-  "offset": 248715061,
+  "offset": 248715062,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -50813,7 +50820,8 @@
     248715057,
     248715058,
     248715059,
-    248715060
+    248715060,
+    248715061
   ],
   "manual_retest_requests": {
     "41192170935": {
