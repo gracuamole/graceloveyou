@@ -47143,7 +47143,9 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        54
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "41624505164",
@@ -50718,12 +50720,7 @@
           "text": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
         }
       ],
-      "feedback": "make the windy period to be 1pm - 6pm for all levels \n\nchange",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "fd4538a7798931ce841f69e09ac3ce3bb61965b20d99384a7ac753107dce7825"
-      }
+      "feedback": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
     }
   },
   "offset": 248715060,
