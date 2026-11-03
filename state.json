@@ -47142,7 +47142,7 @@
         "Forecast date: 4 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00 - 13:00 - Inside break\n13:00 - 18:00 - Inside break - forecasted to be windy, coach recommended\n\n🟡 INTERMEDIATE\n06:00 - 13:00 - Outside break\n13:00 - 18:00 - Outside break - forecasted to be windy, but up to your personal preference if you want to surf\n\n🔵 ADVANCED\n06:00 - 13:00 - Outside break\n13:00 - 18:00 - Outside break - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 3,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         54
       ],
@@ -50720,12 +50720,28 @@
           "update_id": 248715059,
           "revision": 2,
           "text": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715060,
+          "revision": 3,
+          "text": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
         }
       ],
-      "feedback": "make the windy period to be 1pm - 6pm for all levels \n\nchange"
+      "feedback": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715060,
+          "revision": 3,
+          "text": "no, for all levels you should leave it as “All day is surfable …” as per the report before\n\nbut the windy period should change from “1-3pm” to “1-6pm”\n\nchange"
+        }
+      ]
     }
   },
-  "offset": 248715060,
+  "offset": 248715061,
   "started": true,
   "binding": [
     941560570,
@@ -50805,7 +50821,8 @@
     248715056,
     248715057,
     248715058,
-    248715059
+    248715059,
+    248715060
   ],
   "manual_retest_requests": {
     "41192170935": {
