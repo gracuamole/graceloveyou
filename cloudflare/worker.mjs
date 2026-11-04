@@ -32,17 +32,24 @@ function reviewerIds(env) {
   return [...new Set([user, owner])];
 }
 
-function authorizedUpdate(update, env) {
+function rejectionReason(update, env) {
   const message = update?.message;
   const user = Number(env.LEO_TELEGRAM_USER_ID), chat = Number(env.LEO_TELEGRAM_CHAT_ID);
   const reviewers = reviewerIds(env);
-  const validChat = Number.isSafeInteger(chat) && (chat < 0 || (chat === user && reviewers.length === 1));
-  const validType = chat > 0 ? message?.chat?.type === 'private'
-    : ['group', 'supergroup'].includes(message?.chat?.type);
-  return validChat && validType && safeId(update?.update_id)
-    && reviewers.includes(message?.from?.id) && message?.chat?.id === chat
-    && !message?.from?.is_bot && !message?.sender_chat
-    && !message?.forward_origin && typeof message?.text === 'string';
+  if (!reviewers.length) return 'invalid reviewer configuration';
+  if (!Number.isSafeInteger(chat) || !(chat < 0 || (chat === user && reviewers.length === 1)))
+    return 'invalid review chat configuration';
+  if (!safeId(update?.update_id)) return 'invalid update ID';
+  if (!message) return 'not a new message (edited or service update)';
+  if (message.sender_chat) return 'sent as a chat or anonymous administrator; send as your personal account';
+  if (message.from?.is_bot) return 'bot sender';
+  if (!reviewers.includes(message.from?.id)) return 'sender does not match either configured reviewer';
+  if (message.chat?.id !== chat) return 'chat does not match LEO_TELEGRAM_CHAT_ID';
+  if (!(chat > 0 ? message.chat?.type === 'private' : ['group', 'supergroup'].includes(message.chat?.type)))
+    return 'chat type does not match configuration';
+  if (message.forward_origin) return 'forwarded message';
+  if (typeof message.text !== 'string') return 'message has no text';
+  return null;
 }
 
 function groupIdRequest(update, env) {
@@ -122,9 +129,16 @@ export function createWorker(fetcher = globalThis.fetch, clock = Date.now) {
             return json({ ok: true });
           }
           // Unauthorized users never enter the inbox or trigger GitHub jobs.
-          if (!authorizedUpdate(update, env)) return json({ ok: true });
+          const rejected = rejectionReason(update, env);
+          if (rejected) {
+            console.warn(`Surf webhook diagnostic v1: ignored — ${rejected}.`);
+            return json({ ok: true });
+          }
           const saved = await env.DB.prepare('INSERT OR IGNORE INTO inbox (update_id, payload) VALUES (?, ?)')
             .bind(update.update_id, JSON.stringify(update)).run();
+          console.warn(saved.meta.changes
+            ? 'Surf webhook diagnostic v1: accepted and saved to inbox.'
+            : 'Surf webhook diagnostic v1: duplicate update already saved or acknowledged.');
           if (saved.meta.changes) {
             await env.DB.prepare('UPDATE control SET work_pending = 1, next_wake_at = 0 WHERE id = 1').run();
             ctx.waitUntil(wake(env));
@@ -181,7 +195,7 @@ export function createWorker(fetcher = globalThis.fetch, clock = Date.now) {
         const pending = await env.DB.prepare('SELECT 1 AS pending FROM inbox WHERE acked = 0 LIMIT 1').first();
         const baliMinute = new Date(now + 8 * 3600_000).getUTCHours() * 60
           + new Date(now).getUTCMinutes();
-        if (baliMinute >= 9 * 60 + 7 && state.daily_day !== day) {
+        if (baliMinute >= 3 * 60 + 7 && state.daily_day !== day) {
           await wake(env, day);
         } else if (pending || state.work_pending) {
           // Recovers dispatch errors, GitHub pending-run coalescing and failed revisions.

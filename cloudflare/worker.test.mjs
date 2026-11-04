@@ -21,7 +21,7 @@ function fixture() {
     SURF_WEBHOOK_TOKEN: 'a'.repeat(40), GITHUB_ACTIONS_TOKEN: 'PAT_SECRET',
     GITHUB_REPOSITORY: 'owner/repo', GITHUB_WORKFLOW: 'surf-review.yml', GITHUB_REF: 'main',
     LEO_TELEGRAM_USER_ID: '42', LEO_TELEGRAM_CHAT_ID: '42' };
-  let now = Date.parse('2026-10-30T00:00:00Z'); // 08:00 Bali, before daily generation.
+  let now = Date.parse('2026-10-29T18:00:00Z'); // 02:00 Bali, before daily generation.
   const calls = [], responses = [];
   const worker = createWorker(async (...args) => {
     // Workers supports follow/manual only, unlike Node's fetch implementation.
@@ -291,11 +291,14 @@ test('acknowledged feedback still wakes a retry until the whole job completes', 
   assert.equal(f.calls.length, 2);
 });
 
-test('daily draft wakeup is once per Bali day after 09:07', async () => {
+test('daily draft wakeup is once per Bali day after 03:07', async () => {
   const f = fixture();
   await f.worker.scheduled({}, f.env, {});
   assert.equal(f.calls.length, 0);
-  f.advance(67 * 60_000);
+  f.advance(66 * 60_000);
+  await f.worker.scheduled({}, f.env, {});
+  assert.equal(f.calls.length, 0);
+  f.advance(60_000);
   await f.worker.scheduled({}, f.env, {});
   assert.equal(f.calls.length, 1);
   await f.run('/complete', {});
@@ -355,4 +358,25 @@ test('unsuccessful work backs off instead of waking GitHub every minute forever'
   f.advance();
   await f.worker.scheduled({}, f.env, {});
   assert.equal(f.calls.length, 3);
+});
+
+
+test('diagnostic explains rejection without exposing message text or IDs', async (t) => {
+  const logs = t.mock.method(console, 'warn', () => {});
+  const f = fixture();
+  await f.run('/telegram', f.update(10, { from: { id: 987654321 }, text: 'PRIVATE_MESSAGE' }));
+  const output = JSON.stringify(logs.mock.calls.map(call => call.arguments));
+  assert.match(output, /sender does not match either configured reviewer/);
+  assert.doesNotMatch(output, /987654321|PRIVATE_MESSAGE|PAT_SECRET/);
+  assert.equal(f.calls.length, 0);
+});
+
+test('diagnostic distinguishes accepted messages and duplicate deliveries', async (t) => {
+  const logs = t.mock.method(console, 'warn', () => {});
+  const f = fixture();
+  await f.run('/telegram', f.update());
+  await f.run('/telegram', f.update());
+  const output = JSON.stringify(logs.mock.calls.map(call => call.arguments));
+  assert.match(output, /accepted and saved/);
+  assert.match(output, /duplicate update/);
 });
