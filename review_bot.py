@@ -16,6 +16,13 @@ from forecast_sources import SourceUnavailable, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
                              report_bold_entities, daylight_intervals, report_cautions, tier_windows, wind_kmh)
 from phase2 import build_blocks, chunks
+from run_log import measured, timed, write_summary
+
+GENERATION_START = (3, 7)
+GENERATION_LABEL = "%02d:%02d" % GENERATION_START
+
+def generation_open(now):
+    return (now.hour, now.minute) >= GENERATION_START
 
 
 class SafeError(RuntimeError):
@@ -258,13 +265,18 @@ class Store:
         self.data = json.loads(self.path.read_text(encoding='utf-8'))
         validate_state(self.data)
 
+    @measured("state_save")
     def save(self):
         atomic_state_write(self.path, self.data)
         if self.git:
             root = str(self.path.parent)
             for args in (['add', self.path.name], ['commit', '-m', 'Persist surf review state'],
                          ['push', 'origin', 'HEAD:review-state']):
-                subprocess.run(['git', '-C', root] + args, check=True, capture_output=True)
+                if args[0] == 'push':
+                    with timed('git_push'):
+                        subprocess.run(['git', '-C', root] + args, check=True, capture_output=True)
+                else:
+                    subprocess.run(['git', '-C', root] + args, check=True, capture_output=True)
 
 
 def display_12_hour(text):
@@ -279,6 +291,7 @@ class Telegram:
     def __init__(self, token):
         self.token = token
 
+    @measured("telegram_call")
     def call(self, method, **payload):
         import requests
         # Never include response bodies, request URLs or chained exceptions in logs.
@@ -451,8 +464,8 @@ def show_status(store, now):
         print('Last saved Telegram result: ' + previous)
     report = store.data['reports'].get(target)
     if report is None:
-        if (now.hour, now.minute) < (6, 7):
-            print('Next draft: not generated; generation opens at 06:07 Bali time.')
+        if not generation_open(now):
+            print(f'Next draft: not generated; generation opens at {GENERATION_LABEL} Bali time.')
         elif store.data['started']:
             print('Next draft: generation pending; a private preview/status command does not start an approval cycle.')
         else:
@@ -570,6 +583,7 @@ def retain_revision_labels(report, result):
     return result
 
 
+@measured("gemini_revision")
 def gemini_text(report, feedback):
     import requests
     model = setting('GEMINI_MODEL')
@@ -598,6 +612,7 @@ def gemini_text(report, feedback):
                    if not part.get('thought')).strip()
 
 
+@measured("openai_revision")
 def openai_text(report, feedback):
     import requests
     response = requests.post('https://api.openai.com/v1/responses', headers={
@@ -781,7 +796,7 @@ class Review:
             if target > today and report['status'] != 'expired':
                 lines.append(f"{target} v{report['revision']}: {labels[report['status']] }.")
         if len(lines) == 2:
-            lines.append('No active future report. Daily generation opens at 06:07 Bali time.')
+            lines.append(f'No active future report. Daily generation opens at {GENERATION_LABEL} Bali time.')
         if any(r.get('intent') for r in list(self.s['reports'].values())
                + list(self.s.get('outbox', {}).values())):
             lines.append('Delivery is uncertain; operator reconciliation is required before any further sends.')
@@ -1322,7 +1337,7 @@ def main():
     target = (now + timedelta(days=1)).date().isoformat()
     command_only = bool(outcomes) and outcomes <= {
         'status_requested', 'dryrun_requested', 'memory_requested', 'memory_forgotten', 'memory_usage'}
-    if (store.data['started'] and not command_only and (now.hour, now.minute) >= (6, 7)
+    if (store.data['started'] and not command_only and generation_open(now)
             and target not in store.data['reports']):
         bot.generate_next_day(target)
         bot.advance(datetime.now(BALI).date().isoformat())
@@ -1339,3 +1354,6 @@ if __name__ == '__main__':
         print('Review run stopped safely: ' + failure_detail(error))
         print('No automatic uncertain-send retry. Do not reset state or clear an intent without reconciliation.')
         raise SystemExit(1)
+
+    finally:
+        write_summary()

@@ -4,6 +4,7 @@ Uses surf_mcp's endpoint construction, parsing, hourly merging and grouping.
 Only replaces its HTTP transport with the requests/curl_cffi methods from
 the original direct endpoint tests, retaining minimal parameter fallbacks.
 """
+from run_log import log_event
 import os
 import time
 from copy import deepcopy
@@ -34,6 +35,8 @@ last_status = {}
 def request_json(url, endpoint, label, attempts=3, params=None, transport='firefox'):
     """Use the exact clients from test_curl.py, without package browser headers."""
     for attempt in range(1, attempts + 1):
+        started = time.monotonic()
+        status = 0
         try:
             options = {'timeout': TIMEOUT}
             if params is not None:
@@ -44,6 +47,7 @@ def request_json(url, endpoint, label, attempts=3, params=None, transport='firef
                 response = curl_requests.get(url, impersonate='firefox', **options)
             print(f"Surfline {endpoint} [{label} {attempt}/{attempts}]: "
                   f"HTTP {response.status_code}", flush=True)
+            status = response.status_code
             last_status[endpoint] = response.status_code
             if response.status_code in (401, 403):
                 # No identical-request retry. The caller can still try the
@@ -54,8 +58,12 @@ def request_json(url, endpoint, label, attempts=3, params=None, transport='firef
         except (Exception) as exc:
             # Requests/exceptions can contain URLs and future credential values.
             print(f"Surfline {endpoint}: request failed ({type(exc).__name__})", flush=True)
-            if attempt < attempts:
-                time.sleep(min(2 ** (attempt - 1), 4))
+        finally:
+            log_event('surfline_request', endpoint=endpoint, transport=transport,
+                      status=status, attempt=attempt, request_kind=label,
+                      duration_ms=round((time.monotonic() - started) * 1000, 2))
+        if attempt < attempts:
+            time.sleep(min(2 ** (attempt - 1), 4))
     return None
 
 
@@ -135,6 +143,7 @@ def curl_get_json(url):
     endpoint = urlparse(url).path.rsplit("/", 1)[-1]
     if endpoint == 'consistency':
         return empty_feed(endpoint)  # Wave counts are unused: no HTTP request.
+    log_event('surfline_endpoint', endpoint=endpoint, cache='miss')
     last_status.pop(endpoint, None)
     data = request_json(url, endpoint, "package")
     if data is None:

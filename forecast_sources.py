@@ -1,5 +1,6 @@
 """Forecast boundary: keep provider data separate from Telegram and approval state."""
 from dataclasses import dataclass
+from run_log import measured
 
 from phase2 import build_blocks, chunks
 from recommendations import daylight_intervals, positive
@@ -40,6 +41,7 @@ def prepare_forecast(data, target, name):
     return Forecast(target, name, data, chunks(build_blocks(data, target, name), limit=3000))
 
 
+@measured("forecast_fetch")
 def fetch_surfline(target):
     """Reuse the working curl_cffi adapter, with no silent substitute data source."""
     try:

@@ -1,4 +1,5 @@
 """Read-only live Surfline check: no Telegram, LLM, saved state or publication."""
+from run_log import write_summary
 import argparse
 from datetime import datetime, timedelta
 from importlib.metadata import PackageNotFoundError, version
@@ -48,4 +49,7 @@ def main():
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    finally:
+        write_summary()
