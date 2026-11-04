@@ -58644,17 +58644,14 @@
         "Forecast date: 6 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 1,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         62
       ],
-      "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "d71a7f08a77d926b7c1bb51dd9c18202bb51519b0731ab4ae7d9d7fa10a4a0aa"
-      }
+      "prompt_ids": [
+        63
+      ],
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715062,
