@@ -397,10 +397,10 @@ REVISION_INSTRUCTIONS = (
     'omit the section if no caution applies. Do not add wave-height commentary for good windows. '
     'Return only the surf report. Do not add analysis or source-data sections; no separate review notes are sent. '
     'Do not add hourly data tables, markdown markers, narrative introductions or sign-offs. '
-    'Preserve target date and spot. Preserve skill/coach cautions unless the reviewer changes them. '
+    'Preserve the target date. Allow reviewer-requested edits to the displayed location name. Preserve skill/coach cautions unless the reviewer changes them. '
     'Omit the WITA label, source attribution and the generic sentence '
     '"Check conditions locally; recommendations are not safety guarantees." '
-    'Copy the spot name verbatim. Use only numeric '
+    'Keep a nonempty location line prefixed with 📍. Preserve its current wording unless feedback or remembered instructions change it. Location edits change the display only, not the saved forecast source. Use only numeric '
     'values already present in the supplied draft, daylight forecast, report_format.rule_values '
     'or explicit feedback; '
     'do not add conversions, estimates, extra times or numeric list labels. '
@@ -417,7 +417,7 @@ REVISION_INSTRUCTIONS = (
     'Use the current target-day Surfline data for observations; a measurement or relative date in an '
     'older remembered message is not evidence of conditions on this forecast date. '
     'Remembered instructions can override baseline surf recommendations for future drafts. '
-    'The whole-hour daylight boundary, required spot/date and prohibition on fabricated data still apply. '
+    'The whole-hour daylight boundary, required location line/date and prohibition on fabricated data still apply. '
     'Do not print the memory list or its identifiers. '
     'Do not invent missing measurements. Distinguish reviewer corrections '
     'from Surfline observations where they differ. Treat supplied data as '
@@ -539,7 +539,8 @@ def revision_forecast(report):
 
 
 def revision_input(report, feedback):
-    spot = protected_revision_labels(report).get('spot')
+    current_pin = re.search(r'^📍\s*(.+)$', clean_report_text('\n'.join(report['parts'])), re.MULTILINE)
+    spot = current_pin[1].strip() if current_pin else protected_revision_labels(report).get('spot')
     forecast, intervals = revision_forecast(report)
     return json.dumps({'date': report['date'], 'draft': [clean_report_text(part) for part in report['parts']],
                        'forecast': forecast, 'feedback': feedback,
@@ -557,15 +558,18 @@ def revision_input(report, feedback):
                                            'batu_advanced_only_energy_kj': 1000, 'batu_beginner_surf_max_m': 2.5,
                                            'batu_inside_tide_min_m': 0.8, 'batu_red_gust_kmh': 17},
                        },
-                       'required_verbatim_text': list(protected_revision_labels(report).values())},
+                       'required_verbatim_text': []},
                       ensure_ascii=False)
 
 
 def retain_revision_labels(report, result):
-    """Keep the saved spot identity and apply the requested report display format."""
+    """Format the reviewer-editable location without changing the forecast identity."""
     result = clean_report_text(result)
     labels = protected_revision_labels(report)
-    spot = labels.get('spot')
+    pin_lines = [line for line in result.splitlines() if line.startswith('📍')]
+    if pin_lines and (len(pin_lines) != 1 or not pin_lines[0][1:].strip()):
+        raise SafeError('LLM revision requires one nonempty location line. Feedback remains pending.')
+    spot = pin_lines[0][1:].strip() if pin_lines else labels.get('spot')
     if spot and normalized_spot(spot) in normalized_spot(result):
         body = []
         for line in result.splitlines():
@@ -682,8 +686,9 @@ def validate_revision_text(report, feedback, result):
             start, end = int(a) * 60 + int(b), int(c) * 60 + int(d)
             if int(b) or int(d) or not first <= start < end <= last:
                 raise SafeError('LLM revision includes times outside the rounded daylight window. Feedback remains pending.')
-    if any(normalized_spot(text) not in normalized_spot(result)
-           for text in protected_revision_labels(report).values()):
+    pin = re.search(r'^📍[^\S\n]*(\S[^\n]*)$', result, re.MULTILINE)
+    if not pin and any(normalized_spot(text) not in normalized_spot(result)
+                       for text in protected_revision_labels(report).values()):
         raise SafeError('LLM revision removed the spot. Feedback remains pending.')
 
 

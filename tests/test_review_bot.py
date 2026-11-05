@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 from pathlib import Path
 import tempfile
@@ -1109,7 +1110,7 @@ class GeminiRevisionTests(unittest.TestCase):
                       'Check conditions locally; recommendations are not safety guarantees.'):
             self.assertNotIn(label, result)
         context = json.loads(self.post.call_args.kwargs['json']['contents'][0]['parts'][0]['text'])
-        self.assertEqual(context['required_verbatim_text'], [self.report['name'].upper()])
+        self.assertEqual(context['required_verbatim_text'], [])
         self.post.assert_called_once()
 
     def test_old_banner_is_removed_even_if_model_copies_it_and_spot_typography_is_canonicalized(self):
@@ -1189,6 +1190,24 @@ class GeminiRevisionTests(unittest.TestCase):
                      TARGET + ' wind 1e10 km/h'):
             with self.assertRaisesRegex(SafeError, 'unsupported number'):
                 validate_revision_text(self.report, 'tidy up change', text)
+
+    def test_reviewer_can_shorten_location_without_changing_forecast_identity(self):
+        self.protected_report()
+        original_name = self.report['name']
+        original_forecast = deepcopy(self.report['forecast'])
+        self.set_result('Forecast date: 30 October 2026\n\n📍BATU BOLONG\nSurf report')
+        parts = revise(self.report, 'remove "OLD MAN\'s" in the location line\n\nchange')
+        self.assertIn('📍BATU BOLONG', '\n'.join(parts))
+        self.assertNotIn("OLD MAN", '\n'.join(parts))
+        self.assertEqual(self.report['name'], original_name)
+        self.assertEqual(self.report['forecast'], original_forecast)
+        self.report['parts'] = parts
+        from review_bot import revision_input
+        context = json.loads(revision_input(self.report, 'shorten cautions change'))
+        self.assertIn('📍BATU BOLONG', context['report_format']['header'])
+        self.assertEqual(context['required_verbatim_text'], [])
+        self.set_result('Forecast date: 30 October 2026\n\n📍BATU BOLONG\nUpdated report')
+        self.assertIn('📍BATU BOLONG', '\n'.join(revise(self.report, 'shorten cautions change')))
 
     def test_legacy_report_spot_is_protected_without_state_reset(self):
         self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + ' | WITA\nSurf report']
