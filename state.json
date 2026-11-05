@@ -62685,7 +62685,9 @@
       ],
       "revision": 4,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        84
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
@@ -62738,12 +62740,7 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "add line saying leo loves grace at the bottom\n\nchange",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "19db799e76aeaa3ca4b8401db3377df051aecfe5003631ec7faaa2928b3a41a5"
-      }
+      "feedback": "add line saying leo loves grace at the bottom\n\nchange"
     }
   },
   "offset": 248715070,
