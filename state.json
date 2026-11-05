@@ -62704,14 +62704,14 @@
       "feedback": "remove “OLD MAN’S” in the location\n\nchange"
     }
   },
-  "offset": 248715065,
+  "offset": 248715066,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "ignored_text",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -62799,7 +62799,8 @@
     248715061,
     248715062,
     248715063,
-    248715064
+    248715064,
+    248715065
   ],
   "manual_retest_requests": {
     "41192170935": {
