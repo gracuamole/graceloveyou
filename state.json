@@ -62699,7 +62699,12 @@
           "text": "remove “OLD MAN’S” in the location\n\nchange"
         }
       ],
-      "feedback": "remove “OLD MAN’S” in the location\n\nchange"
+      "feedback": "remove “OLD MAN’S” in the location\n\nchange",
+      "intent": {
+        "kind": "prompt",
+        "chat_id": -1003835479548,
+        "text_sha256": "937e1b7981de9016b2b046e540b20ec3fe784922ca405f5742e1dec7501b2cb2"
+      }
     }
   },
   "offset": 248715065,
