@@ -62809,7 +62809,12 @@
       "parts": [
         "Pending correction cancelled. The previous report will be sent again. Reply correct to its NEW approval message to publish. Remembered instructions remain saved; use /memory and /forget ID to remove them."
       ],
-      "notice_ids": []
+      "notice_ids": [],
+      "intent": {
+        "kind": "notice",
+        "chat_id": -1003835479548,
+        "text_sha256": "08968b08b91cc2a777fa623f8077a635d0f1e2f1db32f3f1bb4ce989267038c5"
+      }
     }
   },
   "webhook_processed_ids": [
