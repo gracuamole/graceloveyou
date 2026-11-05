@@ -62745,7 +62745,12 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange"
+      "feedback": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange",
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "b52ba85207b65f5e3aab1dff2c1aee4f354eb8aa600a1e517cdc2bbde09dba12"
+      }
     }
   },
   "offset": 248715071,
