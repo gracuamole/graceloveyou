@@ -58645,7 +58645,9 @@
       ],
       "revision": 2,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        67
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
@@ -58657,12 +58659,7 @@
           "text": "remove \"OLD MAN's\" in the location line\n\nchange"
         }
       ],
-      "feedback": "remove \"OLD MAN's\" in the location line\n\nchange",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "dd90675a5740cde3e31b6cb1f20d1afcc87800fbb4e117b946d81de6c33c3a02"
-      }
+      "feedback": "remove \"OLD MAN's\" in the location line\n\nchange"
     }
   },
   "offset": 248715064,
