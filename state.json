@@ -62684,7 +62684,7 @@
         "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\nleo loves grace"
       ],
       "revision": 5,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         87
       ],
@@ -62749,17 +62749,24 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange"
+      "feedback": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange",
+      "approval": {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715071,
+        "revision": 5,
+        "sha256": "42bb098337e5e0cfac1b331e05b2ac6bc0b4b701b5af4c37176fc91a329881de"
+      }
     }
   },
-  "offset": 248715071,
+  "offset": 248715072,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -62883,7 +62890,8 @@
     248715067,
     248715068,
     248715069,
-    248715070
+    248715070,
+    248715071
   ],
   "manual_retest_requests": {
     "41192170935": {
