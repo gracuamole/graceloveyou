@@ -62681,16 +62681,12 @@
         ]
       },
       "parts": [
-        "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
+        "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\nadd line saying leo loves grace at the bottom"
       ],
-      "revision": 3,
-      "status": "revision_pending",
-      "draft_ids": [
-        79
-      ],
-      "prompt_ids": [
-        80
-      ],
+      "revision": 4,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
         {
@@ -62742,16 +62738,7 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "add line saying leo loves grace at the bottom\n\nchange",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715069,
-          "revision": 3,
-          "text": "add line saying leo loves grace at the bottom\n\nchange"
-        }
-      ]
+      "feedback": "add line saying leo loves grace at the bottom\n\nchange"
     }
   },
   "offset": 248715070,
