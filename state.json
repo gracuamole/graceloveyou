@@ -62683,14 +62683,10 @@
       "parts": [
         "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
-      "revision": 2,
-      "status": "revision_pending",
-      "draft_ids": [
-        72
-      ],
-      "prompt_ids": [
-        73
-      ],
+      "revision": 3,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
         {
@@ -62705,30 +62701,46 @@
           "chat_id": -1003835479548,
           "update_id": 248715066,
           "revision": 2,
-          "text": "remove BATU BOLONG in the location\n\nchange"
+          "text": "remove BATU BOLONG in the location\n\nchange",
+          "cancelled": true
         }
       ],
-      "feedback": "remove BATU BOLONG in the location\n\nchange",
-      "pending_feedback": [
+      "recovery_history": [
         {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715066,
           "revision": 2,
-          "text": "remove BATU BOLONG in the location\n\nchange"
+          "feedback": "remove BATU BOLONG in the location\n\nchange",
+          "pending_feedback": [
+            {
+              "user_id": 941560570,
+              "chat_id": -1003835479548,
+              "update_id": 248715066,
+              "revision": 2,
+              "text": "remove BATU BOLONG in the location\n\nchange"
+            }
+          ],
+          "parts": [
+            "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
+          ],
+          "prompt_ids": [
+            73
+          ],
+          "cancelled_by": 941560570,
+          "update_id": 248715067
         }
       ],
-      "revision_failed": true
+      "retired_prompt_ids": [
+        73
+      ]
     }
   },
-  "offset": 248715067,
+  "offset": 248715068,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "revision_cancelled",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -62790,6 +62802,14 @@
       "notice_ids": [
         76
       ]
+    },
+    "cancel:248715067": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "Pending correction cancelled. The previous report will be sent again. Reply correct to its NEW approval message to publish. Remembered instructions remain saved; use /memory and /forget ID to remove them."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -62828,7 +62848,8 @@
     248715063,
     248715064,
     248715065,
-    248715066
+    248715066,
+    248715067
   ],
   "manual_retest_requests": {
     "41192170935": {
