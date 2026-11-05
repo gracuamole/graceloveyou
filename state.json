@@ -62717,7 +62717,8 @@
           "revision": 2,
           "text": "remove BATU BOLONG in the location\n\nchange"
         }
-      ]
+      ],
+      "revision_failed": true
     }
   },
   "offset": 248715067,
