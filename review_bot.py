@@ -431,6 +431,9 @@ APPLY_MEMORY = ('Apply the supplied remembered_feedback to this fresh report usi
 
 
 UPDATE_OUTCOMES = {
+    'revision_retry': 'Saved feedback will be retried; fresh approval is required.',
+    'revision_cancelled': 'Pending correction cancelled; resending the previous report for fresh approval.',
+    'revision_approval_blocked': 'Pending revision cannot be approved. Recovery instructions queued.',
     'ignored_unauthorized': 'Ignored message: sender is not an allowed reviewer in the configured review chat.',
     'started': 'Reviewer /start recorded.',
     'ignored_unthreaded': 'Ignored message: use Telegram Reply on the latest final review prompt.',
@@ -964,6 +967,37 @@ class Review:
             pending = report['status'] == 'revision_pending'
             if report['status'] != 'review' and not pending:
                 return 'ignored_not_reviewing'
+            if pending and text in ('retry', 'cancel change', 'correct'):
+                self.assert_no_uncertain()
+                if text == 'correct':
+                    if report.get('revision_failed'):
+                        report['recovery_hold'] = True
+                    self.queue_notice('recovery:' + str(update['update_id']),
+                        'The correction is still pending, so nothing was approved. Reply to the existing '
+                        'approval message with new feedback ending in change, retry to retry saved feedback, '
+                        'or cancel change to receive the previous report with a new approval message.')
+                    return 'revision_approval_blocked'
+                report.pop('recovery_hold', None)
+                if text == 'retry':
+                    return 'revision_retry'
+                report.setdefault('recovery_history', []).append({
+                    'revision': report['revision'], 'feedback': report.get('feedback'),
+                    'pending_feedback': deepcopy(report.get('pending_feedback', [])),
+                    'parts': list(report['parts']), 'prompt_ids': list(report.get('prompt_ids', [])),
+                    'cancelled_by': message['from']['id'], 'update_id': update['update_id']})
+                pending_ids = {event.get('update_id') for event in report.get('pending_feedback', [])}
+                for event in report.get('feedback_log', []):
+                    if event.get('update_id') in pending_ids:
+                        event['cancelled'] = True
+                for field in ('feedback', 'pending_feedback', 'approval', 'revision_failed'):
+                    report.pop(field, None)
+                report.setdefault('retired_prompt_ids', []).extend(report.get('prompt_ids', []))
+                report.update(status='draft', revision=report['revision'] + 1, draft_ids=[], prompt_ids=[])
+                self.queue_notice('cancel:' + str(update['update_id']),
+                    'Pending correction cancelled. The previous report will be sent again. '
+                    'Reply correct to its NEW approval message to publish. '
+                    'Remembered instructions remain saved; use /memory and /forget ID to remove them.')
+                return 'revision_cancelled'
             if text == 'correct' and not pending:
                 if reply_id not in report.get('prompt_ids', []):
                     return 'ignored_approval_not_prompt'
@@ -987,6 +1021,8 @@ class Review:
 
     def save_feedback(self, report, update, text):
         """Keep every accepted correction; apply the newest pending text per person."""
+        self.assert_no_uncertain()
+        report.pop('recovery_hold', None)
         user_id = update['message']['from']['id']
         pending = list(report.get('pending_feedback', []))
         if report['status'] == 'revision_pending' and not pending and report.get('feedback'):
@@ -1051,6 +1087,8 @@ class Review:
                 report.pop('chat_move_pending')
                 self.store.save()
             if report['status'] == 'revision_pending':
+                if report.get('recovery_hold'):
+                    continue
                 try:
                     feedback = report['feedback']
                     pending = report.get('pending_feedback', [])
@@ -1063,16 +1101,22 @@ class Review:
                                  else self.revision(report, feedback))
                     validate_parts(parts)
                 except Exception as error:
+                    if not report.get('revision_failed'):
+                        report['revision_failed'] = True
+                        self.store.save()
                     self.notify_failure(f"revision-error:{report['date']}:{report['revision']}",
                                         'The surf report revision failed. Your feedback is saved and nothing '
                                         'was approved or published by this revision. ' + failure_detail(error)
-                                        + '\nAn operator can inspect Actions logs. Only one error notice is sent '
-                                        'for this version; a later successful revision still needs fresh approval.')
+                                        + '\nReply to the existing approval message with new feedback ending in change, '
+                                        'retry to retry the saved feedback, or cancel change to receive the previous '
+                                        'report with a new approval message. A pending revision cannot be approved. '
+                                        'Any replacement draft needs fresh approval.')
                     raise
                 report.update(parts=parts, revision=report['revision'] + 1,
                               status='draft', draft_ids=[], prompt_ids=[])
                 report.pop('approval', None)
                 report.pop('pending_feedback', None)
+                report.pop('revision_failed', None)
                 for field in ('analysis_parts', 'source_parts', 'analysis_ids', 'source_ids',
                               'context_input_sha256', 'context_content_sha256'):
                     report.pop(field, None)
@@ -1216,7 +1260,7 @@ class Review:
                 if field in previous:
                     report[field] = deepcopy(previous[field])
         if fresh_template and saved_source:
-            feedback = [event['text'] for event in previous.get('feedback_log', []) if event.get('text')]
+            feedback = [event['text'] for event in previous.get('feedback_log', []) if event.get('text') and not event.get('cancelled')]
             if not feedback and previous.get('feedback'):
                 feedback = [previous['feedback']]
             if feedback:

@@ -65,7 +65,57 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.report['status'], 'review')
         self.assertFalse(self.published())
         self.assertEqual(self.bot.process(self.update('fix wind change'), TODAY), 'revision_pending')
-        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_not_reviewing')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'revision_approval_blocked')
+
+    def test_failed_revision_can_retry_from_telegram(self):
+        self.draft()
+        self.bot.consume_updates([self.update('fix location change')], TODAY)
+        self.llm.side_effect = SafeError('revision failed')
+        with self.assertRaises(SafeError):
+            self.bot.advance(TODAY)
+        self.llm.side_effect = None
+        reply = self.update('retry')
+        reply['update_id'] = 6
+        self.bot.consume_updates([reply], TODAY)
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['status'], 'review')
+        self.assertEqual(self.report['revision'], 2)
+        self.assertFalse(self.published())
+
+    def test_pending_correct_explains_then_cancel_requires_new_prompt(self):
+        self.draft()
+        old_id = self.report['prompt_ids'][-1]
+        original = list(self.report['parts'])
+        self.report['revision_failed'] = True
+        self.bot.process(self.update('fix location change'), TODAY)
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'revision_approval_blocked')
+        self.bot.advance(TODAY)
+        self.llm.assert_not_called()
+        self.assertFalse(self.published())
+        self.assertEqual(self.bot.process(self.update('cancel change'), TODAY), 'revision_cancelled')
+        self.bot.advance(TODAY)
+        self.assertEqual(self.report['parts'], original)
+        self.assertNotEqual(self.report['prompt_ids'][-1], old_id)
+        self.assertTrue(self.report['feedback_log'][0]['cancelled'])
+        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_id}), TODAY),
+                         'ignored_stale_prompt')
+        self.assertFalse(self.published())
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
+        self.bot.advance(TODAY)
+        self.assertEqual(len(self.published()), len(original))
+        self.bot.advance(TODAY)
+        self.assertEqual(len(self.published()), len(original))
+
+    def test_new_feedback_releases_pending_approval_hold(self):
+        self.draft()
+        self.bot.process(self.update('first correction change'), TODAY)
+        self.bot.process(self.update(), TODAY)
+        self.bot.process(self.update('replacement correction change'), TODAY)
+        self.bot.advance(TODAY)
+        self.llm.assert_called_once()
+        self.assertEqual(self.llm.call_args.args[1], 'replacement correction change')
+        self.assertEqual(self.report['status'], 'review')
+        self.assertFalse(self.published())
 
     def test_status_cli_is_read_only_and_excludes_private_content(self):
         self.report['feedback'] = 'PRIVATE_FEEDBACK_SECRET'
@@ -814,7 +864,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(notices[0].kwargs['chat_id'], 42)
         self.assertIn('429', notices[0].kwargs['text'])
         self.assertEqual(self.report['status'], 'revision_pending')
-        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_not_reviewing')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'revision_approval_blocked')
         self.bot.process(self.update('note: Coach to confirm wind change'), TODAY)
         self.store.save()
         self.bot.advance(TODAY)
