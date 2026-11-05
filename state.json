@@ -62757,11 +62757,9 @@
         "revision": 5,
         "sha256": "42bb098337e5e0cfac1b331e05b2ac6bc0b4b701b5af4c37176fc91a329881de"
       },
-      "intent": {
-        "kind": "publish",
-        "chat_id": -1004476747924,
-        "text_sha256": "42bb098337e5e0cfac1b331e05b2ac6bc0b4b701b5af4c37176fc91a329881de"
-      }
+      "publish_ids": [
+        51
+      ]
     }
   },
   "offset": 248715072,
