@@ -62787,12 +62787,9 @@
       "parts": [
         "The surf report revision failed. Your feedback is saved and nothing was approved or published by this revision. LLM revision requires one nonempty location line. Feedback remains pending.\nReply to the existing approval message with new feedback ending in change, retry to retry the saved feedback, or cancel change to receive the previous report with a new approval message. A pending revision cannot be approved. Any replacement draft needs fresh approval."
       ],
-      "notice_ids": [],
-      "intent": {
-        "kind": "notice",
-        "chat_id": -1003835479548,
-        "text_sha256": "424f2947ea735b66ae065180e818e5413596786328067a7f60b1cd7da888d344"
-      }
+      "notice_ids": [
+        76
+      ]
     }
   },
   "webhook_processed_ids": [
