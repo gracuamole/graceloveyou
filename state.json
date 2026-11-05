@@ -62783,7 +62783,7 @@
     },
     "revision-error:2026-11-07:2": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "The surf report revision failed. Your feedback is saved and nothing was approved or published by this revision. LLM revision requires one nonempty location line. Feedback remains pending.\nReply to the existing approval message with new feedback ending in change, retry to retry the saved feedback, or cancel change to receive the previous report with a new approval message. A pending revision cannot be approved. Any replacement draft needs fresh approval."
       ],
