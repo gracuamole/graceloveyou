@@ -62805,7 +62805,7 @@
     },
     "cancel:248715067": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "Pending correction cancelled. The previous report will be sent again. Reply correct to its NEW approval message to publish. Remembered instructions remain saved; use /memory and /forget ID to remove them."
       ],
