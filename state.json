@@ -62684,24 +62684,43 @@
         "Forecast date: 7 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 1,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         69
       ],
       "prompt_ids": [
         70
       ],
-      "review_chat_id": -1003835479548
+      "review_chat_id": -1003835479548,
+      "feedback_log": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715064,
+          "revision": 1,
+          "text": "remove “OLD MAN’S” in the location\n\nchange"
+        }
+      ],
+      "feedback": "remove “OLD MAN’S” in the location\n\nchange",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715064,
+          "revision": 1,
+          "text": "remove “OLD MAN’S” in the location\n\nchange"
+        }
+      ]
     }
   },
-  "offset": 248715064,
+  "offset": 248715065,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_not_reviewing",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -62788,7 +62807,8 @@
     248715060,
     248715061,
     248715062,
-    248715063
+    248715063,
+    248715064
   ],
   "manual_retest_requests": {
     "41192170935": {
