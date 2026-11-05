@@ -62684,7 +62684,7 @@
         "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\nadd line saying leo loves grace at the bottom"
       ],
       "revision": 4,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         84
       ],
@@ -62714,6 +62714,13 @@
           "update_id": 248715069,
           "revision": 3,
           "text": "add line saying leo loves grace at the bottom\n\nchange"
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715070,
+          "revision": 4,
+          "text": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange"
         }
       ],
       "recovery_history": [
@@ -62742,10 +62749,19 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "add line saying leo loves grace at the bottom\n\nchange"
+      "feedback": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715070,
+          "revision": 4,
+          "text": "remove last line\n\nadd line at bottom saying “leo loves grace”\n\nchange"
+        }
+      ]
     }
   },
-  "offset": 248715070,
+  "offset": 248715071,
   "started": true,
   "binding": [
     941560570,
@@ -62875,7 +62891,8 @@
     248715066,
     248715067,
     248715068,
-    248715069
+    248715069,
+    248715070
   ],
   "manual_retest_requests": {
     "41192170935": {
