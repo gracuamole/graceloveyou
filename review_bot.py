@@ -860,7 +860,9 @@ class Review:
         entities = report_bold_entities(text)
         if kind == 'prompt':
             for label in ('Change the report:', 'Remember the change for future reports:',
-                          'Send report to HSC channel:'):
+                          'Send report to HSC channel:',
+                          'Report change failed - try again:',
+                          'Report change failed - cancel your previous change:'):
                 start = text.find(label)
                 if start >= 0:
                     entities.append({'type': 'bold',
@@ -891,7 +893,9 @@ class Review:
             prompt = ('@Leonardosinaga\n\n'
                       '1. Change the report: reply THIS message, write "change" at the end\n'
                       '2. Remember the change for future reports: reply THIS message, write "remember change" at the end\n'
-                      '3. Send report to HSC channel: reply THIS message, write "correct"')
+                      '3. Send report to HSC channel: reply THIS message, write "correct"\n'
+                      '4. Report change failed - try again: reply THIS message, write "retry"\n'
+                      '5. Report change failed - cancel your previous change: reply THIS message, write "cancel change"')
             if report.get('manual_request_id') and report.get('publication_history'):
                 prompt += ('\n\nManual test: this forecast date was already published. '
                            'A new correct reply will post this report to the channel again.')
