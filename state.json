@@ -62684,11 +62684,13 @@
         "Forecast date: 7 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\nadd line saying leo loves grace at the bottom"
       ],
       "revision": 4,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         84
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        85
+      ],
       "review_chat_id": -1003835479548,
       "feedback_log": [
         {
@@ -62740,12 +62742,7 @@
       "retired_prompt_ids": [
         73
       ],
-      "feedback": "add line saying leo loves grace at the bottom\n\nchange",
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "937e1b7981de9016b2b046e540b20ec3fe784922ca405f5742e1dec7501b2cb2"
-      }
+      "feedback": "add line saying leo loves grace at the bottom\n\nchange"
     }
   },
   "offset": 248715070,
