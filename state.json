@@ -62685,7 +62685,9 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        79
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "feedback_log": [
@@ -62730,12 +62732,7 @@
       ],
       "retired_prompt_ids": [
         73
-      ],
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "2fbf7d7b32e2a108137e22c7e15123292be7ce384233900f24c639b6090f4c40"
-      }
+      ]
     }
   },
   "offset": 248715068,
