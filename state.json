@@ -62819,7 +62819,7 @@
     },
     "memory:-1003835479548:248715068": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "No feedback is remembered for future reports. Reply to the current report with feedback containing remember and ending in change to save it."
       ],
