@@ -65456,14 +65456,11 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        91
+      ],
       "prompt_ids": [],
-      "review_chat_id": -1003835479548,
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "9eb0896e8ff3bab620e0939dcbbae839ff238533a4ae00db99e0346c6fbea27d"
-      }
+      "review_chat_id": -1003835479548
     }
   },
   "offset": 248715073,
