@@ -65458,7 +65458,12 @@
       "status": "draft",
       "draft_ids": [],
       "prompt_ids": [],
-      "review_chat_id": -1003835479548
+      "review_chat_id": -1003835479548,
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "9eb0896e8ff3bab620e0939dcbbae839ff238533a4ae00db99e0346c6fbea27d"
+      }
     }
   },
   "offset": 248715073,
