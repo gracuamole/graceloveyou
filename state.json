@@ -62044,7 +62044,9 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        96
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
@@ -62061,12 +62063,7 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false,
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "57a5e5dcdee0fa5233326404366dc5faf74dd1648cff478705db1b9801fe857c"
-      }
+      "memory_pending": false
     }
   },
   "offset": 248715074,
