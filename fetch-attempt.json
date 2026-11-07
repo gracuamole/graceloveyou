@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "cycles": {
+    "2026-11-09": {
+      "started": 1794078485.6235573,
+      "counts": {
+        "605112930a374f33cf5f8f05:conditions": 1
+      },
+      "responses": {},
+      "requests": {
+        "605112930a374f33cf5f8f05:conditions": {
+          "endpoint": "conditions",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
+        }
+      },
+      "failed": {
+        "605112930a374f33cf5f8f05:conditions": {
+          "endpoint": "conditions",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
+        }
+      },
+      "closed": false,
+      "alternates": {}
+    }
+  },
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:conditions": {
+      "until": 1794078785.6237206
+    }
+  },
+  "last_request": 1794078485.6237206
+}
