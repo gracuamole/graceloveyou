@@ -8,7 +8,10 @@ on:
         default: ''
         type: string
 permissions:
-  contents: read
+  contents: write
+concurrency:
+  group: surf-review-state
+  cancel-in-progress: false
 jobs:
   check:
     runs-on: ubuntu-24.04
@@ -24,7 +27,19 @@ jobs:
           cache-dependency-path: requirements.txt
       - name: Install tested dependencies
         run: pip install -r requirements.txt
+      - uses: actions/checkout@v4
+        with:
+          ref: review-state
+          path: review-state
+      - name: Configure request checkpoint author
+        run: |
+          git -C review-state config user.name 'surf-review-bot'
+          git -C review-state config user.email 'surf-review-bot@users.noreply.github.com'
       - name: Fetch and validate Surfline forecast (read-only)
         env:
+          SURF_ATTEMPT_FILE: review-state/fetch-attempt.json
+          SURF_ATTEMPT_PERSIST_GIT: 'true'
+          SURF_REQUEST_PROTECTION: ${{ vars.SURF_REQUEST_PROTECTION || 'true' }}
+          SURF_INCOMPLETE_DRAFTS: ${{ vars.SURF_INCOMPLETE_DRAFTS || 'true' }}
           FORECAST_DATE: ${{ inputs.forecast_date }}
         run: python surfline_check.py --date "$FORECAST_DATE"

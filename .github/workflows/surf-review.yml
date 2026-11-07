@@ -50,6 +50,11 @@ jobs:
         run: python review_bot.py --status --state review-state/state.json
       - name: Poll reviews and advance durable workflow
         env:
+          SURF_ATTEMPT_FILE: review-state/fetch-attempt.json
+          SURF_ATTEMPT_PERSIST_GIT: 'true'
+          SURF_REQUEST_PROTECTION: ${{ vars.SURF_REQUEST_PROTECTION || 'true' }}
+          SURF_INCOMPLETE_DRAFTS: ${{ vars.SURF_INCOMPLETE_DRAFTS || 'true' }}
+          SURF_STATE_RETENTION: ${{ vars.SURF_STATE_RETENTION || 'true' }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           LEO_TELEGRAM_USER_ID: ${{ secrets.LEO_TELEGRAM_USER_ID }}
