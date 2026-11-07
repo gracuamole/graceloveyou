@@ -80,7 +80,7 @@ def write_summary():
     lines = ['## Surf bot run measurements', '',
              f"Surfline HTTP attempts: {COUNTS['surfline_request']}",
              f"Endpoint cache misses: {COUNTS['cache_miss']}",
-             'Persistent cache, cooldowns and snapshot-age metrics: not implemented until Release 2.',
+             f"Endpoint cache hits: {COUNTS['cache_hit']}. Request protection is active when SURF_ATTEMPT_FILE is configured.",
              '', '| Stage | Total seconds |', '| --- | ---: |']
     for stage, milliseconds in sorted(DURATIONS.items()):
         lines.append(f'| {stage} | {milliseconds / 1000:.3f} |')

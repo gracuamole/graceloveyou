@@ -14,6 +14,10 @@ import surfline_check
 
 class SourceTests(unittest.TestCase):
     def setUp(self):
+        # These tests inject a fake package and intentionally exercise the unconfigured local adapter.
+        env = patch.dict('os.environ', {'GITHUB_ACTIONS': 'false', 'SURF_ATTEMPT_FILE': ''})
+        env.start()
+        self.addCleanup(env.stop)
         self.target = '2026-10-30'
         start = datetime(2026, 10, 30, tzinfo=BALI).timestamp()
         self.day = {'date': self.target,

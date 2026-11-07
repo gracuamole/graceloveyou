@@ -53,7 +53,7 @@ class RunLogTests(unittest.TestCase):
             self.assertIn('Surfline HTTP attempts: 1', text)
             self.assertIn('| forecast_fetch | 2.500 |', text)
             self.assertIn('403: 1', text)
-            self.assertIn('not implemented until Release 2', text)
+            self.assertIn('Endpoint cache hits: 0', text)
 
     def test_metrics_io_failure_does_not_break_operations(self):
         with patch('builtins.print', side_effect=OSError):

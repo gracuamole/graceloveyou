@@ -17,7 +17,7 @@ def main():
         datetime.strptime(target, '%Y-%m-%d')
     except ValueError:
         parser.error('Use a forecast date in YYYY-MM-DD format.')
-    print('Live Surfline check only. No Telegram or LLM calls; no state changes.', flush=True)
+    print('Live Surfline check only. No Telegram or LLM calls; request checkpoints only; no review-state changes.', flush=True)
     for name in ('requests', 'curl_cffi', 'surf-mcp'):
         try:
             installed = version(name)
@@ -31,7 +31,12 @@ def main():
         print('Forecast check failed: ' + str(error))
         return 1
     day = next(day for day in snapshot.data['daily'] if day['date'] == target)
-    intervals = daylight_intervals(day)
+    try:
+        intervals = daylight_intervals(day)
+    except ValueError:
+        print('Sunrise/sunset unavailable; no daylight windows assessed.')
+        print(snapshot.data.get('data_notes', ''))
+        return 0
     print(f'Forecast available: {snapshot.name} | {target} | Bali/WITA.')
     print(f'Daylight intervals with breaking-surf coverage: {len(intervals)}.')
     checks = {

@@ -30,6 +30,8 @@ TIMEOUT = 25
 OPTIONAL = {"consistency", "energy", "weather", "swells", "wind", "tides", "conditions"}
 cache = {}
 last_status = {}
+retry_headers = {}
+attempt_context = None
 
 
 def request_json(url, endpoint, label, attempts=3, params=None, transport='firefox'):
@@ -47,6 +49,7 @@ def request_json(url, endpoint, label, attempts=3, params=None, transport='firef
                 response = curl_requests.get(url, impersonate='firefox', **options)
             print(f"Surfline {endpoint} [{label} {attempt}/{attempts}]: "
                   f"HTTP {response.status_code}", flush=True)
+            retry_headers[endpoint] = response.headers.get("Retry-After")
             status = response.status_code
             last_status[endpoint] = response.status_code
             if response.status_code in (401, 403):
@@ -143,6 +146,9 @@ def curl_get_json(url):
     endpoint = urlparse(url).path.rsplit("/", 1)[-1]
     if endpoint == 'consistency':
         return empty_feed(endpoint)  # Wave counts are unused: no HTTP request.
+    if attempt_context is not None:
+        from protected_fetch import fetch
+        return fetch(__import__(__name__), attempt_context, url)
     log_event('surfline_endpoint', endpoint=endpoint, cache='miss')
     last_status.pop(endpoint, None)
     data = request_json(url, endpoint, "package")

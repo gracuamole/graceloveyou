@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from urllib.parse import urlsplit
 
-from forecast_sources import SourceUnavailable, fetch_surfline
+from forecast_sources import SourceUnavailable, ForecastPending, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
                              report_bold_entities, daylight_intervals, report_cautions, tier_windows, wind_kmh)
 from phase2 import build_blocks, chunks
@@ -30,6 +30,8 @@ class SafeError(RuntimeError):
 
 
 def failure_detail(error):
+    if isinstance(error, ForecastPending):
+        return 'Forecast retry pending within its freshness window; a later workflow run will continue.'
     if isinstance(error, SourceUnavailable):
         return str(error)
     if isinstance(error, SafeError):
@@ -267,6 +269,9 @@ class Store:
 
     @measured("state_save")
     def save(self):
+        if os.environ.get('SURF_STATE_RETENTION') == 'true':
+            from state_retention import trim_completed
+            trim_completed(self.data, datetime.now(BALI).date().isoformat())
         atomic_state_write(self.path, self.data)
         if self.git:
             root = str(self.path.parent)
@@ -519,6 +524,8 @@ def revision_forecast(report):
         return {}, []  # Older draft-only states have no extra source observations.
     try:
         day = next(day for day in source['daily'] if day['date'] == report['date'])
+        if 'weather' in source.get('missing_inputs', []):
+            return {'date': report['date'], 'analysis_unavailable': 'Sunrise/sunset missing; do not add time windows.'}, []
         intervals = daylight_intervals(day, protected_revision_labels(report).get('spot'))
     except (StopIteration, ValueError, KeyError, TypeError):
         raise SafeError('Saved forecast cannot supply a rounded daylight window. Feedback remains pending.') from None
@@ -899,6 +906,9 @@ class Review:
             if report.get('manual_request_id') and report.get('publication_history'):
                 prompt += ('\n\nManual test: this forecast date was already published. '
                            'A new correct reply will post this report to the channel again.')
+            notes = (report.get('forecast') or {}).get('data_notes')
+            if notes:
+                prompt += '\n\n' + notes
             self.send(report, 'prompt', prompt)
         if report['status'] != 'review':
             report['status'] = 'review'
@@ -1196,6 +1206,8 @@ class Review:
         self.check_single_active(target)
         try:
             snapshot = self.forecast(target)
+        except ForecastPending:
+            raise
         except SourceUnavailable as error:
             self.notify_failure('forecast-error:' + target,
                                 'The next-day surf draft could not be generated. ' + str(error)
@@ -1297,7 +1309,12 @@ class Review:
         if target in self.s['reports']:
             return
         self.check_single_active(target)
-        parts = chunks(build_blocks(forecast, target, name), limit=3000)
+        if 'missing_inputs' in forecast:
+            from forecast_quality import inspect, render
+            missing, intervals = inspect(forecast, target)
+            parts, _ = render(forecast, target, name, missing, intervals)
+        else:
+            parts = chunks(build_blocks(forecast, target, name), limit=3000)
         validate_parts(parts)
         self.s['reports'][target] = dict(date=target, name=name, forecast=forecast, parts=parts,
                                         revision=1, status='draft', draft_ids=[], prompt_ids=[], review_chat_id=self.chat)
