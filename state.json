@@ -62040,7 +62040,7 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 9 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
+        "Forecast date: 9 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
       "status": "draft",
@@ -62061,7 +62061,7 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false
     }
   },
   "offset": 248715074,
