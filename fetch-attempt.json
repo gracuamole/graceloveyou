@@ -11,7 +11,7 @@
         "605112930a374f33cf5f8f05:wind": 1,
         "605112930a374f33cf5f8f05:tides": 1,
         "605112930a374f33cf5f8f05:energy": 1,
-        "605112930a374f33cf5f8f05:weather": 1
+        "605112930a374f33cf5f8f05:weather": 2
       },
       "responses": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
@@ -6940,11 +6940,8 @@
         "605112930a374f33cf5f8f05:weather": {
           "endpoint": "weather",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
+            "days": "2"
           }
         }
       },
@@ -6952,25 +6949,23 @@
         "605112930a374f33cf5f8f05:weather": {
           "endpoint": "weather",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
+            "days": "2"
           }
         }
       },
       "closed": false,
       "alternates": {
         "6a495cb93ad1f6b81f20f3c2db775e838513ca523e432ca8f675b1a261243168": "9988027381586b5458486f53fc0c7b4149a647bdd4194dd5fa007b3237bc7023",
-        "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654"
+        "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654",
+        "0376b4f294d244e986380a123da69423e872ab14e725202ddbf5c6bc8f090765": "270c2f5f75e780a29e17e12ae1c68552bdc3a6f22f4579c317d60e92b249b0fe"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:weather": {
-      "until": 1794078513.8054647
+      "until": 1794078815.625092
     }
   },
-  "last_request": 1794078512.6249597
+  "last_request": 1794078515.6250918
 }
