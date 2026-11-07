@@ -65455,24 +65455,62 @@
         "Forecast date: 8 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         91
       ],
       "prompt_ids": [
         92
       ],
-      "review_chat_id": -1003835479548
+      "review_chat_id": -1003835479548,
+      "memory_saved_ids": [
+        1
+      ],
+      "feedback_log": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715073,
+          "revision": 1,
+          "text": "remove “OLD MAN’s” in location\n\nremember change",
+          "memory_id": 1
+        }
+      ],
+      "feedback": "remove “OLD MAN’s” in location\n\nremember change",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715073,
+          "revision": 1,
+          "text": "remove “OLD MAN’s” in location\n\nremember change",
+          "memory_id": 1
+        }
+      ],
+      "remembered_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715073,
+          "revision": 1,
+          "text": "remove “OLD MAN’s” in location\n\nremember change",
+          "id": 1,
+          "active": true,
+          "source_date": "2026-11-08",
+          "source_revision": 1,
+          "source_spot": "Old Man's / Batu Bolong"
+        }
+      ]
     }
   },
-  "offset": 248715073,
+  "offset": 248715074,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_unthreaded",
+  "last_update_outcome": "memory_revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -65598,7 +65636,8 @@
     248715069,
     248715070,
     248715071,
-    248715072
+    248715072,
+    248715073
   ],
   "manual_retest_requests": {
     "41192170935": {
@@ -65639,5 +65678,23 @@
       "from": 941560570,
       "to": -1003835479548
     }
-  ]
+  ],
+  "memory": {
+    "version": 1,
+    "next_id": 2,
+    "entries": [
+      {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715073,
+        "revision": 1,
+        "text": "remove “OLD MAN’s” in location\n\nremember change",
+        "id": 1,
+        "active": true,
+        "source_date": "2026-11-08",
+        "source_revision": 1,
+        "source_spot": "Old Man's / Batu Bolong"
+      }
+    ]
+  }
 }
