@@ -65452,16 +65452,12 @@
         ]
       },
       "parts": [
-        "Forecast date: 8 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
+        "Forecast date: 8 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
-      "revision": 1,
-      "status": "revision_pending",
-      "draft_ids": [
-        91
-      ],
-      "prompt_ids": [
-        92
-      ],
+      "revision": 2,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "memory_saved_ids": [
         1
@@ -65477,16 +65473,6 @@
         }
       ],
       "feedback": "remove “OLD MAN’s” in location\n\nremember change",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715073,
-          "revision": 1,
-          "text": "remove “OLD MAN’s” in location\n\nremember change",
-          "memory_id": 1
-        }
-      ],
       "remembered_feedback": [
         {
           "user_id": 941560570,
