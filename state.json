@@ -62063,7 +62063,12 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "intent": {
+        "kind": "prompt",
+        "chat_id": -1003835479548,
+        "text_sha256": "937e1b7981de9016b2b046e540b20ec3fe784922ca405f5742e1dec7501b2cb2"
+      }
     }
   },
   "offset": 248715074,
