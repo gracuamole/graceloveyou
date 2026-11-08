@@ -62043,7 +62043,7 @@
         "Forecast date: 9 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\nAll day is surfable - Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         96
       ],
@@ -62065,17 +62065,24 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "approval": {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715074,
+        "revision": 1,
+        "sha256": "f7fe154312eb70181704a628f323450d04e2eec5c2931de9fa90f94ce10dfdbc"
+      }
     }
   },
-  "offset": 248715074,
+  "offset": 248715075,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_revision_pending",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -62202,7 +62209,8 @@
     248715070,
     248715071,
     248715072,
-    248715073
+    248715073,
+    248715074
   ],
   "manual_retest_requests": {
     "41192170935": {
