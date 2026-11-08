@@ -62073,11 +62073,9 @@
         "revision": 1,
         "sha256": "f7fe154312eb70181704a628f323450d04e2eec5c2931de9fa90f94ce10dfdbc"
       },
-      "intent": {
-        "kind": "publish",
-        "chat_id": -1004476747924,
-        "text_sha256": "f7fe154312eb70181704a628f323450d04e2eec5c2931de9fa90f94ce10dfdbc"
-      }
+      "publish_ids": [
+        52
+      ]
     }
   },
   "offset": 248715075,
