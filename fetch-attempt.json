@@ -95,7 +95,124 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2
       },
-      "responses": {},
+      "responses": {
+        "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794164893.5139098,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1794153600,
+                  "forecastDay": "2026-11-09",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Fading energy continues. Chest to head high. Light winds early. Stronger SSE later. ",
+                  "observation": "Less energy, less size and likely a few less options available. Winds are again looking light from the S through the early session, so make the most of the fun head high+ surf heading into the mid morning high tide. Afternoon session likely a little underwhelming with exposures possibly topping out in the shoulder high region under moderate SSE wind flow. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1794240000,
+                  "forecastDay": "2026-11-10",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "SSW swell smaller again. Options and quality likely limited. Early winds favour the west coast. ",
+                  "observation": "Smaller swell and even less size today as we are expecting size to top out in the waist to chest/shoulder high region and really lack some push. The top reef breaks of the Bukit will struggle for quality, so look to the beachies and sand-bottomed breaks. Early NE winds will favour the west coast before SSE kick in for the Bukit through the afternoon. There is set to be some more size tomorrow, with early signs possible late in the day today. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1794104913
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -105,25 +222,13 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1794165192.1993043
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794164892.1993036
 }
