@@ -7408,6 +7408,801 @@
               ]
             }
           }
+        },
+        "4610db957dc2c143ebac0b9413305707ec1c8ceaf8794b45df4d010cbe6b2192": {
+          "spec": {
+            "endpoint": "energy",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794164917.64372,
+          "data": {
+            "associated": {
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "forecastLocation": {
+                "lat": -8.7,
+                "lon": 115.05
+              },
+              "runInitializationTimestamp": 1794117600
+            },
+            "data": {
+              "energy": [
+                {
+                  "timestamp": 1794153600,
+                  "utcOffset": 8,
+                  "offshore": 566.9876871671503,
+                  "nearshore": 430.7060699472275,
+                  "windSwell": 5.853097717017333,
+                  "groundSwell": 424.8529722302102,
+                  "partitionPower": [
+                    0,
+                    566.9876871671503,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794157200,
+                  "utcOffset": 8,
+                  "offshore": 543.3907705005294,
+                  "nearshore": 410.3352956312185,
+                  "windSwell": 5.7934077432160525,
+                  "groundSwell": 404.5418878880024,
+                  "partitionPower": [
+                    0,
+                    543.3907705005294,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794160800,
+                  "utcOffset": 8,
+                  "offshore": 520.7448439566484,
+                  "nearshore": 391.1303842695264,
+                  "windSwell": 5.752830655891131,
+                  "groundSwell": 385.3775536136353,
+                  "partitionPower": [
+                    0,
+                    520.7448439566484,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794164400,
+                  "utcOffset": 8,
+                  "offshore": 499.7274593788175,
+                  "nearshore": 373.48798642544494,
+                  "windSwell": 5.736326941417694,
+                  "groundSwell": 367.7516594840273,
+                  "partitionPower": [
+                    0,
+                    499.7274593788175,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794168000,
+                  "utcOffset": 8,
+                  "offshore": 483.1308661449737,
+                  "nearshore": 359.59506747857876,
+                  "windSwell": 5.7354925131760846,
+                  "groundSwell": 353.8595749654027,
+                  "partitionPower": [
+                    0,
+                    483.1308661449737,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794171600,
+                  "utcOffset": 8,
+                  "offshore": 470.47609495020635,
+                  "nearshore": 349.16796769985257,
+                  "windSwell": 5.749174416125257,
+                  "groundSwell": 343.4187932837274,
+                  "partitionPower": [
+                    0,
+                    470.4760949502063,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794175200,
+                  "utcOffset": 8,
+                  "offshore": 461.54182427519527,
+                  "nearshore": 341.8121052341296,
+                  "windSwell": 5.778696973456461,
+                  "groundSwell": 336.0334082606732,
+                  "partitionPower": [
+                    0,
+                    461.54182427519527,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794178800,
+                  "utcOffset": 8,
+                  "offshore": 454.98674800540454,
+                  "nearshore": 336.27823543653886,
+                  "windSwell": 5.80719799174264,
+                  "groundSwell": 330.47103744479625,
+                  "partitionPower": [
+                    0,
+                    454.98674800540454,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794182400,
+                  "utcOffset": 8,
+                  "offshore": 449.3425132265035,
+                  "nearshore": 331.3535727774185,
+                  "windSwell": 5.8165777887453345,
+                  "groundSwell": 325.5369949886731,
+                  "partitionPower": [
+                    0,
+                    449.34251322650346,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794186000,
+                  "utcOffset": 8,
+                  "offshore": 443.37106842164405,
+                  "nearshore": 325.99759656815786,
+                  "windSwell": 5.800153217662864,
+                  "groundSwell": 320.19744335049495,
+                  "partitionPower": [
+                    0,
+                    443.37106842164405,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794189600,
+                  "utcOffset": 8,
+                  "offshore": 437.8347936845004,
+                  "nearshore": 320.80536646708316,
+                  "windSwell": 5.757904500250577,
+                  "groundSwell": 315.04746196683266,
+                  "partitionPower": [
+                    0,
+                    437.8347936845004,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794193200,
+                  "utcOffset": 8,
+                  "offshore": 432.5204795057286,
+                  "nearshore": 315.7281614860293,
+                  "windSwell": 5.690141794874239,
+                  "groundSwell": 310.03801969115506,
+                  "partitionPower": [
+                    0,
+                    432.5204795057286,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794196800,
+                  "utcOffset": 8,
+                  "offshore": 425.6078014172395,
+                  "nearshore": 309.42461677078467,
+                  "windSwell": 5.603311326810381,
+                  "groundSwell": 303.8213054439743,
+                  "partitionPower": [
+                    0,
+                    425.6078014172395,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794200400,
+                  "utcOffset": 8,
+                  "offshore": 413.9643204861483,
+                  "nearshore": 299.4404452330861,
+                  "windSwell": 5.50666658756497,
+                  "groundSwell": 293.93377864552104,
+                  "partitionPower": [
+                    0,
+                    413.9643204861483,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794204000,
+                  "utcOffset": 8,
+                  "offshore": 401.19111364424845,
+                  "nearshore": 288.7207288440449,
+                  "windSwell": 5.401258001635727,
+                  "groundSwell": 283.31947084240926,
+                  "partitionPower": [
+                    0,
+                    401.19111364424845,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794207600,
+                  "utcOffset": 8,
+                  "offshore": 388.5416256584835,
+                  "nearshore": 278.2030680364339,
+                  "windSwell": 5.298341635189554,
+                  "groundSwell": 272.9047264012443,
+                  "partitionPower": [
+                    0,
+                    388.5416256584835,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794211200,
+                  "utcOffset": 8,
+                  "offshore": 376.58586123041454,
+                  "nearshore": 268.3521749645938,
+                  "windSwell": 5.21118197527563,
+                  "groundSwell": 263.14099298931825,
+                  "partitionPower": [
+                    0,
+                    376.58586123041454,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794214800,
+                  "utcOffset": 8,
+                  "offshore": 365.5303401424099,
+                  "nearshore": 259.3131385061279,
+                  "windSwell": 5.15000539882453,
+                  "groundSwell": 254.1631331073035,
+                  "partitionPower": [
+                    0,
+                    365.5303401424099,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794218400,
+                  "utcOffset": 8,
+                  "offshore": 354.9007198535255,
+                  "nearshore": 250.7015219483282,
+                  "windSwell": 5.14375366571369,
+                  "groundSwell": 245.5577682826145,
+                  "partitionPower": [
+                    0,
+                    354.9007198535255,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794222000,
+                  "utcOffset": 8,
+                  "offshore": 344.59279508142936,
+                  "nearshore": 242.50781291564533,
+                  "windSwell": 5.069405191588263,
+                  "groundSwell": 237.43840772405707,
+                  "partitionPower": [
+                    0,
+                    344.59279508142936,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794225600,
+                  "utcOffset": 8,
+                  "offshore": 334.15525174251445,
+                  "nearshore": 234.3636953752288,
+                  "windSwell": 4.997888549844213,
+                  "groundSwell": 229.36580682538457,
+                  "partitionPower": [
+                    0,
+                    334.15525174251445,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794229200,
+                  "utcOffset": 8,
+                  "offshore": 324.21227270339756,
+                  "nearshore": 226.69941965592523,
+                  "windSwell": 4.934734880647856,
+                  "groundSwell": 221.76468477527737,
+                  "partitionPower": [
+                    0,
+                    324.21227270339756,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794232800,
+                  "utcOffset": 8,
+                  "offshore": 314.1252757863545,
+                  "nearshore": 219.07271955928772,
+                  "windSwell": 4.880098727678633,
+                  "groundSwell": 214.19262083160913,
+                  "partitionPower": [
+                    0,
+                    314.1252757863545,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794236400,
+                  "utcOffset": 8,
+                  "offshore": 304.49951955805875,
+                  "nearshore": 211.8629095859067,
+                  "windSwell": 4.829673117900331,
+                  "groundSwell": 207.03323646800632,
+                  "partitionPower": [
+                    0,
+                    304.49951955805875,
+                    0,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794240000,
+                  "utcOffset": 8,
+                  "offshore": 295.6510513500196,
+                  "nearshore": 205.3716230249604,
+                  "windSwell": 4.782523596664467,
+                  "groundSwell": 200.5890994282959,
+                  "partitionPower": [
+                    0,
+                    292.51186521087476,
+                    3.1391861391448233,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794243600,
+                  "utcOffset": 8,
+                  "offshore": 287.8888355861928,
+                  "nearshore": 199.79954660449707,
+                  "windSwell": 4.735940195085104,
+                  "groundSwell": 195.063606409412,
+                  "partitionPower": [
+                    0,
+                    283.8675346404025,
+                    4.0213009457903235,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794247200,
+                  "utcOffset": 8,
+                  "offshore": 280.77842454700726,
+                  "nearshore": 194.84531161183682,
+                  "windSwell": 4.693561950274534,
+                  "groundSwell": 190.15174966156226,
+                  "partitionPower": [
+                    0,
+                    275.52714770916833,
+                    5.251276837838906,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794250800,
+                  "utcOffset": 8,
+                  "offshore": 274.66740613407273,
+                  "nearshore": 190.7857143083691,
+                  "windSwell": 4.661645634390243,
+                  "groundSwell": 186.12406867397885,
+                  "partitionPower": [
+                    0,
+                    267.8646411521891,
+                    6.802764981883628,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794254400,
+                  "utcOffset": 8,
+                  "offshore": 269.6082939941912,
+                  "nearshore": 187.66801921268922,
+                  "windSwell": 4.643501587716029,
+                  "groundSwell": 183.02451762497324,
+                  "partitionPower": [
+                    0,
+                    259.8847399079136,
+                    9.723554086277563,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794258000,
+                  "utcOffset": 8,
+                  "offshore": 265.70405205935407,
+                  "nearshore": 185.62632180434176,
+                  "windSwell": 4.635532603397179,
+                  "groundSwell": 180.9907892009446,
+                  "partitionPower": [
+                    0,
+                    252.66921575805435,
+                    13.03483630129973,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794261600,
+                  "utcOffset": 8,
+                  "offshore": 262.6854839319909,
+                  "nearshore": 184.45197793058122,
+                  "windSwell": 4.6299035526616015,
+                  "groundSwell": 179.82207437791962,
+                  "partitionPower": [
+                    0,
+                    246.26753115489308,
+                    16.417952777097835,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794265200,
+                  "utcOffset": 8,
+                  "offshore": 260.9321479651709,
+                  "nearshore": 184.49793813515421,
+                  "windSwell": 4.629213372295421,
+                  "groundSwell": 179.8687247628588,
+                  "partitionPower": [
+                    0,
+                    238.36270347983756,
+                    22.56944448533333,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794268800,
+                  "utcOffset": 8,
+                  "offshore": 261.45614302318563,
+                  "nearshore": 186.659535107737,
+                  "windSwell": 4.6325668099576,
+                  "groundSwell": 182.02696829777943,
+                  "partitionPower": [
+                    0,
+                    232.8791468334534,
+                    28.576996189732238,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794272400,
+                  "utcOffset": 8,
+                  "offshore": 263.9583868702933,
+                  "nearshore": 190.60710598774173,
+                  "windSwell": 4.637826967467383,
+                  "groundSwell": 185.96927902027434,
+                  "partitionPower": [
+                    0,
+                    227.87140174342784,
+                    36.08698512686543,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794276000,
+                  "utcOffset": 8,
+                  "offshore": 268.74128440148525,
+                  "nearshore": 196.62322374393844,
+                  "windSwell": 4.64583436990987,
+                  "groundSwell": 191.97738937402858,
+                  "partitionPower": [
+                    0,
+                    223.3181047474783,
+                    45.42317965400694,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794279600,
+                  "utcOffset": 8,
+                  "offshore": 275.8944253539101,
+                  "nearshore": 204.7723512187116,
+                  "windSwell": 4.65536402713193,
+                  "groundSwell": 200.11698719157965,
+                  "partitionPower": [
+                    0,
+                    215.5875529313385,
+                    60.30687242257158,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794283200,
+                  "utcOffset": 8,
+                  "offshore": 284.83525576002387,
+                  "nearshore": 214.47356852199408,
+                  "windSwell": 4.663900524623094,
+                  "groundSwell": 209.80966799737098,
+                  "partitionPower": [
+                    0,
+                    210.74575493345912,
+                    74.08950082656473,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794286800,
+                  "utcOffset": 8,
+                  "offshore": 295.40532894628495,
+                  "nearshore": 225.54526819407346,
+                  "windSwell": 4.671984693779681,
+                  "groundSwell": 220.87328350029378,
+                  "partitionPower": [
+                    0,
+                    206.54953176567736,
+                    88.85579718060758,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794290400,
+                  "utcOffset": 8,
+                  "offshore": 307.659336510107,
+                  "nearshore": 237.99507959985957,
+                  "windSwell": 4.680284200194248,
+                  "groundSwell": 233.3147953996653,
+                  "partitionPower": [
+                    0,
+                    205.09191425793148,
+                    102.56742225217549,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794294000,
+                  "utcOffset": 8,
+                  "offshore": 321.81401291700735,
+                  "nearshore": 252.06149163972853,
+                  "windSwell": 4.6876327529224175,
+                  "groundSwell": 247.37385888680612,
+                  "partitionPower": [
+                    0,
+                    203.75639783924365,
+                    118.05761507776371,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794297600,
+                  "utcOffset": 8,
+                  "offshore": 336.7673005198984,
+                  "nearshore": 266.82176198935974,
+                  "windSwell": 4.695349153628556,
+                  "groundSwell": 262.1264128357312,
+                  "partitionPower": [
+                    0,
+                    202.73092345127188,
+                    134.03637706862654,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794301200,
+                  "utcOffset": 8,
+                  "offshore": 351.310523256328,
+                  "nearshore": 281.01984202053626,
+                  "windSwell": 4.701943775658985,
+                  "groundSwell": 276.31789824487726,
+                  "partitionPower": [
+                    0,
+                    201.27545172184767,
+                    150.03507153448032,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794304800,
+                  "utcOffset": 8,
+                  "offshore": 367.49402767360885,
+                  "nearshore": 296.4710787827092,
+                  "windSwell": 4.706150006420821,
+                  "groundSwell": 291.76492877628846,
+                  "partitionPower": [
+                    0,
+                    195.24187031296367,
+                    172.25215736064516,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794308400,
+                  "utcOffset": 8,
+                  "offshore": 384.0182692346981,
+                  "nearshore": 311.94115525972103,
+                  "windSwell": 4.711466667975248,
+                  "groundSwell": 307.22968859174586,
+                  "partitionPower": [
+                    0,
+                    187.70274912222598,
+                    196.3155201124721,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794312000,
+                  "utcOffset": 8,
+                  "offshore": 399.5165472287738,
+                  "nearshore": 326.09897475282924,
+                  "windSwell": 4.720412937846675,
+                  "groundSwell": 321.37856181498256,
+                  "partitionPower": [
+                    0,
+                    181.54869264020397,
+                    217.9678545885698,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794315600,
+                  "utcOffset": 8,
+                  "offshore": 414.3413069581799,
+                  "nearshore": 339.28088951726136,
+                  "windSwell": 4.733146670682526,
+                  "groundSwell": 334.5477428465789,
+                  "partitionPower": [
+                    0,
+                    174.216999768707,
+                    240.12430718947294,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794319200,
+                  "utcOffset": 8,
+                  "offshore": 428.70323340776054,
+                  "nearshore": 351.5501948160893,
+                  "windSwell": 4.751900194182017,
+                  "groundSwell": 346.7982946219073,
+                  "partitionPower": [
+                    0,
+                    169.36159520085022,
+                    259.34163820691026,
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "timestamp": 1794322800,
+                  "utcOffset": 8,
+                  "offshore": 443.88705874086634,
+                  "nearshore": 364.0145933419657,
+                  "windSwell": 4.773633798005632,
+                  "groundSwell": 359.24095954395995,
+                  "partitionPower": [
+                    0,
+                    165.39279451914803,
+                    278.4942642217183,
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -7472,15 +8267,7 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:energy": {
-          "endpoint": "energy",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -7489,10 +8276,6 @@
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:energy": {
-      "until": 1794165216.2003682
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794164916.2003677
 }
