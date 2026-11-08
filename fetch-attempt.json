@@ -814,6 +814,1047 @@
               ]
             }
           }
+        },
+        "6a495cb93ad1f6b81f20f3c2db775e838513ca523e432ca8f675b1a261243168": {
+          "spec": {
+            "endpoint": "surf",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "intervalHours": "1",
+              "spotId": "605112930a374f33cf5f8f05",
+              "units[waveHeight]": "FT"
+            }
+          },
+          "captured": 1794164900.0940888,
+          "data": {
+            "associated": {
+              "units": {
+                "waveHeight": "FT"
+              },
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "forecastLocation": {
+                "lat": -8.7,
+                "lon": 115.05
+              },
+              "runInitializationTimestamp": 1794117600
+            },
+            "data": {
+              "surf": [
+                {
+                  "timestamp": 1794153600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 6.0,
+                    "plus": false,
+                    "humanRelation": "Chest to overhead",
+                    "raw": {
+                      "min": 4.81004,
+                      "max": 5.7495
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794157200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 6.0,
+                    "plus": false,
+                    "humanRelation": "Chest to overhead",
+                    "raw": {
+                      "min": 4.73488,
+                      "max": 5.63677
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794160800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 6.0,
+                    "plus": false,
+                    "humanRelation": "Chest to overhead",
+                    "raw": {
+                      "min": 4.62215,
+                      "max": 5.52403
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794164400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.58457,
+                      "max": 5.48645
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794168000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.50941,
+                      "max": 5.4113
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794171600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.47183,
+                      "max": 5.33614
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794175200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.43426,
+                      "max": 5.29856
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794178800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.39668,
+                      "max": 5.26098
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794182400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.39668,
+                      "max": 5.26098
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794186000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.3591,
+                      "max": 5.2234
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794189600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.3591,
+                      "max": 5.18582
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794193200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.98331,
+                      "max": 5.14825
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794196800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.94574,
+                      "max": 5.11067
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794200400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.90816,
+                      "max": 5.03551
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794204000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.98331,
+                      "max": 4.73488
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794207600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.94574,
+                      "max": 4.69731
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794211200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.90816,
+                      "max": 4.65973
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794214800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.833,
+                      "max": 4.62215
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794218400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.79542,
+                      "max": 4.54699
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794222000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.75784,
+                      "max": 4.47183
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794225600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.68269,
+                      "max": 4.39668
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794229200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.64511,
+                      "max": 4.3591
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794232800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.60753,
+                      "max": 4.28394
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794236400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.53237,
+                      "max": 4.24636
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794240000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.49479,
+                      "max": 4.17121
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794243600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.45722,
+                      "max": 4.13363
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794247200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.41964,
+                      "max": 4.09605
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794250800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.38206,
+                      "max": 4.05847
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794254400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.38206,
+                      "max": 4.05847
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794258000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.38206,
+                      "max": 4.02089
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794261600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.85596,
+                      "max": 3.98331
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794265200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.85596,
+                      "max": 3.98331
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794268800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.66807,
+                      "max": 3.833
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794272400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.70565,
+                      "max": 3.87058
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794276000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.74323,
+                      "max": 3.87058
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794279600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.7808,
+                      "max": 3.94574
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794283200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 2.85596,
+                      "max": 4.02089
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794286800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.41964,
+                      "max": 4.09605
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794290400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.41964,
+                      "max": 4.09605
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794294000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": false,
+                    "humanRelation": "Waist to chest",
+                    "raw": {
+                      "min": 3.49479,
+                      "max": 4.17121
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794297600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.56995,
+                      "max": 4.28394
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794301200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.68269,
+                      "max": 4.39668
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794304800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.75784,
+                      "max": 4.50941
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794308400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.833,
+                      "max": 4.58457
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794312000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.90816,
+                      "max": 4.69731
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794315600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 3.0,
+                    "max": 4.0,
+                    "plus": true,
+                    "humanRelation": "Waist to shoulder",
+                    "raw": {
+                      "min": 3.90816,
+                      "max": 4.69731
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794319200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.98331,
+                      "max": 4.77246
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794322800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.75784,
+                      "max": 4.8852
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794326400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.68269,
+                      "max": 4.84762
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794330000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.79542,
+                      "max": 4.92278
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794333600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.87058,
+                      "max": 4.99793
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794337200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 3.94574,
+                      "max": 5.11067
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794340800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.32152,
+                      "max": 5.18582
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794344400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.3591,
+                      "max": 5.2234
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794348000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.39668,
+                      "max": 5.26098
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794351600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.43426,
+                      "max": 5.29856
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794355200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.43426,
+                      "max": 5.29856
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794358800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.47183,
+                      "max": 5.33614
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794362400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.50941,
+                      "max": 5.37372
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794366000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.3591,
+                      "max": 5.2234
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794369600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.39668,
+                      "max": 5.26098
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794373200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.43426,
+                      "max": 5.29856
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794376800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.43426,
+                      "max": 5.29856
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794380400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.47183,
+                      "max": 5.33614
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794384000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.50941,
+                      "max": 5.37372
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794387600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.54699,
+                      "max": 5.4113
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794391200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.54699,
+                      "max": 5.44887
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794394800,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.58457,
+                      "max": 5.48645
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794398400,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.58457,
+                      "max": 5.48645
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794402000,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.58457,
+                      "max": 5.48645
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794405600,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "plus": false,
+                    "humanRelation": "Chest to head",
+                    "raw": {
+                      "min": 4.54699,
+                      "max": 5.44887
+                    }
+                  }
+                },
+                {
+                  "timestamp": 1794409200,
+                  "utcOffset": 8,
+                  "surf": {
+                    "min": 4.0,
+                    "max": 6.0,
+                    "plus": false,
+                    "humanRelation": "Chest to overhead",
+                    "raw": {
+                      "min": 4.62215,
+                      "max": 5.52403
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -844,28 +1885,13 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:surf": {
-          "endpoint": "surf",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[waveHeight]": "FT"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:surf": {
-      "until": 1794165198.1995838
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794164898.1995833
 }
