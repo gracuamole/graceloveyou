@@ -1,4 +1,6 @@
-"""Read-only live Surfline check: no Telegram, LLM, saved state or publication."""
+"""Inspect a saved forecast, or explicitly request a protected live diagnostic."""
+from review_bot import Store, capture_label, saved_parts
+from forecast_sources import Forecast
 from run_log import write_summary
 import argparse
 from datetime import datetime, timedelta
@@ -11,25 +13,37 @@ from recommendations import BALI, daylight_intervals, number, positive
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--date', default='', help='YYYY-MM-DD; empty means tomorrow in Bali')
+    parser.add_argument('--live', action='store_true', help='Use the protected daily Surfline request budget')
+    parser.add_argument('--state', default='review-state/state.json')
     args = parser.parse_args()
     target = args.date or (datetime.now(BALI) + timedelta(days=1)).date().isoformat()
     try:
         datetime.strptime(target, '%Y-%m-%d')
     except ValueError:
         parser.error('Use a forecast date in YYYY-MM-DD format.')
-    print('Live Surfline check only. No Telegram or LLM calls; request checkpoints only; no review-state changes.', flush=True)
-    for name in ('requests', 'curl_cffi', 'surf-mcp'):
+    if args.live:
+        print('Live Surfline check only. No Telegram or LLM calls; request checkpoints only; no review-state changes.', flush=True)
+        for name in ('requests', 'curl_cffi', 'surf-mcp'):
+            try:
+                installed = version(name)
+            except PackageNotFoundError:
+                print('Required dependency is missing: ' + name)
+                return 1
+            print(f'{name}: {installed}', flush=True)
         try:
-            installed = version(name)
-        except PackageNotFoundError:
-            print('Required dependency is missing: ' + name)
+            snapshot = fetch_surfline(target)
+        except SourceUnavailable as error:
+            print('Forecast check failed: ' + str(error))
             return 1
-        print(f'{name}: {installed}', flush=True)
-    try:
-        snapshot = fetch_surfline(target)
-    except SourceUnavailable as error:
-        print('Forecast check failed: ' + str(error))
-        return 1
+    else:
+        record = Store(args.state).data['reports'].get(target, {})
+        data = record.get('forecast') or {}
+        if not data.get('daily'):
+            print(f'No saved forecast for {target}.')
+            return 1
+        name = record.get('name') or data.get('spot_name') or 'Surf spot'
+        snapshot = Forecast(target, name, data, saved_parts(data, target, name))
+    print(capture_label(snapshot.data))
     day = next(day for day in snapshot.data['daily'] if day['date'] == target)
     try:
         intervals = daylight_intervals(day)

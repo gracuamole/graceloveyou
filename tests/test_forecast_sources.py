@@ -82,10 +82,28 @@ class SourceTests(unittest.TestCase):
                 fetch_surfline(self.target)
         self.source.fetch_full_forecast.assert_called_once()
 
+    def test_default_diagnostic_uses_saved_forecast_without_a_provider(self):
+        from types import SimpleNamespace
+        self.forecast['captured_at_utc'] = '2026-10-28T19:12:00+00:00'
+        record = dict(name='Test', forecast=self.forecast)
+        state = SimpleNamespace(data={'reports': {self.target: record}})
+        output = io.StringIO()
+        with patch.object(sys, 'argv', ['surfline_check.py', '--date', self.target]), \
+                patch('surfline_check.Store', return_value=state), \
+                patch('surfline_check.fetch_surfline') as fetch, redirect_stdout(output):
+            self.assertEqual(surfline_check.main(), 0)
+            fetch.assert_not_called()
+        self.assertIn('29 Oct 2026, 03:12 AM Bali', output.getvalue())
+
+    def test_capture_label_for_legacy_and_missing_timestamps(self):
+        from review_bot import capture_label
+        self.assertIn('03:07 AM Bali', capture_label({'fetched_at_utc': '2026-11-05T19:07:00Z'}))
+        self.assertIn('unknown', capture_label({}))
+
     def test_live_check_reports_coverage_without_report_delivery_or_credentials(self):
         snapshot = prepare_forecast(self.forecast, self.target, 'Test')
         output = io.StringIO()
-        with patch.object(sys, 'argv', ['surfline_check.py', '--date', self.target]), \
+        with patch.object(sys, 'argv', ['surfline_check.py', '--live', '--date', self.target]), \
                 patch('surfline_check.fetch_surfline', return_value=snapshot) as fetch, \
                 patch('surfline_check.version', return_value='tested'), redirect_stdout(output):
             result = surfline_check.main()
@@ -97,7 +115,7 @@ class SourceTests(unittest.TestCase):
 
     def test_live_check_exits_nonzero_on_denied_forecast(self):
         output = io.StringIO()
-        with patch.object(sys, 'argv', ['surfline_check.py', '--date', self.target]), \
+        with patch.object(sys, 'argv', ['surfline_check.py', '--live', '--date', self.target]), \
                 patch('surfline_check.fetch_surfline', side_effect=SurflineAccessDenied(403)), \
                 patch('surfline_check.version', return_value='tested'), redirect_stdout(output):
             self.assertEqual(surfline_check.main(), 1)

@@ -229,6 +229,7 @@ class MemoryTests(unittest.TestCase):
     def test_preview_uses_saved_feedback_without_changing_the_current_approval_cycle(self):
         self.remember()
         self.bot.advance(TODAY)
+        existing.add_saved_snapshot(self.report)
         before = deepcopy(self.report)
         self.bot.forecast = Mock(return_value=Forecast(TARGET, 'Test spot', {'fresh': True}, [TARGET + ' preview']))
         self.llm.reset_mock()
@@ -248,6 +249,7 @@ class MemoryTests(unittest.TestCase):
         self.bot.advance(TODAY)
         self.bot.forecast = Mock(return_value=Forecast(TARGET, 'Test spot', {'fresh': True}, [TARGET + ' fresh report']))
         self.llm.reset_mock()
+        existing.add_saved_snapshot(self.report)
         self.bot.reopen_published(TARGET, TODAY, '12345')
         report = self.bot.s['reports'][TARGET]
         self.assertTrue(report['memory_pending'])

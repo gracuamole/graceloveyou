@@ -461,6 +461,27 @@ UPDATE_OUTCOMES = {
 }
 
 
+def capture_label(forecast):
+    forecast = forecast or {}
+    for key in ('captured_at_utc', 'fetched_at_utc'):
+        try:
+            stamp = datetime.fromisoformat(forecast[key].replace('Z', '+00:00'))
+            if stamp.utcoffset() is not None:
+                local = stamp.astimezone(BALI)
+                return 'Forecast captured ' + local.strftime('%d %b %Y, %I:%M %p Bali')
+        except (KeyError, TypeError, AttributeError, ValueError):
+            continue
+    return 'Forecast capture time unknown'
+
+
+def saved_parts(forecast, target, name):
+    if 'missing_inputs' in forecast:
+        from forecast_quality import inspect, render
+        missing, intervals = inspect(forecast, target)
+        return render(forecast, target, name, missing, intervals)[0]
+    return chunks(build_blocks(forecast, target, name), limit=3000)
+
+
 def show_status(store, now):
     """Describe saved state without network, credentials, feedback text or mutation."""
     target = (now + timedelta(days=1)).date().isoformat()
@@ -479,6 +500,7 @@ def show_status(store, now):
         else:
             print('Next draft: not generated yet; /start is required before generation.')
     else:
+        print(capture_label(report.get('forecast')))
         descriptions = {
             'draft': 'draft delivery pending.',
             'review': 'waiting for a Reply on its latest final review prompt.',
@@ -810,6 +832,7 @@ class Review:
         for target, report in sorted(self.s['reports'].items()):
             if target > today and report['status'] != 'expired':
                 lines.append(f"{target} v{report['revision']}: {labels[report['status']] }.")
+                lines.append(capture_label(report.get('forecast')))
         if len(lines) == 2:
             lines.append(f'No active future report. Daily generation opens at {GENERATION_LABEL} Bali time.')
         if any(r.get('intent') for r in list(self.s['reports'].values())
@@ -828,12 +851,18 @@ class Review:
                 continue
             if item['kind'] == 'dryrun' and 'parts' not in item:
                 try:
-                    snapshot = self.forecast(item['date'])
-                    preview = dict(date=item['date'], name=snapshot.name, forecast=snapshot.data,
-                                   parts=list(snapshot.parts), remembered_feedback=active_memory(self.s))
-                    parts = self.apply_memory(preview)
-                    item['parts'] = split_text('REVIEW PREVIEW ONLY — no approval cycle; do not approve this message.\n\n'
-                                               + '\n\n'.join(parts))
+                    record = self.s['reports'].get(item['date'], {})
+                    forecast = deepcopy(record.get('forecast') or {})
+                    if not forecast.get('daily'):
+                        item['parts'] = [f"No saved forecast for {item['date']}. Daily generation opens at {GENERATION_LABEL} Bali time."]
+                    else:
+                        name = record.get('name') or protected_revision_labels(record).get('spot')
+                        preview = dict(date=item['date'], name=name, forecast=forecast,
+                                       parts=saved_parts(forecast, item['date'], name),
+                                       remembered_feedback=active_memory(self.s))
+                        parts = self.apply_memory(preview)
+                        item['parts'] = split_text('REVIEW PREVIEW ONLY — no approval cycle; do not approve this message.\n'
+                                                   + capture_label(forecast) + '\n\n' + '\n\n'.join(parts))
                 except Exception as error:
                     item['parts'] = split_text('Review preview failed. ' + failure_detail(error))
                 self.store.save()
@@ -1226,7 +1255,7 @@ class Review:
             return False
         previous = self.s['reports'].get(target)
         if previous is None:
-            print('Manual test not started: no next-day report; continuing normal generation.')
+            print('Manual test not started: no saved next-day report to resend.')
             return False
         if previous['status'] not in ('published', 'review'):
             print('Manual test deferred: delivery, a saved revision or publication is pending. '
@@ -1238,29 +1267,20 @@ class Review:
         fresh_template = previous['status'] == 'published'
         saved_source = isinstance(previous.get('forecast'), dict) and 'daily' in previous['forecast']
         if previous['status'] == 'published' and not saved_source:
+            print('This older published report has no saved forecast, so it cannot be rebuilt.')
+            return False
+        # Rebuild from saved observations; archive edits and reapply them under current rules.
+        forecast = deepcopy(previous.get('forecast') or {})
+        name = previous.get('name') or protected_revision_labels(previous).get('spot')
+        parts = list(previous['parts'])
+        if isinstance(forecast, dict) and 'daily' in forecast:
+            if not name:
+                raise SafeError('Saved spot name is missing. The pending review is unchanged.')
             try:
-                snapshot = self.forecast(target)
-            except SourceUnavailable as error:
-                self.notify_failure('manual-forecast-error:' + request_id,
-                                    'The manual test draft could not be generated. ' + str(error)
-                                    + ' The earlier publication is unchanged; nothing new was approved or published.')
-                raise
-            if snapshot.date != target:
-                raise SafeError('Manual test forecast date does not match the next forecast date.')
-            parts, forecast, name = list(snapshot.parts), snapshot.data, snapshot.name
-        else:
-            # Rebuild from saved observations; archive edits and reapply them under current rules.
-            forecast = deepcopy(previous.get('forecast') or {})
-            name = previous.get('name') or protected_revision_labels(previous).get('spot')
-            parts = list(previous['parts'])
-            if isinstance(forecast, dict) and 'daily' in forecast:
-                if not name:
-                    raise SafeError('Saved spot name is missing. The pending review is unchanged.')
-                try:
-                    parts = chunks(build_blocks(forecast, target, name), limit=3000)
-                    fresh_template = True
-                except (ValueError, KeyError, TypeError, StopIteration):
-                    raise SafeError('Saved forecast cannot rebuild the manual draft. The pending review is unchanged.') from None
+                parts = saved_parts(forecast, target, name)
+                fresh_template = True
+            except (ValueError, KeyError, TypeError, StopIteration):
+                raise SafeError('Saved forecast cannot rebuild the manual draft. The pending review is unchanged.') from None
         validate_parts(parts)
         archived = deepcopy(previous)
         history = archived.pop('publication_history', [])
@@ -1309,12 +1329,7 @@ class Review:
         if target in self.s['reports']:
             return
         self.check_single_active(target)
-        if 'missing_inputs' in forecast:
-            from forecast_quality import inspect, render
-            missing, intervals = inspect(forecast, target)
-            parts, _ = render(forecast, target, name, missing, intervals)
-        else:
-            parts = chunks(build_blocks(forecast, target, name), limit=3000)
+        parts = saved_parts(forecast, target, name)
         validate_parts(parts)
         self.s['reports'][target] = dict(date=target, name=name, forecast=forecast, parts=parts,
                                         revision=1, status='draft', draft_ids=[], prompt_ids=[], review_chat_id=self.chat)
@@ -1405,9 +1420,7 @@ def main():
     bot.advance(datetime.now(BALI).date().isoformat())
     now = datetime.now(BALI)
     target = (now + timedelta(days=1)).date().isoformat()
-    command_only = bool(outcomes) and outcomes <= {
-        'status_requested', 'dryrun_requested', 'memory_requested', 'memory_forgotten', 'memory_usage'}
-    if (store.data['started'] and not command_only and generation_open(now)
+    if (store.data['started'] and not manual_request_id and not outcomes and generation_open(now)
             and target not in store.data['reports']):
         bot.generate_next_day(target)
         bot.advance(datetime.now(BALI).date().isoformat())

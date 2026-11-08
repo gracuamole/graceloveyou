@@ -16,6 +16,14 @@ from recommendations import BALI, clean_report_text
 TODAY, TARGET = '2026-10-29', '2026-10-30'
 
 
+def add_saved_snapshot(report):
+    from test_recommendations import row
+    start = int(datetime.fromisoformat(TARGET).replace(tzinfo=BALI).timestamp())
+    report.update(name='Test spot', forecast={'captured_at_utc': '2026-10-28T19:10:00Z',
+        'daily': [{'date': TARGET, 'sunlight': {'sunrise_ts': start + 6*3600, 'sunset_ts': start + 18*3600},
+                   'hourly': [dict(row(), timestamp=start+h*3600) for h in range(24)], 'tide_hourly': []}]})
+
+
 class ReviewTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -451,6 +459,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.report['parts'], original)
 
     def prepare_published_test(self):
+        add_saved_snapshot(self.report)
         self.bot.s['started'] = True
         self.draft()
         self.bot.process(self.update(), TODAY)
@@ -521,7 +530,7 @@ class ReviewTests(unittest.TestCase):
         restarted = Review(Store(self.path), self.tg, 42, 42, -100, self.llm)
         restarted.advance(TODAY)
         restarted.advance(TODAY)
-        self.assertEqual([c.kwargs['text'] for c in self.published()], [TARGET + ' fresh short-format report'])
+        self.assertEqual([c.kwargs['text'] for c in self.published()], [display_12_hour(p) for p in self.report['parts']])
         self.assertEqual(Store(self.path).data['reports'][TARGET]['publication_history'], [previous])
         self.llm.assert_not_called()
 
@@ -538,7 +547,7 @@ class ReviewTests(unittest.TestCase):
         self.assertFalse(restarted.reopen_published(TARGET, TODAY, '12345'))
         restarted.advance(TODAY)
         self.tg.call.assert_not_called()
-        self.bot.forecast.assert_called_once_with(TARGET)
+        self.bot.forecast.assert_not_called()
         self.assertTrue(restarted.reopen_published(TARGET, TODAY, '67890'))
         report = Store(self.path).data['reports'][TARGET]
         self.assertEqual(report['revision'], 3)
@@ -608,7 +617,8 @@ class ReviewTests(unittest.TestCase):
         self.bot.forecast.reset_mock()
         self.assertTrue(self.bot.reopen_published(TARGET, TODAY, '67890'))
         self.report = self.bot.s['reports'][TARGET]
-        self.assertEqual(self.report['parts'], corrected)
+        self.assertEqual(self.report['review_history'][-1]['parts'], corrected)
+        self.assertTrue(self.report['memory_pending'])
         self.assertEqual(self.report['feedback'], 'fix wind change')
         self.assertEqual(self.report['publication_history'], [original])
         self.assertEqual(self.report['review_history'][0]['feedback'], 'fix wind change')
@@ -676,9 +686,11 @@ class ReviewTests(unittest.TestCase):
 
     def test_manual_test_fetch_failure_preserves_original_publication(self):
         previous = self.prepare_published_test()
-        self.bot.forecast.side_effect = SourceUnavailable('Required forecast unavailable.')
-        with self.assertRaises(SourceUnavailable):
-            self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.report['forecast'] = {}
+        previous['forecast'] = {}
+        self.store.save()
+        self.assertFalse(self.bot.reopen_published(TARGET, TODAY, '12345'))
+        self.bot.forecast.assert_not_called()
         self.assertEqual(Store(self.path).data['reports'][TARGET], previous)
         self.assertNotIn('manual_retest_requests', self.bot.s)
         self.assertFalse(self.published())
@@ -715,15 +727,16 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(restarted.s['reports'][TARGET]['publication_history'], [previous])
 
     def test_manual_test_invalid_forecast_never_replaces_publication(self):
-        previous = self.prepare_published_test()
-        for snapshot in (Forecast(TODAY, 'Test', {}, ['wrong date']), Forecast(TARGET, 'Test', {}, [])):
-            with self.subTest(date=snapshot.date, parts=snapshot.parts):
-                self.bot.forecast.return_value = snapshot
-                with self.assertRaises((SafeError, ValueError)):
-                    self.bot.reopen_published(TARGET, TODAY, '12345')
-                self.assertEqual(Store(self.path).data['reports'][TARGET], previous)
-                self.assertNotIn('manual_retest_requests', self.bot.s)
-                self.tg.call.assert_not_called()
+        self.prepare_published_test()
+        self.report['forecast']['daily'][0]['date'] = TODAY
+        self.store.save()
+        previous = deepcopy(self.report)
+        with self.assertRaisesRegex(SafeError, 'cannot rebuild'):
+            self.bot.reopen_published(TARGET, TODAY, '12345')
+        self.assertEqual(Store(self.path).data['reports'][TARGET], previous)
+        self.assertNotIn('manual_retest_requests', self.bot.s)
+        self.bot.forecast.assert_not_called()
+        self.tg.call.assert_not_called()
 
     def test_manual_cli_reopens_before_processing_an_old_approval(self):
         previous = self.prepare_published_test()
@@ -733,7 +746,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(report['publication_history'], [previous])
         self.assertEqual(self.bot.s['last_update_outcome'], 'ignored_stale_prompt')
         self.assertFalse(self.published())
-        self.bot.forecast.assert_called_once_with(TARGET)
+        self.bot.forecast.assert_not_called()
 
     def test_manual_cli_rejects_scheduled_or_missing_run_context_before_network(self):
         for event, run_id in (('schedule', '12345'), ('', '12345'), ('workflow_dispatch', ''),
@@ -784,12 +797,13 @@ class ReviewTests(unittest.TestCase):
         self.bot.forecast.assert_not_called()
 
     def test_dryrun_has_no_approval_cycle_or_llm_and_cannot_be_approved(self):
+        add_saved_snapshot(self.report)
         self.draft()
         before = json.dumps(self.report, sort_keys=True)
         self.bot.forecast = Mock(return_value=Forecast(TARGET, 'Test', {}, [TARGET + ' preview']))
         self.bot.consume_updates([self.update('/dryrun', reply_to_message={})], TODAY)
         self.bot.advance(TODAY)
-        self.bot.forecast.assert_called_once_with(TARGET)
+        self.bot.forecast.assert_not_called()
         self.llm.assert_not_called()
         self.assertEqual(json.dumps(self.report, sort_keys=True), before)
         self.assertEqual(len(self.bot.s['reports']), 1)
@@ -820,7 +834,7 @@ class ReviewTests(unittest.TestCase):
             main()
         self.bot.generate_next_day.assert_not_called()
         self.assertFalse(self.bot.s['reports'])
-        self.bot.forecast.assert_called_once_with(TARGET)
+        self.bot.forecast.assert_not_called()
 
     def test_note_command_works_without_api_key_and_needs_fresh_approval(self):
         self.report['parts'][0] += (' | WITA\nSource: Surfline via surf-mcp. '
@@ -909,7 +923,8 @@ class ReviewTests(unittest.TestCase):
         self.bot.consume_updates([self.update('/dryrun', reply_to_message={})], TODAY)
         self.bot.advance(TODAY)
         self.assertEqual(self.bot.s['outbox']['dryrun:5']['status'], 'sent')
-        self.assertIn('Review preview failed', self.bot.s['outbox']['dryrun:5']['parts'][0])
+        self.assertIn('No saved forecast', self.bot.s['outbox']['dryrun:5']['parts'][0])
+        self.bot.forecast.assert_not_called()
         self.assertEqual(json.dumps(self.report, sort_keys=True), original)
         self.assertFalse(self.published())
 
@@ -1575,7 +1590,8 @@ class GroupReviewTests(unittest.TestCase):
         self.start(bot)
         bot.advance(TODAY)
         self.tg.call.assert_not_called()
-        bot.forecast = Mock(return_value=Forecast(TARGET, 'Test spot', {}, [TARGET + ' fresh report']))
+        add_saved_snapshot(bot.s['reports'][TARGET])
+        bot.forecast = Mock(side_effect=AssertionError('Unexpected live fetch'))
         self.assertTrue(bot.reopen_published(TARGET, TODAY, '12345'))
         bot.advance(TODAY)
         report = bot.s['reports'][TARGET]
