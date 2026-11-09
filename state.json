@@ -54363,7 +54363,9 @@
       ],
       "revision": 2,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        104
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
@@ -54406,12 +54408,7 @@
           "memory_id": 2
         }
       ],
-      "feedback": "Beginner start 6am-6pm inside breaks remember change",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "4bed588ced8ec71d25ce68af349bada3340e74633a2e81be5d9df40952a16c2f"
-      }
+      "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
   "offset": 248715076,
