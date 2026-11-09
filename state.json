@@ -54359,16 +54359,12 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n07:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
+        "Forecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n06:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
-      "revision": 1,
-      "status": "revision_pending",
-      "draft_ids": [
-        101
-      ],
-      "prompt_ids": [
-        102
-      ],
+      "revision": 2,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
         {
@@ -54410,17 +54406,7 @@
           "memory_id": 2
         }
       ],
-      "feedback": "Beginner start 6am-6pm inside breaks remember change",
-      "pending_feedback": [
-        {
-          "user_id": 6723114444,
-          "chat_id": -1003835479548,
-          "update_id": 248715075,
-          "revision": 1,
-          "text": "Beginner start 6am-6pm inside breaks remember change",
-          "memory_id": 2
-        }
-      ]
+      "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
   "offset": 248715076,
