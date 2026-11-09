@@ -54362,11 +54362,13 @@
         "Forecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n06:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 2,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         104
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        105
+      ],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
         {
@@ -54408,12 +54410,7 @@
           "memory_id": 2
         }
       ],
-      "feedback": "Beginner start 6am-6pm inside breaks remember change",
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "937e1b7981de9016b2b046e540b20ec3fe784922ca405f5742e1dec7501b2cb2"
-      }
+      "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
   "offset": 248715076,
