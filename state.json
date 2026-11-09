@@ -54362,7 +54362,7 @@
         "Forecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n07:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 1,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         101
       ],
@@ -54382,19 +54382,55 @@
           "source_date": "2026-11-08",
           "source_revision": 1,
           "source_spot": "Old Man's / Batu Bolong"
+        },
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715075,
+          "revision": 1,
+          "text": "Beginner start 6am-6pm inside breaks remember change",
+          "id": 2,
+          "active": true,
+          "source_date": "2026-11-11",
+          "source_revision": 1,
+          "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "memory_saved_ids": [
+        2
+      ],
+      "feedback_log": [
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715075,
+          "revision": 1,
+          "text": "Beginner start 6am-6pm inside breaks remember change",
+          "memory_id": 2
+        }
+      ],
+      "feedback": "Beginner start 6am-6pm inside breaks remember change",
+      "pending_feedback": [
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715075,
+          "revision": 1,
+          "text": "Beginner start 6am-6pm inside breaks remember change",
+          "memory_id": 2
+        }
+      ]
     }
   },
-  "offset": 248715075,
+  "offset": 248715076,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "approved",
+  "last_update_outcome": "memory_revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -54522,7 +54558,8 @@
     248715071,
     248715072,
     248715073,
-    248715074
+    248715074,
+    248715075
   ],
   "manual_retest_requests": {
     "41192170935": {
@@ -54566,7 +54603,7 @@
   ],
   "memory": {
     "version": 1,
-    "next_id": 2,
+    "next_id": 3,
     "entries": [
       {
         "user_id": 941560570,
@@ -54577,6 +54614,18 @@
         "id": 1,
         "active": true,
         "source_date": "2026-11-08",
+        "source_revision": 1,
+        "source_spot": "Old Man's / Batu Bolong"
+      },
+      {
+        "user_id": 6723114444,
+        "chat_id": -1003835479548,
+        "update_id": 248715075,
+        "revision": 1,
+        "text": "Beginner start 6am-6pm inside breaks remember change",
+        "id": 2,
+        "active": true,
+        "source_date": "2026-11-11",
         "source_revision": 1,
         "source_spot": "Old Man's / Batu Bolong"
       }
