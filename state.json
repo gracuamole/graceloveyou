@@ -54515,7 +54515,7 @@
     },
     "forget:-1003835479548:248715078": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "Remembered feedback 2 will no longer be applied to new reports."
       ],
