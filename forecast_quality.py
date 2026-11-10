@@ -44,9 +44,9 @@ def inspect(data, target):
 
 def render(data, target, name, missing, intervals):
     if intervals is None:
-        report = report_header(target, name) + '\n\n' + '\n\n'.join(
+        report = report_header(target, name) + '\n🌊 Wave height: Unavailable\n\n' + '\n\n'.join(
             title + '\nCould not assess surf times because sunrise/sunset data is unavailable.'
-            for title in ('🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED'))
+            for title in ('1️⃣ BEGINNER', '2️⃣ INTERMEDIATE', '3️⃣ ADVANCED'))
         parts = chunks([report], limit=3000)
     else:
         parts = chunks(build_blocks(data, target, name), limit=3000)

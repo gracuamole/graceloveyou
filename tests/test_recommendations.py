@@ -120,7 +120,7 @@ class Coverage(unittest.TestCase):
         self.assertGreater(len(messages), 1)
         self.assertTrue(all(len(m) <= limit for m in messages))
         self.assertEqual('\n\n'.join(messages), '\n\n'.join(blocks))
-        self.assertIn('🔵 ADVANCED\n07:00–18:00', '\n'.join(blocks))
+        self.assertIn('3️⃣ ADVANCED\n07:00–18:00', '\n'.join(blocks))
         self.assertNotIn('Breaking waves', '\n'.join(blocks))
         with self.assertRaises(ValueError):
             build_blocks({'daily': []}, self.day['date'], 'Test')
@@ -135,11 +135,11 @@ class Coverage(unittest.TestCase):
         self.day['hourly'][15].update(row(3, 800))
         with patch('recommendations.tide_at', return_value=TIDE):
             blocks = render_day(self.day, "Legacy test spot")
-        self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n📍LEGACY TEST SPOT")
-        self.assertEqual(blocks[1], '🟢 BEGINNER\n06:00–08:00 and 09:00–12:00\n'
+        self.assertEqual(blocks[0], "Forecast date: 30 October 2026\n\n🟢 LEGACY TEST SPOT\n🌊 Wave height: Unavailable")
+        self.assertEqual(blocks[1], '1️⃣ BEGINNER\n06:00–08:00 and 09:00–12:00\n'
                          '08:00–09:00 — Inside break only, coach recommended')
-        self.assertEqual(blocks[2], '🟡 INTERMEDIATE\n06:00–12:00 and 15:00–16:00')
-        self.assertEqual(blocks[3], '🔵 ADVANCED\n06:00–12:00 and 13:00–18:00')
+        self.assertEqual(blocks[2], '2️⃣ INTERMEDIATE\n06:00–12:00 and 15:00–16:00')
+        self.assertEqual(blocks[3], '3️⃣ ADVANCED\n06:00–12:00 and 13:00–18:00')
         self.assertIn('confirm that the inside waves are no higher than 2 ft before beginners enter.', blocks[4])
         self.assertIn('Higher wave energy can contribute', blocks[4])
         self.assertNotIn('12:00–13:00', '\n'.join(blocks))
@@ -164,7 +164,7 @@ class Coverage(unittest.TestCase):
         self.day['hourly'][7]['surf_min_ft'] = 3
         with patch('recommendations.tide_at', return_value=TIDE):
             advanced = render_day(self.day, 'Test')[3]
-        self.assertEqual(advanced, '🔵 ADVANCED\n06:00–08:00')
+        self.assertEqual(advanced, '3️⃣ ADVANCED\n06:00–08:00')
 
     def test_beginner_inside_exception_cannot_bypass_energy_wind_rating_or_missing_data(self):
         self.day['sunlight'] = {'sunrise_ts': self.base + 6 * 3600,
@@ -236,17 +236,17 @@ class Coverage(unittest.TestCase):
             self.day['hourly'][hour].update(row(10, 5000, 25, 50))
         with patch('recommendations.tide_at', return_value=TIDE):
             blocks = render_day(self.day, 'Test')
-        self.assertEqual(blocks, ['Forecast date: 30 October 2026\n\n📍TEST',
-                                 '🟢 BEGINNER\n06:00–18:00',
-                                 '🟡 INTERMEDIATE\n06:00–18:00',
-                                 '🔵 ADVANCED\n06:00–18:00'])
+        self.assertEqual(blocks, ['Forecast date: 30 October 2026\n\n🟢 TEST\n🌊 Wave height: Unavailable',
+                                 '1️⃣ BEGINNER\n06:00–18:00',
+                                 '2️⃣ INTERMEDIATE\n06:00–18:00',
+                                 '3️⃣ ADVANCED\n06:00–18:00'])
 
     def test_bold_entities_use_utf16_offsets_after_draft_prefix_and_emoji(self):
-        text = 'DRAFT 2026-10-30 v2 (1/1)\n\n🌊\nForecast date: 30 October 2026\n\n📍TEST\n\n🟢 BEGINNER\n06:00–09:00 — Inside break'
+        text = 'DRAFT 2026-10-30 v2 (1/1)\n\n🌊\nForecast date: 30 October 2026\n\n🟢 TEST\n🌊 Wave height: Unavailable\n\n1️⃣ BEGINNER\n06:00–09:00 — Inside break'
         encoded = text.encode('utf-16-le')
         highlighted = [encoded[e['offset'] * 2:(e['offset'] + e['length']) * 2].decode('utf-16-le')
                        for e in report_bold_entities(text)]
-        self.assertEqual(highlighted, ['Forecast date: 30 October 2026', '📍TEST', '🟢 BEGINNER'])
+        self.assertEqual(highlighted, ['Forecast date: 30 October 2026', '🟢 TEST', 'Wave height:', '1️⃣ BEGINNER'])
 
 
 if __name__ == '__main__':

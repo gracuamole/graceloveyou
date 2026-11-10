@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 
 from forecast_sources import SourceUnavailable, ForecastPending, fetch_surfline
 from recommendations import (BALI, clean_report_text, forecast_date_label, report_header,
-                             report_bold_entities, daylight_intervals, report_cautions, tier_windows, wind_kmh)
+                             report_bold_entities, daylight_intervals, report_cautions, tier_windows, wind_kmh, wave_line)
 from phase2 import build_blocks, chunks
 from run_log import measured, timed, write_summary
 
@@ -373,7 +373,7 @@ class WebhookInbox:
 REVISION_INSTRUCTIONS = (
     'Revise a next-day Bali surf report using the reviewer\'s feedback. '
     'Return only the complete revised report as plain text. '
-    'Use report_format.header, then 🟢 BEGINNER, 🟡 INTERMEDIATE and 🔵 ADVANCED. '
+    'Use report_format.header, then the daylight 🌊 Wave height: line, then 1️⃣ BEGINNER, 2️⃣ INTERMEDIATE and 3️⃣ ADVANCED. '
     'For good conditions, display only the time windows, without commentary or wave heights. '
     'Add only essential restrictions, such as inside break only or coach recommended; '
     'do not list every reason or repeat general advice beside each window. '
@@ -385,13 +385,13 @@ REVISION_INSTRUCTIONS = (
     'Use report_format.qualifying_windows as the baseline for the initial report. '
     'The following surf rules describe the baseline, not a reason to undo reviewer corrections. '
     'For Batu Bolong, yellow/Poor to fair permits all tiers and orange/Poor permits beginners only. '
-    'Use nearshore wave energy: below 80 kJ excludes all, 80 to below 1000 permits all, '
+    'Use nearshore wave energy: at rounded tide >=0.8 m at least 400 kJ is required; for tide >0.2 and <0.8 m, 60–400 inclusive qualifies all tiers subject to other rules; '
     '1000 or above permits advanced only. Beginners use inside, others outside. '
-    'Beginners require breaking surf below 2.5 m and tide rounded half-up to one decimal at least 0.8 m. '
+    'Beginners require breaking surf below 2.5 m and inside tide at least 0.8 m except the stated low tide exception. '
     'Do not impose old 2 ft/4 ft, period, 600-energy, or intermediate mid-tide limits on Batu Bolong. '
     'Preserve break labels unless reviewer feedback changes them. '
     'Convert wind and gust knots to km/h and round upward to whole km/h before applying thresholds. '
-    'For Batu Bolong, wind at or above 20 km/h does not exclude otherwise qualifying hours. '
+    'For Batu Bolong, wind above 15 km/h on very poor, poor or poor to fair ratings, or at least 20 km/h on better ratings, does not exclude otherwise qualifying hours. '
     'Preserve per-tier windy warnings unless feedback explicitly changes or removes them. '
     'When every rounded daylight hour qualifies, use All day is surfable - followed by the break label. '
     'Do not claim all day for missing data or hours still excluded after applying reviewer corrections. '
@@ -405,7 +405,7 @@ REVISION_INSTRUCTIONS = (
     'Preserve the target date. Allow reviewer-requested edits to the displayed location name. Preserve skill/coach cautions unless the reviewer changes them. '
     'Omit the WITA label, source attribution and the generic sentence '
     '"Check conditions locally; recommendations are not safety guarantees." '
-    'Keep a nonempty location line prefixed with 📍. Preserve its current wording unless feedback or remembered instructions change it. Location edits change the display only, not the saved forecast source. Use only numeric '
+    'Keep a nonempty location line prefixed with 🟢. Preserve its current wording unless feedback or remembered instructions change it. Location edits change the display only, not the saved forecast source. Use only numeric '
     'values already present in the supplied draft, daylight forecast, report_format.rule_values '
     'or explicit feedback; '
     'do not add conversions, estimates, extra times or numeric list labels. '
@@ -436,6 +436,7 @@ APPLY_MEMORY = ('Apply the supplied remembered_feedback to this fresh report usi
 
 
 UPDATE_OUTCOMES = {
+    'rule_answer': 'Reviewer rule answer saved.',
     'revision_retry': 'Saved feedback will be retried; fresh approval is required.',
     'revision_cancelled': 'Pending correction cancelled; resending the previous report for fresh approval.',
     'revision_approval_blocked': 'Pending revision cannot be approved. Recovery instructions queued.',
@@ -524,7 +525,7 @@ def show_status(store, now):
 def protected_revision_labels(report):
     previous = '\n'.join(report['parts'])
     legacy_header = re.search(r'^([^\n|]+?)\s*\|\s*' + re.escape(report['date']), previous, re.MULTILINE)
-    pin = re.search(r'^📍\s*(.+)$', previous, re.MULTILINE)
+    pin = re.search(r'^(?:📍|🟢(?! BEGINNER))\s*(.+)$', previous, re.MULTILINE)
     spot = (report.get('name') or (legacy_header[1].strip() if legacy_header else '')
             or (pin[1].strip().strip('*') if pin else ''))
     return {'spot': spot.upper()} if spot else {}
@@ -571,7 +572,7 @@ def revision_forecast(report):
 
 
 def revision_input(report, feedback):
-    current_pin = re.search(r'^📍\s*(.+)$', clean_report_text('\n'.join(report['parts'])), re.MULTILINE)
+    current_pin = re.search(r'^(?:📍|🟢(?! BEGINNER))\s*(.+)$', clean_report_text('\n'.join(report['parts'])), re.MULTILINE)
     spot = current_pin[1].strip() if current_pin else protected_revision_labels(report).get('spot')
     forecast, intervals = revision_forecast(report)
     return json.dumps({'date': report['date'], 'draft': [clean_report_text(part) for part in report['parts']],
@@ -581,12 +582,13 @@ def revision_input(report, feedback):
                        'report_format': {
                            'header': report_header(report['date'], spot) if spot else
                                      'Forecast date: ' + forecast_date_label(report['date']),
+                           'wave_height': wave_line(intervals),
                            'cautions': report_cautions(intervals),
                            'qualifying_windows': {tier: tier_windows(intervals, tier)
                                                   for tier in ('beginner', 'intermediate', 'advanced')},
                            'rule_values': {'beginner_inside_max_ft': 2, 'intermediate_inside_max_ft': 4,
                                            'strong_wind_kmh': 20, 'flat_energy_feed': 100,
-                                           'beginner_energy_max_feed': 600, 'batu_min_energy_kj': 80,
+                                           'beginner_energy_max_feed': 600, 'batu_low_tide_min_kj': 60, 'batu_high_tide_min_kj': 400, 'low_rating_wind_above_kmh': 15,
                                            'batu_advanced_only_energy_kj': 1000, 'batu_beginner_surf_max_m': 2.5,
                                            'batu_inside_tide_min_m': 0.8, 'batu_red_gust_kmh': 17},
                        },
@@ -596,17 +598,17 @@ def revision_input(report, feedback):
 
 def retain_revision_labels(report, result):
     """Format the reviewer-editable location without changing the forecast identity."""
-    result = clean_report_text(result)
+    result = clean_report_text(result).replace('🟢 BEGINNER','1️⃣ BEGINNER').replace('🟡 INTERMEDIATE','2️⃣ INTERMEDIATE').replace('🔵 ADVANCED','3️⃣ ADVANCED').replace('📍','🟢 ')
     labels = protected_revision_labels(report)
-    pin_lines = [line for line in result.splitlines() if line.startswith('📍')]
+    pin_lines = [line for line in result.splitlines() if line.startswith('🟢')]
     if pin_lines and (len(pin_lines) != 1 or not pin_lines[0][1:].strip()):
         raise SafeError('LLM revision requires one nonempty location line. Feedback remains pending.')
     spot = pin_lines[0][1:].strip() if pin_lines else labels.get('spot')
     if spot and normalized_spot(spot) in normalized_spot(result):
         body = []
         for line in result.splitlines():
-            if line.startswith('📍'):
-                if normalized_spot(line.removeprefix('📍').strip()) != normalized_spot(spot):
+            if line.startswith('🟢'):
+                if normalized_spot(line.removeprefix('🟢').strip()) != normalized_spot(spot):
                     raise SafeError('LLM revision changed the spot. Feedback remains pending.')
             elif line.casefold().startswith('forecast date:'):
                 if not report_date_present(line, report['date']):
@@ -615,12 +617,24 @@ def retain_revision_labels(report, result):
                 continue  # Replace an older pipe-delimited header.
             else:
                 body.append(line)
-        result = report_header(report['date'], spot) + '\n\n' + '\n'.join(body).strip()
+        section = '\n'.join(body).strip()
+        header = report_header(report['date'], spot)
+        if section.startswith('🌊 Wave height:'):
+            result = header + '\n' + section
+        elif (report.get('forecast') or {}).get('daily'):
+            _, intervals = revision_forecast(report)
+            result = header + '\n' + wave_line(intervals) + '\n\n' + section
+        else:
+            result = header + '\n\n' + section
     return result
 
 
 @measured("gemini_revision")
 def gemini_text(report, feedback):
+    return gemini_request(REVISION_INSTRUCTIONS, revision_input(report, feedback))
+
+
+def gemini_request(instructions, content):
     import requests
     model = setting('GEMINI_MODEL')
     if not re.fullmatch(r'gemini-[a-z0-9][a-z0-9.-]*', model):
@@ -630,8 +644,8 @@ def gemini_text(report, feedback):
         f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
         headers={'x-goog-api-key': setting('GEMINI_API_KEY')},
         json={
-            'systemInstruction': {'parts': [{'text': REVISION_INSTRUCTIONS}]},
-            'contents': [{'role': 'user', 'parts': [{'text': revision_input(report, feedback)}]}],
+            'systemInstruction': {'parts': [{'text': instructions}]},
+            'contents': [{'role': 'user', 'parts': [{'text': content}]}],
             'generationConfig': {'maxOutputTokens': 12000, 'candidateCount': 1},
         }, timeout=120)
     status = response.status_code
@@ -640,9 +654,11 @@ def gemini_text(report, feedback):
     response.raise_for_status()
     body = response.json()
     candidates = body.get('candidates') or []
-    if (body.get('promptFeedback', {}).get('blockReason') or len(candidates) != 1
+    if body.get('promptFeedback', {}).get('blockReason') or any(c.get('finishReason') in ('SAFETY', 'PROHIBITED_CONTENT', 'BLOCKLIST') for c in candidates):
+        raise SafeError('Gemini rejected the requested edit. Feedback remains pending.')
+    if (len(candidates) != 1
             or candidates[0].get('finishReason') != 'STOP'):
-        raise SafeError('Gemini revision was blocked, incomplete or truncated. Feedback remains pending.')
+        raise SafeError('Gemini returned an incomplete reply. Feedback remains pending.')
     return ''.join(part.get('text', '')
                    for part in candidates[0].get('content', {}).get('parts', [])
                    if not part.get('thought')).strip()
@@ -694,6 +710,7 @@ def revise(report, feedback):
 def number_tokens(text):
     # Accept harmless 15 / 15.0 and 1,200 / 1200 formatting changes. Separate
     # ASCII ranges/dates before parsing, but retain genuine negative numbers.
+    text = re.sub(r"[123]️?⃣", "", text)
     text = re.sub(r'(?<=\d)-(?=\d)', '–', text.replace('−', '-'))
     return {Decimal(token.replace(',', '')).normalize()
             for token in re.findall(r'[+-]?(?:(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?|\.\d+)'
@@ -718,7 +735,7 @@ def validate_revision_text(report, feedback, result):
             start, end = int(a) * 60 + int(b), int(c) * 60 + int(d)
             if int(b) or int(d) or not first <= start < end <= last:
                 raise SafeError('LLM revision includes times outside the rounded daylight window. Feedback remains pending.')
-    pin = re.search(r'^📍[^\S\n]*(\S[^\n]*)$', result, re.MULTILINE)
+    pin = re.search(r'^(?:📍|🟢(?! BEGINNER))[^\S\n]*(\S[^\n]*)$', result, re.MULTILINE)
     if not pin and any(normalized_spot(text) not in normalized_spot(result)
                        for text in protected_revision_labels(report).values()):
         raise SafeError('LLM revision removed the spot. Feedback remains pending.')
@@ -882,7 +899,7 @@ class Review:
             self.drain_outbox()
 
     def send(self, report, kind, text):
-        if kind not in ('draft', 'prompt', 'publish', 'notice'):
+        if kind not in ('draft', 'prompt', 'publish', 'notice', 'failure', 'question'):
             raise SafeError('Only report, approval-prompt and command/notice delivery is enabled.')
         # A crash, timeout or failed persistence after this checkpoint leaves an
         # intent. Never retry it automatically: Telegram has no idempotency key.
@@ -929,9 +946,7 @@ class Review:
             prompt = ('@Leonardosinaga\n\n'
                       '1. Change the report: reply THIS message, write "change" at the end\n'
                       '2. Remember the change for future reports: reply THIS message, write "remember change" at the end\n'
-                      '3. Send report to HSC channel: reply THIS message, write "correct"\n'
-                      '4. Report change failed - try again: reply THIS message, write "retry"\n'
-                      '5. Report change failed - cancel your previous change: reply THIS message, write "cancel change"')
+                      '3. Send report to HSC channel: reply THIS message, write "correct"')
             if report.get('manual_request_id') and report.get('publication_history'):
                 prompt += ('\n\nManual test: this forecast date was already published. '
                            'A new correct reply will post this report to the channel again.')
@@ -1003,6 +1018,14 @@ class Review:
                 continue
             current_ids = sum((report.get(kind + '_ids', [])
                                for kind in ('draft', 'prompt')), [])
+            if reply_id is not None and report['date'] > today:
+                if reply_id in report.get('question_ids', []):
+                    if report.get('rule_case') and not report.get('rule_answer') and text.strip():
+                        report['rule_answer'] = dict(text=text, actor=message['from']['id'], update_id=update['update_id'])
+                        return 'rule_answer'
+                    return 'ignored_stale_prompt'
+                if reply_id in report.get('failure_ids', []) and text in ('retry', 'cancel change'):
+                    current_ids.append(reply_id)
             if reply_id not in current_ids:
                 continue
             if report['date'] <= today:
@@ -1018,10 +1041,12 @@ class Review:
                     self.queue_notice('recovery:' + str(update['update_id']),
                         'The correction is still pending, so nothing was approved. Reply to the existing '
                         'approval message with new feedback ending in change, retry to retry saved feedback, '
-                        'or cancel change to receive the previous report with a new approval message.')
+                        'or cancel change and then give new feedback on the original approval message.')
                     return 'revision_approval_blocked'
                 report.pop('recovery_hold', None)
+                report.pop('failure_ids', None)
                 if text == 'retry':
+                    self.queue_notice('retry:' + str(update['update_id']), 'I received your feedback. I’m asking the AI to update the report.')
                     return 'revision_retry'
                 report.setdefault('recovery_history', []).append({
                     'revision': report['revision'], 'feedback': report.get('feedback'),
@@ -1034,13 +1059,12 @@ class Review:
                         event['cancelled'] = True
                 for field in ('feedback', 'pending_feedback', 'approval', 'revision_failed'):
                     report.pop(field, None)
-                report.setdefault('retired_prompt_ids', []).extend(report.get('prompt_ids', []))
-                report.update(status='draft', revision=report['revision'] + 1, draft_ids=[], prompt_ids=[])
-                self.queue_notice('cancel:' + str(update['update_id']),
-                    'Pending correction cancelled. The previous report will be sent again. '
-                    'Reply correct to its NEW approval message to publish. '
-                    'Remembered instructions remain saved; use /memory and /forget ID to remove them.')
+                report.update(status='review', needs_replacement_feedback=True)
                 return 'revision_cancelled'
+            if text in ('retry', 'cancel change') and not pending:
+                return 'ignored_not_reviewing'
+            if text == 'correct' and report.get('needs_replacement_feedback'):
+                return 'ignored_not_reviewing'
             if text == 'correct' and not pending:
                 if reply_id not in report.get('prompt_ids', []):
                     return 'ignored_approval_not_prompt'
@@ -1066,6 +1090,10 @@ class Review:
         """Keep every accepted correction; apply the newest pending text per person."""
         self.assert_no_uncertain()
         report.pop('recovery_hold', None)
+        report.pop('needs_replacement_feedback', None)
+        report.pop('failure_ids', None)
+        if not text.startswith('note:'):
+            self.queue_notice('editing:' + str(update['update_id']), 'I received your feedback. I’m asking the AI to update the report.')
         user_id = update['message']['from']['id']
         pending = list(report.get('pending_feedback', []))
         if report['status'] == 'revision_pending' and not pending and report.get('feedback'):
@@ -1114,6 +1142,41 @@ class Review:
         validate_parts(parts)
         return parts
 
+    def resolve_rules(self, report):
+        from rule_questions import attach_rules, interpret, question
+        rules = self.s.setdefault('surf_rules', {})
+        answer = report.get('rule_answer')
+        clarification = False
+        if answer:
+            case = report['rule_case']
+            try:
+                tiers = interpret(case, answer['text'])
+            except Exception:
+                report.pop('rule_answer', None)
+                report.pop('question_ids', None)
+                self.send(report, 'question', 'The AI could not read your answer. Please reply again.\n\n' + question(report, case))
+                return True
+            clarification = tiers is None
+            if not clarification:
+                rules[json.dumps(case, sort_keys=True)] = dict(answer, tiers=tiers)
+                report['apply_new_rules'] = True
+            for field in ('rule_answer', 'question_ids', 'rule_case'):
+                report.pop(field, None)
+            report['rule_clarification'] = clarification
+            self.store.save()
+        if report.get('question_ids'):
+            return True
+        case = attach_rules(report, rules)
+        if case:
+            report['rule_case'] = case
+            self.send(report, 'question', question(report, case, report.get('rule_clarification', False)))
+            return True
+        rebuild = report.pop('apply_new_rules', False)
+        if rules and report.get('forecast', {}).get('daily') and rebuild:
+            report['parts'] = saved_parts(report['forecast'], report['date'], report['name'])
+            self.store.save()
+        return False
+
     def advance(self, today):
         # Includes private command/error notices: never bypass an uncertain send.
         self.assert_no_uncertain()
@@ -1131,6 +1194,8 @@ class Review:
                 self.store.save()
             if report['status'] == 'revision_pending':
                 if report.get('recovery_hold'):
+                    if report.get('failure_text') and not report.get('failure_ids'):
+                        self.send(report, 'failure', report['failure_text'])
                     continue
                 try:
                     feedback = report['feedback']
@@ -1144,16 +1209,22 @@ class Review:
                                  else self.revision(report, feedback))
                     validate_parts(parts)
                 except Exception as error:
-                    if not report.get('revision_failed'):
-                        report['revision_failed'] = True
-                        self.store.save()
-                    self.notify_failure(f"revision-error:{report['date']}:{report['revision']}",
-                                        'The surf report revision failed. Your feedback is saved and nothing '
-                                        'was approved or published by this revision. ' + failure_detail(error)
-                                        + '\nReply to the existing approval message with new feedback ending in change, '
-                                        'retry to retry the saved feedback, or cancel change to receive the previous '
-                                        'report with a new approval message. A pending revision cannot be approved. '
-                                        'Any replacement draft needs fresh approval.')
+                    reason = failure_detail(error)
+                    if reason.startswith('Gemini rejected the requested edit'):
+                        heading = 'The report failed to change because the AI rejected it.'
+                    else:
+                        heading = 'The report failed to change. ' + reason
+                        if 'HTTP 429' in reason:
+                            heading = 'The report failed to change because the AI reached its usage limit (429).'
+                        elif 'unsupported number' in reason:
+                            heading = 'The report failed to change because the AI added a number I could not verify.'
+                        elif 'connectivity' in reason:
+                            heading = 'The report failed to change because I could not confirm a reply from the AI.'
+                    report.update(revision_failed=True, recovery_hold=True)
+                    report['failure_text'] = (heading + '\n\n1. Retry the AI again: reply THIS message, write "retry"'
+                        + '\n2. Cancel change & start again: reply THIS message, write "cancel change", then reply to the approval message before with your new change.')
+                    self.store.save()
+                    self.send(report, 'failure', report['failure_text'])
                     raise
                 report.update(parts=parts, revision=report['revision'] + 1,
                               status='draft', draft_ids=[], prompt_ids=[])
@@ -1164,6 +1235,8 @@ class Review:
                               'context_input_sha256', 'context_content_sha256'):
                     report.pop(field, None)
                 self.store.save()
+            if report['status'] == 'draft' and not report.get('draft_ids') and self.resolve_rules(report):
+                continue
             if report['status'] == 'draft' and report.get('memory_pending'):
                 if report.get('draft_ids') or report.get('prompt_ids'):
                     raise SafeError('Remembered feedback cannot rewrite a report after draft delivery has begun.')
@@ -1289,7 +1362,7 @@ class Review:
         report = dict(date=target, name=name, forecast=forecast, parts=parts,
                       revision=previous['revision'] + 1, status='draft', draft_ids=[], prompt_ids=[],
                       review_chat_id=self.chat,
-                      manual_request_id=request_id, publication_history=history, review_history=review_history)
+                      manual_request_id=request_id, apply_new_rules=saved_source, publication_history=history, review_history=review_history)
         if previous.get('feedback'):
             report['feedback'] = previous['feedback']
             for field in ('feedback_log', 'remembered_feedback', 'memory_saved_ids'):
@@ -1332,7 +1405,7 @@ class Review:
         parts = saved_parts(forecast, target, name)
         validate_parts(parts)
         self.s['reports'][target] = dict(date=target, name=name, forecast=forecast, parts=parts,
-                                        revision=1, status='draft', draft_ids=[], prompt_ids=[], review_chat_id=self.chat)
+                                        revision=1, status='draft', apply_new_rules=True, draft_ids=[], prompt_ids=[], review_chat_id=self.chat)
         remembered = active_memory(self.s)
         if remembered:
             self.s['reports'][target].update(remembered_feedback=remembered, memory_pending=True)

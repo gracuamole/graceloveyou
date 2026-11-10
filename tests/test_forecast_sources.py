@@ -38,10 +38,10 @@ class SourceTests(unittest.TestCase):
         self.assertEqual(result.data, self.forecast)
         self.source.fetch_full_forecast.assert_called_once_with('existing-spot', days=3)
         self.assertEqual(result.parts[0].splitlines()[0], 'Forecast date: 30 October 2026')
-        self.assertIn('📍OLD MANS', result.parts[0])
+        self.assertIn('🟢 OLD MANS', result.parts[0])
         for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
             self.assertNotIn(removed, '\n'.join(result.parts))
-        self.assertIn('🔵 ADVANCED\n07:00–18:00', '\n'.join(result.parts))
+        self.assertIn('3️⃣ ADVANCED\n07:00–18:00', '\n'.join(result.parts))
 
     def test_missing_required_feeds_fail_closed_with_safe_error(self):
         for failure in ('network', 'missing-day', 'missing-sun', 'missing-hour', 'missing-height'):

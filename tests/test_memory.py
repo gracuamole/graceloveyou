@@ -310,7 +310,7 @@ class MemoryTests(unittest.TestCase):
         report = self.future()
         response = Mock(status_code=200)
         response.json.return_value = {'candidates': [{'finishReason': 'STOP', 'content': {'parts': [{
-            'text': "Forecast date: 1 November 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🔵 ADVANCED\n19:00–20:00"}]}}]}
+            'text': "Forecast date: 1 November 2026\n\n🟢 BATU BOLONG\n\n3️⃣ ADVANCED\n19:00–20:00"}]}}]}
         with patch.dict('os.environ', {'LLM_PROVIDER': 'gemini', 'GEMINI_MODEL': 'gemini-test',
                                        'GEMINI_API_KEY': 'PRIVATE_KEY'}, clear=True), \
                 patch.dict('sys.modules', {'requests': Mock(post=Mock(return_value=response))}):

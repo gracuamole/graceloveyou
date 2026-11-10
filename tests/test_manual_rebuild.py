@@ -29,7 +29,7 @@ class ManualRebuild(unittest.TestCase):
 
     def test_rebuild_archives_feedback_and_reapplies_before_fresh_review(self):
         report = self.reopen()
-        self.assertIn('All day is surfable', '\n'.join(report['parts']))
+        self.assertIn('No qualifying window.', '\n'.join(report['parts']))
         self.assertEqual(report['review_history'][-1], self.original)
         self.assertEqual(report['rebuild_feedback'], ['keep cautions short change', 'remove windy hours change'])
         self.assertTrue(Store(self.path).data['reports']['2026-11-02']['memory_pending'])
@@ -63,5 +63,5 @@ class ManualRebuild(unittest.TestCase):
         report = self.reopen()
         self.assertEqual(report['publication_history'][-1], original)
         self.assertTrue(report['memory_pending'])
-        self.assertIn('All day is surfable', '\n'.join(report['parts']))
+        self.assertIn('No qualifying window.', '\n'.join(report['parts']))
         self.bot.forecast.assert_not_called()

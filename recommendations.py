@@ -27,7 +27,8 @@ def forecast_date_label(target):
 
 
 def report_header(target, name):
-    return f'Forecast date: {forecast_date_label(target)}\n\n📍{name.upper()}'
+    label = 'BATU BOLONG' if name.casefold() == "old man's / batu bolong" else name.upper()
+    return f'Forecast date: {forecast_date_label(target)}\n\n🟢 {label}'
 
 
 def report_bold_entities(text):
@@ -36,7 +37,12 @@ def report_bold_entities(text):
     entities, offset = [], 0
     for line in text.splitlines(keepends=True):
         content = line.rstrip('\r\n')
-        if content.startswith(('Forecast date:', '📍')) or content in headings:
+        for label in ('Wave height:', 'Retry the AI again:', 'Cancel change & start again:', 'what should the forecast for this data be?'):
+            if label in content:
+                prefix = content.split(label, 1)[0]
+                entities.append({'type': 'bold', 'offset': offset + len(prefix.encode('utf-16-le')) // 2,
+                                 'length': len(label)})
+        if content.startswith(('Forecast date:', '📍', '🟢 ', '1️⃣ ', '2️⃣ ', '3️⃣ ', 'The report failed to change')) or content in headings:
             entities.append({'type': 'bold', 'offset': offset,
                              'length': len(content.encode('utf-16-le')) // 2})
         offset += len(line.encode('utf-16-le')) // 2
@@ -193,7 +199,11 @@ def batu_recommend(row, tide, tier):
         advice.update(missing=missing, notes=['Missing ' + ', '.join(missing)])
         return advice
     reasons = []
-    if energy < 80:
+    height = rounded_tide(tide['height_m'])
+    low_exception = .2 < height < .8 and 60 <= energy <= 400
+    if height >= .8 and energy < 400:
+        reasons.append('At this tide at least 400 kJ is needed')
+    if energy < 80 and not low_exception:
         reasons.append('Wave energy is below 80 kJ')
     if tier != 'advanced' and energy >= 1000:
         reasons.append('Wave energy of 1000 kJ or more is advanced only')
@@ -202,12 +212,40 @@ def batu_recommend(row, tide, tier):
     if tier == 'beginner':
         if hi * .3048 >= 2.5:
             reasons.append('Breaking surf is not below 2.5 m')
-        if rounded_tide(tide['height_m']) < .8:
+        if height < .8 and not low_exception:
             reasons.append('Rounded tide is below 0.8 m for the inside break')
     if reasons:
         advice['status'] = 'not recommended'
     advice['notes'] = reasons
     return advice
+
+
+def windy_hour(row):
+    speed = wind_kmh((row.get('wind') or {}).get('speed_kts'))
+    rating = (row.get('rating') or {}).get('key')
+    return speed is not None and ((rating in LOW_RATINGS and speed > 15)
+                                  or (rating in GOOD_RATINGS and speed >= 20))
+
+
+def wave_line(intervals):
+    runs = []
+    for interval in intervals:
+        label = (interval['row'].get('surf_human') or '').strip().casefold()
+        if runs and runs[-1][0] == label:
+            runs[-1][2] = interval['end']
+        else:
+            runs.append([label, interval['start'], interval['end']])
+    clock = lambda t: datetime.fromtimestamp(t, BALI).strftime('%I%p').lower().lstrip('0')
+    if len(runs) == 1 and runs[0][0]:
+        description = runs[0][0] + ' all day'
+    elif runs and all(label for label, _, _ in runs):
+        description = runs[0][0] + ' from ' + clock(runs[0][1])
+        for label, start, _ in runs[1:]:
+            description += ', then ' + label + ' from ' + clock(start)
+    else:
+        description = ', '.join(f'{label} from {clock(start)} to {clock(end)}'
+                                for label, start, end in runs if label) or 'Unavailable'
+    return '🌊 Wave height: ' + description
 
 
 def batu_cautions(day, intervals):
@@ -223,7 +261,7 @@ def batu_cautions(day, intervals):
     gusts = [r.get('wind', {}).get('gust_kts') for r in rows]
     rising = any(positive(a) and positive(b) and b > a
                  for values in (winds, gusts) for a, b in zip(values, values[1:]))
-    if (rising and any(positive(w) and wind_kmh(w) >= 17 for w in winds)) or any(positive(w) and wind_kmh(w) >= 20 for w in winds):
+    if (rising and any(positive(w) and wind_kmh(w) >= 17 for w in winds)) or any(windy_hour(r) for r in rows):
         cautions.append('Conditions may become windy later in the day.')
     if any(qualifies(i, 'advanced') and i['row']['energy']['nearshore'] >= 1000 for i in intervals):
         cautions.append('High wave energy may produce powerful sets and strong currents.')
@@ -252,6 +290,17 @@ def daylight_intervals(day, name=None):
         tide = tide_at(day, cursor)
         result.append({'start': cursor, 'end': stop, 'row': row, 'tide': tide,
                        'tiers': {tier: (batu_recommend if is_batu_bolong(name) else recommend)(row, tide, tier) for tier in TIERS}})
+        if is_batu_bolong(name) and day.get('reviewer_rules'):
+            from rule_questions import condition
+            import json
+            case = condition(row, tide)
+            rule = day['reviewer_rules'].get(json.dumps(case, sort_keys=True))
+            if case and rule:
+                for tier, advice in result[-1]['tiers'].items():
+                    baseline = batu_recommend(dict(row, rating={'key': 'FAIR'}), tide, tier)
+                    allowed = tier in rule['tiers'] and baseline['status'] == 'suitable to consider'
+                    advice.update(status='suitable to consider' if allowed else 'not recommended',
+                                  notes=['Reviewer decision for these conditions'])
         cursor = stop
     if is_batu_bolong(name):
         for interval in result:
@@ -321,7 +370,7 @@ def tier_windows(intervals, tier):
             result = ['All day is surfable - ' + ('Inside break' if tier == 'beginner' else 'Outside break')]
         windy = []
         for i in intervals:
-            if not qualifies(i, tier) or wind_kmh(i['row']['wind']['speed_kts']) < 20:
+            if not qualifies(i, tier) or not windy_hour(i['row']):
                 continue
             if windy and windy[-1][1] == i['start']:
                 windy[-1][1] = i['end']
@@ -358,8 +407,8 @@ def report_cautions(intervals):
 
 def render_day(day, name):
     intervals = daylight_intervals(day, name)
-    blocks = [report_header(day['date'], name)]
-    for tier, heading in zip(TIERS, ('🟢 BEGINNER', '🟡 INTERMEDIATE', '🔵 ADVANCED')):
+    blocks = [report_header(day['date'], name) + '\n' + wave_line(intervals)]
+    for tier, heading in zip(TIERS, ('1️⃣ BEGINNER', '2️⃣ INTERMEDIATE', '3️⃣ ADVANCED')):
         blocks.append(heading + '\n' + '\n'.join(tier_windows(intervals, tier)))
     cautions = report_cautions(intervals)
     if cautions:

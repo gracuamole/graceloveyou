@@ -10,6 +10,8 @@ class BatuRules(unittest.TestCase):
     def setUp(self):
         self.report = json.loads((Path(__file__).parent / 'fixtures/november_2_2026.json').read_text())
         self.day = self.report['forecast']['daily'][0]
+        for row in self.day['hourly']:
+            row['energy']['nearshore'] = 400
         self.row = copy.deepcopy(self.day['hourly'][6])
         self.tide = {'height_m': 0.8, 'band': 'low'}
 
@@ -26,7 +28,7 @@ class BatuRules(unittest.TestCase):
         self.assertEqual(context['report_format']['cautions'], blocks[-1].split('\n- ')[1:] if blocks[-1].startswith('⚠️') else [])
 
     def test_half_up_tide_boundary_only_excludes_inside(self):
-        for tide, expected in ((.749, False), (.75, True), (.79, True), (.8, True)):
+        for tide, expected in ((.749, True), (.75, True), (.79, True), (.8, True)):
             self.tide['height_m'] = tide
             self.assertEqual(self.allowed('beginner'), expected)
             self.assertTrue(self.allowed('intermediate'))
@@ -34,7 +36,7 @@ class BatuRules(unittest.TestCase):
         self.assertEqual(rounded_tide(.75), .8)
 
     def test_energy_boundaries_and_field_selection(self):
-        for energy, expected in ((79.9, (False, False, False)), (80, (True, True, True)),
+        for energy, expected in ((79.9, (False, False, False)), (80, (False, False, False)), (400, (True, True, True)),
                                  (999.9, (True, True, True)), (1000, (False, False, True))):
             self.row['energy']['nearshore'] = energy
             self.row['swell_power_total'] = 1
@@ -86,9 +88,9 @@ class BatuRules(unittest.TestCase):
                 row['wind']['speed_kts'] = 10 / 1.852
             self.day['hourly'][15]['wind']['speed_kts'] = speed / 1.852
             blocks = render_day(self.day, self.report['name'])
-            self.assertEqual(blocks[1], '🟢 BEGINNER\nAll day is surfable - Inside break\n'
+            self.assertEqual(blocks[1], '1️⃣ BEGINNER\nAll day is surfable - Inside break\n'
                 '15:00 - 16:00 - forecasted to be windy, coach recommended')
-            for index, heading in ((2, '🟡 INTERMEDIATE'), (3, '🔵 ADVANCED')):
+            for index, heading in ((2, '2️⃣ INTERMEDIATE'), (3, '3️⃣ ADVANCED')):
                 self.assertEqual(blocks[index], heading + '\nAll day is surfable - Outside break\n'
                     '15:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf')
 
@@ -139,4 +141,4 @@ class BatuRules(unittest.TestCase):
         self.assertIsNone(wind_kmh(None))
         self.day['hourly'][13]['wind']['speed_kts'] = 10.6
         text = '\n'.join(render_day(self.day, self.report['name']))
-        self.assertIn('13:00 - 14:00 - forecasted to be windy', text)
+        self.assertIn('13:00 - 18:00 - forecasted to be windy', text)

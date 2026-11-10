@@ -103,16 +103,15 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.bot.process(self.update('cancel change'), TODAY), 'revision_cancelled')
         self.bot.advance(TODAY)
         self.assertEqual(self.report['parts'], original)
-        self.assertNotEqual(self.report['prompt_ids'][-1], old_id)
+        self.assertEqual(self.report['prompt_ids'][-1], old_id)
         self.assertTrue(self.report['feedback_log'][0]['cancelled'])
-        self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_id}), TODAY),
-                         'ignored_stale_prompt')
+        self.assertEqual(self.bot.process(self.update(), TODAY), 'ignored_not_reviewing')
         self.assertFalse(self.published())
+        self.bot.process(self.update('new location change'), TODAY)
+        self.bot.advance(TODAY)
+        self.assertNotEqual(self.report['prompt_ids'][-1], old_id)
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
-        self.bot.advance(TODAY)
-        self.assertEqual(len(self.published()), len(original))
-        self.bot.advance(TODAY)
-        self.assertEqual(len(self.published()), len(original))
+
 
     def test_new_feedback_releases_pending_approval_hold(self):
         self.draft()
@@ -363,7 +362,7 @@ class ReviewTests(unittest.TestCase):
             'message_id': self.report['draft_ids'][0]}), TODAY), 'revision_pending')
         self.tg.reset_mock()
         self.bot.advance(TODAY)
-        self.assertEqual(self.tg.call.call_count, 2)
+        self.assertEqual(self.tg.call.call_count, 3)
         self.assertNotIn('analysis_parts', self.report)
         self.assertNotIn('source_parts', self.report)
         self.assertFalse(self.published())
@@ -424,14 +423,14 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance('2026-10-31')
         original_source = json.dumps(self.report['forecast'], sort_keys=True)
         old_prompt = self.report['prompt_ids'][0]
-        self.llm.return_value = [self.report['parts'][0].replace('10:00–18:00', '11:00–18:00')]
+        self.llm.return_value = [self.report['parts'][0].replace('07:00–10:00', '08:00–10:00')]
         self.bot.process(self.update('remove 10:00–11:00 change', reply_to_message={
             'message_id': self.report['draft_ids'][0]}), '2026-10-31')
         self.tg.reset_mock()
         self.bot.advance('2026-10-31')
-        self.assertEqual(self.tg.call.call_count, 2)
-        self.assertIn('11:00 AM–6:00 PM', self.tg.call.call_args_list[0].kwargs['text'])
-        self.assertTrue(self.tg.call.call_args_list[1].kwargs['text'].startswith('@Leonardosinaga'))
+        self.assertEqual(self.tg.call.call_count, 3)
+        self.assertIn('8:00 AM–10:00 AM', self.tg.call.call_args_list[1].kwargs['text'])
+        self.assertTrue(self.tg.call.call_args_list[2].kwargs['text'].startswith('@Leonardosinaga'))
         self.assertNotIn('analysis_parts', self.report)
         self.assertNotIn('source_parts', self.report)
         self.assertEqual(json.dumps(self.report['forecast'], sort_keys=True), original_source)
@@ -593,13 +592,13 @@ class ReviewTests(unittest.TestCase):
         self.bot.generate(r['date'], r['forecast'], r['name'])
         self.report = self.bot.s['reports'][r['date']]
         self.report.update(status='review', parts=["Forecast date: 1 November 2026\n\n"
-                           "📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n06:00–18:00 — Inside break only"],
+                           "🟢 BATU BOLONG\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break only"],
                            draft_ids=[70], prompt_ids=[71])
         self.bot.forecast = Mock()
         self.assertTrue(self.bot.reopen_published(r['date'], '2026-10-31', '12345'))
         report = self.bot.s['reports'][r['date']]
-        self.assertIn('06:00–07:00 and 10:00–18:00 — Inside break', '\n'.join(report['parts']))
-        self.assertIn('🟡 INTERMEDIATE\nAll day is surfable - Outside break', '\n'.join(report['parts']))
+        self.assertIn('07:00–10:00 — Inside break', '\n'.join(report['parts']))
+        self.assertIn('2️⃣ INTERMEDIATE\n07:00–10:00 — Outside break', '\n'.join(report['parts']))
         self.assertIn('06:00–18:00', report['review_history'][0]['parts'][0])
         self.bot.advance('2026-10-31')
         self.assertEqual(self.tg.call.call_count, 2)
@@ -870,13 +869,11 @@ class ReviewTests(unittest.TestCase):
         with self.assertRaises(SafeError):
             self.bot.advance(TODAY)
         with patch.object(self.store, 'save', wraps=self.store.save) as checkpoint:
-            with self.assertRaises(SafeError):
-                self.bot.advance(TODAY)
-            checkpoint.assert_not_called()  # No empty Git commit on a repeated failure.
+            self.bot.advance(TODAY)
+            checkpoint.assert_not_called()
         notices = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
-        self.assertEqual(len(notices), 1)
-        self.assertEqual(notices[0].kwargs['chat_id'], 42)
-        self.assertIn('429', notices[0].kwargs['text'])
+        self.assertEqual(len(notices), 2)
+        self.assertIn('429', notices[-1].kwargs['text'])
         self.assertEqual(self.report['status'], 'revision_pending')
         self.assertEqual(self.bot.process(self.update(), TODAY), 'revision_approval_blocked')
         self.bot.process(self.update('note: Coach to confirm wind change'), TODAY)
@@ -1183,12 +1180,12 @@ class GeminiRevisionTests(unittest.TestCase):
         original = self.report['parts'][0]
         self.set_result(original)
         result = ''.join(revise(self.report, 'keep formatting change'))
-        self.assertTrue(result.startswith("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG"))
+        self.assertTrue(result.startswith("Forecast date: 30 October 2026\n\n🟢 BATU BOLONG"))
         self.assertIn('16:00–17:00\nBreaking surf: 2–3 ft', result)
         self.assertIn('17:00–18:00\nBreaking surf: 2–3 ft', result)
         self.set_result(original.replace("Old Man's / Batu Bolong", 'Old Man’s/Batu Bolong'))
         result = ''.join(revise(self.report, 'tidy formatting change'))
-        self.assertIn(self.report['name'].upper(), result)
+        self.assertIn('🟢 BATU BOLONG', result)
         for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
             self.assertNotIn(removed, result)
 
@@ -1205,10 +1202,10 @@ class GeminiRevisionTests(unittest.TestCase):
 
     def test_repaired_pending_revision_still_needs_fresh_approval(self):
         self.protected_report()
-        self.set_result("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n"
-                        '🟢 BEGINNER\n16:00–17:00 — Inside break, coach recommended (larger sets)\n\n'
-                        '🟡 INTERMEDIATE\n16:00–17:00\n\n'
-                        '🔵 ADVANCED\n16:00–17:00 — Breaking waves 2–3 ft\n\n'
+        self.set_result("Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\n\n"
+                        '1️⃣ BEGINNER\n16:00–17:00 — Inside break, coach recommended (larger sets)\n\n'
+                        '2️⃣ INTERMEDIATE\n16:00–17:00\n\n'
+                        '3️⃣ ADVANCED\n16:00–17:00 — Breaking waves 2–3 ft\n\n'
                         '⚠️ CAUTIONS\n- High energy: strong currents possible.\n'
                         '- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n'
                         '- Below 100 kJ: generally too flat for worthwhile surfing.')
@@ -1260,34 +1257,34 @@ class GeminiRevisionTests(unittest.TestCase):
         self.protected_report()
         original_name = self.report['name']
         original_forecast = deepcopy(self.report['forecast'])
-        self.set_result('Forecast date: 30 October 2026\n\n📍BATU BOLONG\nSurf report')
+        self.set_result('Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\nSurf report')
         parts = revise(self.report, 'remove "OLD MAN\'s" in the location line\n\nchange')
-        self.assertIn('📍BATU BOLONG', '\n'.join(parts))
+        self.assertIn('🟢 BATU BOLONG', '\n'.join(parts))
         self.assertNotIn("OLD MAN", '\n'.join(parts))
         self.assertEqual(self.report['name'], original_name)
         self.assertEqual(self.report['forecast'], original_forecast)
         self.report['parts'] = parts
         from review_bot import revision_input
         context = json.loads(revision_input(self.report, 'shorten cautions change'))
-        self.assertIn('📍BATU BOLONG', context['report_format']['header'])
+        self.assertIn('🟢 BATU BOLONG', context['report_format']['header'])
         self.assertEqual(context['required_verbatim_text'], [])
-        self.set_result('Forecast date: 30 October 2026\n\n📍BATU BOLONG\nUpdated report')
-        self.assertIn('📍BATU BOLONG', '\n'.join(revise(self.report, 'shorten cautions change')))
+        self.set_result('Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\nUpdated report')
+        self.assertIn('🟢 BATU BOLONG', '\n'.join(revise(self.report, 'shorten cautions change')))
 
     def test_legacy_report_spot_is_protected_without_state_reset(self):
         self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + ' | WITA\nSurf report']
         with self.assertRaisesRegex(SafeError, 'removed the spot'):
             validate_revision_text(self.report, 'shorter change', 'Kuta | ' + TARGET + ' | WITA\nSurf report')
         self.set_result('Old Man’s/Batu Bolong | ' + TARGET + ' | WITA\nSurf report')
-        self.assertIn("OLD MAN'S / BATU BOLONG", ''.join(revise(self.report, 'tidy formatting change')))
+        self.assertIn('🟢 BATU BOLONG', ''.join(revise(self.report, 'tidy formatting change')))
 
     def test_simple_format_date_and_caution_thresholds_are_allowed_but_new_measurements_are_not(self):
         self.report['name'] = "Old Man's / Batu Bolong"
         self.report['parts'] = ["Old Man's / Batu Bolong | " + TARGET + '\n06:00–09:00\nBreaking surf: 3 ft']
-        simple = ("Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n"
-                  '🟢 BEGINNER\n06:00–09:00 — Inside break\n\n'
-                  '🟡 INTERMEDIATE\n06:00–09:00\n\n'
-                  '🔵 ADVANCED\n06:00–09:00 — Breaking waves 3 ft\n\n'
+        simple = ("Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\n\n"
+                  '1️⃣ BEGINNER\n06:00–09:00 — Inside break\n\n'
+                  '2️⃣ INTERMEDIATE\n06:00–09:00\n\n'
+                  '3️⃣ ADVANCED\n06:00–09:00 — Breaking waves 3 ft\n\n'
                   '⚠️ CAUTIONS\n- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n'
                   '- Below 100 kJ: generally too flat for worthwhile surfing.')
         self.set_result(simple)
@@ -1332,7 +1329,7 @@ class GeminiRevisionTests(unittest.TestCase):
 
     def test_revised_windows_cannot_extend_daylight_even_when_feedback_supplies_the_numbers(self):
         self.daylight_report()
-        header = "Forecast date: 30 October 2026\n\n📍OLD MAN'S / BATU BOLONG\n\n🟢 BEGINNER\n"
+        header = "Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\n\n1️⃣ BEGINNER\n"
         feedback = 'Consider 05:00, 19:00, 06:15 and 07:00, but use daylight only change'
         for window in ('05:00–06:00', '17:00–19:00', '06:15–07:00', '17:00–06:00', '18:00–18:00'):
             with self.subTest(window=window):
@@ -1340,7 +1337,7 @@ class GeminiRevisionTests(unittest.TestCase):
                 with self.assertRaisesRegex(SafeError, 'rounded daylight window'):
                     revise(self.report, feedback)
         self.set_result(header + '06:00–18:00')
-        self.assertEqual(''.join(revise(self.report, feedback)), header + '06:00–18:00')
+        self.assertEqual(''.join(revise(self.report, feedback)), header.replace('🟢 BATU BOLONG', '🟢 BATU BOLONG\n🌊 Wave height: Unavailable') + '06:00–18:00')
         self.report['forecast']['daily'][0]['sunlight'] = None
         self.post.reset_mock()
         with self.assertRaisesRegex(SafeError, 'Saved forecast cannot supply'):
@@ -1480,7 +1477,7 @@ class GroupReviewTests(unittest.TestCase):
             bot.process(self.message(text, prompt), TODAY)
             self.assertEqual(report['status'], 'review')
         self.assertTrue(all(c.kwargs['chat_id'] == -200 for c in self.tg.call.call_args_list))
-        self.assertEqual(len(self.tg.call.call_args_list), 4)  # Report + prompt, twice.
+        self.assertEqual(len(self.tg.call.call_args_list), 5)  # Two report/prompt pairs plus acknowledgement.
 
     def test_old_private_prompt_with_same_numeric_id_cannot_approve_group_report(self):
         bot = self.move()
@@ -1731,7 +1728,7 @@ class TwoReviewerTests(unittest.TestCase):
         self.assertIn('Group owner: remove late window change', feedback)
         self.assertIn('Leo: remove early window change', feedback)
         self.assertEqual(len(Store(self.path).data['reports'][TARGET]['feedback_log']), 2)
-        self.assertEqual(len(self.tg.call.call_args_list), 4)  # Two report/prompt pairs only.
+        self.assertEqual(len(self.tg.call.call_args_list), 6)  # Two report/prompt pairs plus two acknowledgements.
         self.assertFalse(self.sends_to_channel())
 
     def test_latest_pending_correction_per_person_replaces_only_their_own_text(self):

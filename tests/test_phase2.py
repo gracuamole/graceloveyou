@@ -25,7 +25,7 @@ class EntryPoint(unittest.TestCase):
             self.assertNotIn('06:05', result.stdout)
             self.assertNotIn('18:10', result.stdout)
             self.assertIn('Forecast date: 30 October 2026', result.stdout)
-            self.assertIn('🔵 ADVANCED', result.stdout)
+            self.assertIn('3️⃣ ADVANCED', result.stdout)
             result = subprocess.run(command + ['--send'], capture_output=True, text=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('cannot be posted', result.stderr)
