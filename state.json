@@ -54413,14 +54413,14 @@
       "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
-  "offset": 248715079,
+  "offset": 248715080,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_forgotten",
+  "last_update_outcome": "ignored_unthreaded",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -54572,7 +54572,8 @@
     248715075,
     248715076,
     248715077,
-    248715078
+    248715078,
+    248715079
   ],
   "manual_retest_requests": {
     "41192170935": {
