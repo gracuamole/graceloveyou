@@ -54413,14 +54413,14 @@
       "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
-  "offset": 248715078,
+  "offset": 248715079,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_requested",
+  "last_update_outcome": "memory_forgotten",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -54512,6 +54512,14 @@
       "notice_ids": [
         108
       ]
+    },
+    "forget:-1003835479548:248715078": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "Remembered feedback 2 will no longer be applied to new reports."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -54561,7 +54569,8 @@
     248715074,
     248715075,
     248715076,
-    248715077
+    248715077,
+    248715078
   ],
   "manual_retest_requests": {
     "41192170935": {
@@ -54626,10 +54635,12 @@
         "revision": 1,
         "text": "Beginner start 6am-6pm inside breaks remember change",
         "id": 2,
-        "active": true,
+        "active": false,
         "source_date": "2026-11-11",
         "source_revision": 1,
-        "source_spot": "Old Man's / Batu Bolong"
+        "source_spot": "Old Man's / Batu Bolong",
+        "forgotten_by": 941560570,
+        "forgotten_update_id": 248715078
       }
     ]
   }
