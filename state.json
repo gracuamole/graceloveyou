@@ -54413,14 +54413,14 @@
       "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
-  "offset": 248715083,
+  "offset": 248715084,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "status_requested",
+  "last_update_outcome": "dryrun_requested",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -54532,6 +54532,12 @@
       "notice_ids": [
         115
       ]
+    },
+    "dryrun:248715083": {
+      "kind": "dryrun",
+      "status": "pending",
+      "date": "2026-11-11",
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -54586,7 +54592,8 @@
     248715079,
     248715080,
     248715081,
-    248715082
+    248715082,
+    248715083
   ],
   "manual_retest_requests": {
     "41192170935": {
