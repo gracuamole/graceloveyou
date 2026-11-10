@@ -54413,14 +54413,14 @@
       "feedback": "Beginner start 6am-6pm inside breaks remember change"
     }
   },
-  "offset": 248715077,
+  "offset": 248715078,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_unthreaded",
+  "last_update_outcome": "memory_requested",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -54502,6 +54502,14 @@
       "notice_ids": [
         82
       ]
+    },
+    "memory:-1003835479548:248715077": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "Remembered feedback for future reports:\n\n1. remove “OLD MAN’s” in location\n\nremember change\n\n2. Beginner start 6am-6pm inside breaks remember change\n\nUse /forget ID to stop applying one instruction."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -54550,7 +54558,8 @@
     248715073,
     248715074,
     248715075,
-    248715076
+    248715076,
+    248715077
   ],
   "manual_retest_requests": {
     "41192170935": {
