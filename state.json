@@ -54540,7 +54540,12 @@
       "notice_ids": [],
       "parts": [
         "REVIEW PREVIEW ONLY — no approval cycle; do not approve this message.\nForecast captured 10 Nov 2026, 03:08 AM Bali\n\nForecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n07:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
-      ]
+      ],
+      "intent": {
+        "kind": "notice",
+        "chat_id": -1003835479548,
+        "text_sha256": "4c3520e16eefa45d6609ad22a75a6c5e60dad7f32b5e17a88d32ca7731e8c3d1"
+      }
     }
   },
   "webhook_processed_ids": [
