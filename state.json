@@ -34325,11 +34325,13 @@
         "Forecast date: 12 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: knees to shoulder high\n\n1️⃣ BEGINNER\n08:00–18:00 — Inside break and 14:00–18:00 — coach recommended\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         125
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        126
+      ],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
         {
@@ -34355,12 +34357,7 @@
           "text": "change to “Wave height: knees to shoulder high” change"
         }
       ],
-      "feedback": "change to “Wave height: knees to shoulder high” change",
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "d71a7f08a77d926b7c1bb51dd9c18202bb51519b0731ab4ae7d9d7fa10a4a0aa"
-      }
+      "feedback": "change to “Wave height: knees to shoulder high” change"
     }
   },
   "offset": 248715088,
