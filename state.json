@@ -34325,7 +34325,7 @@
         "Forecast date: 12 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: knees to shoulder high\n\n1️⃣ BEGINNER\n08:00–18:00 — Inside break and 14:00–18:00 — coach recommended\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         125
       ],
@@ -34355,19 +34355,35 @@
           "update_id": 248715086,
           "revision": 1,
           "text": "change to “Wave height: knees to shoulder high” change"
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715088,
+          "revision": 2,
+          "text": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
         }
       ],
-      "feedback": "change to “Wave height: knees to shoulder high” change"
+      "feedback": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715088,
+          "revision": 2,
+          "text": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
+        }
+      ]
     }
   },
-  "offset": 248715088,
+  "offset": 248715089,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_unthreaded",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34500,6 +34516,14 @@
       "notice_ids": [
         124
       ]
+    },
+    "editing:248715088": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -34559,7 +34583,8 @@
     248715084,
     248715085,
     248715086,
-    248715087
+    248715087,
+    248715088
   ],
   "manual_retest_requests": {
     "41192170935": {
