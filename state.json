@@ -34371,6 +34371,11 @@
         "update_id": 248715096,
         "revision": 3,
         "sha256": "63c51574515ed7398660993c74319e055c6601847d84f1ab9ebaa9fc19cfaa46"
+      },
+      "intent": {
+        "kind": "publish",
+        "chat_id": -1004476747924,
+        "text_sha256": "250097debdcadaa4a43d7b3cefda4e6d2e78362d12047db797ac3032d906b97e"
       }
     }
   },
