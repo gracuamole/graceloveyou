@@ -31631,7 +31631,7 @@
         "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "revision_pending",
+      "status": "review",
       "draft_ids": [
         148
       ],
@@ -31682,7 +31682,8 @@
           "chat_id": -1003835479548,
           "update_id": 248715112,
           "revision": 2,
-          "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
+          "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change",
+          "cancelled": true
         }
       ],
       "reasoning_edits": [
@@ -31711,33 +31712,40 @@
           ],
           "cancelled_by": 941560570,
           "update_id": 248715105
-        }
-      ],
-      "feedback": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change",
-      "pending_feedback": [
+        },
         {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715112,
           "revision": 2,
-          "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
+          "feedback": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change",
+          "pending_feedback": [
+            {
+              "user_id": 941560570,
+              "chat_id": -1003835479548,
+              "update_id": 248715112,
+              "revision": 2,
+              "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
+            }
+          ],
+          "parts": [
+            "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
+          ],
+          "prompt_ids": [
+            149
+          ],
+          "cancelled_by": 941560570,
+          "update_id": 248715113
         }
       ],
-      "revision_failed": true,
-      "recovery_hold": true,
-      "failure_ids": [
-        170
-      ]
+      "needs_replacement_feedback": true
     }
   },
-  "offset": 248715113,
+  "offset": 248715114,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "revision_cancelled",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -32056,7 +32064,8 @@
     248715109,
     248715110,
     248715111,
-    248715112
+    248715112,
+    248715113
   ],
   "manual_retest_requests": {
     "41192170935": {
