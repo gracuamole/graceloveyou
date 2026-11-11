@@ -31860,12 +31860,9 @@
       "parts": [
         "I received your feedback. I’m asking the AI to update the report."
       ],
-      "notice_ids": [],
-      "intent": {
-        "kind": "notice",
-        "chat_id": -1003835479548,
-        "text_sha256": "b233472f2cc263541fed92cfebfcd370175bcaf0282be372c8396f061ab2aed8"
-      }
+      "notice_ids": [
+        147
+      ]
     }
   },
   "webhook_processed_ids": [
