@@ -34534,12 +34534,9 @@
       "parts": [
         "2026-11-12: reasoning was not saved when this report was generated."
       ],
-      "notice_ids": [],
-      "intent": {
-        "kind": "notice",
-        "chat_id": -1003835479548,
-        "text_sha256": "9391e248e45ca89f7cae161bc1815d008d252e77c08941ac5ab5ff0716ac078c"
-      }
+      "notice_ids": [
+        142
+      ]
     }
   },
   "webhook_processed_ids": [
