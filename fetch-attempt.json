@@ -9716,7 +9716,7 @@
         }
       },
       "failed": {},
-      "closed": false,
+      "closed": true,
       "alternates": {}
     }
   },
