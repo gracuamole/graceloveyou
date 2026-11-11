@@ -31733,7 +31733,7 @@
       "needs_replacement_feedback": true
     }
   },
-  "offset": 248715111,
+  "offset": 248715112,
   "started": true,
   "binding": [
     941560570,
@@ -31953,6 +31953,14 @@
         "Remembered feedback 3 will no longer be applied to new reports."
       ],
       "notice_ids": []
+    },
+    "forget:-1003835479548:248715111": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "Remembered feedback 4 will no longer be applied to new reports."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -32035,7 +32043,8 @@
     248715107,
     248715108,
     248715109,
-    248715110
+    248715110,
+    248715111
   ],
   "manual_retest_requests": {
     "41192170935": {
@@ -32128,10 +32137,12 @@
         "revision": 2,
         "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
         "id": 4,
-        "active": true,
+        "active": false,
         "source_date": "2026-11-13",
         "source_revision": 2,
-        "source_spot": "Old Man's / Batu Bolong"
+        "source_spot": "Old Man's / Batu Bolong",
+        "forgotten_by": 941560570,
+        "forgotten_update_id": 248715111
       }
     ]
   },
