@@ -34369,14 +34369,14 @@
       ]
     }
   },
-  "offset": 248715087,
+  "offset": 248715088,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "ignored_unthreaded",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34565,7 +34565,8 @@
     248715083,
     248715084,
     248715085,
-    248715086
+    248715086,
+    248715087
   ],
   "manual_retest_requests": {
     "41192170935": {
