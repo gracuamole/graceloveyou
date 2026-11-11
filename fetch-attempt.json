@@ -282,7 +282,124 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2
       },
-      "responses": {},
+      "responses": {
+        "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794369735.17582,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1794326400,
+                  "forecastDay": "2026-11-11",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Growing size from the SSW to see some fun surf along the Bukit through the PM session. ",
+                  "observation": "As expected, size has bumped up a notch or two thanks to some increasing energy from the SSW. We currently have a drained out low, leaving us with plenty of exposed reef seen around the island. Size is in the stomach to head/ overhead region depending on location and exposure. NNE winds are currently making for some fun surf along the West Coast, as the Bukit has some surface texture about, as does the east coast. SSE winds will trend from the late morning favouring the Bukit reefs. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1794412800,
+                  "forecastDay": "2026-11-12",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "SW energy peaks through the AM session under E/ENE winds. SE winds trend through PM",
+                  "observation": "Trailing bump of SW swell to see size peak through the morning with some decent energy behind it to see 2ft OH+ surf for the southern exposures and magnets. Keep in mind the drained-out 0.3 m low tide at dawn that will limit options, but with the incoming tide, expect some fun/good waves through the mid-morning period. SE winds will trend through the PM session, making for a nice afternoon of Bukit reef waves with the dropping tide. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1794351523
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -292,25 +409,13 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1794370033.9662611
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794369733.9662607
 }
