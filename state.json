@@ -34377,14 +34377,14 @@
       ]
     }
   },
-  "offset": 248715099,
+  "offset": 248715100,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_unthreaded",
+  "last_update_outcome": "why_requested",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34527,6 +34527,14 @@
       "notice_ids": [
         128
       ]
+    },
+    "why:-1003835479548:248715099": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "2026-11-12: reasoning was not saved when this report was generated."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -34597,7 +34605,8 @@
     248715095,
     248715096,
     248715097,
-    248715098
+    248715098,
+    248715099
   ],
   "manual_retest_requests": {
     "41192170935": {
