@@ -31714,7 +31714,10 @@
           "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
           "memory_id": 4
         }
-      ]
+      ],
+      "revision_failed": true,
+      "recovery_hold": true,
+      "failure_text": "The report failed to change. The proposed edit exceeded or missed the request. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change."
     }
   },
   "offset": 248715104,
