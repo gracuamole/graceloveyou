@@ -31679,7 +31679,12 @@
       "feedback": "Beginner 6:00AM-6.00 PM - inside breaks remember change",
       "reasoning_edits": [
         "Beginner 6:00AM-6.00 PM - inside breaks remember change\n-06:00–08:00 — Inside break\n+06:00–18:00 — Inside break"
-      ]
+      ],
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "dd963c5a9415ca75f2f2303274e549538059bf165b7e7d64a056f747d7b9f6c2"
+      }
     }
   },
   "offset": 248715102,
