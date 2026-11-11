@@ -31688,7 +31688,7 @@
       "reasoning_edits": [
         "Beginner 6:00AM-6.00 PM - inside breaks remember change\n-06:00–08:00 — Inside break\n+06:00–18:00 — Inside break"
       ],
-      "failure_text": "The report failed to change. The proposed edit exceeded or missed the request. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
+      "failure_text": "The report failed to change. Invalid targeted edit. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
       "recovery_history": [
         {
           "revision": 2,
@@ -31722,7 +31722,9 @@
           "revision": 2,
           "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
         }
-      ]
+      ],
+      "revision_failed": true,
+      "recovery_hold": true
     }
   },
   "offset": 248715113,
