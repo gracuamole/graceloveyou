@@ -31993,7 +31993,7 @@
     },
     "status:248715116": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "Saved surf review status (Bali date 2026-11-12).\n/start: recorded.\n2026-11-13 v2: waiting for your review.\nForecast captured 12 Nov 2026, 03:08 AM Bali\nApprove only by Reply to the latest FINAL review prompt with exactly correct. Feedback must end in change. Include remember to save it for future reports. 1 remembered instruction(s). /memory lists them. /dryrun sends a preview to this review chat."
       ],
