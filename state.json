@@ -31733,14 +31733,14 @@
       "needs_replacement_feedback": true
     }
   },
-  "offset": 248715108,
+  "offset": 248715109,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_requested",
+  "last_update_outcome": "ignored_unthreaded",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -32014,7 +32014,8 @@
     248715104,
     248715105,
     248715106,
-    248715107
+    248715107,
+    248715108
   ],
   "manual_retest_requests": {
     "41192170935": {
