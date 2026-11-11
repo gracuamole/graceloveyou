@@ -31718,11 +31718,9 @@
       "revision_failed": true,
       "recovery_hold": true,
       "failure_text": "The report failed to change. The proposed edit exceeded or missed the request. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
-      "intent": {
-        "kind": "failure",
-        "chat_id": -1003835479548,
-        "text_sha256": "78aeca2e613de7e6de24040c461652f1fa53de26ffbfdc9b4ed8d03008cfa90f"
-      }
+      "failure_ids": [
+        153
+      ]
     }
   },
   "offset": 248715104,
