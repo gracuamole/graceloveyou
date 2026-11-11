@@ -31922,13 +31922,9 @@
         " — Outside break\n08:00: not recommended. At this tide at least 400 kJ is needed\n09:00: not recommended. At this tide at least 400 kJ is needed\n10:00: not recommended. At this tide at least 400 kJ is needed\n11:00: not recommended. At this tide at least 400 kJ is needed\n12:00: not recommended. At this tide at least 400 kJ is needed\n13:00: not recommended. At this tide at least 400 kJ is needed\n14:00: not recommended. At this tide at least 400 kJ is needed\n15:00: not recommended. At this tide at least 400 kJ is needed\n16:00: not recommended. At this tide at least 400 kJ is needed\n17:00: not recommended. At this tide at least 400 kJ is needed\n\nADVANCED\nOutside: apply the shared rules; no mid-tide restriction.\n06:00–08:00 — Outside break\n08:00: not recommended. At this tide at least 400 kJ is needed\n09:00: not recommended. At this tide at least 400 kJ is needed\n10:00: not recommended. At this tide at least 400 kJ is needed\n11:00: not recommended. At this tide at least 400 kJ is needed\n12:00: not recommended. At this tide at least 400 kJ is needed\n13:00: not recommended. At this tide at least 400 kJ is needed\n14:00: not recommended. At this tide at least 400 kJ is needed\n15:00: not recommended. At this tide at least 400 kJ is needed\n16:00: not recommended. At this tide at least 400 kJ is needed\n17:00: not recommended. At this tide at least 400 kJ is needed\n\nCautions\nBefore sunrise, rounded gust ≥17 km/h triggers choppiness. Gusts (km/h): 00:00 8, 01:00 9, 02:00 10, 03:00 9, 04:00 8, 05:00 10.\nWindy later: rising wind or gusts with daylight wind ≥17 km/h, or any windy hour. Strong currents: qualifying advanced hour with energy ≥1000 kJ.\nConditions may become windy later in the day.\nBorderline calls: 08:00 rounded tide 0.8 m.\n\nReviewer changes since generation:\nBeginner 6:00AM-6.00 PM - inside breaks remember change\n-06:00–08:00 — Inside break\n+06:00–18:00 — Inside break"
       ],
       "notice_ids": [
-        157
-      ],
-      "intent": {
-        "kind": "notice",
-        "chat_id": -1003835479548,
-        "text_sha256": "bc75fbab4672b090c587db2efe7241ac4ae82a95020d699e1aa3dd50c32a12d9"
-      }
+        157,
+        158
+      ]
     }
   },
   "webhook_processed_ids": [
