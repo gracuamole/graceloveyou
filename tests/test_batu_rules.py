@@ -2,6 +2,7 @@ import copy
 import json
 from pathlib import Path
 import unittest
+from phase2 import build_blocks
 from recommendations import batu_recommend, rounded_tide, daylight_intervals, render_day, qualifies
 from review_bot import revision_input
 
@@ -17,6 +18,24 @@ class BatuRules(unittest.TestCase):
 
     def allowed(self, tier):
         return batu_recommend(self.row, self.tide, tier)['status'] == 'suitable to consider'
+
+    def test_november_first_uses_current_batu_rules(self):
+        report = json.loads((Path(__file__).parent / 'fixtures/november_1_2026.json').read_text())
+        text = '\n\n'.join(build_blocks(report['forecast'], report['date'], report['name']))
+        self.assertIn('1️⃣ BEGINNER\n07:00–10:00 — Inside break', text)
+        self.assertIn('2️⃣ INTERMEDIATE\n07:00–10:00 — Outside break', text)
+        self.assertIn('3️⃣ ADVANCED\n07:00–10:00 — Outside break', text)
+        self.assertIn('09:00 - 10:00 - forecasted to be windy, coach recommended', text)
+        self.assertIn('🌊 Wave height: Unavailable', text)
+
+    def test_low_tide_above_exception_energy_excludes_only_inside(self):
+        self.tide['height_m'] = 0.5
+        self.row['energy']['nearshore'] = 450
+        advice = batu_recommend(self.row, self.tide, 'beginner')
+        self.assertEqual(advice['status'], 'not recommended')
+        self.assertIn('Rounded tide is below 0.8 m for the inside break', advice['notes'])
+        self.assertTrue(self.allowed('intermediate'))
+        self.assertTrue(self.allowed('advanced'))
 
     def test_november_two_all_day_and_revision_share_policy(self):
         blocks = render_day(self.day, self.report['name'])
