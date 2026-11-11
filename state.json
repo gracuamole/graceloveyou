@@ -31923,7 +31923,12 @@
       ],
       "notice_ids": [
         157
-      ]
+      ],
+      "intent": {
+        "kind": "notice",
+        "chat_id": -1003835479548,
+        "text_sha256": "bc75fbab4672b090c587db2efe7241ac4ae82a95020d699e1aa3dd50c32a12d9"
+      }
     }
   },
   "webhook_processed_ids": [
