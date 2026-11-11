@@ -31631,7 +31631,7 @@
         "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         148
       ],
@@ -31664,11 +31664,24 @@
           "source_date": "2026-11-13",
           "source_revision": 1,
           "source_spot": "Old Man's / Batu Bolong"
+        },
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715103,
+          "revision": 2,
+          "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+          "id": 4,
+          "active": true,
+          "source_date": "2026-11-13",
+          "source_revision": 2,
+          "source_spot": "Old Man's / Batu Bolong"
         }
       ],
       "memory_pending": false,
       "memory_saved_ids": [
-        3
+        3,
+        4
       ],
       "feedback_log": [
         {
@@ -31678,22 +31691,40 @@
           "revision": 1,
           "text": "Beginner 6:00AM-6.00 PM - inside breaks remember change",
           "memory_id": 3
+        },
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715103,
+          "revision": 2,
+          "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+          "memory_id": 4
         }
       ],
-      "feedback": "Beginner 6:00AM-6.00 PM - inside breaks remember change",
+      "feedback": "Intermedia 6:00AM-6:00PM outside breaks remember change",
       "reasoning_edits": [
         "Beginner 6:00AM-6.00 PM - inside breaks remember change\n-06:00–08:00 — Inside break\n+06:00–18:00 — Inside break"
+      ],
+      "pending_feedback": [
+        {
+          "user_id": 6723114444,
+          "chat_id": -1003835479548,
+          "update_id": 248715103,
+          "revision": 2,
+          "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+          "memory_id": 4
+        }
       ]
     }
   },
-  "offset": 248715103,
+  "offset": 248715104,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_stale_prompt",
+  "last_update_outcome": "memory_revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -31856,6 +31887,14 @@
       "notice_ids": [
         147
       ]
+    },
+    "editing:248715103": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -31930,7 +31969,8 @@
     248715099,
     248715100,
     248715101,
-    248715102
+    248715102,
+    248715103
   ],
   "manual_retest_requests": {
     "41192170935": {
@@ -31974,7 +32014,7 @@
   ],
   "memory": {
     "version": 1,
-    "next_id": 4,
+    "next_id": 5,
     "entries": [
       {
         "user_id": 941560570,
@@ -32012,6 +32052,18 @@
         "active": true,
         "source_date": "2026-11-13",
         "source_revision": 1,
+        "source_spot": "Old Man's / Batu Bolong"
+      },
+      {
+        "user_id": 6723114444,
+        "chat_id": -1003835479548,
+        "update_id": 248715103,
+        "revision": 2,
+        "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+        "id": 4,
+        "active": true,
+        "source_date": "2026-11-13",
+        "source_revision": 2,
         "source_spot": "Old Man's / Batu Bolong"
       }
     ]
