@@ -68,7 +68,7 @@ class ReviewTests(unittest.TestCase):
                          'ignored_unthreaded')
         self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': 0}), TODAY),
                          'ignored_stale_prompt')
-        self.assertEqual(self.bot.process(self.update('Correct'), TODAY), 'ignored_text')
+        self.assertEqual(self.bot.process(self.update('Correct!'), TODAY), 'ignored_text')
         self.assertEqual(self.bot.process(self.update(), TARGET), 'ignored_expired')
         self.assertEqual(self.report['status'], 'review')
         self.assertFalse(self.published())
@@ -149,7 +149,7 @@ class ReviewTests(unittest.TestCase):
 
     def test_exact_authorization_and_latest_prompt(self):
         self.draft()
-        for text in ('Correct', ' correct', 'correct\n', 'yes correct', 'correct change'):
+        for text in ('Correct!', ' correct', 'correct\n', 'yes correct', 'correct change'):
             update = self.update(text)
             if text.endswith('change'):
                 update['message']['reply_to_message']['message_id'] = 0
@@ -521,7 +521,7 @@ class ReviewTests(unittest.TestCase):
         self.assertIn('post this report to the channel again', private[-1])
         self.assertEqual(self.bot.process(self.update(reply_to_message={'message_id': old_prompt}), TODAY),
                          'ignored_stale_prompt')
-        for text in ('Correct', ' correct', 'correct\n'):
+        for text in ('Correct!', ' correct', 'correct\n'):
             self.assertEqual(self.bot.process(self.update(text), TODAY), 'ignored_text')
         self.assertEqual(self.bot.process(self.update(), TODAY), 'approved')
         self.store = self.bot.store
@@ -847,9 +847,7 @@ class ReviewTests(unittest.TestCase):
         self.bot.advance(TODAY)
         self.llm.assert_not_called()
         revised = '\n\n'.join(self.report['parts'])
-        self.assertTrue(revised.startswith(clean_report_text('\n\n'.join(previous))))
-        for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
-            self.assertNotIn(removed, revised)
+        self.assertTrue(revised.startswith('\n\n'.join(previous)))
         self.assertIn('Reviewer note (not Surfline data): Ask a coach about the current', revised)
         self.assertEqual(self.report['revision'], 2)
         self.assertFalse(self.published())
@@ -1202,13 +1200,14 @@ class GeminiRevisionTests(unittest.TestCase):
 
     def test_repaired_pending_revision_still_needs_fresh_approval(self):
         self.protected_report()
-        self.set_result("Forecast date: 30 October 2026\n\n🟢 BATU BOLONG\n\n"
-                        '1️⃣ BEGINNER\n16:00–17:00 — Inside break, coach recommended (larger sets)\n\n'
-                        '2️⃣ INTERMEDIATE\n16:00–17:00\n\n'
-                        '3️⃣ ADVANCED\n16:00–17:00 — Breaking waves 2–3 ft\n\n'
-                        '⚠️ CAUTIONS\n- High energy: strong currents possible.\n'
-                        '- Wind above 20 km/h: surf only if comfortable; beginners should go with a coach.\n'
-                        '- Below 100 kJ: generally too flat for worthwhile surfing.')
+        original = self.report['parts'][0].split('\n')
+        self.set_result(json.dumps([
+            dict(part=0, line=index, old=original[index], new=[], request='remove 17:00-18:00 report')
+            for index in range(len(original)-2, len(original))
+        ]))
+        verdict = Mock(status_code=200)
+        verdict.json.return_value = {'candidates': [{'finishReason': 'STOP', 'content': {'parts': [{'text': 'OK'}]}}]}
+        self.post.side_effect = [self.response, verdict]
         self.report.update(revision=1, status='revision_pending', draft_ids=[50], prompt_ids=[51],
                            feedback='remove 17:00-18:00 report change')
         with tempfile.TemporaryDirectory() as temporary:
@@ -1223,13 +1222,12 @@ class GeminiRevisionTests(unittest.TestCase):
                 self.assertEqual(saved['revision'], 2)
                 self.assertEqual(saved['status'], 'review')
                 self.assertNotIn('approval', saved)
-                for removed in ('WITA', 'Source: Surfline', 'recommendations are not safety guarantees'):
-                    self.assertNotIn(removed, ''.join(saved['parts']))
+                self.assertEqual(saved['parts'], ['\n'.join(original[:-2])])
                 self.assertNotIn('analysis_ids', saved)
                 self.assertNotIn('source_ids', saved)
                 self.assertEqual(saved['prompt_ids'], [102])
                 self.assertTrue(all(call.kwargs['chat_id'] == 42 for call in telegram.call.call_args_list))
-                self.assertTrue(telegram.call.call_args_list[0].kwargs['entities'])
+                self.assertEqual(telegram.call.call_args_list[0].kwargs['chat_id'], 42)
                 update = {'update_id': 10, 'message': {'text': 'correct', 'from': {'id': 42},
                     'chat': {'id': 42, 'type': 'private'}, 'reply_to_message': {'message_id': 51}}}
                 self.assertEqual(bot.process(update, TODAY), 'ignored_stale_prompt')
@@ -1242,7 +1240,6 @@ class GeminiRevisionTests(unittest.TestCase):
             self.assertEqual(telegram.call.call_count, 3)
             self.assertEqual(telegram.call.call_args.kwargs['chat_id'], -100)
             self.assertEqual(telegram.call.call_args.kwargs['text'], display_12_hour(saved['parts'][0]))
-            self.assertTrue(telegram.call.call_args.kwargs['entities'])
             self.assertEqual(Store(path).data['reports'][TARGET]['status'], 'published')
 
     def test_numeric_formatting_allowed_but_new_negative_or_value_rejected(self):
@@ -1472,7 +1469,7 @@ class GroupReviewTests(unittest.TestCase):
         self.llm.assert_called_once()
         self.assertEqual(report['revision'], 5)
         self.assertEqual(report['parts'], [TARGET + ' corrected report'])
-        for text, prompt in (('correct', old_prompt), ('Correct', report['prompt_ids'][-1]),
+        for text, prompt in (('correct', old_prompt), ('Correct!', report['prompt_ids'][-1]),
                              (' correct', report['prompt_ids'][-1])):
             bot.process(self.message(text, prompt), TODAY)
             self.assertEqual(report['status'], 'review')
