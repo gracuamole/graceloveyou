@@ -34530,7 +34530,7 @@
     },
     "why:-1003835479548:248715099": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "2026-11-12: reasoning was not saved when this report was generated."
       ],
