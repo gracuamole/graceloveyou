@@ -34325,7 +34325,7 @@
         "Forecast date: 12 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: knees to shoulder high\n\n1️⃣ BEGINNER\n08:00–18:00 — Inside break and 14:00–18:00 — forecasted to be windy, coach recommended\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break and 14:00–18:00 — forecasted to be windy, but up to your personal preference if you want to surf\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break and 14:00–18:00 — forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 3,
-      "status": "review",
+      "status": "approved",
       "draft_ids": [
         129
       ],
@@ -34364,17 +34364,24 @@
           "text": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
         }
       ],
-      "feedback": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
+      "feedback": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange",
+      "approval": {
+        "user_id": 941560570,
+        "chat_id": -1003835479548,
+        "update_id": 248715096,
+        "revision": 3,
+        "sha256": "63c51574515ed7398660993c74319e055c6601847d84f1ab9ebaa9fc19cfaa46"
+      }
     }
   },
-  "offset": 248715096,
+  "offset": 248715097,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_text",
+  "last_update_outcome": "approved",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34584,7 +34591,8 @@
     248715092,
     248715093,
     248715094,
-    248715095
+    248715095,
+    248715096
   ],
   "manual_retest_requests": {
     "41192170935": {
