@@ -34325,7 +34325,7 @@
         "Forecast date: 12 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to overhead all day\n\n1️⃣ BEGINNER\n08:00–18:00 — Inside break\n14:00 - 18:00 - forecasted to be windy, coach recommended\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n14:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break\n14:00 - 18:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         119
       ],
@@ -34347,17 +34347,36 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "feedback_log": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715086,
+          "revision": 1,
+          "text": "change to “Wave height: knees to shoulder high” change"
+        }
+      ],
+      "feedback": "change to “Wave height: knees to shoulder high” change",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715086,
+          "revision": 1,
+          "text": "change to “Wave height: knees to shoulder high” change"
+        }
+      ]
     }
   },
-  "offset": 248715086,
+  "offset": 248715087,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_unthreaded",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34480,6 +34499,14 @@
       "parts": [
         "REVIEW PREVIEW ONLY — no approval cycle; do not approve this message.\nForecast captured 10 Nov 2026, 03:08 AM Bali\n\nForecast date: 11 November 2026\n\n📍BATU BOLONG\n\n🟢 BEGINNER\n07:00–18:00 — Inside break\n\n🟡 INTERMEDIATE\nAll day is surfable - Outside break\n\n🔵 ADVANCED\nAll day is surfable - Outside break"
       ]
+    },
+    "editing:248715086": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -34537,7 +34564,8 @@
     248715082,
     248715083,
     248715084,
-    248715085
+    248715085,
+    248715086
   ],
   "manual_retest_requests": {
     "41192170935": {
