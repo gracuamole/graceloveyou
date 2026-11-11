@@ -31631,7 +31631,7 @@
         "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "revision_pending",
+      "status": "review",
       "draft_ids": [
         148
       ],
@@ -31698,39 +31698,49 @@
           "update_id": 248715103,
           "revision": 2,
           "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
-          "memory_id": 4
+          "memory_id": 4,
+          "cancelled": true
         }
       ],
-      "feedback": "Intermedia 6:00AM-6:00PM outside breaks remember change",
       "reasoning_edits": [
         "Beginner 6:00AM-6.00 PM - inside breaks remember change\n-06:00–08:00 — Inside break\n+06:00–18:00 — Inside break"
       ],
-      "pending_feedback": [
+      "failure_text": "The report failed to change. The proposed edit exceeded or missed the request. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
+      "recovery_history": [
         {
-          "user_id": 6723114444,
-          "chat_id": -1003835479548,
-          "update_id": 248715103,
           "revision": 2,
-          "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
-          "memory_id": 4
+          "feedback": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+          "pending_feedback": [
+            {
+              "user_id": 6723114444,
+              "chat_id": -1003835479548,
+              "update_id": 248715103,
+              "revision": 2,
+              "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
+              "memory_id": 4
+            }
+          ],
+          "parts": [
+            "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
+          ],
+          "prompt_ids": [
+            149
+          ],
+          "cancelled_by": 941560570,
+          "update_id": 248715105
         }
       ],
-      "revision_failed": true,
-      "recovery_hold": true,
-      "failure_text": "The report failed to change. The proposed edit exceeded or missed the request. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
-      "failure_ids": [
-        153
-      ]
+      "needs_replacement_feedback": true
     }
   },
-  "offset": 248715105,
+  "offset": 248715106,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "ignored_stale_prompt",
+  "last_update_outcome": "revision_cancelled",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -31979,7 +31989,8 @@
     248715101,
     248715102,
     248715103,
-    248715104
+    248715104,
+    248715105
   ],
   "manual_retest_requests": {
     "41192170935": {
