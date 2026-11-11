@@ -31938,7 +31938,7 @@
     },
     "memory:-1003835479548:248715109": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "Remembered feedback for future reports:\n\n1. remove “OLD MAN’s” in location\n\nremember change\n\n3. Beginner 6:00AM-6.00 PM - inside breaks remember change\n\n4. Intermedia 6:00AM-6:00PM outside breaks remember change\n\nUse /forget ID to stop applying one instruction."
       ],
