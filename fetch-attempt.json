@@ -284,7 +284,8 @@
         "605112930a374f33cf5f8f05:rating": 1,
         "605112930a374f33cf5f8f05:surf": 2,
         "605112930a374f33cf5f8f05:swells": 1,
-        "605112930a374f33cf5f8f05:wind": 1
+        "605112930a374f33cf5f8f05:wind": 1,
+        "605112930a374f33cf5f8f05:tides": 1
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -6927,9 +6928,28 @@
             "spotId": "605112930a374f33cf5f8f05",
             "units[windSpeed]": "KTS"
           }
+        },
+        "605112930a374f33cf5f8f05:tides": {
+          "endpoint": "tides",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[tideHeight]": "FT"
+          }
         }
       },
-      "failed": {},
+      "failed": {
+        "605112930a374f33cf5f8f05:tides": {
+          "endpoint": "tides",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[tideHeight]": "FT"
+          }
+        }
+      },
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -6937,6 +6957,10 @@
       }
     }
   },
-  "cooldowns": {},
-  "last_request": 1794369748.9669008
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:tides": {
+      "until": 1794370051.967036
+    }
+  },
+  "last_request": 1794369751.9670353
 }
