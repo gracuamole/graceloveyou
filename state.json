@@ -31631,7 +31631,7 @@
         "Forecast date: 13 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–18:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         148
       ],
@@ -31651,30 +31651,6 @@
           "active": true,
           "source_date": "2026-11-08",
           "source_revision": 1,
-          "source_spot": "Old Man's / Batu Bolong"
-        },
-        {
-          "user_id": 6723114444,
-          "chat_id": -1003835479548,
-          "update_id": 248715101,
-          "revision": 1,
-          "text": "Beginner 6:00AM-6.00 PM - inside breaks remember change",
-          "id": 3,
-          "active": true,
-          "source_date": "2026-11-13",
-          "source_revision": 1,
-          "source_spot": "Old Man's / Batu Bolong"
-        },
-        {
-          "user_id": 6723114444,
-          "chat_id": -1003835479548,
-          "update_id": 248715103,
-          "revision": 2,
-          "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
-          "id": 4,
-          "active": true,
-          "source_date": "2026-11-13",
-          "source_revision": 2,
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
@@ -31700,6 +31676,13 @@
           "text": "Intermedia 6:00AM-6:00PM outside breaks remember change",
           "memory_id": 4,
           "cancelled": true
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715112,
+          "revision": 2,
+          "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
         }
       ],
       "reasoning_edits": [
@@ -31730,17 +31713,26 @@
           "update_id": 248715105
         }
       ],
-      "needs_replacement_feedback": true
+      "feedback": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715112,
+          "revision": 2,
+          "text": "change Intermediate to 6:00AM-6:00 PM - outside breaks  change"
+        }
+      ]
     }
   },
-  "offset": 248715112,
+  "offset": 248715113,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_forgotten",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -31965,6 +31957,14 @@
       "notice_ids": [
         167
       ]
+    },
+    "editing:248715112": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -32048,7 +32048,8 @@
     248715108,
     248715109,
     248715110,
-    248715111
+    248715111,
+    248715112
   ],
   "manual_retest_requests": {
     "41192170935": {
