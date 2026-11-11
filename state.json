@@ -34326,7 +34326,9 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        129
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
@@ -34360,12 +34362,7 @@
           "text": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
         }
       ],
-      "feedback": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "e90375fb13da240bc422405f50759877c65fec7e12c999f1039d88c3900a7f1c"
-      }
+      "feedback": "the AI removed some words in the original report when updating the report. revert back to original report sent and only change wave height section to “Wave height: knees to shoulder high”\n\nchange"
     }
   },
   "offset": 248715089,
