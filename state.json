@@ -34326,7 +34326,9 @@
       ],
       "revision": 2,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        125
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "remembered_feedback": [
@@ -34353,12 +34355,7 @@
           "text": "change to “Wave height: knees to shoulder high” change"
         }
       ],
-      "feedback": "change to “Wave height: knees to shoulder high” change",
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "222a2c8c0f277f6cc29fcc1d3bc4b4e62e54bbf128c2e236ca775d2475c0ab64"
-      }
+      "feedback": "change to “Wave height: knees to shoulder high” change"
     }
   },
   "offset": 248715088,
