@@ -472,7 +472,8 @@
         "605112930a374f33cf5f8f05:swells": 2,
         "605112930a374f33cf5f8f05:wind": 2,
         "605112930a374f33cf5f8f05:tides": 2,
-        "605112930a374f33cf5f8f05:energy": 2
+        "605112930a374f33cf5f8f05:energy": 2,
+        "605112930a374f33cf5f8f05:weather": 1
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -6378,9 +6379,30 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:weather": {
+          "endpoint": "weather",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[temperature]": "F"
+          }
         }
       },
-      "failed": {},
+      "failed": {
+        "605112930a374f33cf5f8f05:weather": {
+          "endpoint": "weather",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[temperature]": "F"
+          }
+        }
+      },
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -6393,6 +6415,10 @@
       }
     }
   },
-  "cooldowns": {},
-  "last_request": 1794510532.1856515
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:weather": {
+      "until": 1794510835.1858
+    }
+  },
+  "last_request": 1794510535.1857996
 }
