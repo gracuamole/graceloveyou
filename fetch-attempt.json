@@ -585,6 +585,413 @@
               ]
             }
           }
+        },
+        "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07": {
+          "spec": {
+            "endpoint": "rating",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794510503.5551555,
+          "data": {
+            "associated": {
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "runInitializationTimestamp": 1794463200
+            },
+            "data": {
+              "rating": [
+                {
+                  "timestamp": 1794499200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794502800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794506400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794510000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794513600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794517200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794520800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794524400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794528000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794531600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794535200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794538800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794542400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794546000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794549600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1794553200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1794556800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1794560400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794564000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794567600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794571200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794574800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794578400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794582000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794585600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794589200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794592800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794596400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794600000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794603600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794607200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794610800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794614400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794618000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794621600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794625200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794628800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794632400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794636000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794639600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794643200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794646800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794650400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794654000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794657600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794661200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794664800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1794668400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -603,15 +1010,7 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:rating": {
-          "endpoint": "rating",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -619,10 +1018,6 @@
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:rating": {
-      "until": 1794510802.0919757
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794510502.0919755
 }
