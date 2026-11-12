@@ -467,7 +467,7 @@
       "started": 1794510493.0900512,
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2,
-        "605112930a374f33cf5f8f05:rating": 1
+        "605112930a374f33cf5f8f05:rating": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -598,10 +598,8 @@
         "605112930a374f33cf5f8f05:rating": {
           "endpoint": "rating",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
@@ -609,23 +607,22 @@
         "605112930a374f33cf5f8f05:rating": {
           "endpoint": "rating",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
       "closed": false,
       "alternates": {
-        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
+        "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:rating": {
-      "until": 1794510500.3249052
+      "until": 1794510802.0919757
     }
   },
-  "last_request": 1794510499.091871
+  "last_request": 1794510502.0919755
 }
