@@ -31276,11 +31276,10 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–09:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–09:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–09:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
+        "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 1,
       "status": "draft",
-      "apply_new_rules": true,
       "draft_ids": [],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
@@ -31299,7 +31298,10 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false,
+      "reasoning_edits": [
+        "remove “OLD MAN’s” in location\n\nremember change\n-06:00–09:00 — Inside break\n+06:00–08:00 — Inside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break"
+      ]
     }
   },
   "offset": 248715117,
