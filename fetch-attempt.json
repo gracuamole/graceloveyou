@@ -470,7 +470,7 @@
         "605112930a374f33cf5f8f05:rating": 2,
         "605112930a374f33cf5f8f05:surf": 2,
         "605112930a374f33cf5f8f05:swells": 2,
-        "605112930a374f33cf5f8f05:wind": 1
+        "605112930a374f33cf5f8f05:wind": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -4737,11 +4737,8 @@
         "605112930a374f33cf5f8f05:wind": {
           "endpoint": "wind",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[windSpeed]": "KTS"
+            "days": "2"
           }
         }
       },
@@ -4749,11 +4746,8 @@
         "605112930a374f33cf5f8f05:wind": {
           "endpoint": "wind",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[windSpeed]": "KTS"
+            "days": "2"
           }
         }
       },
@@ -4762,14 +4756,15 @@
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
         "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07",
         "6a495cb93ad1f6b81f20f3c2db775e838513ca523e432ca8f675b1a261243168": "9988027381586b5458486f53fc0c7b4149a647bdd4194dd5fa007b3237bc7023",
-        "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654"
+        "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654",
+        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:wind": {
-      "until": 1794510518.3385725
+      "until": 1794510820.0927083
     }
   },
-  "last_request": 1794510517.09259
+  "last_request": 1794510520.0927079
 }
