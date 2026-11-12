@@ -471,7 +471,7 @@
         "605112930a374f33cf5f8f05:surf": 2,
         "605112930a374f33cf5f8f05:swells": 2,
         "605112930a374f33cf5f8f05:wind": 2,
-        "605112930a374f33cf5f8f05:tides": 1
+        "605112930a374f33cf5f8f05:tides": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -5206,10 +5206,8 @@
         "605112930a374f33cf5f8f05:tides": {
           "endpoint": "tides",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
+            "days": "2"
           }
         }
       },
@@ -5217,10 +5215,8 @@
         "605112930a374f33cf5f8f05:tides": {
           "endpoint": "tides",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
+            "days": "2"
           }
         }
       },
@@ -5230,14 +5226,15 @@
         "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07",
         "6a495cb93ad1f6b81f20f3c2db775e838513ca523e432ca8f675b1a261243168": "9988027381586b5458486f53fc0c7b4149a647bdd4194dd5fa007b3237bc7023",
         "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654",
-        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10"
+        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10",
+        "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": "84b0d7aa9ab4b2d57891752906f131fa568ee25d94bbb1ba40c70ca1decaf5ee"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:tides": {
-      "until": 1794510524.3932848
+      "until": 1794510826.185399
     }
   },
-  "last_request": 1794510523.0928295
+  "last_request": 1794510526.1853988
 }
