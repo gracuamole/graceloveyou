@@ -31301,7 +31301,12 @@
       "memory_pending": false,
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\n-06:00–09:00 — Inside break\n+06:00–08:00 — Inside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break"
-      ]
+      ],
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "a0b62d5fa49bce468238a7f1fa2ff14a9263ce11fbc05492dabf2fb5968cb1e3"
+      }
     }
   },
   "offset": 248715117,
