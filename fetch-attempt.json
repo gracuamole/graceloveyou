@@ -473,7 +473,7 @@
         "605112930a374f33cf5f8f05:wind": 2,
         "605112930a374f33cf5f8f05:tides": 2,
         "605112930a374f33cf5f8f05:energy": 2,
-        "605112930a374f33cf5f8f05:weather": 1
+        "605112930a374f33cf5f8f05:weather": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -6383,11 +6383,8 @@
         "605112930a374f33cf5f8f05:weather": {
           "endpoint": "weather",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
+            "days": "2"
           }
         }
       },
@@ -6395,11 +6392,8 @@
         "605112930a374f33cf5f8f05:weather": {
           "endpoint": "weather",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
+            "days": "2"
           }
         }
       },
@@ -6411,14 +6405,15 @@
         "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654",
         "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10",
         "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": "84b0d7aa9ab4b2d57891752906f131fa568ee25d94bbb1ba40c70ca1decaf5ee",
-        "43d7ce7bcb33f4af298db5bfaca6399d06549b38b2cff8b24899b045090f60c2": "4610db957dc2c143ebac0b9413305707ec1c8ceaf8794b45df4d010cbe6b2192"
+        "43d7ce7bcb33f4af298db5bfaca6399d06549b38b2cff8b24899b045090f60c2": "4610db957dc2c143ebac0b9413305707ec1c8ceaf8794b45df4d010cbe6b2192",
+        "0376b4f294d244e986380a123da69423e872ab14e725202ddbf5c6bc8f090765": "270c2f5f75e780a29e17e12ae1c68552bdc3a6f22f4579c317d60e92b249b0fe"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:weather": {
-      "until": 1794510536.6725228
+      "until": 1794510838.1859527
     }
   },
-  "last_request": 1794510535.1857996
+  "last_request": 1794510538.1859522
 }
