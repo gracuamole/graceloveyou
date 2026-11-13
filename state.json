@@ -31279,7 +31279,7 @@
         "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "revision_pending",
+      "status": "review",
       "draft_ids": [
         179
       ],
@@ -34288,19 +34288,8 @@
           "update_id": 248715117,
           "revision": 2,
           "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
-          "reply_to_message_id": 179
-        }
-      ],
-      "feedback": "Beginner 6:00AM-6.00 PM - inside breaks change",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715117,
-          "revision": 2,
-          "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
           "reply_to_message_id": 179,
-          "ai_calls": 2
+          "cancelled": true
         }
       ],
       "edit_failures": [
@@ -34325,22 +34314,43 @@
           ]
         }
       ],
-      "revision_failed": true,
-      "recovery_hold": true,
       "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
-      "failure_ids": [
-        183
-      ]
+      "recovery_history": [
+        {
+          "revision": 2,
+          "feedback": "Beginner 6:00AM-6.00 PM - inside breaks change",
+          "pending_feedback": [
+            {
+              "user_id": 941560570,
+              "chat_id": -1003835479548,
+              "update_id": 248715117,
+              "revision": 2,
+              "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
+              "reply_to_message_id": 179,
+              "ai_calls": 2
+            }
+          ],
+          "parts": [
+            "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
+          ],
+          "prompt_ids": [
+            180
+          ],
+          "cancelled_by": 941560570,
+          "update_id": 248715118
+        }
+      ],
+      "needs_replacement_feedback": true
     }
   },
-  "offset": 248715118,
+  "offset": 248715119,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_pending",
+  "last_update_outcome": "revision_cancelled",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34694,7 +34704,8 @@
     248715114,
     248715115,
     248715116,
-    248715117
+    248715117,
+    248715118
   ],
   "manual_retest_requests": {
     "41192170935": {
