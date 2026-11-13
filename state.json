@@ -34544,7 +34544,12 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false
+      "memory_pending": false,
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "192edb49f0bdf508f3799c3e0d46e72e47e9231fba58f3bf01fc3c416674211f"
+      }
     }
   },
   "offset": 248715121,
