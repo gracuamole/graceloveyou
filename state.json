@@ -34526,7 +34526,9 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        189
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "generation_reasoning": "Spot: Old Man's / Batu Bolong. Sunrise 05:50, sunset 18:20. Round sunrise up and sunset down: 06:00–18:00.\nWave height uses the hourly Surfline surf_human descriptions within daylight.\n🌊 Wave height: chest to overhead all day\n\nSurfline inputs shared by all levels, by hour\nTide: interpolated metres → nearest 0.1 m (half up). Wind/gust: knots × 1.852 → km/h rounded up.\n06:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 488.2 kJ; tide 0.77114→0.8 m; wind/gust 6.2→12 / 10.9→21.\n07:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 500.1 kJ; tide 0.65532→0.7 m; wind/gust 6.9→13 / 11.3→21.\n08:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 510.9 kJ; tide 0.72847→0.7 m; wind/gust 8.9→17 / 12.7→24.\n09:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 522.1 kJ; tide 0.96622→1.0 m; wind/gust 9.9→19 / 12.8→24.\n10:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 533.2 kJ; tide 1.2893→1.3 m; wind/gust 10.2→19 / 12.8→24.\n11:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 543.2 kJ; tide 1.61239→1.6 m; wind/gust 11.0→21 / 13.1→25.\n12:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 553.4 kJ; tide 1.85014→1.9 m; wind/gust 12.2→23 / 13.6→26.\n13:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 564.7 kJ; tide 1.95986→2.0 m; wind/gust 11.9→23 / 13.2→25.\n14:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 576.8 kJ; tide 1.93243→1.9 m; wind/gust 10.5→20 / 12.1→23.\n15:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 588.0 kJ; tide 1.79222→1.8 m; wind/gust 10.7→20 / 12.1→23.\n16:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 597.3 kJ; tide 1.59106→1.6 m; wind/gust 10.1→19 / 11.5→22.\n17:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 638.6 kJ; tide 1.38989→1.4 m; wind/gust 9.6→18 / 11.1→21.\n\nRules for all levels: minimum 80 kJ. At rounded tide above 0.2 and below 0.8 m, 60–400 kJ inclusive qualifies under the low-tide exception. At 0.8 m or higher, minimum 400 kJ. At 1000 kJ or higher only advanced qualifies. Very poor excludes all; Poor permits beginner only; Poor to fair and better permit all subject to other limits. Wind adds a warning above 15 km/h on the three low ratings and at 20 km/h or higher on better ratings.\n\nBEGINNER\nInside: breaking surf below 2.5 m and tide at least 0.8 m unless the low-tide exception applies.\n06:00–07:00 and 09:00–18:00 — Inside break\n11:00 - 16:00 - forecasted to be windy, coach recommended\n07:00: not recommended. Rounded tide is below 0.8 m for the inside break\n08:00: not recommended. Rounded tide is below 0.8 m for the inside break\n\nINTERMEDIATE\nOutside: apply the shared rules; no mid-tide restriction.\nAll day is surfable - Outside break\n11:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\nADVANCED\nOutside: apply the shared rules; no mid-tide restriction.\nAll day is surfable - Outside break\n11:00 - 16:00 - forecasted to be windy, but up to your personal preference if you want to surf\n\nCautions\nBefore sunrise, rounded gust ≥17 km/h triggers choppiness. Gusts (km/h): 00:00 19, 01:00 18, 02:00 18, 03:00 18, 04:00 18, 05:00 19.\nWindy later: rising wind or gusts with daylight wind ≥17 km/h, or any windy hour. Strong currents: qualifying advanced hour with energy ≥1000 kJ.\nWaves may be choppy from sunrise following strong early gusts.\nConditions may become windy later in the day.\nBorderline calls: 06:00 rounded tide 0.8 m; 09:00 rounded wind 19 km/h at the warning boundary; 10:00 rounded wind 19 km/h at the warning boundary; 14:00 rounded wind 20 km/h at the warning boundary; 15:00 rounded wind 20 km/h at the warning boundary; 16:00 rounded wind 19 km/h at the warning boundary.",
@@ -34544,12 +34546,7 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": false,
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "192edb49f0bdf508f3799c3e0d46e72e47e9231fba58f3bf01fc3c416674211f"
-      }
+      "memory_pending": false
     }
   },
   "offset": 248715121,
