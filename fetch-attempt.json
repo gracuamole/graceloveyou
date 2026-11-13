@@ -552,7 +552,158 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 1
       },
-      "responses": {},
+      "responses": {
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "spotId": "605112930a374f33cf5f8f05"
+            }
+          },
+          "captured": 1794596895.70807,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1794585600,
+                  "forecastDay": "2026-11-14",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Early signs of fresh long period SSW swell later in the day, south swell magnets to grow in size ",
+                  "observation": "Worth watching the south swell magnets through the day. These will lift from the initial mid sized, relatively mellow morning surf to a little bit more of an energetic 2ft OH, occasionally bigger in the afternoon. Selective swell angle means less exposed spots will see much less of this wrapping in. Decent potential on the Bukit reefs, with afternoon wind something to watch for the outer corners. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1794672000,
+                  "forecastDay": "2026-11-15",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Trailing long period SW swell adds wider consistency / size to the regions. AM winds best ",
+                  "observation": "Another kick of size and energy through the day. A less selective SW pulse mixes into the SSW swell already in the water. Noticeable lift in consistency and some more size too for the outer corners. Not as much size, but a useful bump in regularity of sets likely on the less exposed spots. Some potential worth eying off on the Bukit reefs in the morning as tide pushes in. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1794758400,
+                  "forecastDay": "2026-11-16",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Swell peaks and wave sizes reach well overhead plus on outer corners",
+                  "observation": "A good looking day on the cards with a slack wind regime setting up for clean, potentially very clean conditions. A wide variety of options as a result, east and west. Best window for the east side is in the morning - but there's also good options on Bukit reefs through the AM and even the other side of lunch. Sets on exposures likely to push well overhead, much smaller elsewhere and mellow options at protected breaks ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1794530579
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -563,24 +714,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1794597194.4001706
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794596894.40017
 }
