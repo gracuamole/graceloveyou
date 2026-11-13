@@ -34342,7 +34342,7 @@
           ]
         }
       ],
-      "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
+      "failure_text": "The report failed to change. checker REJECT: The proposed edit exceeded or missed the request. Restore unrelated text verbatim. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
       "recovery_history": [
         {
           "revision": 2,
@@ -34379,7 +34379,9 @@
           "reply_to_message_id": 180,
           "ai_calls": 3
         }
-      ]
+      ],
+      "revision_failed": true,
+      "recovery_hold": true
     }
   },
   "offset": 248715120,
