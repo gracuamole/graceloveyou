@@ -34330,6 +34330,16 @@
           "feedback_update_ids": [
             248715119
           ]
+        },
+        {
+          "revision": 2,
+          "reason": "checker REJECT",
+          "detail": "The proposed edit exceeded or missed the request. Restore unrelated text verbatim.",
+          "proposed_edit": "[\n  {\n    \"part\": 0,\n    \"line\": 6,\n    \"old\": \"06:00–08:00 — Inside break\",\n    \"new\": [\n      \"06:00–09:00 — Inside break\"\n    ],\n    \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"\n  },\n  {\n    \"part\": 0,\n    \"line\": 9,\n    \"old\": \"06:00–08:00 — Outside break\",\n    \"new\": [\n      \"06:00–09:00 — Outside break\"\n    ],\n    \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"\n  },\n  {\n    \"part\": 0,\n    \"line\": 12,\n    \"old\": \"06:00–08:00 — Outside break\",\n    \"new\": [\n      \"06:00–09:00 — Outside break\"\n    ],\n    \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"\n  }\n]",
+          "truncated": false,
+          "feedback_update_ids": [
+            248715119
+          ]
         }
       ],
       "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
