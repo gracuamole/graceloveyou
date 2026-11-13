@@ -31279,7 +31279,7 @@
         "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         179
       ],
@@ -34280,17 +34280,38 @@
       "generation_reasoning": "Spot: Old Man's / Batu Bolong. Sunrise 05:50, sunset 18:20. Round sunrise up and sunset down: 06:00–18:00.\nWave height uses the hourly Surfline surf_human descriptions within daylight.\n🌊 Wave height: chest to head all day\n\nSurfline inputs shared by all levels, by hour\nTide: interpolated metres → nearest 0.1 m (half up). Wind/gust: knots × 1.852 → km/h rounded up.\n06:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 315.7 kJ; tide 0.56083→0.6 m; wind/gust 7.5→14 / 10.1→19.\n07:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 316.9 kJ; tide 0.54559→0.5 m; wind/gust 6.6→13 / 9.3→18.\n08:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 318.3 kJ; tide 0.73762→0.7 m; wind/gust 6.1→12 / 8.2→16.\n09:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 320.8 kJ; tide 1.07899→1.1 m; wind/gust 7.0→13 / 8.2→16.\n10:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 325.3 kJ; tide 1.46609→1.5 m; wind/gust 7.5→14 / 8.0→15.\n11:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 329.1 kJ; tide 1.79832→1.8 m; wind/gust 8.5→16 / 8.6→16.\n12:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 331.4 kJ; tide 1.99949→2.0 m; wind/gust 10.9→21 / 10.9→21.\n13:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 334.5 kJ; tide 2.03302→2.0 m; wind/gust 11.6→22 / 11.6→22.\n14:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 339.0 kJ; tide 1.9111→1.9 m; wind/gust 10.2→19 / 10.3→20.\n15:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 345.3 kJ; tide 1.6825→1.7 m; wind/gust 8.8→17 / 9.1→17.\n16:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 353.0 kJ; tide 1.42037→1.4 m; wind/gust 8.6→16 / 8.7→17.\n17:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 361.8 kJ; tide 1.20396→1.2 m; wind/gust 8.3→16 / 8.8→17.\n\nRules for all levels: minimum 80 kJ. At rounded tide above 0.2 and below 0.8 m, 60–400 kJ inclusive qualifies under the low-tide exception. At 0.8 m or higher, minimum 400 kJ. At 1000 kJ or higher only advanced qualifies. Very poor excludes all; Poor permits beginner only; Poor to fair and better permit all subject to other limits. Wind adds a warning above 15 km/h on the three low ratings and at 20 km/h or higher on better ratings.\n\nBEGINNER\nInside: breaking surf below 2.5 m and tide at least 0.8 m unless the low-tide exception applies.\n06:00–09:00 — Inside break\n09:00: not recommended. At this tide at least 400 kJ is needed\n10:00: not recommended. At this tide at least 400 kJ is needed\n11:00: not recommended. At this tide at least 400 kJ is needed\n12:00: not recommended. At this tide at least 400 kJ is needed\n13:00: not recommended. At this tide at least 400 kJ is needed\n14:00: not recommended. At this tide at least 400 kJ is needed\n15:00: not recommended. At this tide at least 400 kJ is needed\n16:00: not recommended. At this tide at least 400 kJ is needed\n17:00: not recommended. At this tide at least 400 kJ is needed\n\nINTERMEDIATE\nOutside: apply the shared rules; no mid-tide restriction.\n06:00–09:00 — Outside break\n09:00: not recommended. At this tide at least 400 kJ is needed\n10:00: not recommended. At this tide at least 400 kJ is needed\n11:00: not recommended. At this tide at least 400 kJ is needed\n12:00: not recommended. At this tide at least 400 kJ is needed\n13:00: not recommended. At this tide at least 400 kJ is needed\n14:00: not recommended. At this tide at least 400 kJ is needed\n15:00: not recommended. At this tide at least 400 kJ is needed\n16:00: not recommended. At this tide at least 400 kJ is needed\n17:00: not recommended. At this tide at least 400 kJ is needed\n\nADVANCED\nOutside: apply the shared rules; no mid-tide restriction.\n06:00–09:00 — Outside break\n09:00: not recommended. At this tide at least 400 kJ is needed\n10:00: not recommended. At this tide at least 400 kJ is needed\n11:00: not recommended. At this tide at least 400 kJ is needed\n12:00: not recommended. At this tide at least 400 kJ is needed\n13:00: not recommended. At this tide at least 400 kJ is needed\n14:00: not recommended. At this tide at least 400 kJ is needed\n15:00: not recommended. At this tide at least 400 kJ is needed\n16:00: not recommended. At this tide at least 400 kJ is needed\n17:00: not recommended. At this tide at least 400 kJ is needed\n\nCautions\nBefore sunrise, rounded gust ≥17 km/h triggers choppiness. Gusts (km/h): 00:00 20, 01:00 17, 02:00 18, 03:00 20, 04:00 21, 05:00 21.\nWindy later: rising wind or gusts with daylight wind ≥17 km/h, or any windy hour. Strong currents: qualifying advanced hour with energy ≥1000 kJ.\nWaves may be choppy from sunrise following strong early gusts.\nConditions may become windy later in the day.\nBorderline calls: 14:00 rounded wind 19 km/h at the warning boundary; pre-sunrise gust 01:00 17 km/h.",
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\n-06:00–09:00 — Inside break\n+06:00–08:00 — Inside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break\n-06:00–09:00 — Outside break\n+06:00–08:00 — Outside break"
+      ],
+      "feedback_log": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715117,
+          "revision": 2,
+          "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
+          "reply_to_message_id": 179
+        }
+      ],
+      "feedback": "Beginner 6:00AM-6.00 PM - inside breaks change",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715117,
+          "revision": 2,
+          "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
+          "reply_to_message_id": 179
+        }
       ]
     }
   },
-  "offset": 248715117,
+  "offset": 248715118,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "status_requested",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34545,6 +34566,14 @@
       "notice_ids": [
         176
       ]
+    },
+    "editing:248715117": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -34633,7 +34662,8 @@
     248715113,
     248715114,
     248715115,
-    248715116
+    248715116,
+    248715117
   ],
   "manual_retest_requests": {
     "41192170935": {
