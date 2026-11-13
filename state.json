@@ -31279,7 +31279,7 @@
         "Forecast date: 14 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Waves may be choppy from sunrise following strong early gusts.\n- Conditions may become windy later in the day."
       ],
       "revision": 2,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         179
       ],
@@ -34290,6 +34290,14 @@
           "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
           "reply_to_message_id": 179,
           "cancelled": true
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715119,
+          "revision": 2,
+          "text": "\"1️⃣ BEGINNER\n6:00 AM–6:00PM — Inside break\" change",
+          "reply_to_message_id": 180
         }
       ],
       "edit_failures": [
@@ -34340,17 +34348,27 @@
           "update_id": 248715118
         }
       ],
-      "needs_replacement_feedback": true
+      "feedback": "\"1️⃣ BEGINNER\n6:00 AM–6:00PM — Inside break\" change",
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715119,
+          "revision": 2,
+          "text": "\"1️⃣ BEGINNER\n6:00 AM–6:00PM — Inside break\" change",
+          "reply_to_message_id": 180
+        }
+      ]
     }
   },
-  "offset": 248715119,
+  "offset": 248715120,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "revision_cancelled",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -34615,6 +34633,14 @@
       "notice_ids": [
         182
       ]
+    },
+    "editing:248715119": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -34705,7 +34731,8 @@
     248715115,
     248715116,
     248715117,
-    248715118
+    248715118,
+    248715119
   ],
   "manual_retest_requests": {
     "41192170935": {
