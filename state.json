@@ -34313,6 +34313,16 @@
           "feedback_update_ids": [
             248715117
           ]
+        },
+        {
+          "revision": 2,
+          "reason": "old-line mismatch",
+          "detail": "Copy the exact original line at the specified part and line.",
+          "proposed_edit": "```json\n[\n  {\n    \"part\": 0,\n    \"line\": 6,\n    \"old\": \"06:00–08:00 — Inside break\",\n    \"new\": [\n      \"06:00–09:00 — Inside break\"\n    ],\n    \"request\": \"Beginner 6:00AM-6.00 PM - inside breaks change\"\n  },\n  {\n    \"part\": 0,\n    \"line\": 10,\n    \"old\": \"06:00–08:00 — Outside break\",\n    \"new\": [\n      \"06:00–09:00 — Outside break\"\n    ],\n    \"request\": \"Beginner 6:00AM-6.00 PM - inside breaks change\"\n  },\n  {\n    \"part\": 0,\n    \"line\": 13,\n    \"old\": \"06:00–08:00 — Outside break\",\n    \"new\": [\n      \"06:00–09:00 — Outside break\"\n    ],\n    \"request\": \"Beginner 6:00AM-6.00 PM - inside breaks change\"\n  }\n]\n```",
+          "truncated": false,
+          "feedback_update_ids": [
+            248715117
+          ]
         }
       ]
     }
