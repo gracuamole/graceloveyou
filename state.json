@@ -34320,6 +34320,16 @@
           "feedback_update_ids": [
             248715117
           ]
+        },
+        {
+          "revision": 2,
+          "reason": "old-line mismatch",
+          "detail": "Copy the exact original line at the specified part and line.",
+          "proposed_edit": "[\n  {\"part\": 0, \"line\": 5, \"old\": [\"1️⃣ BEGINNER\", \"06:00–08:00 — Inside break\"], \"new\": [\"1️⃣ BEGINNER\", \"06:00–09:00 — Inside break\"], \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"},\n  {\"part\": 0, \"line\": 8, \"old\": [\"2️⃣ INTERMEDIATE\", \"06:00–08:00 — Outside break\"], \"new\": [\"2️⃣ INTERMEDIATE\", \"06:00–09:00 — Outside break\"], \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"},\n  {\"part\": 0, \"line\": 11, \"old\": [\"3️⃣ ADVANCED\", \"06:00–08:00 — Outside break\"], \"new\": [\"3️⃣ ADVANCED\", \"06:00–09:00 — Outside break\"], \"request\": \"\\\"1️⃣ BEGINNER\\n6:00 AM–6:00PM — Inside break\\\" change\"}\n]",
+          "truncated": false,
+          "feedback_update_ids": [
+            248715119
+          ]
         }
       ],
       "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
