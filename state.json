@@ -34299,7 +34299,8 @@
           "update_id": 248715117,
           "revision": 2,
           "text": "Beginner 6:00AM-6.00 PM - inside breaks change",
-          "reply_to_message_id": 179
+          "reply_to_message_id": 179,
+          "ai_calls": 1
         }
       ]
     }
