@@ -34324,7 +34324,10 @@
             248715117
           ]
         }
-      ]
+      ],
+      "revision_failed": true,
+      "recovery_hold": true,
+      "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change."
     }
   },
   "offset": 248715118,
