@@ -34327,7 +34327,12 @@
       ],
       "revision_failed": true,
       "recovery_hold": true,
-      "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change."
+      "failure_text": "The report failed to change. old-line mismatch: Copy the exact original line at the specified part and line. Feedback remains pending.\n\n1. Retry the AI again: reply THIS message, write \"retry\"\n2. Cancel change & start again: reply THIS message, write \"cancel change\", then reply to the approval message before with your new change.",
+      "intent": {
+        "kind": "failure",
+        "chat_id": -1003835479548,
+        "text_sha256": "52a869f7dc338782bc5f0aac315b88dfbf1fec609b3d24081052f75e340d37ed"
+      }
     }
   },
   "offset": 248715118,
