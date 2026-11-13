@@ -76,8 +76,18 @@ class ReleaseEight(unittest.TestCase):
         for invalid in ([dict(edit, old='wrong anchor')], [edit, edit], [dict(edit, request='invented request')]):
             with patch('review_bot.gemini_request', return_value=json.dumps(invalid)), self.assertRaises(SafeError):
                 scoped_revision(self.report, feedback)
-        with patch('review_bot.gemini_request', side_effect=[json.dumps([edit]), 'REJECT']), self.assertRaises(SafeError):
-            scoped_revision(self.report, feedback)
+        rejected = dict(edit, new=['🟢 Batu Bolong surf report'])
+        with patch('review_bot.gemini_request', side_effect=[
+                json.dumps([rejected]), 'REJECT', json.dumps([edit]), 'OK']) as model:
+            self.assertEqual(scoped_revision(self.report, feedback), revised)
+            retry = json.loads(model.call_args_list[2].args[1])
+            self.assertEqual(retry['draft'][0], old.split('\n'))
+            self.assertIn('unrelated', retry['validation_feedback'])
+            self.assertIn(rejected['new'][0], retry['rejected_edit'][0])
+        with patch('review_bot.gemini_request', side_effect=[json.dumps([edit]), 'REJECT'] * 2) as model:
+            with self.assertRaisesRegex(SafeError, 'exceeded or missed'):
+                scoped_revision(self.report, feedback)
+            self.assertEqual(model.call_count, 4)
         self.assertEqual(self.report['parts'][0], old)
 
     def test_reasoning_distinguishes_saved_reviewer_edit_from_forecast(self):
@@ -99,3 +109,65 @@ class ReleaseEight(unittest.TestCase):
         self.bot.process(self.message('shorten location change', prompt), '2026-10-31')
         self.assertEqual(self.bot.process(self.message('CORRECT', prompt), '2026-10-31'), 'revision_approval_blocked')
         self.assertNotIn('approval', self.report)
+
+    def test_invalid_edits_save_capped_proposals_and_specific_retry_feedback(self):
+        feedback = 'shorten location change'
+        for bad, category in [
+                ('x' * 2500, 'unparseable JSON'),
+                (json.dumps([dict(part=0,line=0,old='wrong',new=[],request='location')]), 'old-line mismatch'),
+                (json.dumps([dict(part=0,line=0,old=self.report['parts'][0].splitlines()[0],
+                                  new=[],request='not supplied')]), 'request not in feedback'),
+                ('{}', 'other')]:
+            with self.subTest(category=category), patch('review_bot.gemini_request',
+                    side_effect=[bad, '[]', 'ok!']) as model:
+                self.assertEqual(scoped_revision(self.report, feedback), self.report['parts'])
+                self.assertEqual(model.call_count, 3)
+                failure = self.report['edit_failures'][-1]
+                self.assertEqual(failure['reason'], category)
+                self.assertEqual(failure['proposed_edit'], bad[:2000])
+                self.assertEqual(failure['truncated'], len(bad) > 2000)
+                self.assertIn(category, json.loads(model.call_args_list[1].args[1])['validation_feedback'])
+
+    def test_checker_budget_survives_restart_and_cancel_is_whole_message(self):
+        today = '2026-10-31'
+        self.bot.advance(today)
+        target = self.report['draft_ids'][0]
+        self.bot.process(self.message('keep it short change', target), today)
+        with patch('review_bot.gemini_request', side_effect=['[]','OK eventually','[]','unknown']) as model:
+            with self.assertRaisesRegex(SafeError, 'checker REJECT'):
+                self.bot.advance(today)
+            self.assertEqual(model.call_count, 4)
+        store = Store(self.store.path)
+        bot = Review(store, self.tg, 11, -200, -300, owner=12, bot_username='ReviewBot')
+        report = bot.s['reports'][self.date]
+        self.assertEqual(report['feedback_log'][-1]['reply_to_message_id'], target)
+        self.assertEqual(report['pending_feedback'][0]['ai_calls'], 4)
+        self.assertEqual([f['reason'] for f in report['edit_failures']], ['checker REJECT']*2)
+        self.assertEqual(report['status'], 'revision_pending')
+        self.assertEqual(bot.process(self.message('Retry', report['failure_ids'][-1]), today), 'revision_retry')
+        with patch('review_bot.gemini_request') as model:
+            with self.assertRaisesRegex(SafeError, 'Four AI calls'):
+                bot.advance(today)
+            model.assert_not_called()
+        failure = report['failure_ids'][-1]
+        for command in (' Cancel Change', 'CANCEL CHANGE!', 'CANCEL CHANGE\n'):
+            self.assertEqual(bot.process(self.message(command, failure), today), 'ignored_stale_prompt')
+        self.assertEqual(bot.process(self.message('CaNcEl ChAnGe', failure), today), 'revision_cancelled')
+        self.assertNotIn('pending_feedback', report)
+
+    def test_checker_verdict_allows_only_ok_with_trailing_punctuation(self):
+        from review_bot import checker_ok
+        for verdict in ('ok', 'oK.', ' OK! ', 'Ok…'):
+            self.assertTrue(checker_ok(verdict))
+        for verdict in ('OK, except', 'not OK', 'OK2', '!OK', '', 'reject.'):
+            self.assertFalse(checker_ok(verdict))
+
+    def test_checker_transport_failure_saves_edit_without_validation_retry(self):
+        with patch('review_bot.gemini_request', side_effect=['[]', SafeError('Gemini revision HTTP 429')]) as model:
+            with self.assertRaisesRegex(SafeError, '429'):
+                scoped_revision(self.report, 'shorten location change')
+            self.assertEqual(model.call_count, 2)
+            failure = self.report['edit_failures'][-1]
+            self.assertEqual(failure['proposed_edit'], '[]')
+            self.assertEqual(failure['reason'], 'other')
+            self.assertIn('429', failure['detail'])

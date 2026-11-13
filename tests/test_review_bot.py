@@ -90,6 +90,23 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.report['revision'], 2)
         self.assertFalse(self.published())
 
+    def test_failure_message_retry_requires_the_whole_word_in_any_case(self):
+        self.draft()
+        self.bot.process(self.update('fix location change'), TODAY)
+        self.llm.side_effect = SafeError('revision failed')
+        with self.assertRaises(SafeError):
+            self.bot.advance(TODAY)
+        target = {'message_id': self.report['failure_ids'][-1]}
+        for text in (' Retry', 'RETRY!', 'Retry please', 'change', 'Cancel Change!'):
+            self.assertEqual(self.bot.process(self.update(text, reply_to_message=target), TODAY),
+                             'ignored_stale_prompt')
+        self.assertEqual(self.bot.process(self.update('ReTrY', reply_to_message=target), TODAY),
+                         'revision_retry')
+        self.llm.side_effect = None
+        self.bot.advance(TODAY)
+        self.assertEqual(self.llm.call_count, 2)
+        self.assertEqual(self.report['status'], 'review')
+
     def test_pending_correct_explains_then_cancel_requires_new_prompt(self):
         self.draft()
         old_id = self.report['prompt_ids'][-1]
@@ -1691,7 +1708,7 @@ class TwoReviewerTests(unittest.TestCase):
         saved = Store(self.path).data['reports'][TARGET]
         self.assertEqual(saved['feedback_log'][0], {
             'user_id': 99, 'chat_id': -200, 'update_id': 96,
-            'revision': 4, 'text': 'remove late window change'})
+            'revision': 4, 'text': 'remove late window change', 'reply_to_message_id': old_prompt})
         self.bot.advance(TODAY)
         self.llm.assert_called_once()
         self.assertEqual(self.llm.call_args.args[1], 'remove late window change')

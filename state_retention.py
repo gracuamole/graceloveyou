@@ -15,7 +15,7 @@ def trim_completed(data, today):
             json.dumps(report['parts'], ensure_ascii=False).encode()).hexdigest()
         for field in ('forecast', 'feedback', 'feedback_log', 'pending_feedback', 'review_history',
                       'publication_history', 'recovery_history', 'remembered_feedback', 'rebuild_feedback',
-                      'analysis_parts', 'source_parts', 'approval'):
+                      'analysis_parts', 'source_parts', 'approval', 'edit_failures', 'edit_call_budgets'):
             report.pop(field, None)
         report['parts'] = ['Archived report details; publication record retained.']
         report['details_trimmed'] = True
