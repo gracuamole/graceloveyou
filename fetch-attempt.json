@@ -2318,6 +2318,3012 @@
               ]
             }
           }
+        },
+        "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654": {
+          "spec": {
+            "endpoint": "swells",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794683308.5789065,
+          "data": {
+            "associated": {
+              "units": {
+                "swellHeight": "FT"
+              },
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "forecastLocation": {
+                "lat": -8.7,
+                "lon": 115.05
+              },
+              "runInitializationTimestamp": 1794636000
+            },
+            "data": {
+              "swells": [
+                {
+                  "timestamp": 1794672000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 288.70837,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.51615,
+                      "period": 13,
+                      "impact": 0.6268,
+                      "power": 240.72325,
+                      "spectralPower": 303.32062,
+                      "direction": 223,
+                      "directionMin": 215.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.52151,
+                      "period": 17,
+                      "impact": 0.3732,
+                      "power": 47.98512,
+                      "spectralPower": 101.5495,
+                      "direction": 227.3,
+                      "directionMin": 222.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794675600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 290.41947,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.52938,
+                      "period": 13,
+                      "impact": 0.6281,
+                      "power": 242.80155,
+                      "spectralPower": 308.47507,
+                      "direction": 222.9,
+                      "directionMin": 215.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.51025,
+                      "period": 18,
+                      "impact": 0.3719,
+                      "power": 47.61792,
+                      "spectralPower": 102.17429,
+                      "direction": 228.1,
+                      "directionMin": 223.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794679200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 280.56935,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.38933,
+                      "period": 13,
+                      "impact": 0.5851,
+                      "power": 205.71844,
+                      "spectralPower": 276.25171,
+                      "direction": 222.5,
+                      "directionMin": 215
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.82776,
+                      "period": 17,
+                      "impact": 0.4149,
+                      "power": 74.85092,
+                      "spectralPower": 141.74754,
+                      "direction": 227.4,
+                      "directionMin": 222.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794682800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 281.46698,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.39758,
+                      "period": 13,
+                      "impact": 0.5843,
+                      "power": 206.07376,
+                      "spectralPower": 282.31333,
+                      "direction": 222.7,
+                      "directionMin": 215.2
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.84811,
+                      "period": 17,
+                      "impact": 0.4157,
+                      "power": 75.39322,
+                      "spectralPower": 145.17668,
+                      "direction": 226.6,
+                      "directionMin": 221.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794686400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 201.28179,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.01833,
+                      "period": 13,
+                      "impact": 0.457,
+                      "power": 126.38847,
+                      "spectralPower": 249.448,
+                      "direction": 227.5,
+                      "directionMin": 222.8
+                    },
+                    {
+                      "height": 1.51552,
+                      "period": 6,
+                      "impact": 0.174,
+                      "power": 2.87361,
+                      "spectralPower": 14.8959,
+                      "direction": 202.4,
+                      "directionMin": 193.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.93322,
+                      "period": 17,
+                      "impact": 0.369,
+                      "power": 72.01971,
+                      "spectralPower": 176.04096,
+                      "direction": 226.5,
+                      "directionMin": 221.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794690000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 283.26536,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.34244,
+                      "period": 13,
+                      "impact": 0.5618,
+                      "power": 188.65037,
+                      "spectralPower": 277.23967,
+                      "direction": 222.6,
+                      "directionMin": 215.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.04533,
+                      "period": 17,
+                      "impact": 0.4382,
+                      "power": 94.615,
+                      "spectralPower": 178.2654,
+                      "direction": 226.2,
+                      "directionMin": 221.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794693600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 215.1213,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.00142,
+                      "period": 13,
+                      "impact": 0.4468,
+                      "power": 119.41355,
+                      "spectralPower": 244.07673,
+                      "direction": 227.1,
+                      "directionMin": 222.4
+                    },
+                    {
+                      "height": 1.39117,
+                      "period": 6,
+                      "impact": 0.1577,
+                      "power": 2.052,
+                      "spectralPower": 11.88316,
+                      "direction": 199.8,
+                      "directionMin": 191.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.15263,
+                      "period": 17,
+                      "impact": 0.3955,
+                      "power": 93.65575,
+                      "spectralPower": 216.25884,
+                      "direction": 225.9,
+                      "directionMin": 221
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794697200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 213.56414,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.96269,
+                      "period": 12,
+                      "impact": 0.4337,
+                      "power": 105.24377,
+                      "spectralPower": 230.75867,
+                      "direction": 227.1,
+                      "directionMin": 222.3
+                    },
+                    {
+                      "height": 1.37336,
+                      "period": 6,
+                      "impact": 0.1558,
+                      "power": 1.9741,
+                      "spectralPower": 12.04905,
+                      "direction": 199.6,
+                      "directionMin": 191.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.2626,
+                      "period": 17,
+                      "impact": 0.4104,
+                      "power": 106.34627,
+                      "spectralPower": 246.41434,
+                      "direction": 225.7,
+                      "directionMin": 220.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794700800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 216.75872,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.89723,
+                      "period": 12,
+                      "impact": 0.4193,
+                      "power": 92.35375,
+                      "spectralPower": 214.24041,
+                      "direction": 226.9,
+                      "directionMin": 222.1
+                    },
+                    {
+                      "height": 1.35232,
+                      "period": 6,
+                      "impact": 0.1534,
+                      "power": 1.88173,
+                      "spectralPower": 11.93174,
+                      "direction": 199.4,
+                      "directionMin": 190.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.3945,
+                      "period": 17,
+                      "impact": 0.4272,
+                      "power": 122.52323,
+                      "spectralPower": 278.9709,
+                      "direction": 225.8,
+                      "directionMin": 220.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794704400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 282.30328,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.14251,
+                      "period": 12,
+                      "impact": 0.5023,
+                      "power": 128.16549,
+                      "spectralPower": 235.20935,
+                      "direction": 222.1,
+                      "directionMin": 214.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.49997,
+                      "period": 16,
+                      "impact": 0.4977,
+                      "power": 154.13779,
+                      "spectralPower": 285.48821,
+                      "direction": 225.6,
+                      "directionMin": 220.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794708000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 224.30834,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.88649,
+                      "period": 12,
+                      "impact": 0.4123,
+                      "power": 88.187,
+                      "spectralPower": 215.10113,
+                      "direction": 227,
+                      "directionMin": 222.2
+                    },
+                    {
+                      "height": 1.33365,
+                      "period": 6,
+                      "impact": 0.1512,
+                      "power": 1.83828,
+                      "spectralPower": 12.22674,
+                      "direction": 199.5,
+                      "directionMin": 191.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.494,
+                      "period": 16,
+                      "impact": 0.4365,
+                      "power": 134.28306,
+                      "spectralPower": 309.37731,
+                      "direction": 225.1,
+                      "directionMin": 220.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794711600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 295.44061,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.09603,
+                      "period": 12,
+                      "impact": 0.488,
+                      "power": 119.75895,
+                      "spectralPower": 230.7748,
+                      "direction": 222,
+                      "directionMin": 214.2
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.64885,
+                      "period": 16,
+                      "impact": 0.512,
+                      "power": 175.68166,
+                      "spectralPower": 322.66858,
+                      "direction": 225.5,
+                      "directionMin": 220.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794715200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 246.77037,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.78172,
+                      "period": 12,
+                      "impact": 0.3937,
+                      "power": 77.90551,
+                      "spectralPower": 197.33759,
+                      "direction": 226.9,
+                      "directionMin": 222
+                    },
+                    {
+                      "height": 1.31429,
+                      "period": 6,
+                      "impact": 0.1461,
+                      "power": 1.68363,
+                      "spectralPower": 11.49222,
+                      "direction": 197.7,
+                      "directionMin": 189.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.73639,
+                      "period": 16,
+                      "impact": 0.4603,
+                      "power": 167.18122,
+                      "spectralPower": 362.20427,
+                      "direction": 225.5,
+                      "directionMin": 220.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794718800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 275.2193,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.54101,
+                      "period": 12,
+                      "impact": 0.3626,
+                      "power": 58.89966,
+                      "spectralPower": 157.2843,
+                      "direction": 226.5,
+                      "directionMin": 221.8
+                    },
+                    {
+                      "height": 1.34119,
+                      "period": 6,
+                      "impact": 0.1444,
+                      "power": 1.74631,
+                      "spectralPower": 11.70992,
+                      "direction": 196.7,
+                      "directionMin": 187.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.02835,
+                      "period": 16,
+                      "impact": 0.493,
+                      "power": 214.57333,
+                      "spectralPower": 421.43362,
+                      "direction": 226,
+                      "directionMin": 221.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794722400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 348.07299,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.87862,
+                      "period": 12,
+                      "impact": 0.4427,
+                      "power": 92.4988,
+                      "spectralPower": 191.62279,
+                      "direction": 219,
+                      "directionMin": 209.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.13561,
+                      "period": 16,
+                      "impact": 0.5573,
+                      "power": 255.5742,
+                      "spectralPower": 420.57993,
+                      "direction": 226.2,
+                      "directionMin": 221.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794726000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 367.43155,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.8265,
+                      "period": 12,
+                      "impact": 0.43,
+                      "power": 86.21722,
+                      "spectralPower": 182.92815,
+                      "direction": 217.4,
+                      "directionMin": 207.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.2881,
+                      "period": 16,
+                      "impact": 0.57,
+                      "power": 281.21433,
+                      "spectralPower": 450.10886,
+                      "direction": 226.7,
+                      "directionMin": 221.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794729600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 377.32711,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.8121,
+                      "period": 12,
+                      "impact": 0.4252,
+                      "power": 84.44484,
+                      "spectralPower": 183.36196,
+                      "direction": 217,
+                      "directionMin": 206.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.3859,
+                      "period": 16,
+                      "impact": 0.5748,
+                      "power": 292.88227,
+                      "spectralPower": 470.44161,
+                      "direction": 227.9,
+                      "directionMin": 223.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794733200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 413.99391,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.79136,
+                      "period": 12,
+                      "impact": 0.4134,
+                      "power": 80.89008,
+                      "spectralPower": 181.64137,
+                      "direction": 216.8,
+                      "directionMin": 206.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.58311,
+                      "period": 16,
+                      "impact": 0.5866,
+                      "power": 333.10383,
+                      "spectralPower": 527.14187,
+                      "direction": 228.8,
+                      "directionMin": 224.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794736800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 427.51351,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.82979,
+                      "period": 12,
+                      "impact": 0.413,
+                      "power": 83.52057,
+                      "spectralPower": 190.42708,
+                      "direction": 217.1,
+                      "directionMin": 207.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.66704,
+                      "period": 15,
+                      "impact": 0.587,
+                      "power": 343.99294,
+                      "spectralPower": 551.81912,
+                      "direction": 228.7,
+                      "directionMin": 223.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794740400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 441.82699,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.85311,
+                      "period": 12,
+                      "impact": 0.4124,
+                      "power": 85.32913,
+                      "spectralPower": 196.94453,
+                      "direction": 217.6,
+                      "directionMin": 207.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.75629,
+                      "period": 15,
+                      "impact": 0.5876,
+                      "power": 356.49786,
+                      "spectralPower": 577.48455,
+                      "direction": 228.3,
+                      "directionMin": 223.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794744000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 471.352,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.77052,
+                      "period": 12,
+                      "impact": 0.3978,
+                      "power": 76.86467,
+                      "spectralPower": 184.32045,
+                      "direction": 217.2,
+                      "directionMin": 207.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 3.91979,
+                      "period": 15,
+                      "impact": 0.6022,
+                      "power": 394.48733,
+                      "spectralPower": 624.89038,
+                      "direction": 228.3,
+                      "directionMin": 223.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794747600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 494.32374,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 2.75166,
+                      "period": 12,
+                      "impact": 0.3927,
+                      "power": 74.91526,
+                      "spectralPower": 182.99258,
+                      "direction": 217.7,
+                      "directionMin": 208.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.03184,
+                      "period": 15,
+                      "impact": 0.6073,
+                      "power": 419.40848,
+                      "spectralPower": 662.45747,
+                      "direction": 228.2,
+                      "directionMin": 223.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794751200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 1037.14992,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.94616,
+                      "period": 15,
+                      "impact": 1,
+                      "power": 1037.14992,
+                      "spectralPower": 872.37175,
+                      "direction": 225.1,
+                      "directionMin": 218.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794754800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 1056.02161,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.99189,
+                      "period": 15,
+                      "impact": 1,
+                      "power": 1056.02161,
+                      "spectralPower": 889.57196,
+                      "direction": 225.2,
+                      "directionMin": 218.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794758400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 1063.62857,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.00965,
+                      "period": 15,
+                      "impact": 1,
+                      "power": 1063.62857,
+                      "spectralPower": 894.93068,
+                      "direction": 225.2,
+                      "directionMin": 218.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794762000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 1059.70025,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.00299,
+                      "period": 15,
+                      "impact": 1,
+                      "power": 1059.70025,
+                      "spectralPower": 890.28749,
+                      "direction": 225.1,
+                      "directionMin": 218.5
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794765600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 1048.79696,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.98463,
+                      "period": 15,
+                      "impact": 1,
+                      "power": 1048.79696,
+                      "spectralPower": 880.02044,
+                      "direction": 225.3,
+                      "directionMin": 218.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794769200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 780.73196,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.38656,
+                      "period": 6,
+                      "impact": 0.1783,
+                      "power": 2.1819,
+                      "spectralPower": 11.07565,
+                      "direction": 197.1,
+                      "directionMin": 189
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.76683,
+                      "period": 15,
+                      "impact": 0.8217,
+                      "power": 778.55006,
+                      "spectralPower": 857.55003,
+                      "direction": 228,
+                      "directionMin": 223.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794772800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 763.56109,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.36515,
+                      "period": 6,
+                      "impact": 0.1777,
+                      "power": 2.12556,
+                      "spectralPower": 10.99219,
+                      "direction": 197.3,
+                      "directionMin": 189.2
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.76569,
+                      "period": 15,
+                      "impact": 0.8223,
+                      "power": 761.43553,
+                      "spectralPower": 850.94387,
+                      "direction": 228.5,
+                      "directionMin": 223.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794776400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 743.88681,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.35523,
+                      "period": 6,
+                      "impact": 0.1817,
+                      "power": 2.16753,
+                      "spectralPower": 11.11699,
+                      "direction": 197.6,
+                      "directionMin": 189.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.76363,
+                      "period": 15,
+                      "impact": 0.8183,
+                      "power": 741.71928,
+                      "spectralPower": 844.70409,
+                      "direction": 228.9,
+                      "directionMin": 224.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794780000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 729.36202,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.33636,
+                      "period": 6,
+                      "impact": 0.1812,
+                      "power": 2.12186,
+                      "spectralPower": 11.00453,
+                      "direction": 197.7,
+                      "directionMin": 189.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.75315,
+                      "period": 15,
+                      "impact": 0.8188,
+                      "power": 727.24015,
+                      "spectralPower": 834.66576,
+                      "direction": 229,
+                      "directionMin": 224.2
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794783600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 713.57991,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.31849,
+                      "period": 6,
+                      "impact": 0.1808,
+                      "power": 2.07201,
+                      "spectralPower": 10.84062,
+                      "direction": 197.9,
+                      "directionMin": 189.8
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.73428,
+                      "period": 15,
+                      "impact": 0.8192,
+                      "power": 711.5079,
+                      "spectralPower": 821.58229,
+                      "direction": 228.9,
+                      "directionMin": 224.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794787200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 702.34786,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 1.30104,
+                      "period": 6,
+                      "impact": 0.1799,
+                      "power": 2.00853,
+                      "spectralPower": 10.6184,
+                      "direction": 198.1,
+                      "directionMin": 190
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.72448,
+                      "period": 14,
+                      "impact": 0.8201,
+                      "power": 700.33932,
+                      "spectralPower": 812.18025,
+                      "direction": 228.8,
+                      "directionMin": 223.9
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794790800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 908.11071,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.89529,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 908.11071,
+                      "spectralPower": 816.84989,
+                      "direction": 226.7,
+                      "directionMin": 220.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794794400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 902.39039,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.89466,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 902.39039,
+                      "spectralPower": 812.31793,
+                      "direction": 226.6,
+                      "directionMin": 220.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794798000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 904.10178,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.90991,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 904.10178,
+                      "spectralPower": 813.00336,
+                      "direction": 226.6,
+                      "directionMin": 220.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794801600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 911.32793,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.93302,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 911.32793,
+                      "spectralPower": 816.94084,
+                      "direction": 226.8,
+                      "directionMin": 220.7
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794805200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 924.44243,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.97114,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 924.44243,
+                      "spectralPower": 826.69288,
+                      "direction": 227,
+                      "directionMin": 221
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794808800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 940.08451,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.01159,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 940.08451,
+                      "spectralPower": 838.73494,
+                      "direction": 227.3,
+                      "directionMin": 221.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794812400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 954.49102,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.04663,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 954.49102,
+                      "spectralPower": 849.63983,
+                      "direction": 227.4,
+                      "directionMin": 221.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794816000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 964.447,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.06724,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 964.447,
+                      "spectralPower": 856.03522,
+                      "direction": 227.3,
+                      "directionMin": 221.6
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794819600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 969.09121,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.07381,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 969.09121,
+                      "spectralPower": 857.27569,
+                      "direction": 227.2,
+                      "directionMin": 221.4
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794823200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 968.75999,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.06876,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 968.75999,
+                      "spectralPower": 853.75789,
+                      "direction": 227.1,
+                      "directionMin": 221.3
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794826800,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 964.3994,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.0554,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 964.3994,
+                      "spectralPower": 846.76971,
+                      "direction": 227,
+                      "directionMin": 221.2
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794830400,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 955.24943,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 5.03227,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 955.24943,
+                      "spectralPower": 835.24611,
+                      "direction": 227,
+                      "directionMin": 221.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794834000,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 939.71588,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.99551,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 939.71588,
+                      "spectralPower": 817.81275,
+                      "direction": 226.9,
+                      "directionMin": 221
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794837600,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 919.12535,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.94921,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 919.12535,
+                      "spectralPower": 796.1811,
+                      "direction": 227,
+                      "directionMin": 221
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                },
+                {
+                  "timestamp": 1794841200,
+                  "utcOffset": 8,
+                  "probability": 100,
+                  "power": 893.58613,
+                  "swells": [
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    },
+                    {
+                      "height": 4.89432,
+                      "period": 14,
+                      "impact": 1,
+                      "power": 893.58613,
+                      "spectralPower": 771.17934,
+                      "direction": 227,
+                      "directionMin": 221.1
+                    },
+                    {
+                      "height": 0.0,
+                      "period": 0,
+                      "impact": 0,
+                      "power": 0,
+                      "spectralPower": 0,
+                      "direction": 0,
+                      "directionMin": 0
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -2355,15 +5361,7 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:swells": {
-          "endpoint": "swells",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -2371,10 +5369,6 @@
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:swells": {
-      "until": 1794683607.309561
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794683307.3095603
 }
