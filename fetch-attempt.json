@@ -8204,7 +8204,7 @@
         }
       },
       "failed": {},
-      "closed": false,
+      "closed": true,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
         "5086fdc87ed42e8d5442eea0f0945605ab4fc5edbfd96e17581bd71ec3b577ec": "316bff5af708102a52fa62090ef07c40bb5dfbbccb9c4ee3b07e653144543654",
