@@ -36757,7 +36757,10 @@
             248715123
           ]
         }
-      ]
+      ],
+      "revision_failed": true,
+      "recovery_hold": true,
+      "failure_text": "The suggested changes did not match what you asked for. The report is unchanged.\n\nThere are no tries left for this request. To start again, reply here with \"cancel change\", then reply to the report or approval message with your request in your own words, ending in \"change\"."
     }
   },
   "offset": 248715124,
