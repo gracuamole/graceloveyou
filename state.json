@@ -33547,16 +33547,12 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 16 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to 1ft overhead from 6am, then head to 2ft overhead from 2pm\n\n1️⃣ BEGINNER\nAll day is surfable - Inside break\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
+        "Forecast date: 16 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to 1ft overhead from 6am, then head to 2ft overhead from 2pm\n\n1️⃣ BEGINNER\n10:00 AM - 6:00 PM: Inside break\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
       ],
-      "revision": 2,
-      "status": "revision_pending",
-      "draft_ids": [
-        193
-      ],
-      "prompt_ids": [
-        194
-      ],
+      "revision": 3,
+      "status": "draft",
+      "draft_ids": [],
+      "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "43670319765",
       "publication_history": [],
@@ -36688,16 +36684,8 @@
         }
       ],
       "feedback": "Beginner 10:00AM-6.00 PM - inside breaks change",
-      "pending_feedback": [
-        {
-          "user_id": 941560570,
-          "chat_id": -1003835479548,
-          "update_id": 248715121,
-          "revision": 2,
-          "text": "Beginner 10:00AM-6.00 PM - inside breaks change",
-          "reply_to_message_id": 193,
-          "ai_calls": 2
-        }
+      "reasoning_edits": [
+        "Beginner 10:00AM-6.00 PM - inside breaks change\n-All day is surfable - Inside break\n+10:00 AM - 6:00 PM: Inside break"
       ]
     }
   },
