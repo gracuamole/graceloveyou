@@ -33550,7 +33550,7 @@
         "Forecast date: 16 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to 1ft overhead from 6am, then head to 2ft overhead from 2pm\n\n1️⃣ BEGINNER\n10:00 AM - 6:00 PM: Inside break\n\n2️⃣ INTERMEDIATE\n10:00 AM - 6:00 PM: Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 4,
-      "status": "review",
+      "status": "revision_pending",
       "draft_ids": [
         201
       ],
@@ -36707,26 +36707,44 @@
           "text": "Intermedia 10:00AM-6:00PM outside breaks remember change",
           "reply_to_message_id": 197,
           "memory_id": 5
+        },
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715123,
+          "revision": 4,
+          "text": "add a caution saying that it will be windy the whole day change",
+          "reply_to_message_id": 201
         }
       ],
-      "feedback": "Intermedia 10:00AM-6:00PM outside breaks remember change",
+      "feedback": "add a caution saying that it will be windy the whole day change",
       "reasoning_edits": [
         "Beginner 10:00AM-6.00 PM - inside breaks change\n-All day is surfable - Inside break\n+10:00 AM - 6:00 PM: Inside break",
         "Intermedia 10:00AM-6:00PM outside breaks remember change\n-All day is surfable - Outside break\n+10:00 AM - 6:00 PM: Outside break"
       ],
       "memory_saved_ids": [
         5
+      ],
+      "pending_feedback": [
+        {
+          "user_id": 941560570,
+          "chat_id": -1003835479548,
+          "update_id": 248715123,
+          "revision": 4,
+          "text": "add a caution saying that it will be windy the whole day change",
+          "reply_to_message_id": 201
+        }
       ]
     }
   },
-  "offset": 248715123,
+  "offset": 248715124,
   "started": true,
   "binding": [
     941560570,
     -1003835479548,
     -1004476747924
   ],
-  "last_update_outcome": "memory_revision_pending",
+  "last_update_outcome": "revision_pending",
   "outbox": {
     "forecast-error:2026-11-01": {
       "kind": "notice",
@@ -37021,6 +37039,14 @@
       "notice_ids": [
         200
       ]
+    },
+    "editing:248715123": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "I received your feedback. I’m asking the AI to update the report."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
@@ -37115,7 +37141,8 @@
     248715119,
     248715120,
     248715121,
-    248715122
+    248715122,
+    248715123
   ],
   "manual_retest_requests": {
     "41192170935": {
