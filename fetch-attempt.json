@@ -560,7 +560,7 @@
         "605112930a374f33cf5f8f05:swells": 1,
         "605112930a374f33cf5f8f05:wind": 2,
         "605112930a374f33cf5f8f05:tides": 2,
-        "605112930a374f33cf5f8f05:energy": 1
+        "605112930a374f33cf5f8f05:energy": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -7510,10 +7510,8 @@
         "605112930a374f33cf5f8f05:energy": {
           "endpoint": "energy",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
@@ -7521,10 +7519,8 @@
         "605112930a374f33cf5f8f05:energy": {
           "endpoint": "energy",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
@@ -7533,14 +7529,15 @@
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
         "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07",
         "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10",
-        "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": "84b0d7aa9ab4b2d57891752906f131fa568ee25d94bbb1ba40c70ca1decaf5ee"
+        "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": "84b0d7aa9ab4b2d57891752906f131fa568ee25d94bbb1ba40c70ca1decaf5ee",
+        "43d7ce7bcb33f4af298db5bfaca6399d06549b38b2cff8b24899b045090f60c2": "4610db957dc2c143ebac0b9413305707ec1c8ceaf8794b45df4d010cbe6b2192"
       }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:energy": {
-      "until": 1794769724.9665864
+      "until": 1794770026.9893436
     }
   },
-  "last_request": 1794769723.9892125
+  "last_request": 1794769726.9893434
 }
