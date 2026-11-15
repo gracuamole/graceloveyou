@@ -69,23 +69,23 @@ class ReleaseEight(unittest.TestCase):
         feedback = 'Replace BATU BOLONG with Batu Bolong change'
         old = self.report['parts'][0]
         line = old.split('\n').index('🟢 BATU BOLONG')
-        edit = dict(part=0, line=line, old='🟢 BATU BOLONG', new=['🟢 Batu Bolong'], request=feedback)
+        edit = dict(id=f'P0L{line}', new=['🟢 Batu Bolong'])
         with patch('review_bot.gemini_request', side_effect=[json.dumps([edit]), 'OK']):
             revised = scoped_revision(self.report, feedback)
-        self.assertEqual(revised, [old.replace(edit['old'], edit['new'][0])] + self.report['parts'][1:])
+        self.assertEqual(revised, [old.replace('🟢 BATU BOLONG', edit['new'][0])] + self.report['parts'][1:])
         for invalid in ([dict(edit, old='wrong anchor')], [edit, edit], [dict(edit, request='invented request')]):
             with patch('review_bot.gemini_request', return_value=json.dumps(invalid)), self.assertRaises(SafeError):
                 scoped_revision(self.report, feedback)
         rejected = dict(edit, new=['🟢 Batu Bolong surf report'])
         with patch('review_bot.gemini_request', side_effect=[
-                json.dumps([rejected]), 'REJECT', json.dumps([edit]), 'OK']) as model:
+                json.dumps([rejected]), f"REJECT: {edit['id']} adds unrelated words.", json.dumps([edit]), 'OK']) as model:
             self.assertEqual(scoped_revision(self.report, feedback), revised)
             retry = json.loads(model.call_args_list[2].args[1])
-            self.assertEqual(retry['draft'][0], old.split('\n'))
+            self.assertEqual(retry['draft'][edit['id']]['text'], '🟢 BATU BOLONG')
             self.assertIn('unrelated', retry['validation_feedback'])
-            self.assertIn(rejected['new'][0], retry['rejected_edit'][0])
+            self.assertIn(rejected['new'][0], retry['rejected_edit'][0]['after'])
         with patch('review_bot.gemini_request', side_effect=[json.dumps([edit]), 'REJECT'] * 2) as model:
-            with self.assertRaisesRegex(SafeError, 'exceeded or missed'):
+            with self.assertRaisesRegex(SafeError, 'checker REJECT'):
                 scoped_revision(self.report, feedback)
             self.assertEqual(model.call_count, 4)
         self.assertEqual(self.report['parts'][0], old)
@@ -114,9 +114,8 @@ class ReleaseEight(unittest.TestCase):
         feedback = 'shorten location change'
         for bad, category in [
                 ('x' * 2500, 'unparseable JSON'),
-                (json.dumps([dict(part=0,line=0,old='wrong',new=[],request='location')]), 'old-line mismatch'),
-                (json.dumps([dict(part=0,line=0,old=self.report['parts'][0].splitlines()[0],
-                                  new=[],request='not supplied')]), 'request not in feedback'),
+                (json.dumps([dict(id='P9L7', new=[])]), 'other'),
+                (json.dumps([dict(id='P0L0', new='invalid')]), 'other'),
                 ('{}', 'other')]:
             with self.subTest(category=category), patch('review_bot.gemini_request',
                     side_effect=[bad, '[]', 'ok!']) as model:
@@ -144,6 +143,10 @@ class ReleaseEight(unittest.TestCase):
         self.assertEqual(report['pending_feedback'][0]['ai_calls'], 4)
         self.assertEqual([f['reason'] for f in report['edit_failures']], ['checker REJECT']*2)
         self.assertEqual(report['status'], 'revision_pending')
+        self.assertIn('no tries left', report['failure_text'])
+        self.assertIn('cancel change', report['failure_text'])
+        self.assertNotIn('checker', report['failure_text'])
+        self.assertNotIn('copy', report['failure_text'])
         self.assertEqual(bot.process(self.message('Retry', report['failure_ids'][-1]), today), 'revision_retry')
         with patch('review_bot.gemini_request') as model:
             with self.assertRaisesRegex(SafeError, 'Four AI calls'):
@@ -171,3 +174,26 @@ class ReleaseEight(unittest.TestCase):
             self.assertEqual(failure['proposed_edit'], '[]')
             self.assertEqual(failure['reason'], 'other')
             self.assertIn('429', failure['detail'])
+
+    def test_november_13_beginner_only_request_checker_and_retry(self):
+        original = ('Forecast date: 1 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n'
+                    '1️⃣ BEGINNER\n06:00–08:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–08:00 — Outside break\n\n'
+                    '3️⃣ ADVANCED\n06:00–08:00 — Outside break\n\n⚠️ CAUTIONS\n- Conditions may become windy later in the day.')
+        self.report['parts'] = [original]
+        feedback = 'Beginner 6:00AM-6.00 PM - inside breaks change'
+        wrong = [dict(id=f'P0L{i}', new=[original.splitlines()[i].replace('08:00','09:00')]) for i in (6,9,12)]
+        correct = [dict(id='P0L6', new=['06:00–18:00 — Inside break'])]
+        reason = 'P0L6 ends at 9 AM instead of 6 PM. P0L9 and P0L12 change levels the reviewer did not mention.'
+        with patch('review_bot.gemini_request', side_effect=[json.dumps(wrong), 'REJECT: ' + reason,
+                                                              json.dumps(correct), 'OK.']) as model:
+            result = scoped_revision(self.report, feedback)
+        self.assertEqual(result, [original.replace('08:00 — Inside', '18:00 — Inside')])
+        checker = json.loads(model.call_args_list[1].args[1])
+        self.assertEqual(set(checker), {'changes','request'})
+        self.assertEqual(checker['request'], feedback)
+        self.assertEqual([d['section'] for d in checker['changes']], ['1️⃣ BEGINNER','2️⃣ INTERMEDIATE','3️⃣ ADVANCED'])
+        self.assertNotIn('chest to head', json.dumps(checker))
+        retry = json.loads(model.call_args_list[2].args[1])
+        self.assertIn(reason, retry['validation_feedback'])
+        self.assertEqual(retry['draft'], json.loads(model.call_args_list[0].args[1])['draft'])
+        self.assertEqual(self.report['edit_failures'][-1]['detail'], reason)

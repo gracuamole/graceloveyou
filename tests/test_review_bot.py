@@ -888,7 +888,7 @@ class ReviewTests(unittest.TestCase):
             checkpoint.assert_not_called()
         notices = [c for c in self.tg.call.call_args_list if c.args[0] == 'sendMessage']
         self.assertEqual(len(notices), 2)
-        self.assertIn('429', notices[-1].kwargs['text'])
+        self.assertIn('usage limit', notices[-1].kwargs['text'])
         self.assertEqual(self.report['status'], 'revision_pending')
         self.assertEqual(self.bot.process(self.update(), TODAY), 'revision_approval_blocked')
         self.bot.process(self.update('note: Coach to confirm wind change'), TODAY)
@@ -1219,7 +1219,7 @@ class GeminiRevisionTests(unittest.TestCase):
         self.protected_report()
         original = self.report['parts'][0].split('\n')
         self.set_result(json.dumps([
-            dict(part=0, line=index, old=original[index], new=[], request='remove 17:00-18:00 report')
+            dict(id=f'P0L{index}', new=[])
             for index in range(len(original)-2, len(original))
         ]))
         verdict = Mock(status_code=200)
