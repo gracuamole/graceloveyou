@@ -36746,6 +36746,16 @@
           "feedback_update_ids": [
             248715123
           ]
+        },
+        {
+          "revision": 4,
+          "reason": "checker REJECT",
+          "detail": "P0L4 missing requested change",
+          "proposed_edit": "```json\n[{\"id\": \"P0L4\", \"new\": [\"⚠️ Wind will be blowing the whole day\"]}]\n```",
+          "truncated": false,
+          "feedback_update_ids": [
+            248715123
+          ]
         }
       ]
     }
