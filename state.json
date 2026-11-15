@@ -36695,7 +36695,8 @@
           "update_id": 248715121,
           "revision": 2,
           "text": "Beginner 10:00AM-6.00 PM - inside breaks change",
-          "reply_to_message_id": 193
+          "reply_to_message_id": 193,
+          "ai_calls": 1
         }
       ]
     }
