@@ -36997,7 +36997,12 @@
       "memory_pending": false,
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-06:00–13:00 — Outside break\n+06:00–13:00 and 17:00–18:00 — Outside break\n-06:00–13:00 — Outside break\n+06:00–13:00 and 17:00–18:00 — Outside break"
-      ]
+      ],
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "8327b8dcdb0c8cf5b386bbf87e20c23a9e1cefbd1db99472c3056a8d4fe6969c"
+      }
     }
   },
   "offset": 248715124,
