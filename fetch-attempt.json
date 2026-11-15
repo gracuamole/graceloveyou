@@ -555,7 +555,8 @@
       "started": 1794769693.986176,
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2,
-        "605112930a374f33cf5f8f05:rating": 2
+        "605112930a374f33cf5f8f05:rating": 2,
+        "605112930a374f33cf5f8f05:surf": 1
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -1096,9 +1097,30 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:surf": {
+          "endpoint": "surf",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[waveHeight]": "FT"
+          }
         }
       },
-      "failed": {},
+      "failed": {
+        "605112930a374f33cf5f8f05:surf": {
+          "endpoint": "surf",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[waveHeight]": "FT"
+          }
+        }
+      },
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
@@ -1106,6 +1128,10 @@
       }
     }
   },
-  "cooldowns": {},
-  "last_request": 1794769702.9882812
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:surf": {
+      "until": 1794770005.988391
+    }
+  },
+  "last_request": 1794769705.9883907
 }
