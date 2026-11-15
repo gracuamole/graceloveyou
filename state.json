@@ -33550,11 +33550,13 @@
         "Forecast date: 16 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to 1ft overhead from 6am, then head to 2ft overhead from 2pm\n\n1️⃣ BEGINNER\n10:00 AM - 6:00 PM: Inside break\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 3,
-      "status": "draft",
+      "status": "review",
       "draft_ids": [
         197
       ],
-      "prompt_ids": [],
+      "prompt_ids": [
+        198
+      ],
       "review_chat_id": -1003835479548,
       "manual_request_id": "43670319765",
       "publication_history": [],
@@ -36688,12 +36690,7 @@
       "feedback": "Beginner 10:00AM-6.00 PM - inside breaks change",
       "reasoning_edits": [
         "Beginner 10:00AM-6.00 PM - inside breaks change\n-All day is surfable - Inside break\n+10:00 AM - 6:00 PM: Inside break"
-      ],
-      "intent": {
-        "kind": "prompt",
-        "chat_id": -1003835479548,
-        "text_sha256": "d71a7f08a77d926b7c1bb51dd9c18202bb51519b0731ab4ae7d9d7fa10a4a0aa"
-      }
+      ]
     }
   },
   "offset": 248715122,
