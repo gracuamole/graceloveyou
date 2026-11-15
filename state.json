@@ -33551,7 +33551,9 @@
       ],
       "revision": 4,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        201
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "43670319765",
@@ -36712,12 +36714,7 @@
       ],
       "memory_saved_ids": [
         5
-      ],
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "d6feb1a52d639859670e9c11993abfe13c24ad0546adfaca628bd94fc6176473"
-      }
+      ]
     }
   },
   "offset": 248715123,
