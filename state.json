@@ -36735,6 +36735,18 @@
           "reply_to_message_id": 201,
           "ai_calls": 2
         }
+      ],
+      "edit_failures": [
+        {
+          "revision": 4,
+          "reason": "checker REJECT",
+          "detail": "P0L4: unrequested or incorrect change.",
+          "proposed_edit": "```json\n[\n  {\"id\": \"P0L4\", \"new\": [\"⚠️ Wind will be blowing all day\"]},\n  {\"id\": \"P0L6\", \"new\": [\"All day is surfable - Inside break\"]},\n  {\"id\": \"P0L9\", \"new\": [\"All day is surfable - Outside break\"]}\n]\n```",
+          "truncated": false,
+          "feedback_update_ids": [
+            248715123
+          ]
+        }
       ]
     }
   },
