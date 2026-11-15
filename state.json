@@ -33551,7 +33551,9 @@
       ],
       "revision": 3,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        197
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "manual_request_id": "43670319765",
@@ -36686,12 +36688,7 @@
       "feedback": "Beginner 10:00AM-6.00 PM - inside breaks change",
       "reasoning_edits": [
         "Beginner 10:00AM-6.00 PM - inside breaks change\n-All day is surfable - Inside break\n+10:00 AM - 6:00 PM: Inside break"
-      ],
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "ec9b8b2520cfcf6714a0372584c14111543679d7fcb2d57ac3fb7b10adc287a8"
-      }
+      ]
     }
   },
   "offset": 248715122,
