@@ -644,7 +644,124 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2
       },
-      "responses": {},
+      "responses": {
+        "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1794856096.3162177,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1794844800,
+                  "forecastDay": "2026-11-17",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Leftover SSW swell, magnets stay 1-2ft OH, sheltered breaks drop off size. AM best, PM sea breeze ",
+                  "observation": "Some decent options in the morning with a bunch of Bukit reefs worth looking at on the incoming tide. Slack winds and relatively clean conditions for these zones, just be aware of a weaker leftover SW swell in the water - still playful and 1-2ft OH on outside corners but much smaller / less consistent at the less prominent breaks. <br>\nMake the most of the morning conditions, afternoon sea breeze will mean more wind affected options on the outer reefs",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1794931200,
+                  "forecastDay": "2026-11-18",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Clean morning conditions, size an issue with protected zones very small. South swell mags best ",
+                  "observation": "Some morning options to eye off but you'll wanna chase some swell with outer edges of the Bukit and other swell exposures hovering around that chest-head high zone in the morning, slightly smaller again in the PM. <br>\nGet in early, AM winds standing out as a clean window to strike and PM a lot less reliable with swell magnets likely to lump up pretty quickly and sheltered zones verging on too small. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1794797009
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -654,25 +771,13 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1794856394.9053428
-    }
-  },
+  "cooldowns": {},
   "last_request": 1794856094.9053419
 }
