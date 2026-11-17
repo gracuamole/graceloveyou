@@ -634,7 +634,8 @@
     "2026-11-19": {
       "started": 1794942500.9801471,
       "counts": {
-        "605112930a374f33cf5f8f05:conditions": 2
+        "605112930a374f33cf5f8f05:conditions": 2,
+        "605112930a374f33cf5f8f05:rating": 1
       },
       "responses": {},
       "requests": {
@@ -644,6 +645,15 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:rating": {
+          "endpoint": "rating",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
         }
       },
       "failed": {
@@ -652,6 +662,15 @@
           "params": {
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
+          }
+        },
+        "605112930a374f33cf5f8f05:rating": {
+          "endpoint": "rating",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05"
           }
         }
       },
@@ -664,7 +683,10 @@
   "cooldowns": {
     "605112930a374f33cf5f8f05:conditions": {
       "until": 1794944305.0699587
+    },
+    "605112930a374f33cf5f8f05:rating": {
+      "until": 1794942806.981834
     }
   },
-  "last_request": 1794942503.981696
+  "last_request": 1794942506.9818335
 }
