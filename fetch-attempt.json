@@ -634,16 +634,15 @@
     "2026-11-19": {
       "started": 1794942500.9801471,
       "counts": {
-        "605112930a374f33cf5f8f05:conditions": 1
+        "605112930a374f33cf5f8f05:conditions": 2
       },
       "responses": {},
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
@@ -651,20 +650,21 @@
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
+            "spotId": "605112930a374f33cf5f8f05",
+            "days": "2"
           }
         }
       },
       "closed": false,
-      "alternates": {}
+      "alternates": {
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
+      }
     }
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:conditions": {
-      "until": 1794942502.1820815
+      "until": 1794942803.9816966
     }
   },
-  "last_request": 1794942500.981556
+  "last_request": 1794942503.981696
 }
