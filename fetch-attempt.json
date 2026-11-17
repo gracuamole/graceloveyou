@@ -635,7 +635,8 @@
       "started": 1794942500.9801471,
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2,
-        "605112930a374f33cf5f8f05:rating": 2
+        "605112930a374f33cf5f8f05:rating": 2,
+        "605112930a374f33cf5f8f05:surf": 1
       },
       "responses": {},
       "requests": {
@@ -651,6 +652,16 @@
           "params": {
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
+          }
+        },
+        "605112930a374f33cf5f8f05:surf": {
+          "endpoint": "surf",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[waveHeight]": "FT"
           }
         }
       },
@@ -668,6 +679,16 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:surf": {
+          "endpoint": "surf",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[waveHeight]": "FT"
+          }
         }
       },
       "closed": false,
@@ -683,7 +704,10 @@
     },
     "605112930a374f33cf5f8f05:rating": {
       "until": 1794944311.084871
+    },
+    "605112930a374f33cf5f8f05:surf": {
+      "until": 1794942812.9821434
     }
   },
-  "last_request": 1794942509.9819667
+  "last_request": 1794942512.982143
 }
