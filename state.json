@@ -34188,6 +34188,14 @@
       "notice_ids": [
         204
       ]
+    },
+    "forecast-error:2026-11-19": {
+      "kind": "notice",
+      "status": "pending",
+      "parts": [
+        "The next-day surf draft could not be generated. Breaking-surf data is unavailable or incomplete. No new draft was created. Nothing was published. Only one failure notice is sent for this forecast date."
+      ],
+      "notice_ids": []
     }
   },
   "webhook_processed_ids": [
