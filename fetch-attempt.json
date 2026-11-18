@@ -7213,6 +7213,575 @@
               ]
             }
           }
+        },
+        "0376b4f294d244e986380a123da69423e872ab14e725202ddbf5c6bc8f090765": {
+          "spec": {
+            "endpoint": "weather",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "intervalHours": "1",
+              "spotId": "605112930a374f33cf5f8f05",
+              "units[temperature]": "F"
+            }
+          },
+          "captured": 1795028925.8086221,
+          "data": {
+            "associated": {
+              "units": {
+                "temperature": "F"
+              },
+              "utcOffset": 8,
+              "weatherIconPath": "https://wa.cdn-surfline.com/quiver/3.0.0/weathericons",
+              "runInitializationTimestamp": 1794981600
+            },
+            "data": {
+              "sunlightTimes": [
+                {
+                  "midnight": 1795017600,
+                  "midnightUTCOffset": 8,
+                  "dawn": 1795037286,
+                  "dawnUTCOffset": 8,
+                  "sunrise": 1795038622,
+                  "sunriseUTCOffset": 8,
+                  "sunset": 1795083722,
+                  "sunsetUTCOffset": 8,
+                  "dusk": 1795085059,
+                  "duskUTCOffset": 8
+                },
+                {
+                  "midnight": 1795104000,
+                  "midnightUTCOffset": 8,
+                  "dawn": 1795123688,
+                  "dawnUTCOffset": 8,
+                  "sunrise": 1795125026,
+                  "sunriseUTCOffset": 8,
+                  "sunset": 1795170146,
+                  "sunsetUTCOffset": 8,
+                  "dusk": 1795171485,
+                  "duskUTCOffset": 8
+                },
+                {
+                  "midnight": 1795190400,
+                  "midnightUTCOffset": 8,
+                  "dawn": 1795210091,
+                  "dawnUTCOffset": 8,
+                  "sunrise": 1795211431,
+                  "sunriseUTCOffset": 8,
+                  "sunset": 1795256571,
+                  "sunsetUTCOffset": 8,
+                  "dusk": 1795257911,
+                  "duskUTCOffset": 8
+                }
+              ],
+              "weather": [
+                {
+                  "timestamp": 1795017600,
+                  "utcOffset": 8,
+                  "temperature": 80.35338,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795021200,
+                  "utcOffset": 8,
+                  "temperature": 79.63138,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795024800,
+                  "utcOffset": 8,
+                  "temperature": 79.17385,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795028400,
+                  "utcOffset": 8,
+                  "temperature": 79.0404,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795032000,
+                  "utcOffset": 8,
+                  "temperature": 79.02152,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795035600,
+                  "utcOffset": 8,
+                  "temperature": 78.99828,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795039200,
+                  "utcOffset": 8,
+                  "temperature": 79.13128,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795042800,
+                  "utcOffset": 8,
+                  "temperature": 79.79369,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795046400,
+                  "utcOffset": 8,
+                  "temperature": 80.50227,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795050000,
+                  "utcOffset": 8,
+                  "temperature": 80.84782,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795053600,
+                  "utcOffset": 8,
+                  "temperature": 81.34436,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795057200,
+                  "utcOffset": 8,
+                  "temperature": 81.43805,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795060800,
+                  "utcOffset": 8,
+                  "temperature": 81.62614,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795064400,
+                  "utcOffset": 8,
+                  "temperature": 81.68253,
+                  "condition": "CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795068000,
+                  "utcOffset": 8,
+                  "temperature": 81.89976,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795071600,
+                  "utcOffset": 8,
+                  "temperature": 82.02864,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795075200,
+                  "utcOffset": 8,
+                  "temperature": 82.23459,
+                  "condition": "CLEAR",
+                  "pressure": 1010
+                },
+                {
+                  "timestamp": 1795078800,
+                  "utcOffset": 8,
+                  "temperature": 82.21596,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795082400,
+                  "utcOffset": 8,
+                  "temperature": 81.94796,
+                  "condition": "LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795086000,
+                  "utcOffset": 8,
+                  "temperature": 81.31511,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795089600,
+                  "utcOffset": 8,
+                  "temperature": 81.34992,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795093200,
+                  "utcOffset": 8,
+                  "temperature": 81.50439,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795096800,
+                  "utcOffset": 8,
+                  "temperature": 81.4814,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795100400,
+                  "utcOffset": 8,
+                  "temperature": 80.98598,
+                  "condition": "NIGHT_THUNDER_STORMS",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795104000,
+                  "utcOffset": 8,
+                  "temperature": 80.98865,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795107600,
+                  "utcOffset": 8,
+                  "temperature": 80.87267,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795111200,
+                  "utcOffset": 8,
+                  "temperature": 80.43389,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795114800,
+                  "utcOffset": 8,
+                  "temperature": 79.84948,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795118400,
+                  "utcOffset": 8,
+                  "temperature": 79.6647,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795122000,
+                  "utcOffset": 8,
+                  "temperature": 79.32344,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795125600,
+                  "utcOffset": 8,
+                  "temperature": 79.26586,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795129200,
+                  "utcOffset": 8,
+                  "temperature": 79.43461,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795132800,
+                  "utcOffset": 8,
+                  "temperature": 79.95411,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795136400,
+                  "utcOffset": 8,
+                  "temperature": 80.5318,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795140000,
+                  "utcOffset": 8,
+                  "temperature": 81.00757,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795143600,
+                  "utcOffset": 8,
+                  "temperature": 81.5251,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795147200,
+                  "utcOffset": 8,
+                  "temperature": 82.20654,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795150800,
+                  "utcOffset": 8,
+                  "temperature": 82.54804,
+                  "condition": "CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795154400,
+                  "utcOffset": 8,
+                  "temperature": 82.82792,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795158000,
+                  "utcOffset": 8,
+                  "temperature": 82.98159,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795161600,
+                  "utcOffset": 8,
+                  "temperature": 83.10038,
+                  "condition": "CLEAR",
+                  "pressure": 1010
+                },
+                {
+                  "timestamp": 1795165200,
+                  "utcOffset": 8,
+                  "temperature": 83.26607,
+                  "condition": "CLEAR",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795168800,
+                  "utcOffset": 8,
+                  "temperature": 82.59396,
+                  "condition": "THUNDER_STORMS",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795172400,
+                  "utcOffset": 8,
+                  "temperature": 82.2053,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795176000,
+                  "utcOffset": 8,
+                  "temperature": 81.63141,
+                  "condition": "NIGHT_HEAVY_THUNDER_STORMS",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795179600,
+                  "utcOffset": 8,
+                  "temperature": 81.26892,
+                  "condition": "NIGHT_HEAVY_THUNDER_STORMS",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795183200,
+                  "utcOffset": 8,
+                  "temperature": 81.10073,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795186800,
+                  "utcOffset": 8,
+                  "temperature": 81.0983,
+                  "condition": "NIGHT_HEAVY_THUNDER_STORMS",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795190400,
+                  "utcOffset": 8,
+                  "temperature": 81.37354,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795194000,
+                  "utcOffset": 8,
+                  "temperature": 81.18781,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795197600,
+                  "utcOffset": 8,
+                  "temperature": 81.23158,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795201200,
+                  "utcOffset": 8,
+                  "temperature": 81.05151,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795204800,
+                  "utcOffset": 8,
+                  "temperature": 81.0031,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795208400,
+                  "utcOffset": 8,
+                  "temperature": 80.75033,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795212000,
+                  "utcOffset": 8,
+                  "temperature": 80.44573,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795215600,
+                  "utcOffset": 8,
+                  "temperature": 80.65284,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795219200,
+                  "utcOffset": 8,
+                  "temperature": 80.73542,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1015
+                },
+                {
+                  "timestamp": 1795222800,
+                  "utcOffset": 8,
+                  "temperature": 81.18257,
+                  "condition": "CLEAR",
+                  "pressure": 1015
+                },
+                {
+                  "timestamp": 1795226400,
+                  "utcOffset": 8,
+                  "temperature": 81.67708,
+                  "condition": "CLEAR",
+                  "pressure": 1015
+                },
+                {
+                  "timestamp": 1795230000,
+                  "utcOffset": 8,
+                  "temperature": 82.05062,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795233600,
+                  "utcOffset": 8,
+                  "temperature": 82.20696,
+                  "condition": "CLEAR",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795237200,
+                  "utcOffset": 8,
+                  "temperature": 82.32083,
+                  "condition": "CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795240800,
+                  "utcOffset": 8,
+                  "temperature": 82.40668,
+                  "condition": "CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795244400,
+                  "utcOffset": 8,
+                  "temperature": 82.65745,
+                  "condition": "BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795248000,
+                  "utcOffset": 8,
+                  "temperature": 82.46789,
+                  "condition": "LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1011
+                },
+                {
+                  "timestamp": 1795251600,
+                  "utcOffset": 8,
+                  "temperature": 82.00766,
+                  "condition": "HEAVY_THUNDER_STORMS",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795255200,
+                  "utcOffset": 8,
+                  "temperature": 81.94807,
+                  "condition": "CLEAR",
+                  "pressure": 1012
+                },
+                {
+                  "timestamp": 1795258800,
+                  "utcOffset": 8,
+                  "temperature": 81.98238,
+                  "condition": "NIGHT_CLEAR",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795262400,
+                  "utcOffset": 8,
+                  "temperature": 81.29149,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1013
+                },
+                {
+                  "timestamp": 1795266000,
+                  "utcOffset": 8,
+                  "temperature": 80.92832,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795269600,
+                  "utcOffset": 8,
+                  "temperature": 80.75114,
+                  "condition": "NIGHT_LIGHT_SHOWERS_POSSIBLE",
+                  "pressure": 1014
+                },
+                {
+                  "timestamp": 1795273200,
+                  "utcOffset": 8,
+                  "temperature": 80.85116,
+                  "condition": "NIGHT_BRIEF_SHOWERS_POSSIBLE",
+                  "pressure": 1014
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -7285,18 +7854,7 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:weather": {
-          "endpoint": "weather",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07",
@@ -7305,10 +7863,6 @@
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:weather": {
-      "until": 1795029224.4942956
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795028924.494295
 }
