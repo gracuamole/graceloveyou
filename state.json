@@ -34982,11 +34982,10 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 20 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: thigh to stomach from 6am, then waist to chest from 8am, then thigh to stomach from 3pm\n\n1️⃣ BEGINNER\nNo qualifying window.\n\n2️⃣ INTERMEDIATE\nNo qualifying window.\n\n3️⃣ ADVANCED\nNo qualifying window."
+        "Forecast date: 20 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: thigh to stomach from 6am, then waist to chest from 8am, then thigh to stomach from 3pm\n\n1️⃣ BEGINNER\nNo qualifying window.\n\n2️⃣ INTERMEDIATE\n10:00 AM - 6:00 PM outside breaks\n\n3️⃣ ADVANCED\nNo qualifying window."
       ],
       "revision": 1,
       "status": "draft",
-      "apply_new_rules": true,
       "draft_ids": [],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
@@ -35018,7 +35017,10 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false,
+      "reasoning_edits": [
+        "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-No qualifying window.\n+10:00 AM - 6:00 PM outside breaks"
+      ]
     }
   },
   "offset": 248715126,
