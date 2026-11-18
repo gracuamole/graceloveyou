@@ -5199,6 +5199,686 @@
               ]
             }
           }
+        },
+        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": {
+          "spec": {
+            "endpoint": "wind",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "intervalHours": "1",
+              "spotId": "605112930a374f33cf5f8f05",
+              "units[windSpeed]": "KTS"
+            }
+          },
+          "captured": 1795028911.879282,
+          "data": {
+            "associated": {
+              "units": {
+                "windSpeed": "KTS"
+              },
+              "utcOffset": 8,
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "runInitializationTimestamp": 1794981600,
+              "windStation": null,
+              "lastObserved": null
+            },
+            "data": {
+              "wind": [
+                {
+                  "timestamp": 1795017600,
+                  "utcOffset": 8,
+                  "speed": 2.38566,
+                  "direction": 94.64428,
+                  "directionType": "Offshore",
+                  "gust": 3.50976,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795021200,
+                  "utcOffset": 8,
+                  "speed": 1.4699,
+                  "direction": 43.10274,
+                  "directionType": "Offshore",
+                  "gust": 1.95959,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795024800,
+                  "utcOffset": 8,
+                  "speed": 1.07038,
+                  "direction": 342.92471,
+                  "directionType": "Offshore",
+                  "gust": 1.58862,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795028400,
+                  "utcOffset": 8,
+                  "speed": 1.54122,
+                  "direction": 304.77259,
+                  "directionType": "Cross-shore",
+                  "gust": 1.83715,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795032000,
+                  "utcOffset": 8,
+                  "speed": 1.43523,
+                  "direction": 309.87388,
+                  "directionType": "Cross-shore",
+                  "gust": 1.57561,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795035600,
+                  "utcOffset": 8,
+                  "speed": 0.85135,
+                  "direction": 10.33318,
+                  "directionType": "Offshore",
+                  "gust": 1.63174,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795039200,
+                  "utcOffset": 8,
+                  "speed": 1.63196,
+                  "direction": 83.35853,
+                  "directionType": "Offshore",
+                  "gust": 2.39582,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795042800,
+                  "utcOffset": 8,
+                  "speed": 2.32576,
+                  "direction": 96.17851,
+                  "directionType": "Offshore",
+                  "gust": 3.55654,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795046400,
+                  "utcOffset": 8,
+                  "speed": 2.69275,
+                  "direction": 101.92811,
+                  "directionType": "Offshore",
+                  "gust": 3.71712,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795050000,
+                  "utcOffset": 8,
+                  "speed": 4.37601,
+                  "direction": 119.648,
+                  "directionType": "Cross-shore",
+                  "gust": 5.26632,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795053600,
+                  "utcOffset": 8,
+                  "speed": 5.40837,
+                  "direction": 129.20152,
+                  "directionType": "Cross-shore",
+                  "gust": 6.04442,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795057200,
+                  "utcOffset": 8,
+                  "speed": 5.57589,
+                  "direction": 133.62544,
+                  "directionType": "Cross-shore",
+                  "gust": 6.06453,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795060800,
+                  "utcOffset": 8,
+                  "speed": 5.99714,
+                  "direction": 148.72102,
+                  "directionType": "Cross-shore",
+                  "gust": 6.41886,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795064400,
+                  "utcOffset": 8,
+                  "speed": 7.27471,
+                  "direction": 154.38743,
+                  "directionType": "Cross-shore",
+                  "gust": 7.63997,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795068000,
+                  "utcOffset": 8,
+                  "speed": 7.48047,
+                  "direction": 158.85773,
+                  "directionType": "Cross-shore",
+                  "gust": 7.77587,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795071600,
+                  "utcOffset": 8,
+                  "speed": 8.82162,
+                  "direction": 163.63695,
+                  "directionType": "Onshore",
+                  "gust": 8.82162,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795075200,
+                  "utcOffset": 8,
+                  "speed": 8.32559,
+                  "direction": 166.5267,
+                  "directionType": "Onshore",
+                  "gust": 8.5876,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795078800,
+                  "utcOffset": 8,
+                  "speed": 7.34307,
+                  "direction": 165.26075,
+                  "directionType": "Onshore",
+                  "gust": 8.20716,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795082400,
+                  "utcOffset": 8,
+                  "speed": 7.15515,
+                  "direction": 162.50502,
+                  "directionType": "Onshore",
+                  "gust": 8.25713,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795086000,
+                  "utcOffset": 8,
+                  "speed": 6.4179,
+                  "direction": 148.81342,
+                  "directionType": "Cross-shore",
+                  "gust": 7.79648,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795089600,
+                  "utcOffset": 8,
+                  "speed": 6.03138,
+                  "direction": 136.51706,
+                  "directionType": "Cross-shore",
+                  "gust": 7.59048,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795093200,
+                  "utcOffset": 8,
+                  "speed": 5.04953,
+                  "direction": 125.1557,
+                  "directionType": "Cross-shore",
+                  "gust": 6.89265,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795096800,
+                  "utcOffset": 8,
+                  "speed": 4.45876,
+                  "direction": 116.9802,
+                  "directionType": "Cross-shore",
+                  "gust": 6.44366,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795100400,
+                  "utcOffset": 8,
+                  "speed": 4.16477,
+                  "direction": 105.12645,
+                  "directionType": "Offshore",
+                  "gust": 5.50089,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795104000,
+                  "utcOffset": 8,
+                  "speed": 3.41944,
+                  "direction": 95.94418,
+                  "directionType": "Offshore",
+                  "gust": 4.86185,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795107600,
+                  "utcOffset": 8,
+                  "speed": 2.77484,
+                  "direction": 97.23459,
+                  "directionType": "Offshore",
+                  "gust": 4.0967,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795111200,
+                  "utcOffset": 8,
+                  "speed": 2.48516,
+                  "direction": 70.78145,
+                  "directionType": "Offshore",
+                  "gust": 3.13961,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795114800,
+                  "utcOffset": 8,
+                  "speed": 2.98878,
+                  "direction": 57.50917,
+                  "directionType": "Offshore",
+                  "gust": 3.52982,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795118400,
+                  "utcOffset": 8,
+                  "speed": 2.60936,
+                  "direction": 37.56436,
+                  "directionType": "Offshore",
+                  "gust": 3.11208,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795122000,
+                  "utcOffset": 8,
+                  "speed": 2.31181,
+                  "direction": 32.41594,
+                  "directionType": "Offshore",
+                  "gust": 2.76783,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795125600,
+                  "utcOffset": 8,
+                  "speed": 1.67282,
+                  "direction": 24.58444,
+                  "directionType": "Offshore",
+                  "gust": 2.1679,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795129200,
+                  "utcOffset": 8,
+                  "speed": 1.86386,
+                  "direction": 7.04207,
+                  "directionType": "Offshore",
+                  "gust": 2.1583,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795132800,
+                  "utcOffset": 8,
+                  "speed": 1.37664,
+                  "direction": 14.7247,
+                  "directionType": "Offshore",
+                  "gust": 1.5551,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795136400,
+                  "utcOffset": 8,
+                  "speed": 1.33849,
+                  "direction": 127.56309,
+                  "directionType": "Cross-shore",
+                  "gust": 2.5529,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795140000,
+                  "utcOffset": 8,
+                  "speed": 3.00113,
+                  "direction": 150.93854,
+                  "directionType": "Cross-shore",
+                  "gust": 4.30231,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795143600,
+                  "utcOffset": 8,
+                  "speed": 4.77971,
+                  "direction": 154.30629,
+                  "directionType": "Cross-shore",
+                  "gust": 5.89529,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795147200,
+                  "utcOffset": 8,
+                  "speed": 6.38821,
+                  "direction": 153.97375,
+                  "directionType": "Cross-shore",
+                  "gust": 7.22492,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795150800,
+                  "utcOffset": 8,
+                  "speed": 7.10438,
+                  "direction": 152.70505,
+                  "directionType": "Cross-shore",
+                  "gust": 7.80402,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795154400,
+                  "utcOffset": 8,
+                  "speed": 7.0151,
+                  "direction": 150.44975,
+                  "directionType": "Cross-shore",
+                  "gust": 7.81453,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795158000,
+                  "utcOffset": 8,
+                  "speed": 7.12844,
+                  "direction": 152.53198,
+                  "directionType": "Cross-shore",
+                  "gust": 7.79122,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795161600,
+                  "utcOffset": 8,
+                  "speed": 7.01524,
+                  "direction": 152.89124,
+                  "directionType": "Cross-shore",
+                  "gust": 8.00764,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795165200,
+                  "utcOffset": 8,
+                  "speed": 6.95151,
+                  "direction": 147.08881,
+                  "directionType": "Cross-shore",
+                  "gust": 8.17235,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795168800,
+                  "utcOffset": 8,
+                  "speed": 6.38692,
+                  "direction": 138.8797,
+                  "directionType": "Cross-shore",
+                  "gust": 7.77834,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795172400,
+                  "utcOffset": 8,
+                  "speed": 6.78152,
+                  "direction": 134.5357,
+                  "directionType": "Cross-shore",
+                  "gust": 8.56041,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795176000,
+                  "utcOffset": 8,
+                  "speed": 6.65868,
+                  "direction": 131.41662,
+                  "directionType": "Cross-shore",
+                  "gust": 8.37161,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795179600,
+                  "utcOffset": 8,
+                  "speed": 5.91692,
+                  "direction": 120.41719,
+                  "directionType": "Cross-shore",
+                  "gust": 7.6473,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795183200,
+                  "utcOffset": 8,
+                  "speed": 4.93574,
+                  "direction": 110.80155,
+                  "directionType": "Cross-shore",
+                  "gust": 6.45017,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795186800,
+                  "utcOffset": 8,
+                  "speed": 3.87823,
+                  "direction": 107.20626,
+                  "directionType": "Offshore",
+                  "gust": 4.86649,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795190400,
+                  "utcOffset": 8,
+                  "speed": 2.20427,
+                  "direction": 109.94272,
+                  "directionType": "Offshore",
+                  "gust": 3.13186,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795194000,
+                  "utcOffset": 8,
+                  "speed": 3.32071,
+                  "direction": 114.18507,
+                  "directionType": "Cross-shore",
+                  "gust": 4.48538,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795197600,
+                  "utcOffset": 8,
+                  "speed": 3.51491,
+                  "direction": 122.1526,
+                  "directionType": "Cross-shore",
+                  "gust": 5.2509,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795201200,
+                  "utcOffset": 8,
+                  "speed": 3.58801,
+                  "direction": 122.43557,
+                  "directionType": "Cross-shore",
+                  "gust": 5.85309,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795204800,
+                  "utcOffset": 8,
+                  "speed": 3.35913,
+                  "direction": 118.64196,
+                  "directionType": "Cross-shore",
+                  "gust": 6.02592,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795208400,
+                  "utcOffset": 8,
+                  "speed": 3.53489,
+                  "direction": 115.2805,
+                  "directionType": "Cross-shore",
+                  "gust": 5.47151,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795212000,
+                  "utcOffset": 8,
+                  "speed": 3.41263,
+                  "direction": 118.34573,
+                  "directionType": "Cross-shore",
+                  "gust": 4.67802,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795215600,
+                  "utcOffset": 8,
+                  "speed": 2.91093,
+                  "direction": 124.76471,
+                  "directionType": "Cross-shore",
+                  "gust": 4.47119,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795219200,
+                  "utcOffset": 8,
+                  "speed": 4.56706,
+                  "direction": 124.92052,
+                  "directionType": "Cross-shore",
+                  "gust": 5.83697,
+                  "optimalScore": 2
+                },
+                {
+                  "timestamp": 1795222800,
+                  "utcOffset": 8,
+                  "speed": 5.92022,
+                  "direction": 126.0118,
+                  "directionType": "Cross-shore",
+                  "gust": 7.2065,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795226400,
+                  "utcOffset": 8,
+                  "speed": 7.43669,
+                  "direction": 123.45161,
+                  "directionType": "Cross-shore",
+                  "gust": 8.79104,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795230000,
+                  "utcOffset": 8,
+                  "speed": 8.08237,
+                  "direction": 130.20412,
+                  "directionType": "Cross-shore",
+                  "gust": 9.91361,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795233600,
+                  "utcOffset": 8,
+                  "speed": 8.30371,
+                  "direction": 137.7776,
+                  "directionType": "Cross-shore",
+                  "gust": 9.92084,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795237200,
+                  "utcOffset": 8,
+                  "speed": 7.78637,
+                  "direction": 144.53245,
+                  "directionType": "Cross-shore",
+                  "gust": 9.5355,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795240800,
+                  "utcOffset": 8,
+                  "speed": 8.33543,
+                  "direction": 150.57276,
+                  "directionType": "Cross-shore",
+                  "gust": 9.9286,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795244400,
+                  "utcOffset": 8,
+                  "speed": 8.5914,
+                  "direction": 149.02472,
+                  "directionType": "Cross-shore",
+                  "gust": 10.30437,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795248000,
+                  "utcOffset": 8,
+                  "speed": 7.90406,
+                  "direction": 146.0045,
+                  "directionType": "Cross-shore",
+                  "gust": 9.74801,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795251600,
+                  "utcOffset": 8,
+                  "speed": 7.34147,
+                  "direction": 135.20048,
+                  "directionType": "Cross-shore",
+                  "gust": 9.16241,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795255200,
+                  "utcOffset": 8,
+                  "speed": 7.12213,
+                  "direction": 128.49759,
+                  "directionType": "Cross-shore",
+                  "gust": 9.14702,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795258800,
+                  "utcOffset": 8,
+                  "speed": 6.79782,
+                  "direction": 126.36951,
+                  "directionType": "Cross-shore",
+                  "gust": 9.15563,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795262400,
+                  "utcOffset": 8,
+                  "speed": 6.19832,
+                  "direction": 121.83711,
+                  "directionType": "Cross-shore",
+                  "gust": 8.7473,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795266000,
+                  "utcOffset": 8,
+                  "speed": 5.66279,
+                  "direction": 112.26539,
+                  "directionType": "Cross-shore",
+                  "gust": 7.80407,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795269600,
+                  "utcOffset": 8,
+                  "speed": 6.70877,
+                  "direction": 112.9507,
+                  "directionType": "Cross-shore",
+                  "gust": 8.97042,
+                  "optimalScore": 0
+                },
+                {
+                  "timestamp": 1795273200,
+                  "utcOffset": 8,
+                  "speed": 6.58562,
+                  "direction": 112.16111,
+                  "directionType": "Cross-shore",
+                  "gust": 8.9532,
+                  "optimalScore": 0
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -5245,18 +5925,7 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:wind": {
-          "endpoint": "wind",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[windSpeed]": "KTS"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": "e1ba37a70b85159774d2db00614553d5d9077c7740f2a310a58bc94db623bc07",
@@ -5264,10 +5933,6 @@
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:wind": {
-      "until": 1795029210.5626721
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795028910.5626717
 }
