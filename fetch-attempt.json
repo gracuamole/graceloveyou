@@ -598,7 +598,158 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 1
       },
-      "responses": {},
+      "responses": {
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "spotId": "605112930a374f33cf5f8f05"
+            }
+          },
+          "captured": 1795115301.4844184,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1795104000,
+                  "forecastDay": "2026-11-20",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Dawn session best bet before spots get mellow through lunchtime high tide. ",
+                  "observation": "Mid period bump benefits the south swell magnets but not so much the less exposed zones. We should see outer edges of the Bukit a peaky head high on the sets at dawn but this will become a little more subdued as the tide rushes into a 2.3m high tide mark. Expect some very mellow conditions through lunchtime, with those less exposed spots not all that worth it other than on high volume boards. Even the south swell magnets will get a bit swampy and full through lunch. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795190400,
+                  "forecastDay": "2026-11-21",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Forerunners begin showing, a lift in size and energy on swell magnets.",
+                  "observation": "Forerunners to a more meaningful long period swell to arrive. Note I'm seeing potential for more SW angle in the initial showing of swell than spot pages currently show - expect these to catch up over coming model runs. The implication will likely be some more useable size on the magnets than is showing and possibly a less selective swell with small playful waves at less exposed spots possible. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795276800,
+                  "forecastDay": "2026-11-22",
+                  "forecaster": {
+                    "name": "Peter Aquilina",
+                    "avatar": "https://www.gravatar.com/avatar/ec42463fa4360802a80b113acdbcb873?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Long period swell kicks, fun pulse of fresh energy best on the south swell exposures. ",
+                  "observation": "Long period swell and therefor size kicks through the day, looking to peak Sunday night. Note again, similar to yesterday, while the main pulse will have predominately SSW energy, there'll be a broader directional spread of swell with yesterdays SW pulse still lingering. There result? Well we will well see some fun, but small, conditions on the less exposed locations - while the outer edges of the Bukit will have a mixed bag of sets hitting with the mix of SW and SSW swell. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1795065559
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -609,24 +760,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1795115599.9180708
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795115299.9180706
 }
