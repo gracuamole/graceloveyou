@@ -7572,6 +7572,548 @@
               ]
             }
           }
+        },
+        "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": {
+          "spec": {
+            "endpoint": "tides",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "spotId": "605112930a374f33cf5f8f05",
+              "units[tideHeight]": "FT"
+            }
+          },
+          "captured": 1795115317.0539207,
+          "data": {
+            "associated": {
+              "utcOffset": 8,
+              "units": {
+                "tideHeight": "FT"
+              },
+              "tideLocation": {
+                "name": "Canggu, West Bali",
+                "min": -1.02,
+                "max": 11.58,
+                "mean": 0,
+                "lat": -8.6562,
+                "lon": 115.124
+              }
+            },
+            "data": {
+              "tides": [
+                {
+                  "timestamp": 1795104000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.57
+                },
+                {
+                  "timestamp": 1795104304,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 4.56
+                },
+                {
+                  "timestamp": 1795107600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.66
+                },
+                {
+                  "timestamp": 1795111200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.94
+                },
+                {
+                  "timestamp": 1795114800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.31
+                },
+                {
+                  "timestamp": 1795118400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.69
+                },
+                {
+                  "timestamp": 1795122000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.99
+                },
+                {
+                  "timestamp": 1795125600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.11
+                },
+                {
+                  "timestamp": 1795125652,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 6.1
+                },
+                {
+                  "timestamp": 1795129200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.98
+                },
+                {
+                  "timestamp": 1795132800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.61
+                },
+                {
+                  "timestamp": 1795136400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.06
+                },
+                {
+                  "timestamp": 1795140000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.49
+                },
+                {
+                  "timestamp": 1795143600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.07
+                },
+                {
+                  "timestamp": 1795147200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.91
+                },
+                {
+                  "timestamp": 1795147232,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 3.9
+                },
+                {
+                  "timestamp": 1795150800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.07
+                },
+                {
+                  "timestamp": 1795154400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.51
+                },
+                {
+                  "timestamp": 1795158000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.17
+                },
+                {
+                  "timestamp": 1795161600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.91
+                },
+                {
+                  "timestamp": 1795165200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.59
+                },
+                {
+                  "timestamp": 1795168800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.07
+                },
+                {
+                  "timestamp": 1795171914,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 7.22
+                },
+                {
+                  "timestamp": 1795172400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.21
+                },
+                {
+                  "timestamp": 1795176000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.95
+                },
+                {
+                  "timestamp": 1795179600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.36
+                },
+                {
+                  "timestamp": 1795183200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.56
+                },
+                {
+                  "timestamp": 1795186800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.75
+                },
+                {
+                  "timestamp": 1795190400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.12
+                },
+                {
+                  "timestamp": 1795194000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.81
+                },
+                {
+                  "timestamp": 1795195332,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 3.77
+                },
+                {
+                  "timestamp": 1795197600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.86
+                },
+                {
+                  "timestamp": 1795201200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.23
+                },
+                {
+                  "timestamp": 1795204800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.82
+                },
+                {
+                  "timestamp": 1795208400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.5
+                },
+                {
+                  "timestamp": 1795212000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.07
+                },
+                {
+                  "timestamp": 1795215600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.39
+                },
+                {
+                  "timestamp": 1795216932,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 6.4
+                },
+                {
+                  "timestamp": 1795219200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.33
+                },
+                {
+                  "timestamp": 1795222800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.92
+                },
+                {
+                  "timestamp": 1795226400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.26
+                },
+                {
+                  "timestamp": 1795230000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.54
+                },
+                {
+                  "timestamp": 1795233600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.99
+                },
+                {
+                  "timestamp": 1795237200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.77
+                },
+                {
+                  "timestamp": 1795237412,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 3.77
+                },
+                {
+                  "timestamp": 1795240800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.95
+                },
+                {
+                  "timestamp": 1795244400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.53
+                },
+                {
+                  "timestamp": 1795248000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.4
+                },
+                {
+                  "timestamp": 1795251600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.38
+                },
+                {
+                  "timestamp": 1795255200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.24
+                },
+                {
+                  "timestamp": 1795258800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.77
+                },
+                {
+                  "timestamp": 1795260872,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 7.87
+                },
+                {
+                  "timestamp": 1795262400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.81
+                },
+                {
+                  "timestamp": 1795266000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.32
+                },
+                {
+                  "timestamp": 1795269600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.39
+                },
+                {
+                  "timestamp": 1795273200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.23
+                },
+                {
+                  "timestamp": 1795276800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.11
+                },
+                {
+                  "timestamp": 1795280400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.28
+                },
+                {
+                  "timestamp": 1795284000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 2.91
+                },
+                {
+                  "timestamp": 1795284764,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 2.89
+                },
+                {
+                  "timestamp": 1795287600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.06
+                },
+                {
+                  "timestamp": 1795291200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.67
+                },
+                {
+                  "timestamp": 1795294800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.59
+                },
+                {
+                  "timestamp": 1795298400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.57
+                },
+                {
+                  "timestamp": 1795302000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.37
+                },
+                {
+                  "timestamp": 1795305600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.77
+                },
+                {
+                  "timestamp": 1795306666,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 6.79
+                },
+                {
+                  "timestamp": 1795309200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.66
+                },
+                {
+                  "timestamp": 1795312800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.1
+                },
+                {
+                  "timestamp": 1795316400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.25
+                },
+                {
+                  "timestamp": 1795320000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.37
+                },
+                {
+                  "timestamp": 1795323600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.73
+                },
+                {
+                  "timestamp": 1795326764,
+                  "utcOffset": 8,
+                  "type": "LOW",
+                  "height": 3.54
+                },
+                {
+                  "timestamp": 1795327200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.53
+                },
+                {
+                  "timestamp": 1795330800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 3.87
+                },
+                {
+                  "timestamp": 1795334400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.7
+                },
+                {
+                  "timestamp": 1795338000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 5.86
+                },
+                {
+                  "timestamp": 1795341600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.07
+                },
+                {
+                  "timestamp": 1795345200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 8.05
+                },
+                {
+                  "timestamp": 1795348800,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 8.51
+                },
+                {
+                  "timestamp": 1795349579,
+                  "utcOffset": 8,
+                  "type": "HIGH",
+                  "height": 8.53
+                },
+                {
+                  "timestamp": 1795352400,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 8.31
+                },
+                {
+                  "timestamp": 1795356000,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 7.46
+                },
+                {
+                  "timestamp": 1795359600,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 6.14
+                },
+                {
+                  "timestamp": 1795363200,
+                  "utcOffset": 8,
+                  "type": "NORMAL",
+                  "height": 4.62
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -7632,25 +8174,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:tides": {
-          "endpoint": "tides",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:tides": {
-      "until": 1795115614.9712913
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795115314.9712908
 }
