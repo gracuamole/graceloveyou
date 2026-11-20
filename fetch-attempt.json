@@ -601,7 +601,7 @@
         "605112930a374f33cf5f8f05:surf": 1,
         "605112930a374f33cf5f8f05:swells": 2,
         "605112930a374f33cf5f8f05:wind": 2,
-        "605112930a374f33cf5f8f05:tides": 1
+        "605112930a374f33cf5f8f05:tides": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -6907,10 +6907,8 @@
         "605112930a374f33cf5f8f05:tides": {
           "endpoint": "tides",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
+            "days": "2"
           }
         }
       },
@@ -6925,17 +6923,16 @@
         "605112930a374f33cf5f8f05:tides": {
           "endpoint": "tides",
           "params": {
-            "cacheEnabled": "true",
-            "days": "3",
             "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
+            "days": "2"
           }
         }
       },
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea",
-        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10"
+        "0f6bc6438a4d0ee5d5e686b3c55435798f3c756ec01bfe8d8ccf508ac36655ef": "8c4b00ed81f7b07024d5d2e8b6e61fe40617fd830eb4e03fa0f708e68b758a10",
+        "bb0ce5b63e2349fb0abbc67a3f49c91201afd02a1068ed90e04daae060c05d07": "84b0d7aa9ab4b2d57891752906f131fa568ee25d94bbb1ba40c70ca1decaf5ee"
       }
     }
   },
@@ -6944,8 +6941,8 @@
       "until": 1795204047.4121933
     },
     "605112930a374f33cf5f8f05:tides": {
-      "until": 1795202250.7675498
+      "until": 1795202552.3167627
     }
   },
-  "last_request": 1795202249.3166018
+  "last_request": 1795202252.3167624
 }
