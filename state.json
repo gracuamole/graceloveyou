@@ -35999,11 +35999,10 @@
         ]
       },
       "parts": [
-        "Forecast date: 22 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to overhead all day\n\n1️⃣ BEGINNER\nCould not confirm a suitable window from the available data.\n\n2️⃣ INTERMEDIATE\nCould not confirm a suitable window from the available data.\n\n3️⃣ ADVANCED\nCould not confirm a suitable window from the available data."
+        "Forecast date: 22 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to overhead all day\n1️⃣ BEGINNER\nNo qualifying window.\n\n2️⃣ INTERMEDIATE\n10:00-18:00 outside break only\n\n3️⃣ ADVANCED\nNo qualifying window."
       ],
       "revision": 1,
       "status": "draft",
-      "apply_new_rules": true,
       "draft_ids": [],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
@@ -36035,7 +36034,10 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false,
+      "reasoning_edits": [
+        "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-\n-Could not confirm a suitable window from the available data.\n+No qualifying window.\n-Could not confirm a suitable window from the available data.\n+10:00-18:00 outside break only\n-Could not confirm a suitable window from the available data.\n+No qualifying window."
+      ]
     }
   },
   "offset": 248715126,
