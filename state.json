@@ -36039,7 +36039,12 @@
       "memory_pending": false,
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-\n-Could not confirm a suitable window from the available data.\n+No qualifying window.\n-Could not confirm a suitable window from the available data.\n+10:00-18:00 outside break only\n-Could not confirm a suitable window from the available data.\n+No qualifying window."
-      ]
+      ],
+      "intent": {
+        "kind": "prompt",
+        "chat_id": -1003835479548,
+        "text_sha256": "cde9e9a29dca86b82e0f5725979a9f0297436b0c9ba766ddd5c4de6e89987796"
+      }
     }
   },
   "offset": 248715126,
