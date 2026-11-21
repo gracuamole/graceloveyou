@@ -613,7 +613,124 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2
       },
-      "responses": {},
+      "responses": {
+        "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "spotId": "605112930a374f33cf5f8f05",
+              "days": "2"
+            }
+          },
+          "captured": 1795288101.7485192,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1795276800,
+                  "forecastDay": "2026-11-22",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Long period swell kicks, fun pulse of fresh energy best on the south swell exposures. ",
+                  "observation": "Long period swell and therefor size kicks through the day, looking to peak Sunday night. Note again, similar to yesterday, while the main pulse will have predominately SSW energy, there'll be a broader directional spread of swell with yesterdays SW pulse still lingering. There result? Well we will well see some fun, but small, conditions on the less exposed locations - while the outer edges of the Bukit will have a mixed bag of sets hitting with the mix of SW and SSW swell. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795363200,
+                  "forecastDay": "2026-11-23",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Leftover SW swell worth making the most of, especially through the AM on incoming tide ",
+                  "observation": "Get out early and make the most of remaining SW swell energy in the water. Size should still be decent on the exposures especially at dawn with overhead sets featuring, before the filling tide mellows the dropping swell and the bigger sets become less frequent. <br>\n<br>\nSome smaller afternoon options later in the day, but it’s well worth making the most of an extended dawn session if you can. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1795213719
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -623,25 +740,13 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "spotId": "605112930a374f33cf5f8f05",
-            "days": "2"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea"
       }
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1795288400.4075892
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795288100.4075887
 }
