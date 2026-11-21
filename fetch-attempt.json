@@ -612,7 +612,7 @@
       "started": 1795288097.405653,
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 2,
-        "605112930a374f33cf5f8f05:rating": 1
+        "605112930a374f33cf5f8f05:rating": 2
       },
       "responses": {
         "778099c1c14558dafe80003c7517258177d9e2759b38a9a99f9dfe4ec6d16bea": {
@@ -769,8 +769,8 @@
   },
   "cooldowns": {
     "605112930a374f33cf5f8f05:rating": {
-      "until": 1795288104.6343606
+      "until": 1795288511.7893906
     }
   },
-  "last_request": 1795288103.4077218
+  "last_request": 1795288211.7893903
 }
