@@ -26483,11 +26483,10 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 25 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head from 6am, then chest to overhead from 10am\n\n1️⃣ BEGINNER\nAll day is surfable - Inside break\n\n2️⃣ INTERMEDIATE\nAll day is surfable - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
+        "Forecast date: 25 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head from 6am, then chest to overhead from 10am\n\n1️⃣ BEGINNER\nAll day is surfable - Inside break\n\n2️⃣ INTERMEDIATE\n10:00 - 18:00 - Outside break\n\n3️⃣ ADVANCED\nAll day is surfable - Outside break"
       ],
       "revision": 1,
       "status": "draft",
-      "apply_new_rules": true,
       "draft_ids": [],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
@@ -26519,7 +26518,10 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false,
+      "reasoning_edits": [
+        "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-All day is surfable - Outside break\n+10:00 - 18:00 - Outside break"
+      ]
     }
   },
   "offset": 248715126,
