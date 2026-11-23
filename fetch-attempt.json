@@ -891,6 +891,607 @@
               ]
             }
           }
+        },
+        "b126d87fd0e1c7250095816702f5b99521cc3eb7128243fcf31d83e1c1cd06c9": {
+          "spec": {
+            "endpoint": "rating",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "intervalHours": "1",
+              "spotId": "605112930a374f33cf5f8f05"
+            }
+          },
+          "captured": 1795460895.1106029,
+          "data": {
+            "associated": {
+              "location": {
+                "lat": -8.658239153703311,
+                "lon": 115.1275
+              },
+              "runInitializationTimestamp": 1795413600
+            },
+            "data": {
+              "rating": [
+                {
+                  "timestamp": 1795449600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795453200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795456800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795460400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795464000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795467600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795471200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795474800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795478400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795482000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795485600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795489200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795492800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795496400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795500000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795503600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795507200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795510800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795514400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795518000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795521600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795525200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795528800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795532400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795536000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795539600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795543200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795546800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795550400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795554000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795557600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795561200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795564800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795568400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795572000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795575600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795579200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795582800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795586400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795590000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795593600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795597200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795600800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795604400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795608000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795611600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795615200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795618800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795622400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795626000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795629600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795633200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795636800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795640400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795644000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795647600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795651200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795654800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795658400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795662000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795665600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795669200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795672800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795676400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795680000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795683600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795687200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795690800,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "POOR_TO_FAIR",
+                    "value": 2
+                  }
+                },
+                {
+                  "timestamp": 1795694400,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795698000,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795701600,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                },
+                {
+                  "timestamp": 1795705200,
+                  "utcOffset": 8,
+                  "rating": {
+                    "key": "FAIR",
+                    "value": 3
+                  }
+                }
+              ]
+            }
+          }
         }
       },
       "requests": {
@@ -912,25 +1513,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:rating": {
-          "endpoint": "rating",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:rating": {
-      "until": 1795461193.5421004
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795460893.5421
 }
