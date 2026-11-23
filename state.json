@@ -26487,7 +26487,9 @@
       ],
       "revision": 1,
       "status": "draft",
-      "draft_ids": [],
+      "draft_ids": [
+        223
+      ],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
       "generation_reasoning": "Spot: Old Man's / Batu Bolong. Sunrise 05:51, sunset 18:24. Round sunrise up and sunset down: 06:00–18:00.\nWave height uses the hourly Surfline surf_human descriptions within daylight.\n🌊 Wave height: chest to head from 6am, then chest to overhead from 10am\n\nSurfline inputs shared by all levels, by hour\nTide: interpolated metres → nearest 0.1 m (half up). Wind/gust: knots × 1.852 → km/h rounded up.\n06:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 389.6 kJ; tide 0.65227→0.7 m; wind/gust 5.1→10 / 5.5→11.\n07:00 Chest to head; 4.0–5.0 ft (max 1.524 m); FAIR; 400.7 kJ; tide 1.13995→1.1 m; wind/gust 5.6→11 / 6.0→12.\n08:00 Chest to head; 4.0–5.0 ft (max 1.524 m); POOR_TO_FAIR; 410.6 kJ; tide 1.65506→1.7 m; wind/gust 7.0→13 / 7.4→14.\n09:00 Chest to head; 4.0–5.0 ft (max 1.524 m); POOR_TO_FAIR; 418.4 kJ; tide 2.06654→2.1 m; wind/gust 7.2→14 / 7.4→14.\n10:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 424.5 kJ; tide 2.27686→2.3 m; wind/gust 6.7→13 / 6.8→13.\n11:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 429.2 kJ; tide 2.24942→2.2 m; wind/gust 6.3→12 / 6.3→12.\n12:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 432.3 kJ; tide 2.00558→2.0 m; wind/gust 7.2→14 / 7.2→14.\n13:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 433.9 kJ; tide 1.63373→1.6 m; wind/gust 7.8→15 / 7.8→15.\n14:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 434.2 kJ; tide 1.24358→1.2 m; wind/gust 7.2→14 / 7.2→14.\n15:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 433.0 kJ; tide 0.95402→1.0 m; wind/gust 7.2→14 / 7.2→14.\n16:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); POOR_TO_FAIR; 430.4 kJ; tide 0.86563→0.9 m; wind/gust 6.8→13 / 6.8→13.\n17:00 Chest to overhead; 4.0–6.0 ft (max 1.829 m); FAIR; 427.3 kJ; tide 1.02108→1.0 m; wind/gust 5.7→11 / 5.8→11.\n\nRules for all levels: minimum 80 kJ. At rounded tide above 0.2 and below 0.8 m, 60–400 kJ inclusive qualifies under the low-tide exception. At 0.8 m or higher, minimum 400 kJ. At 1000 kJ or higher only advanced qualifies. Very poor excludes all; Poor permits beginner only; Poor to fair and better permit all subject to other limits. Wind adds a warning above 15 km/h on the three low ratings and at 20 km/h or higher on better ratings.\n\nBEGINNER\nInside: breaking surf below 2.5 m and tide at least 0.8 m unless the low-tide exception applies.\nAll day is surfable - Inside break\n\nINTERMEDIATE\nOutside: apply the shared rules; no mid-tide restriction.\nAll day is surfable - Outside break\n\nADVANCED\nOutside: apply the shared rules; no mid-tide restriction.\nAll day is surfable - Outside break\n\nCautions\nBefore sunrise, rounded gust ≥17 km/h triggers choppiness. Gusts (km/h): 00:00 12, 01:00 12, 02:00 11, 03:00 10, 04:00 10, 05:00 11.\nWindy later: rising wind or gusts with daylight wind ≥17 km/h, or any windy hour. Strong currents: qualifying advanced hour with energy ≥1000 kJ.\nNo caution triggered.\nBorderline calls: 07:00 400.7 kJ; 13:00 rounded wind 15 km/h at the warning boundary.",
@@ -26521,12 +26523,7 @@
       "memory_pending": false,
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-All day is surfable - Outside break\n+10:00 - 18:00 - Outside break"
-      ],
-      "intent": {
-        "kind": "draft",
-        "chat_id": -1003835479548,
-        "text_sha256": "0802cfbd470a4c854236fbc54a15843ce0e41dabff4396a13a5e3641812ccc55"
-      }
+      ]
     }
   },
   "offset": 248715126,
