@@ -27835,11 +27835,10 @@
         "missing_inputs": []
       },
       "parts": [
-        "Forecast date: 26 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–07:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–07:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–07:00 — Outside break"
+        "Forecast date: 26 November 2026\n\n🟢 BATU BOLONG\n🌊 Wave height: chest to head all day\n\n1️⃣ BEGINNER\n06:00–07:00 — Inside break\n\n2️⃣ INTERMEDIATE\n06:00–07:00 and 10:00–18:00 — Outside break\n\n3️⃣ ADVANCED\n06:00–07:00 — Outside break"
       ],
       "revision": 1,
       "status": "draft",
-      "apply_new_rules": true,
       "draft_ids": [],
       "prompt_ids": [],
       "review_chat_id": -1003835479548,
@@ -27871,7 +27870,10 @@
           "source_spot": "Old Man's / Batu Bolong"
         }
       ],
-      "memory_pending": true
+      "memory_pending": false,
+      "reasoning_edits": [
+        "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-06:00–07:00 — Outside break\n+06:00–07:00 and 10:00–18:00 — Outside break"
+      ]
     }
   },
   "offset": 248715126,
