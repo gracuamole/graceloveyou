@@ -612,7 +612,8 @@
         "605112930a374f33cf5f8f05:rating": 2,
         "605112930a374f33cf5f8f05:surf": 2,
         "605112930a374f33cf5f8f05:swells": 2,
-        "605112930a374f33cf5f8f05:wind": 2
+        "605112930a374f33cf5f8f05:wind": 2,
+        "605112930a374f33cf5f8f05:tides": 1
       },
       "responses": {},
       "requests": {
@@ -649,6 +650,15 @@
           "params": {
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
+          }
+        },
+        "605112930a374f33cf5f8f05:tides": {
+          "endpoint": "tides",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[tideHeight]": "FT"
           }
         }
       },
@@ -687,6 +697,15 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:tides": {
+          "endpoint": "tides",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[tideHeight]": "FT"
+          }
         }
       },
       "closed": false,
@@ -714,7 +733,10 @@
     },
     "605112930a374f33cf5f8f05:wind": {
       "until": 1795635529.8934302
+    },
+    "605112930a374f33cf5f8f05:tides": {
+      "until": 1795634031.573758
     }
   },
-  "last_request": 1795633728.573637
+  "last_request": 1795633731.5737574
 }
