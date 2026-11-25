@@ -611,7 +611,8 @@
         "605112930a374f33cf5f8f05:conditions": 2,
         "605112930a374f33cf5f8f05:rating": 2,
         "605112930a374f33cf5f8f05:surf": 2,
-        "605112930a374f33cf5f8f05:swells": 2
+        "605112930a374f33cf5f8f05:swells": 2,
+        "605112930a374f33cf5f8f05:wind": 1
       },
       "responses": {},
       "requests": {
@@ -641,6 +642,16 @@
           "params": {
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
+          }
+        },
+        "605112930a374f33cf5f8f05:wind": {
+          "endpoint": "wind",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[windSpeed]": "KTS"
           }
         }
       },
@@ -672,6 +683,16 @@
             "spotId": "605112930a374f33cf5f8f05",
             "days": "2"
           }
+        },
+        "605112930a374f33cf5f8f05:wind": {
+          "endpoint": "wind",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05",
+            "units[windSpeed]": "KTS"
+          }
         }
       },
       "closed": false,
@@ -695,7 +716,10 @@
     },
     "605112930a374f33cf5f8f05:swells": {
       "until": 1795635523.9474201
+    },
+    "605112930a374f33cf5f8f05:wind": {
+      "until": 1795634025.5735128
     }
   },
-  "last_request": 1795633722.573348
+  "last_request": 1795633725.5735126
 }
