@@ -25433,7 +25433,7 @@
     },
     "forecast-error:2026-11-27": {
       "kind": "notice",
-      "status": "pending",
+      "status": "sent",
       "parts": [
         "The next-day surf draft could not be generated. Forecast checkpoint failed; requests stopped to preserve request limits. Nothing was published. Only one failure notice is sent for this forecast date."
       ],
