@@ -1,100 +1,6 @@
 {
   "version": 1,
   "cycles": {
-    "2026-11-21": {
-      "started": 1795115299.9159682,
-      "counts": {
-        "605112930a374f33cf5f8f05:conditions": 1,
-        "605112930a374f33cf5f8f05:rating": 1,
-        "605112930a374f33cf5f8f05:surf": 1,
-        "605112930a374f33cf5f8f05:swells": 1,
-        "605112930a374f33cf5f8f05:wind": 1,
-        "605112930a374f33cf5f8f05:tides": 1,
-        "605112930a374f33cf5f8f05:energy": 1,
-        "605112930a374f33cf5f8f05:weather": 1
-      },
-      "responses": {},
-      "requests": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        },
-        "605112930a374f33cf5f8f05:rating": {
-          "endpoint": "rating",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        },
-        "605112930a374f33cf5f8f05:surf": {
-          "endpoint": "surf",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[waveHeight]": "FT"
-          }
-        },
-        "605112930a374f33cf5f8f05:swells": {
-          "endpoint": "swells",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[swellHeight]": "FT"
-          }
-        },
-        "605112930a374f33cf5f8f05:wind": {
-          "endpoint": "wind",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[windSpeed]": "KTS"
-          }
-        },
-        "605112930a374f33cf5f8f05:tides": {
-          "endpoint": "tides",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[tideHeight]": "FT"
-          }
-        },
-        "605112930a374f33cf5f8f05:energy": {
-          "endpoint": "energy",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        },
-        "605112930a374f33cf5f8f05:weather": {
-          "endpoint": "weather",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "intervalHours": "1",
-            "spotId": "605112930a374f33cf5f8f05",
-            "units[temperature]": "F"
-          }
-        }
-      },
-      "failed": {},
-      "closed": true,
-      "alternates": {}
-    },
     "2026-11-22": {
       "started": 1795201691.6894462,
       "counts": {
@@ -751,8 +657,41 @@
         "43d7ce7bcb33f4af298db5bfaca6399d06549b38b2cff8b24899b045090f60c2": "4610db957dc2c143ebac0b9413305707ec1c8ceaf8794b45df4d010cbe6b2192",
         "0376b4f294d244e986380a123da69423e872ab14e725202ddbf5c6bc8f090765": "270c2f5f75e780a29e17e12ae1c68552bdc3a6f22f4579c317d60e92b249b0fe"
       }
+    },
+    "2026-11-28": {
+      "started": 1795720099.9276717,
+      "counts": {
+        "605112930a374f33cf5f8f05:conditions": 1
+      },
+      "responses": {},
+      "requests": {
+        "605112930a374f33cf5f8f05:conditions": {
+          "endpoint": "conditions",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
+        }
+      },
+      "failed": {
+        "605112930a374f33cf5f8f05:conditions": {
+          "endpoint": "conditions",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
+        }
+      },
+      "closed": false,
+      "alternates": {}
     }
   },
-  "cooldowns": {},
-  "last_request": 1795633811.0052881
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:conditions": {
+      "until": 1795720399.9281147
+    }
+  },
+  "last_request": 1795720099.9281144
 }
