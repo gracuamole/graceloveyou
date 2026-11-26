@@ -663,7 +663,158 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 1
       },
-      "responses": {},
+      "responses": {
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "spotId": "605112930a374f33cf5f8f05"
+            }
+          },
+          "captured": 1795720101.6058106,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1795708800,
+                  "forecastDay": "2026-11-27",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": false,
+                  "headline": "Small to mid sized options in the morning, get in before the high tide ",
+                  "observation": "Size backs down, with some ok options early but the dropping swell will be easily swallowed up by the rush towards a 2.3m tide. Morning wind also best, light offshore for Bukit reefs and also a chance for the dawnie on the east side. Shoulder maybe bigger on the outer reefs, much smaller everywhere else. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795795200,
+                  "forecastDay": "2026-11-28",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Small to mid sized surf around. Lift in size/energy late in day as long period forerunners show. ",
+                  "observation": "Initial lift in size on the outer corners of the Bukit and other south swell magnets - these possibly chest to head high. Not as much size getting into sheltered zones. Note a small increase in size and energy late afternoon as long period SSW swell comes in. Expect some better shape on exposed reefs especially as tide drains out later in the day. Some lump n bump to waves later on, after a cleaner start to the day, but still worth a grovel. ",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795881600,
+                  "forecastDay": "2026-11-29",
+                  "forecaster": {
+                    "name": "Tim Williams",
+                    "avatar": "https://www.gravatar.com/avatar/c45f17c9500979f5f9670dd05692b361?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Long period SSW-SW swell likely to peak, premier reefs looking fun on the AM incoming tide ",
+                  "observation": "A nice looking session on the cards along Bukit premier reefs, outer edges a chance to push well overhead +<br>\n<br>\nJump in post low tide while the morning winds are lightest. Should be some fun times on the reefs - just get in before things slow up on the higher tide",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1795643109
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -674,24 +825,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1795720399.9281147
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795720099.9281144
 }
