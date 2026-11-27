@@ -751,7 +751,8 @@
     "2026-11-29": {
       "started": 1795806489.714893,
       "counts": {
-        "605112930a374f33cf5f8f05:conditions": 1
+        "605112930a374f33cf5f8f05:conditions": 1,
+        "605112930a374f33cf5f8f05:rating": 1
       },
       "responses": {
         "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
@@ -913,13 +914,36 @@
             "days": "3",
             "spotId": "605112930a374f33cf5f8f05"
           }
+        },
+        "605112930a374f33cf5f8f05:rating": {
+          "endpoint": "rating",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
         }
       },
-      "failed": {},
+      "failed": {
+        "605112930a374f33cf5f8f05:rating": {
+          "endpoint": "rating",
+          "params": {
+            "cacheEnabled": "true",
+            "days": "3",
+            "intervalHours": "1",
+            "spotId": "605112930a374f33cf5f8f05"
+          }
+        }
+      },
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {},
-  "last_request": 1795806489.7171123
+  "cooldowns": {
+    "605112930a374f33cf5f8f05:rating": {
+      "until": 1795806792.717252
+    }
+  },
+  "last_request": 1795806492.7172513
 }
