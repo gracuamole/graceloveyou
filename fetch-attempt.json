@@ -753,7 +753,158 @@
       "counts": {
         "605112930a374f33cf5f8f05:conditions": 1
       },
-      "responses": {},
+      "responses": {
+        "f95496def83375ba2bb0377988124651f81beab55a9a3387b87107efc2c12591": {
+          "spec": {
+            "endpoint": "conditions",
+            "params": {
+              "cacheEnabled": "true",
+              "days": "3",
+              "spotId": "605112930a374f33cf5f8f05"
+            }
+          },
+          "captured": 1795806491.1973383,
+          "data": {
+            "associated": {
+              "timezone": "Asia/Makassar",
+              "units": {
+                "temperature": "F",
+                "tideHeight": "FT",
+                "swellHeight": "FT",
+                "waveHeight": "FT",
+                "windSpeed": "KTS",
+                "pressure": "MB"
+              },
+              "utcOffset": 8
+            },
+            "data": {
+              "conditions": [
+                {
+                  "timestamp": 1795795200,
+                  "forecastDay": "2026-11-28",
+                  "forecaster": {
+                    "name": "Hugh McDowell",
+                    "avatar": "https://www.gravatar.com/avatar/7fc65c8ef86405b50937800c0b20ca5c?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Small surf picking up into the arvo. Worth looking later for best of it. ",
+                  "observation": "Not much going on for the morning - small swell and a very low tide. Try the west coast beachies first up, Bukit reefs won't be great. <br>\n<br>\nMixed long period swells pick up through the day though and with more favourable tides later it will be worth looking to the Bukit reefs as the SE trades pick for the arvo. Going head high or so at standouts later.",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795881600,
+                  "forecastDay": "2026-11-29",
+                  "forecaster": {
+                    "name": "Hugh McDowell",
+                    "avatar": "https://www.gravatar.com/avatar/7fc65c8ef86405b50937800c0b20ca5c?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Long period SSW-SW swell likely to peak, premier reefs looking fun on the AM incoming tide ",
+                  "observation": "A nice looking session on the cards along Bukit premier reefs, outer edges a chance to push well overhead +<br>\n<br>\nJump in post low tide while the morning winds are lightest. Should be some fun times on the reefs - just get in before things slow up on the higher tide, or / and try again later as it drops out.",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                },
+                {
+                  "timestamp": 1795968000,
+                  "forecastDay": "2026-11-30",
+                  "forecaster": {
+                    "name": "Hugh McDowell",
+                    "avatar": "https://www.gravatar.com/avatar/7fc65c8ef86405b50937800c0b20ca5c?d=mm"
+                  },
+                  "human": true,
+                  "dayToWatch": true,
+                  "headline": "Longer period swell lingers in AM, quality decent on outer Bukit reefs and south swell magnets",
+                  "observation": "Have a little sleep in then hit up the swell magnets mid morning on the push of the tide, while wind speeds are very gentle and while there's some longer period swell left in the water. Outer corners of Bukit 1-2ft OH, smaller elsewhere and fairly steadily dropping size through the day at the less exposed spots. Wave quality ok all day but much better in the mid-AM.",
+                  "am": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "pm": {
+                    "timestamp": 0,
+                    "observation": "",
+                    "rating": null,
+                    "minHeight": 0,
+                    "maxHeight": 0,
+                    "plus": false,
+                    "humanRelation": "",
+                    "occasionalHeight": null
+                  },
+                  "utcOffset": 8
+                }
+              ],
+              "lastPublished": 1795746977
+            },
+            "permissions": {
+              "data": [],
+              "violations": [
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_core-16day-forecast",
+                  "permission": {
+                    "name": "sl_core-16day-forecast",
+                    "required": false
+                  }
+                },
+                {
+                  "code": 4001,
+                  "message": "User does not have optional permission:sl_live-wind",
+                  "permission": {
+                    "name": "sl_live-wind",
+                    "required": false
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
       "requests": {
         "605112930a374f33cf5f8f05:conditions": {
           "endpoint": "conditions",
@@ -764,24 +915,11 @@
           }
         }
       },
-      "failed": {
-        "605112930a374f33cf5f8f05:conditions": {
-          "endpoint": "conditions",
-          "params": {
-            "cacheEnabled": "true",
-            "days": "3",
-            "spotId": "605112930a374f33cf5f8f05"
-          }
-        }
-      },
+      "failed": {},
       "closed": false,
       "alternates": {}
     }
   },
-  "cooldowns": {
-    "605112930a374f33cf5f8f05:conditions": {
-      "until": 1795806789.7171128
-    }
-  },
+  "cooldowns": {},
   "last_request": 1795806489.7171123
 }
