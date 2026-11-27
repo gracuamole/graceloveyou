@@ -28196,7 +28196,12 @@
       "memory_pending": false,
       "reasoning_edits": [
         "remove “OLD MAN’s” in location\n\nremember change\nIntermedia 10:00AM-6:00PM outside breaks remember change\n-All day is surfable - Outside break\n+10:00–18:00 — Outside break"
-      ]
+      ],
+      "intent": {
+        "kind": "draft",
+        "chat_id": -1003835479548,
+        "text_sha256": "63760dbb3299c33ecfdd36ace75f9803e16faae69d1cd23fd3b62b10ee4e002c"
+      }
     }
   },
   "offset": 248715127,
